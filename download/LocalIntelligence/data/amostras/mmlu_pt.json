@@ -1,0 +1,1907 @@
+{
+"suite": "mmlu_pt",
+"versao": "2026-10-a",
+"gerado_em": "2026-10-01T16:29:33+00:00",
+"n": 96,
+"sha256": "8f7fb12467f009d0f238add210495b8800a2e13fb443692315b267448d3d6f4c",
+"itens": [
+{
+"id": "health_and_biological_sciences:18",
+"dominio": "health_and_biological_sciences",
+"enunciado": "Teste de virus O Brasil trava uma batalha contra o mosquito Aedes Aegypti, transmissor de várias doenças. Um laboratório de pesquisas está desenvolvendo um método para determinar se um paciente está infectado com virus de Chicungunha, Denque ou Zika, utilizando uma amostra de sangue do paciente e dois novos testes, chamados de teste X e teste Z. O laboratório determinou, através de experimentos, que: • Uma amostra mantém a cor adquirida em um teste a menos que outro teste posterior altere a cor da amostra. • O teste X faz a amostra adquirir cor verde se esta contém o virus Chicungunha ou o virus Dengue, ou ambos. • O teste X faz a amostra adquirir cor laranja se esta não contém nem o virus Chicungunha nem o virus Dengue. • O teste Z faz a amostra adquirir cor roxa se esta contém o virus Zika; se a amostra não contém o virus Zika, ela permanece com a mesma cor que tinha antes da aplicação do teste Z. Uma amostra que adquira cor laranja quando submetida ao teste X, e que posteriormente seja submetida ao teste Z e adquira cor roxa é uma amostra contendo",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"Chicungunha, Dengue e Zika",
+"Dengue e Zika, mas não Chicungunha",
+"Zika, mas não Chicungunha nem Dengue",
+"Dengue, mas não Chicungunha nem Zika",
+"nem Chicungunha, nem Dengue, nem Zika"
+],
+"resposta": "C"
+},
+{
+"id": "humanities:47",
+"dominio": "humanities",
+"enunciado": "No sul da Bahia, desde o século 18, tem-se registros de um tipo de sistema agroflorestal. Até hoje, esse sistema é característica marcante da paisagem da região, conhecido como cabruca, que consiste no cultivo do cacau à sombra do dossel da floresta nativa. Esse sistema de cultivo do cacau (graças à tolerância da espécie à sombra) é considerado amigável para a vida silvestre, pois apresenta superioridade em termos de conservação da biodiversidade quando comparado com outras plantações tropicais (monoculturas de dendê, seringa ou café), agricultura ou pastagens.\nA prática produtiva apresentada é um exemplo de",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"difusão comercial de lavouras temporárias.",
+"utilização sustentável dos recursos naturais.",
+"ampliação tecnológica da pecuária intensiva.",
+"padronização alimentar dos povos tradicionais.",
+"modernização logística de plantios convencionais."
+],
+"resposta": "B"
+},
+{
+"id": "languages:37",
+"dominio": "languages",
+"enunciado": "Text 2 Overview of current additive manufacturing technologies and selected applications Horn, T..J. e Harrysson, O.L Three-dimensional printing or rapid prototyping are processes by which components are fabricated directly from computer models by selectively curing, depositing or consolidating materials in successive layers. These technologies have traditionally been limited to the fabrication of models suitable for product visualization but, over the past decade, have quickly developed into a new paradigm called additive manufacturing. It remains to be seen what the long term implications of additive manufacturing will be. In many regards, it is a technology that is still in its infancy and it represents a very small segment of manufacturing overall. That small segment is growing quickly but the future is by no means certain. Scarcely a quarter century has passed since the first stereolithography systems for rapid prototyping appeared on the market. In that short time, additive manufacturing has not only become relatively common place in science, academia, and industry, but it has also evolved from a method to quickly produce visual models into a new manufacturing paradigm. In the past two decades, revenues associated with products and services show that additive manufacturing has grown into a multi-billion dollar industry. Additive manufacturing has the potential to radically change the way in which many products are made and distributed. Throughout history, key innovations in manufacturing technology have had a profound impact on our society and our culture. An examination of the applications and technologies suggest that additive manufacturing may become a truly disruptive technology. Prior to the industrial revolution goods were typically produced by skilled artisans and were often tailored to satisfy a specific, individual demand. While this approach may have had many inherent advantages to the consumer (i.e. high quality, custom parts on demand) it is doubtful that system could have persisted under the growing demands of society. The invention of the first machine tools (that is tools capable of precisely controlling the relative motion between a tool and a work piece) along with advances in fixturing and metrology facilitated the manufacture of interchangeable parts which, in turn, supported the development of the mass production system. The model of mass production also has many clear advantages to both the producers and the consumers of products, including; high throughput, high quality and product consistency at a low unit cost. This, of course, comes at the cost of reduced product diversity. In the last century, the means by which many goods are manufactured has been radically enhanced by computer controlled machinery and automation. However, in general, the basic methods and materials are quite similar to those used at the turn of the 19th century. Bulk materials must still be either cut, formed, or molded in order to fabricate value-added products. In fact, a large portion of the products that we consume or use at the present time are manufactured using processes like forming, injection molding, casting, extrusion, stamping, and machining. Each one of these processes requires some form of tooling (mold, die, flask, stamp, fixture, etc.). For instance, if we consider casting an exhaust manifold in steel we must first design and fabricate a sand or investment mold with the negative shape of the final part. A metal stamped part, as simple as a washer, requires a die and a large stamping press in order to be produced. A simple plastic cover for a smart phone requires an injection mold that may cost thousands of dollars and an injection molding machine that may costs hundreds of thousands to millions of dollars. The cost and time dedicated to the design and fabrication of tooling that supports mass production represents a significant percentage of the total cost of a product. The natural result of high tooling costs is that within a given mass production system there is an inverse relationship between the quantity of a product that is produced and the variety of product designs available. It is necessary that we recognize that production tooling is not only expensive, but it also constrains the design of products based on innate limitations imposed by the various mass production processes. This is a widely studied area of manufacturing known as design for manufacture (DFM). As a brief example, consider a plastic injection molded part. One of the key limitations is that the mold must provide for the easy removal of the part. This means that the part must have slightly outward sloping surfaces (called positive draft), as inward sloping surfaces would essentially lock the part to the mold like a dovetail making it impossible to remove. Further, the injection mold itself must be precisely machined, ground, and polished from a block of metal, and the processes that are used to do that, like milling with a cutting tool, also have similar limitations (i.e. the cutting tool must be able to access the feature that will be cut). Increasing the complexity of the part to better serve a given function can drive up the cost of the tooling required for producing it and, in many cases, the optimal design for a given purpose is impossible to produce using traditional mass production methods. Additive manufacturing represents a fundamentally new method of part fabrication. It is the process of fabricating components directly from 3D computer models by selectively depositing, curing, or consolidating materials one layer upon the next. Each layer represents the cross-sectional geometry of the part at a given height. This is a stark contrast to traditional manufacturing processes like forming, casting, and machining because tooling is not required to produce a part. The freeform nature of additive manufacturing is therefore changing the way we look at traditional DFM constraints. In many cases the traditional constraints no longer apply. By building parts additively, in layers, components can be manufactured with extremely complex geometries, such as internal channels, undercut features, or engineered lattice structures with controlled and/or variable porosity. These are features that are extremely difficult or impossible to produce with traditional methods. The implication of this is quite simple to recognize but at the same time has a profound result. Removing the need for tooling facilitates the economical production of small lot sizes of parts (as low as one) without sacrificing interchangeability, thereby reducing the lead time for production (because the tools do not need to be produced), allowing flexibility in the supply chain and the production location (parts are can be made where and when they are demanded), and raising the possibility of transitioning from a system of mass production to one off mass customization. It also means that design changes incur much less cost in production so products can potentially be customized to conform to the needs of the individual consumer. In many ways this concept goes far beyond the definition of most existing mass customization models in which mass produced components are fabricated and then assembled on demand to specific customer orders. Adapted from: Sage Journals. Available at:<https://journals.sagepub.com/doi/abs/10.3184/003685012X13420984463047> [Accessed on 10th March 2022]. NAS QUESTÕES DE 33 A 39, RESPONDA DE ACORDO COM O TEXTO 2. Choose the correct option.",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"Additive manufacturing has become the dominant manufacturing technology.",
+"The future of additive manufacturing technology is still uncertain.",
+"Although 25 years old, manual manufacturing still has not become commonplace.",
+"The growth rate of additive manufacturing has decreased in recent years.",
+"Creation of industrial parts by skilled professionals is increasingly important in modern society."
+],
+"resposta": "B"
+},
+{
+"id": "stem:165",
+"dominio": "stem",
+"enunciado": "Em exposições de artes plásticas, é usual que estátuas sejam expostas sobre plataformas giratórias. Uma medida de segurança é que a base da escultura esteja integralmente apoiada sobre a plataforma. Para que se providencie o equipamento adequado, no caso de uma base quadrada que será fixada sobre uma plataforma circular, o auxiliar técnico do evento deve estimar a medida R do raio adequado para a plataforma em termos da medida L do lado da base da estátua. Qual relação entre R e L o auxiliar técnico deverá apresentar de modo que a exigência de segurança seja cumprida?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>R</mi><mo>&#x2265;</mo><mfrac><mi>L</mi><msqrt><mn>2</mn></msqrt></mfrac></math>",
+"<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>R</mi><mo>&#x2265;</mo><mfrac><mrow><mn>2</mn><mi>L</mi></mrow><mi>&#x3C0;</mi></mfrac></math>",
+"<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>R</mi><mo>&#x2265;</mo><mfrac><mi>L</mi><mi>&#x3C0;</mi></mfrac></math>",
+"<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>R</mi><mo>&#x2265;</mo><mfrac><mi>L</mi><mn>2</mn></mfrac></math>",
+"<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>R</mi><mo>&#x2265;</mo><mfrac><mi>L</mi><mrow><mn>2</mn><msqrt><mn>2</mn></msqrt></mrow></mfrac></math>"
+],
+"resposta": "A"
+},
+{
+"id": "health_and_biological_sciences:59",
+"dominio": "health_and_biological_sciences",
+"enunciado": "Suponha que uma doença desconhecida esteja dizimando um rebanho bovino de uma cidade e alguns veterinários tenham conseguido isolar o agente causador da doença, verificando que se trata de um ser unicelular e procarionte. Para combater a doença, os veterinários devem administrar, nos bovinos contaminados,",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"vacinas.",
+"antivirais.",
+"fungicidas.",
+"vermífugos.",
+"antibióticos."
+],
+"resposta": "E"
+},
+{
+"id": "humanities:56",
+"dominio": "humanities",
+"enunciado": "No Cerrado, o conhecimento local está sendo cada vez mais subordinado à lógica do agronegócio. De um lado, o capital impõe os conhecimentos biotecnológicos, como mecanismo de universalização de práticas agrícolas e de novas tecnologias, e de outro, o modelo capitalista subordina homens e mulheres à lógica do mercado. Assim, as águas, as sementes, os minerais, as terras (bens comuns) tornam-se propriedade privada. Além do mais, há outros fatores negativos, como a mecanização pesada, a “pragatização” dos seres humanos e não humanos, a violência simbólica, a superexploração, as chuvas de veneno e a violência contra a pessoa.\nOs elementos descritos no texto, a respeito da territorialização da produção, demonstram que há um",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"cerco aos camponeses, inviabilizando a manutenção das condições para a vida.",
+"descaso aos latifundiários, impactando a plantação de alimentos para a exportação.",
+"desprezo ao assalariado, afetando o engajamento dos sindicatos para o trabalhador.",
+"desrespeito aos governantes, comprometendo a criação de empregos para o lavrador.",
+"assédio ao empresariado, dificultando o investimento de maquinários para a produção."
+],
+"resposta": "A"
+},
+{
+"id": "languages:22",
+"dominio": "languages",
+"enunciado": "WHY IS HANDWRITING IMPORTANT? Jotting down a shopping list, writing a birthday card, taking down a phone message, completing a form at the bank ....handwriting is part of our daily lives. It is on show to others and may be used to make judgments about us. Writing has a very long history. It began as simple pictographs drawn on a rock, which were then combined to represent ideas and developed into more abstract symbols. Just like our writing today, early symbols were used to store information and communicate it to others. In recent years, modern technology has dramatically changed the way we communicate through writing. However, despite the increased use of computers for writing, the skill of handwriting remains important in education, employment and in everyday life. Time devoted to the teaching and learning of letter formation in the early years will pay off. Legible writing that can be produced comfortably, at speed and with little conscious effort allows a child to attend to the higher-level aspects of writing composition and content. This is important when assessments are based on written work, particularly in time-limited written examinations, which remain as a major form of assessment for many formal qualifications. Without fast and legible handwriting, students may miss out on learning opportunities and under-achieve academically. Beyond formal education, most employment situations will involve at least some handwriting and many require the communication of critical information (e.g. medical notes, prescriptions). Thus, handwriting with pen and paper still has an important role from early childhood through our adult lives, but more and more, people are shifting from paper to electronic modes of communication. Interestingly though, many personal computers now have handwriting recognition capability so that handwriting as means of interacting with computers is becoming more pervasive. It seems, therefore, that even in this modern age, handwriting remains an important skill for communication. Disponível em: <http://www.nha-handwriting.org.uk/handwriting/why-is-handwriting-important>. Acesso em 29 mai.2013 It is implied in the passage that",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"modern technology has changed the way we communicate through writing despite the use of computers.",
+"in spite of the use of computers, early forms of pictographs remain important in our daily lives.",
+"modern technology has slightly changed the way people communicate through writing.",
+"handwriting is still used nowadays to communicate with other people.",
+"it is more important to learn to use computers than the skill of handwriting."
+],
+"resposta": "D"
+},
+{
+"id": "stem:79",
+"dominio": "stem",
+"enunciado": "Um circuito em série é formado por uma pilha, uma lâmpada incandescente e uma chave interruptora. Ao se ligar a chave, a lâmpada acende quase instantaneamente, irradiando calor e luz. Popularmente, associa-se o fenômeno da irradiação de energia a um desgaste da corrente elétrica, ao atravessar o filamento da lâmpada, e à rapidez com que a lâmpada começa a brilhar. Essa explicação está em desacordo com o modelo clássico de corrente. De acordo com o modelo mencionado, o fato de a lâmpada acender quase instantaneamente está relacionado à rapidez com que",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"o fluido elétrico se desloca no circuito.",
+"as cargas negativas móveis atravessam o circuito.",
+"a bateria libera cargas móveis para o filamento da lâmpada.",
+"o campo elétrico se estabelece em todos os pontos do circuito.",
+"as cargas positivas e negativas se chocam no filamento da lâmpada."
+],
+"resposta": "D"
+},
+{
+"id": "health_and_biological_sciences:28",
+"dominio": "health_and_biological_sciences",
+"enunciado": "A partícula viral do novo coronavírus (SARS-CoV-2), \nconhecida como vírion, é constituída por poucas proteínas, \numa fita de RNA e um envelope derivado de estruturas \ncelulares, como membrana plasmática e organelas. A \nOrganização Mundial de Saúde recomenda hábitos de \nhigiene para prevenção da contaminação ao SARS-CoV-2, \nincluindo lavar com frequência as mãos com água e sabão. \n(Adaptado de https://www.bbc.com/portuguese/geral-52096406. Acessado em \n25/07/2020.) \n \nConsiderando seus conhecimentos sobre vírus, assinale a \nalternativa que justifica a recomendação apresentada no \ntexto.",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"As poucas proteínas que compõem o nucleocapsídeo são diluídas em contato com sabão e água, na qual existe pouca tensão superficial, e, portanto, a partícula viral não é capaz de infectar a célula humana.",
+"O envelope viral é formado por lipídios, moléculas anfipáticas, que, em contato com sabão e água (moléculas apolar e polar respectivamente), têm sua estrutura rompida, inativando assim a partícula viral.",
+"A fita de RNA é formada por nucleotídeos que contêm ribose, açúcar e fosfato, e, em contato com sabão e água, têm sua capacidade de integração ao DNA da célula humana bloqueada.",
+"As organelas, constituídas por lipídios, carboidratos e proteínas, em contato com sabão e água, são clivadas e perdem a capacidade de produzir moléculas essenciais ao metabolismo viral."
+],
+"resposta": "B"
+},
+{
+"id": "humanities:27",
+"dominio": "humanities",
+"enunciado": "E aqui, antes de continuar este espetáculo, é necessário que façamos uma advertência a todos e a cada um. Neste momento, achamos fundamental que cada um tome uma posição definida. Sem que cada um tome uma posição definida, não é possível continuarmos. É fundamental que cada um tome uma posição, seja para a esquerda, seja para a direita. Admitimos mesmo que alguns tomem uma posição neutra, fiquem de braços cruzados. Mas é preciso que cada um, uma vez tomada sua posição, fique nela! Porque senão, companheiros, as cadeiras do teatro rangem muito e ninguém ouve nada. FERNANDES, M.; RANGEL, F. Liberdade, liberdade. Porto Alegre: L&PM, 2009. A peça Liberdade, liberdade, encenada em 1964, apresenta o impasse vivido pela sociedade brasileira em face do regime vigente. Esse impasse é representado no fragmento pelo(a)",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"barulho excessivo produzido pelo ranger das cadeiras do teatro.",
+"indicação da neutralidade como a melhor opção ideológica naquele momento.",
+"constatação da censura em função do engajamento social do texto dramático.",
+"correlação entre o alinhamento político e a posição corporal dos espectadores.",
+"interrupção do espetáculo em virtude do comportamento inadequado do público."
+],
+"resposta": "D"
+},
+{
+"id": "languages:70",
+"dominio": "languages",
+"enunciado": "TEXTO:\nTEXT I\nBRAZILIAN AIR FORCE ACADEMY\nAFA (Air Force Academy), located at Pirassununga, State of São Paulo, is responsible for the training of Pilots, Administrative and Aeronautics Infantry Officers for the Brazilian Air Force.\n5 The history of the Brazilian military pilots schools goes back to 1913, when the Brazilian Aviation School was founded, at Campo dos Afonsos, State of Rio de Janeiro. Its mission was to provide instruction at similar levels to those of the best European schools at the time; 10 Blériot and Farman aircraft, made in France, were available for the instruction of the pupils. The Great War 1914-1918, however, forced its instructors to leave and the school was closed.\nAt that time, both the Brazilian Army and Navy had 15 their own air arms, the Military Aviation and the Naval Aviation. The Navy bought Curtiss F seaplanes in May 1916 to equip the latter, and in August of the same year, the Naval Aviation School was created.\nThe Military Aviation, however, only activated 20 its Military Aviation School after the Great War, on 10 July 1919. Among the aircrafts used at the school, one could find the Sopwith 1A2, Bréguet 14A2, and Spad 7.\n25 Until the beginning of the 1940s, both schools continued with their activities. The Brazilian Government was concerned with the air war in Europe and decided to concentrate under a single command the military aviation activities. Thus, on 20 January 1941, the Air Ministry was created and both the Army and Navy air arms were disbanded, their personnel and equipment forming 30 the Brazilian Air Force. On 25 March 1941, the Aeronautics School was based at Campo dos Afonsos, and its students became known as Aeronautics Cadets from 1943 to the current days.\nAs early as 1942, it became clear that 35 the Aeronautics School would need to be transferred to another place, offering better climate and little interference with the flight instruction of the future pilots. The town of Pirassununga was chosen among others, and, in 1952, the first buildings construction was 40 initiated. The transfer of the School activities to Pirassununga occurred from 1960 to 1971. The School was redesigned as the Air Force Academy in 1969.\nThe motto of the Academy is the Latin expression \"Macte Animo! Generose Puer, sic itur ad astra\", 45 extracted from the poem Thebaida, by the Roman poet Tatius. It is an exhortation to the cadets, which can be translated as Courage! This is the way, oh noble youngster, to the stars.\nThe instruction of the Aeronautics Cadets, during 50 the four-year-long course, has its activities centred in the words COURAGE - LOYALTY HONOUR DUTY MOTHERLAND. The future officers take courses on several subjects, including Calculus, Computer Science, Mechanics, Portuguese and English, given by civilian 55 lecturers, Air Force instructors and supervisors. The military instruction itself is given on a daily basis, and the Cadets are trained on different subjects, including parachuting, and sea and jungle survival.\nFlight instruction at the Academy with T-27 Tucano aircraft.\nAccording to the chosen specialization, the Cadet will 60 receive specific instruction:\nPilots: Instruction on precision maneuvering, aerobatics, formation flying and by instruments, with 75 flying hours on the primary/basic training aircraft T-25 Universal, beginning on the 2nd term of the 1st year and completed 65 in the 3rd year. Advanced training is given on T-27 Tucano aircraft, with 125 flying hours.\nAdministrative: Training on the scientific and technological modern foundations of economics and financial management, and logistics training.\n70 Aeronautics Infantry: Instruction on defense and security techniques of Military Aeronautics installations, anti-aircraft measures, command of troops and fire-fighting teams, military laws and regulations, armament usage, military service and call-up procedures.\n75 During their leisure time, the Cadets participate on the activities of seven different clubs: Aeromodelling, Literature, Informatics, Firearms shooting, Gauchos Heritage (for those coming from the South of Brazil), Gerais Club and Sail Flying. The clubs are directed by 80 the Cadets themselves, under supervision of Air Force officers.\nThe Academy also houses the Brazilian Air Force Air Demonstration Squadron The Smoke Squadron.\nFlying as the eagles do!\nAdapted from http://www.rudnei.cunha.nom.br/FAB/en/afa.html\n\nThe sentence \"The Military Aviation [...] activated its Military Aviation School after the Great War [...]\" can be rewritten, with the same meaning, as",
+"rotulos": [
+"A",
+"B",
+"C",
+"D"
+],
+"textos": [
+"during the Great War the Military Aviation activated its Military Aviation School.",
+"by the time the Military Aviation activated its Military Aviation School, the Great War had already finished.",
+"the Great War finished when the Military Aviation activated its Military Aviation School.",
+"the Military Aviation activated its Military Aviation School through the Great War."
+],
+"resposta": "B"
+},
+{
+"id": "stem:80",
+"dominio": "stem",
+"enunciado": "Ao colocar um pouco de açúcar na água e mexer até a obtenção de uma só fase, prepara-se uma solução. O mesmo acontece ao se adicionar um pouquinho de sal à água e misturar bem. Uma substância capaz de dissolver o soluto é denominada solvente; por exemplo, a água é um solvente para o açúcar, para o sal e para várias outras substâncias. A figura a seguir ilustra essa citação. Disponível em: www.sobiologia.com.br. Acesso em: 27 abr. 2010. Suponha que uma pessoa, para adoçar seu cafezinho, tenha utilizado 3,42 g de sacarose (massa molar igual a 342 g/mol) para uma xícara de 50 ml do líquido. Qual é a concentração final, em mol/l, de sacarose nesse cafezinho?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"0,02",
+"0,2",
+"2",
+"200",
+"2000"
+],
+"resposta": "B"
+},
+{
+"id": "health_and_biological_sciences:66",
+"dominio": "health_and_biological_sciences",
+"enunciado": "A fenilcetonúria é uma doença hereditária autossômica recessiva, associada à mutação do gene PAH, que limita a metabolização do aminoácido fenilalanina. Por isso, é obrigatório, por lei, que as embalagens de alimentos, como refrigerantes dietéticos, informem a presença de fenilalanina em sua composição. Uma mulher portadora de mutação para o gene PAH tem três filhos normais, com um homem normal, cujo pai sofria de fenilcetonúria, devido à mesma mutação no gene PAH encontrada em um dos alelos da mulher. Qual a probabilidade de a quarta criança gerada por esses pais apresentar fenilcetonúria?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"0%",
+"12,5%",
+"25%",
+"50%",
+"75%"
+],
+"resposta": "C"
+},
+{
+"id": "humanities:1",
+"dominio": "humanities",
+"enunciado": "A CONDIÇÃO HUMANA A Vita Activa e a Condição Humana Com a expressão vita activa, pretendo designar três atividades humanas fundamentais: labor, trabalho e ação. Trata-se de atividades fundamentais porque a cada uma delas corresponde uma das condições básicas mediante as quais a vida foi dada ao homem na Terra. O labor é a atividade que corresponde ao processo biológico do corpo humano, cujos crescimento espontâneo, metabolismo e eventual declínio têm a ver com as necessidades vitais produzidas e introduzidas pelo labor no processo da vida. A condição humana do labor é a própria vida. O trabalho é a atividade correspondente ao artificialismo da existência humana, existência esta não necessariamente contida no eterno ciclo vital da espécie, e cuja mortalidade não é compensada por este último. O trabalho produz um mundo “artificial” de coisas, nitidamente diferente de qualquer ambiente natural. Dentro de suas fronteiras habita cada vida individual, embora esse mundo se destine a sobreviver e a transcender todas as vidas individuais. A condição humana do trabalho é a mundanidade. A ação, única atividade que se exerce diretamente entre os homens sem a mediação das coisas ou da matéria, corresponde à condição humana da pluralidade, ao fato de que homens, e não o Homem, vivem na Terra e habitam o mundo. Todos os aspectos da condição humana têm alguma relação com a política; mas esta pluralidade é especificamente a condição – não apenas a conditio sine qua non, mas a conditio per quam – de toda a vida política. Assim, o idioma dos romanos talvez o povo mais político que conhecemos empregava como sinônimas as expressões “viver” e “estar entre os homens” (inter homines esse), ou \"morrer” e “deixar de estar entre os homens” (inter homines esse desinere). Mas, em sua forma mais elementar, a condição humana da ação está implícita até mesmo em Gênesis (macho e fêmea Ele os criou), se entendermos que esta versão da criação do homem diverge, em princípio, da outra segundo a qual Deus originalmente criou o Homem (adam) - a ele, e não a eles, de sorte que a pluralidade dos seres humanos vem a ser o resultado da multiplicação¹. A ação seria um luxo desnecessário, uma caprichosa interferência com as leis gerais do comportamento, se os homens não passassem de repetições interminavelmente reproduzíveis do mesmo modelo, todas dotadas da mesma natureza e essência, tão previsíveis quanto a natureza e a essência de qualquer outra coisa. A pluralidade é a condição da ação humana pelo fato de sermos todos os mesmos, isto é, humanos, sem que ninguém seja exatamente igual a qualquer pessoa que tenha existido, exista ou venha a existir. As três atividades e suas respectivas condições têm íntima relação com as condições mais gerais da existência humana: o nascimento e a morte, a natalidade e a mortalidade. O labor assegura não apenas a sobrevivência do indivíduo, mas a vida da espécie. O trabalho e seu produto, o artefato humano, emprestam certa permanência e durabilidade à futilidade da vida mortal e ao caráter efêmero do corpo humano. A ação, na medida em que se empenha em fundar e preservar corpos políticos, cria a condição para a lembrança, ou seja, para a história. O labor e o trabalho, bem como a ação, têm também raízes na natalidade, na medida em que sua tarefa é produzir e preservar o mundo para o constante influxo de recém-chegados que vêm a este mundo na qualidade de estranhos, além de prevê-los e levá-los em conta. Não obstante, das três atividades, a ação é a mais intimamente relacionada com a condição humana da natalidade; o novo começo inerente a cada nascimento pode fazer-se sentir no mundo somente porque o recém-chegado possui a capacidade de iniciar algo novo, isto é, de agir. Neste sentido de iniciativa, todas as atividades humanas possuem um elemento de ação e, portanto, de natalidade. Além disto, como a ação é a atividade política por excelência, a natalidade, e não a mortalidade, pode constituir a categoria central do pensamento político, em contraposição ao pensamento metafísico. A condição humana compreende algo mais que as condições nas quais a vida foi dada ao homem. Os homens são seres condicionados: tudo aquilo com o qual eles entram em contato torna-se imediatamente uma condição de sua existência. O mundo no qual transcorre a vita activa consiste em coisas produzidas pelas atividades humanas; mas, constantemente, as coisas que devem sua existência exclusivamente aos homens também condicionam os seus autores humanos. Além das condições nas quais a vida é dada ao homem na Terra e, até certo ponto, a partir delas, os homens constantemente criam as suas próprias condições que, a despeito de sua variabilidade e sua origem humana, possuem a mesma força condicionante das coisas naturais. O que quer que toque a vida humana ou entre em duradoura relação com ela, assume imediatamente o caráter de condição da existência humana. É por isso que os homens, independentemente do que façam, são sempre seres condicionados. Tudo o que espontaneamente adentra o mundo humano, ou para ele é trazido pelo esforço humano, torna-se parte da condição humana. O impacto da realidade do mundo sobre a existência humana é sentido e recebido como força condicionante. A objetividade do mundo o seu caráter de coisa ou objeto e a condição humana complementam-se uma à outra; por ser uma existência condicionada, a existência humana seria impossível sem as coisas, e estas seriam um amontoado de artigos incoerentes, um não mundo, se esses artigos não fossem condicionantes da existência humana. ARENDT, Hannah. A Condição Humana. Tradução de Roberto Raposo: Editora da Universidade de São Paulo, 1981. pp. 15-17 (texto adaptado). ¹Quando se analisa o pensamento político pós-clássico, muito se pode aprender verificando-se qual das duas versões bíblicas da criação é citada. Assim, é típico da diferença entre os ensinamentos de Jesus de Nazareth e de Paulo o fato de que Jesus, discutindo a relação entre marido e mulher, refere-se a Gênesis 1:27 “Não tendes lido que quem criou o homem desde o princípio fê-los macho e fêmea” (Mateus 19:4), enquanto Paulo, em ocasião semelhante, insiste em que a mulher foi criada \"do homem\" e, portanto, “para o homem\", embora em seguida atenue um pouco a dependência: \"nem o varão é sem mulher, nem a mulher sem o varão” (1 Cor.11:8-12). A diferença indica muito mais que uma atitude diferente em relação ao papel da mulher. Para Jesus, a fé era intimamente relacionada com a ação; para Paulo, a fé relacionava-se, antes de mais nada, com a salvação. Especialmente interessante a este respeito é Agostinho (De civitate Dei xii.21), que não só desconsidera inteiramente o que é dito em Gênesis 1:27, mas vê a diferença entre o homem e o animal no fato de ter sido o homem criado unum ac singulum, enquanto se ordenou aos animais que \"passassem a existir vários de uma só vez” (plura simul iussit existere). Para Agostinho, a história da criação constitui boa oportunidade para salientar-se o caráter de espécie da vida animal, em oposição à singularidade da existência humana. Leia atentamente os trechos do texto 1 que foram recortados abaixo: I. A ação, única atividade que se exerce diretamente entre os homens sem a mediação das coisas ou da matéria, corresponde à condição humana da pluralidade, ao fato de que homens, e não o Homem, vivem na Terra e habitam o mundo (linhas 15 a 17); II. A pluralidade é a condição da ação humana pelo fato de sermos todos os mesmos, isto é, humanos, sem que ninguém seja exatamente igual a qualquer pessoa que tenha existido, exista ou venha a existir (linhas 31 a 33); III. Além disto, como a ação é a atividade política por excelência, a natalidade, e não a mortalidade, pode constituir a categoria central do pensamento político, em contraposição ao pensamento metafísico (linhas 47 a 49). Dentre as opções abaixo, uma está em **desacordo** com as ideias destacadas acima. Aponte-a.",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"A marca da pluralidade entre os homens é anunciada como um dos alvos principais para o pensamento a ser desenvolvido pela filósofa Hannah Arendt na obra aqui destacada.",
+"A individualidade é garantida apesar da pluralidade.",
+"A expressão “atividade política” que aparece no texto 1 é uma referência direta à política partidária que reconhecemos nas sociedades ocidentais.",
+"Os três períodos destacados do texto 1 revelam preocupações com questões relacionadas à ação e à alteridade.",
+"O período destacado em III anuncia a predisposição da autora em discutir inquietações filosóficas dando ênfase ao nascimento e não à morte."
+],
+"resposta": "C"
+},
+{
+"id": "languages:127",
+"dominio": "languages",
+"enunciado": "Desabafo Desculpem-me, mas não dá pra fazer uma cronicazinha divertida hoje. Simplesmente não dá. Não tem como disfarçar: esta é uma típica manhã de segunda- feira. A começar pela luz acesa da sala que esqueci ontem à noite. Seis recados para serem respondidos na secretária eletrônica. Recados chatos. Contas para pagar que venceram ontem. Estou nervoso. Estou zangado. CARNEIRO, J. E. Veja, 11 set. 2002 (fragmento). Nos textos em geral, é comum a manifestação simultânea de várias funções da linguagem, com o predomínio, entretanto, de uma sobre as outras. No fragmento da crônica Desabafo, a função da linguagem predominante é a emotiva ou expressiva, pois",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"o discurso do enunciador tem como foco o próprio código.",
+"a atitude do enunciador se sobrepõe àquilo que está sendo dito.",
+"o interlocutor é o foco do enunciador na construção da mensagem.",
+"o referente é o elemento que se sobressai em detrimento dos demais.",
+"o enunciador tem como objetivo principal a manutenção da comunicação."
+],
+"resposta": "B"
+},
+{
+"id": "stem:13",
+"dominio": "stem",
+"enunciado": "Suponha, para simplificar, que a Terra é perfeitamente esférica e que a linha do Equador mede $40.000 \\text{ km}$.\nO trajeto que sai do Polo Norte, segue até a linha do Equador pelo meridiano de Greenwich, depois se desloca ao longo\nda linha do Equador até o meridiano $45^\\circ \\text{L}$ e então retorna ao Polo Norte por esse meridiano tem comprimento total de",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"15.000 km.",
+"20.000 km.",
+"25.000 km.",
+"30.000 km.",
+"35.000 km."
+],
+"resposta": "C"
+},
+{
+"id": "health_and_biological_sciences:89",
+"dominio": "health_and_biological_sciences",
+"enunciado": "Certas espécies de algas são capazes de absorver rapidamente compostos inorgânicos presentes na água, acumulando-os durante seu crescimento. Essa capacidade fez com que se pensasse em usá-las como biofiltros para a limpeza de ambientes aquáticos contaminados, removendo, por exemplo, nitrogênio e fósforo de resíduos orgânicos e metais pesados provenientes de rejeitos industriais lançados nas águas. Na técnica do cultivo integrado, animais e algas crescem de forma associada, promovendo um maior equilíbrio ecológico. SORIANO, E. M. Filtros vivos para limpar a água. Revista Ciência Hoje. V. 37, n° 219, 2005 (adaptado). A utilização da técnica do cultivo integrado de animais e algas representa uma proposta favorável a um ecossistema mais equilibrado porque",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"os animais eliminam metais pesados, que são usados pelas algas para a síntese de biomassa.",
+"os animais fornecem excretas orgânicos nitrogenados, que são transformados em gás carbônico pelas algas.",
+"as algas usam os resíduos nitrogenados liberados pelos animais e eliminam gás carbônico na fotossíntese, usado na respiração aeróbica.",
+"as algas usam os resíduos nitrogenados provenientes do metabolismo dos animais e, durante a síntese de compostos orgânicos, liberam oxigênio para o ambiente.",
+"as algas aproveitam os resíduos do metabolismo dos animais e, durante a quimiossíntese de compostos orgânicos, liberam oxigênio para o ambiente."
+],
+"resposta": "D"
+},
+{
+"id": "humanities:34",
+"dominio": "humanities",
+"enunciado": "O Movimento Negro Unificado (MNU) distingue-se do Teatro Experimental do Negro (TEN) por sua crítica ao discurso nacional hegemônico. Isto é, enquanto o TEN defende a plena integração simbólica dos negros na identidade nacional “híbrida”, o MNU condena qualquer tipo de assimilação, fazendo do combate à ideologia da democracia racial uma das suas principais bandeiras de luta, visto que, aos olhos desse movimento, a igualdade formal assegurada pela lei entre negros e brancos e a difusão do mito de que a sociedade brasileira não é racista teriam servido para sustentar, ideologicamente, a opressão racial. COSTA, S. Dois Atlânticos: teoria social, antirracismo, cosmopolitismo. Belo Horizonte: UFMG, 2006 (adaptado). No texto, são comparadas duas organizações do movimento negro brasileiro, criadas em diferentes contextos históricos: o TEN, em 1944, e o MNU, em 1978. Ao assumir uma postura divergente da do TEN, o MNU pretendia",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"pressionar o governo brasileiro a decretar a igualdade racial.",
+"denunciar a permanência do racismo nas relações sociais.",
+"contestar a necessidade da igualdade entre negros e brancos.",
+"defender a assimilação do negro por meios não democráticos.",
+"divulgar a ideia da miscigenação como marca da nacionalidade."
+],
+"resposta": "B"
+},
+{
+"id": "languages:99",
+"dominio": "languages",
+"enunciado": "A última edição deste periódico apresenta mais uma vez tema relacionado ao tratamento dado ao lixo caseiro, aquele que produzimos no dia a dia. A informação agora passa pelo problema do material jogado na estrada vicinal que liga o município de Rio Claro ao distrito de Ajapi. Infelizmente, no local em questão, a reportagem encontrou mais uma forma errada de destinação do lixo: material atirado ao lado da pista como se isso fosse o ideal. Muitos moradores, por exemplo, retiram o lixo de suas residências e, em vez de um destino correto, procuram dispensá-lo em outras regiões. Uma situação no mínimo incômoda. Se você sai de casa para jogar o lixo em outra localidade, por que não o fazer no local ideal? É muita falta de educação achar que aquilo que não é correto para sua região possa ser para outra. A reciclagem do lixo doméstico é um passo inteligente e de consciência. Olha o exemplo que passamos aos mais jovens! Quem aprende errado coloca em prática o errado. Um perigo! Disponível em: http://jornaldacidade.uol.com.br. Acesso em: 10 ago. 2012 (adaptado). Esse editorial faz uma leitura diferenciada de uma notícia veiculada no jornal. Tal diferença traz à tona uma das funções sociais desse gênero textual, que é",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"apresentar fatos que tenham sido noticiados pelo próprio veículo.",
+"chamar a atenção do leitor para temas raramente abordados no jornal.",
+"provocar a indignação dos cidadãos por força dos argumentos apresentados.",
+"interpretar criticamente fatos noticiados e considerados relevantes para a opinião pública.",
+"trabalhar uma informação previamente apresentada com base no ponto de vista do autor da notícia."
+],
+"resposta": "D"
+},
+{
+"id": "stem:14",
+"dominio": "stem",
+"enunciado": "Sejam $f(x) = \\frac{e^x - e^{-x}}{e^x + e^{-x}}$, $g(x) = e^x$ e $h(x) = g(f^{-1}(x))$. Se os valores da base e da altura de um triângulo são definidos por $h(0,5)$ e $h(0,75)$ respectivamente, a área desse triângulo é igual a:",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"$\\frac{e}{2}$",
+"$\\frac{\\sqrt{7}}{2}$",
+"$\\frac{\\sqrt{21}}{2}$",
+"$\\sqrt{10}$",
+"$e$"
+],
+"resposta": "C"
+},
+{
+"id": "health_and_biological_sciences:86",
+"dominio": "health_and_biological_sciences",
+"enunciado": "Os vaga-lumes machos e fêmeas emitem sinais luminosos para se atraírem para o acasalamento. O macho reconhece a fêmea de sua espécie e, atraído por ela, vai ao seu encontro. Porém, existe um tipo de vaga-lume, o Photuris, cuja fêmea engana e atrai os machos de outro tipo, o Photinus, fingindo ser desse gênero. Quando o macho Photinus se aproxima da fêmea Photuris, muito maior que ele, é atacado e devorado por ela. BERTOLDI, O. G.; VASCONCELLOS, J. R. Ciência & sociedade: a aventura da vida, a aventura da tecnologia. São Paulo: Scipione, 2000 (adaptado). A relação descrita no texto, entre a fêmea do gênero Photuris e o macho do gênero Photinus, é um exemplo de",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"comensalismo.",
+"inquilinismo.",
+"cooperação.",
+"predatismo.",
+"mutualismo."
+],
+"resposta": "D"
+},
+{
+"id": "humanities:43",
+"dominio": "humanities",
+"enunciado": "Sobre os debates entre os Governos do Mercosul, é importan-\nte destacar que existem instâncias de construção de memórias \nregionais. Estas experiências acompanham os processos de ver-\ndade e justiça que estão em andamento nos países para revisar, \ninvestigar e julgar os crimes de lesa-humanidade cometidos, no \npassado, pelo Estado. Nesta linha, os lugares de Memória são \ninstâncias que buscam transformar certas marcas a fim de evo-\ncar memórias e torná-las inteligíveis ao situá-las no contexto de \num relato mais amplo.\n(Adaptado de: MERCOSUL. Instituto de Políticas Públicas em Direitos Humanos do MER-\nCOSUL (IPPDH). Princípios fundamentais para as políticas públicas sobre lugares de me-\nmória. Buenos Aires: Mercosul, p. 5, 2012.) \nA partir do excerto e de seus conhecimentos, assinale a alter-\nnativa correta.",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"Embora o Mercosul seja definido pela integração econômi-ca, seus países membros também partilham experiências de ditaduras militares no passado, experiências essas que cons-tituem uma memória regional comum.",
+"A escolha de lugares de memória comuns ao passado dos países membros do Mercosul pauta a agenda econômica de sua integração e baliza a construção de patrimônios edifi-cados.",
+"A reparação dos crimes cometidos pelas ditaduras militares dos estados membros do Mercosul se tornou possível com a criação de instâncias jurídicas supranacionais que julgam violações contra a humanidade.",
+"Ainda que novas, nota-se que o objetivo das políticas pú-blicas de memória do Mercosul – acerca dos traumas das ditaduras – é eleger um conjunto de patrimônios edificados para pacificar o passado."
+],
+"resposta": "A"
+},
+{
+"id": "languages:22",
+"dominio": "languages",
+"enunciado": "Modern buildings incorporate exciting forms with glittering façades and compelling interior spaces. Surveying for these projects requires sophisticated computation, aggressive quality control and close interaction with construction teams. Tick the alternative that corresponds to \"glittering”, still keeping the same meaning of the sentence.",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"glossing",
+"gliding",
+"gladding",
+"gluing",
+"gloating"
+],
+"resposta": "A"
+},
+{
+"id": "stem:16",
+"dominio": "stem",
+"enunciado": "Festa na escola Daniel prometeu levar suco de laranja para uma festa na escola, mas para carregar o suco ele possui somente cinco garrafas: uma com capacidade de até 7 litros, uma com capacidade de até 3 litros, uma com capacidade de até 5 litros e mais duas com capacidade de até 4 litros. Com base no enunciado responda as seguintes questões: Se ele preparar 14 litros de suco de laranja e quiser levar a menor quantidade possível de garrafas, qual é o número mínimo de garrafas que ele deverá levar?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"1.",
+"2.",
+"3.",
+"4.",
+"5."
+],
+"resposta": "C"
+},
+{
+"id": "health_and_biological_sciences:55",
+"dominio": "health_and_biological_sciences",
+"enunciado": "As proteínas de uma célula eucariótica possuem peptídeos sinais, que são sequências de aminoácidos responsáveis pelo seu endereçamento para as diferentes organelas, de acordo com suas funções. Um pesquisador desenvolveu uma nanopartícula capaz de carregar proteínas para dentro de tipos celulares específicos. Agora ele quer saber se uma nanopartícula carregada com uma proteína bloqueadora do ciclo de Krebs in vitro é capaz de exercer sua atividade em uma célula cancerosa, podendo cortar o aporte energético e destruir essas células. Ao escolher essa proteína bloqueadora para carregar as nanopartículas, o pesquisador deve levar em conta um peptídeo sinal de endereçamento para qual organela?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"Núcleo.",
+"Mitocôndria.",
+"Peroxissomo.",
+"Complexo golgiense.",
+"Retículo endoplasmático."
+],
+"resposta": "B"
+},
+{
+"id": "humanities:53",
+"dominio": "humanities",
+"enunciado": "## TEXTO 1\nUma filosofia da percepção que queira reaprender a ver o mundo restituirá à pintura e às artes em geral seu lugar verdadeiro.\n## TEXTO 2\nOs grandes autores de cinema nos pareceram confrontáveis não apenas com pintores, arquitetos, músicos, mas também com pensadores. Eles pensam com imagens, em vez de conceitos. De que modo os textos sustentam a existência de um saber ancorado na sensibilidade?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"Admitindo o belo como fenômeno transcendental.",
+"Reafirmando a vivência estética como juízo de gosto.",
+"Considerando o olhar como experiência de conhecimento.",
+"Apontando as formas de expressão como auxiliares da razão.",
+"Estabelecendo a inteligência como implicação das representações."
+],
+"resposta": "C"
+},
+{
+"id": "languages:41",
+"dominio": "languages",
+"enunciado": "Segundo quadro Uma sala da prefeitura. O ambiente é modesto. Durante a mutação, ouve-se um dobrado e vivas a Odorico, “viva o prefeito” etc. Estão em cena Dorotéa, Juju, Dirceu, Dulcinéa, o vigário e Odorico. Este último, à janela, discursa. ODORICO — Povo sucupirano! Agoramente já investido no cargo de Prefeito, aqui estou para receber a confirmação, a ratificação, a autenticação e por que não dizer a sagração do povo que me elegeu. Aplausos vêm de fora. ODORICO — Eu prometi que o meu primeiro ato como prefeito seria ordenar a construção do cemitério. Aplausos, aos quais se incorporam as personagens em cena. ODORICO — (Continuando o discurso:) Botando de lado os entretantos e partindo pros finalmente, é uma alegria poder anunciar que prafrentemente vocês já poderão morrer descansados, tranquilos e desconstrangidos, na certeza de que vão ser sepultados aqui mesmo, nesta terra morna e cheirosa de Sucupira. E quem votou em mim, basta dizer isso ao padre na hora da extrema-unção, que tem enterro e cova de graça, conforme o prometido. GOMES, D. O bem amado. Rio de Janeiro: Ediouro, 2012. O gênero peça teatral tem o entretenimento como uma de suas funções. Outra função relevante do gênero, explícita nesse trecho de O bem amado, é",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"criticar satiricamente o comportamento de pessoas públicas.",
+"denunciar a escassez de recursos públicos nas prefeituras do interior.",
+"censurar a falta de domínio da língua padrão em eventos sociais.",
+"despertar a preocupação da plateia com a expectativa de vida dos cidadãos.",
+"questionar o apoio irrestrito de agentes públicos aos gestores governamentais."
+],
+"resposta": "A"
+},
+{
+"id": "stem:67",
+"dominio": "stem",
+"enunciado": "Os métodos empregados nas análises químicas são ferramentas importantes para se conhecer a composição dos diversos materiais presentes no meio ambiente. É comum, na análise de metais presentes em amostras ambientais, como água de rio ou de mar, a adição de um ácido mineral forte, normalmente o ácido nítrico (HNO3), com a finalidade de impedir a precipitação de compostos pouco solúveis desses metais ao longo do tempo. Na ocorrência de precipitação, o resultado da análise pode ser subestimado, porque",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"ocorreu passagem de parte dos metais para uma fase sólida.",
+"houve volatilização de compostos dos metais para a atmosfera.",
+"os metais passaram a apresentar comportamento de não metais.",
+"formou-se uma nova fase líquida, imiscível com a solução original.",
+"os metais reagiram com as paredes do recipiente que contém a amostra."
+],
+"resposta": "A"
+},
+{
+"id": "health_and_biological_sciences:50",
+"dominio": "health_and_biological_sciences",
+"enunciado": "A dupla fecundação é um processo característico em \nangiospermas, resultando na formação do zigoto e do \nnúcleo triploide. As sementes com cotilédones, embrião, \nendosperma e casca são formadas e protegidas no interior \ndos frutos. Considerando a origem e a ploidia das \nestruturas citadas, assinale a alternativa correta.",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"O núcleo triploide (3n) é formado pela junção dos núcleos polares com o núcleo espermático.",
+"O zigoto (2n) é formado a partir dos núcleos polares e da oosfera, oriundos dos sacos embrionário e polínico.",
+"Os carpelos originam o ovário, que se transforma nos cotilédones (2n) e na casca da semente.",
+"O endosperma (3n) origina-se do núcleo triploide, formando posteriormente os cotilédones da semente."
+],
+"resposta": "A"
+},
+{
+"id": "humanities:81",
+"dominio": "humanities",
+"enunciado": "Os comentadores do texto sagrado (…) reconhecem a\nsubmissão da mulher ao homem como um dos momentos da\ndivisão hierárquica que regula as relações entre Deus, Cristo e\na humanidade, encontrando ainda a origem e o fundamento\ndivino daquela submissão na cena primária da criação de Adão\ne Eva e no seu destino antes e depois da queda.\nCASAGRANDE, C., A mulher sob custódia, in: História das Mulheres, Lisboa:\nAfrontamento, $1993$, v. $2$, p. $122-123$.\nO excerto refere-se à apreensão de determinadas passagens\nbíblicas pela cristandade medieval, especificamente em relação\nà condição das mulheres na sociedade feudal. A esse respeito,\né correto afirmar:",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"As mulheres originárias da nobreza podiam ingressar nosconventos e ministrar os sacramentos como os homens demesma condição social.",
+"A culpabilização das mulheres pela expulsão do ParaísoTerrestre servia de justificativa para sua subordinação socialaos homens.",
+"As mulheres medievais eram impedidas do exercício dasatividades políticas, ao contrário do que acontecera nomundo greco‐romano.",
+"As mulheres medievais eram iletradas e tinham o acesso àcultura e às artes proibido, devido à sua condição social enatural.",
+"A submissão das mulheres medievais aos homens estevedesvinculada de normatizações acerca da sexualidade."
+],
+"resposta": "B"
+},
+{
+"id": "languages:15",
+"dominio": "languages",
+"enunciado": "TEXTO:\nWarning: Flying is bad for your health\nFlying is the safest way to travel...or is it? Some doctors think the airplane is a dangerous place, especially for the old or the unhealthy.\nAlthough the airplane is pressurized, there is less oxygen than on the ground. So anyone who has had a heart attack should not try for at least two weeks after the attack. After an operation, you should stay on the ground for at least ten days.\nSitting on a plane for many hours - especially in economy class where there isn't very much leg room gives everyone aches and pain, so you should get some exercise, especially on long flights.\nFlying also causes dehydration. If you drink or eat too much, you'll wake up feeling sick. Everyone needs to drink more in the air, but you shouldn't drink alcohol because it makes you even more thirsty.\nThe most common problem is jet lag. You should change to your new time zone as soon as possible, and you shouldn't sleep if it's still daylight.\nCrowded airports, long lines, and delays cause stress and high blood pressure. So, be careful! Flying is the safest way to travel, but is it the healthiest?\n(Move Up, Heinemann)\n\nAccording to the text it's correct to affirm that",
+"rotulos": [
+"A",
+"B",
+"C",
+"D"
+],
+"textos": [
+"unhealthy people shouldn't travel by planes.",
+"even being safe flying might bring some disorders on one's body.",
+"people who prefer planes mustn't have health problems.",
+"flying can cause heart attacks."
+],
+"resposta": "B"
+},
+{
+"id": "stem:69",
+"dominio": "stem",
+"enunciado": "A formação frequente de grandes volumes de pirita (<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mtext>FeS</mtext><mn>2</mn></msub></math>) em uma variedade de depósitos minerais favorece a formação de soluções ácidas ferruginosas, conhecidas como “drenagem ácida de minas”. Esse fenômeno tem sido bastante pesquisado pelos cientistas e representa uma grande preocupação entre os impactos da mineração no ambiente. Em contato com oxigênio, a 25 °C, a pirita sofre reação, de acordo com a equação química: <math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mn>4</mn><msub><mtext>FeS</mtext><mn>2</mn></msub><mtext>(s)</mtext><mo>+</mo><mn>15</mn><msub><mtext>O</mtext><mn>2</mn></msub><mtext>(g)</mtext><mo>+</mo><mn>2</mn><msub><mtext>H</mtext><mn>2</mn></msub><mtext>O(l)</mtext><mo>&#x2192;</mo><mn>2</mn><msub><mtext>Fe</mtext><mn>2</mn></msub><msub><mfenced><msub><mtext>SO</mtext><mn>4</mn></msub></mfenced><mn>3</mn></msub><mtext>(aq)</mtext><mo>+</mo><mn>2</mn><msub><mtext>H</mtext><mn>2</mn></msub><msub><mtext>SO</mtext><mn>4</mn></msub><mtext>(aq)</mtext></math> FIGUEIREDO, B. R. Minérios e ambiente. Campinas: Unicamp, 2000. Para corrigir os problemas ambientais causados por essa drenagem, a substância mais recomendada a ser adicionada ao meio é o",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"sulfeto de sódio.",
+"cloreto de amônio.",
+"dióxido de enxofre.",
+"dióxido de carbono.",
+"carbonato de cálcio."
+],
+"resposta": "E"
+},
+{
+"id": "health_and_biological_sciences:25",
+"dominio": "health_and_biological_sciences",
+"enunciado": "Nas margens de um rio, verificava‐se a seguinte cadeia trófica:\no capim ali presente servia de alimento para gafanhotos, que,\npor sua vez, eram predados por passarinhos, cuja espécie só\nocorria naquele ambiente e tinha exclusivamente os\ngafanhotos como alimento; tais passarinhos eram predados por\ngaviões da região.\nA lama tóxica que vazou de uma empresa mineradora matou\nquase totalmente o capim ali existente. É correto afirmar que,\nem seguida, o consumidor secundário",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"teve sua população reduzida como consequência direta doaumento da biomassa no primeiro nível trófico da cadeia.",
+"teve sua população reduzida como consequência indiretada diminuição da biomassa no primeiro nível trófico dacadeia.",
+"não teve sua população afetada, pois o efeito da lama tóxicase deu sobre o primeiro nível trófico da cadeia e não sobreo segundo.",
+"não teve sua população afetada, pois a lama tóxica não teveefeito direto sobre ele, mas sim sobre um nível tróficoinferior.",
+"teve sua população aumentada como consequência diretado aumento da biomassa no segundo nível trófico dacadeia."
+],
+"resposta": "B"
+},
+{
+"id": "humanities:10",
+"dominio": "humanities",
+"enunciado": "Nasce daqui uma questão: se vale mais ser amado que temido ou temido que amado. Responde-se que ambas as coisas seriam de desejar; mas porque é difícil juntá-las, é muito mais seguro ser temido que amado, quando haja de faltar uma das duas. Porque dos homens se pode dizer, duma maneira geral, que são ingratos, volúveis, simuladores, covardes e ávidos de lucro, e enquanto lhes fazes bem são inteiramente teus, oferecem-te o sangue, os bens, a vida e os filhos, quando, como acima disse, o perigo está longe; mas quando ele chega, revoltam-se. MAQUIAVEL, N. O príncipe. Rio de Janeiro: Bertrand, 1991. A partir da análise histórica do comportamento humano em suas relações sociais e políticas, Maquiavel define o homem como um ser",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"munido de virtude, com disposição nata a praticar o bem a si e aos outros.",
+"possuidor de fortuna, valendo-se de riquezas para alcançar êxito na política.",
+"guiado por interesses, de modo que suas ações são imprevisíveis e inconstantes.",
+"naturalmente racional, vivendo em um estado pré-social e portando seus direitos naturais.",
+"sociável por natureza, mantendo relações pacíficas com seus pares."
+],
+"resposta": "C"
+},
+{
+"id": "languages:6",
+"dominio": "languages",
+"enunciado": "TEXTO:\nTEXT\nThe end of life on Earth?\nIt weighted about 10,000 tons, entered the\natmosphere at a speed of 64,000 km/h and exploded\nover a city with a blast of 500 kilotons. But on 15\nFebruary 2013, we were lucky. The metereorite that\nshowered pieces of rock over Chelyabinsk, Russia, was\nrelatively small, at only about 17 metres wide. Although\nmany people were injured by falling glass, the damage\nwas nothing compared to what had happened in Siberia\nnearly one hundred years ago, when a relatively small\n10 object (approximately 50 metres in diameter) exploded in\nmid-air over a forest region, flattening about 80 million\ntrees. If it had exploded over a city such as Moscow or\nLondon, millions of people would have been killed.\nBy a strange coincidence, the same day that the\n15 meteorite terrified the people of Chelyabinsk, another\n50m-wide asteroid passed relatively close to Earth.\nScientists were expecting that visit and know that the\nasteroid will return to fly close by us in 2046, but the\nRussian meteorite earlier in the day had been too small\n20 for anyone to spot.\nMost scientists agree that comets and asteroids\npose the biggest natural threat to human existence. It\nwas probably a large asteroid or comet colliding with\nEarth which wiped out the dinosaurs about 65 million\n25 years ago. An enormous object, 10 to 16 km in diameter,\nstruck the Yucatan region in Mexico with the force of 100\nmegatons. That is the equivalent of one Hiroshima bomb\nfor every person alive on Earth today.\nMany scientists, including the late Stephen\n30 Hawking, say that any comet or asteroid greater than\n20km in diameter that hits Earth will result in the\ncomplete destruction of complex life, including all\nanimals and most plants. As we have seen even a much\nsmaller asteroid can cause great damage.\n35\n40\n45\n50\n55\nThe Earth has been kept fairly safe for the last 65\nmillion years by good fortune and the massive\ngravitational field of the planet Jupiter. Our cosmic\nguardian, with its stable circular orbit far from the sun,\nsweeps up and scatters away most of the dangerous\ncomets and asteroids which might cross Earth's orbit.\nAfter the Chelyabinsk meteorite, scientists are now\nmonitoring potential hazards even more carefully but, as\nfar as they know, there is no danger in the foreseeable\nfuture.\nTypes of space rocks\n• Comet a ball of rock and ice that sends out a\ntail of gas and dust behind it. Bright comets only appear\nin our visible night sky about once every ten years.\n• Asteroid a rock a few feet to several kms in\ndiameter. Unlike comets, asteroids have no tail. Most\nare to small to cause any damage and burn up in the\natmosphere.\n•\nMeteoroid - part of an asteroid or comet.\nMeteorite - what a meteoroid is called when it\n•\nhits Earth.\nTaken from: http://learningenglishteens.britishcouncil.org\n- Access on 29/06/2020\n\n\"If it had exploded over a city such as Moscow or London, millions of people would have been killed\" (lines 12 and 13). We can conclude from the information in this passage that",
+"rotulos": [
+"A",
+"B",
+"C",
+"D"
+],
+"textos": [
+"because of an explosion, millions of people died.",
+"experts managed to save people from an explosion.",
+"an explosion will hit both cities killing millions of people.",
+"the explosion and the millions of deaths are hypothetical."
+],
+"resposta": "D"
+},
+{
+"id": "stem:11",
+"dominio": "stem",
+"enunciado": "Riquezas de Atlântida Um arqueólogo finalmente encontrou a submersa cidade de Atlântida. Depois de uma rápida exploração no lugar, ficou muito feliz ao encontrar várias barras de metais valiosos num dos templos. Existem quatro barras: Platina, Ouro, Prata e Bronze; e cada uma pesa 2 quilos. A seqüência está ordenada da mais valiosa (Platina) para a menos valiosa (Bronze). O arqueólogo possui apenas uma bolsa para levar as barras para seu barco de pesquisas e existem algumas condições: • A bolsa suporta no máximo 5 quilos. • As barras ou são colocadas inteiras na bolsa ou não são levadas. Quantas viagens são necessárias para o arqueólogo levar todas as barras ao barco?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"0",
+"1",
+"2",
+"3",
+"4"
+],
+"resposta": "C"
+},
+{
+"id": "health_and_biological_sciences:95",
+"dominio": "health_and_biological_sciences",
+"enunciado": "## Estudo confirma eficácia do Método Wolbachia para dengue\nOs resultados de um ensaio clínico randomizado na Indonésia apontaram uma redução de 77 por cento dos casos de dengue nas áreas que receberam o mosquito Aedes aegypti infectado com a bactéria Wolbachia. Trata-se da mesma técnica utilizada no Brasil pelo Método Wolbachia, iniciativa conduzida pela Fundação Oswaldo Cruz — Fiocruz. Essa bactéria induz a redução da carga viral no mosquito e, consequentemente, o número de casos de dengue na área, sendo repassada por meio do cruzamento entre os insetos. Como essa bactéria é um organismo intracelular e o vírus também precisa entrar nas células para se reproduzir, ambos necessitarão de recursos comuns.\nEssa tecnologia utilizada no combate à dengue consiste na",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"predação do vírus pela bactéria.",
+"esterilização de mosquitos infectados.",
+"alteração no genótipo do mosquito pela bactéria.",
+"competição do vírus e da bactéria no hospedeiro.",
+"inserção de material genético do vírus na bactéria."
+],
+"resposta": "D"
+},
+{
+"id": "humanities:85",
+"dominio": "humanities",
+"enunciado": "México, Colômbia, Peru e Chile decidiram seguir um caminho mais curto para a integração regional. Os quatro países, em meados de 2012, criaram a Aliança do Pacífico e eliminaram, em 2013, as tarifas aduaneiras de 90% do total de produtos comercializados entre suas fronteiras. OLIVEIRA, E. Aliança do Pacífico se fortalece e Mercosul fica à sua sombra. O Globo, 24 fev. 2013 (adaptado). O acordo descrito no texto teve como objetivo econômico para os países-membros",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"promover a livre circulação de trabalhadores.",
+"fomentar a competitividade no mercado externo.",
+"restringir investimentos de empresas multinacionais.",
+"adotar medidas cambiais para subsidiar o setor agrícola.",
+"reduzir a fiscalização alfandegária para incentivar o consumo."
+],
+"resposta": "B"
+},
+{
+"id": "languages:38",
+"dominio": "languages",
+"enunciado": "Retirement did little to diminish the public profile of Pelé, who _______ a popular pitchman and active in many professional arenas.",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"remain",
+"to remain",
+"remaining",
+"have remained",
+"remained"
+],
+"resposta": "E"
+},
+{
+"id": "stem:56",
+"dominio": "stem",
+"enunciado": "A região entre as placas de um capacitor plano é preenchida por dois dielétricos de permissividades $\\epsilon_1$ e $\\epsilon_2$, conforme ilustra a figura a seguir. Sendo S a área de cada placa, d a distância que as separa e U a ddp entre os pontos A e B, quando o capacitor está totalmente carregado, o módulo da carga Q de cada placa é igual a",
+"rotulos": [
+"A",
+"B",
+"C",
+"D"
+],
+"textos": [
+"$\\frac{2S}{d(\\epsilon_1 + \\epsilon_2)}U$",
+"$\\frac{2S(\\epsilon_1 + \\epsilon_2)}{d}U$",
+"$\\frac{2S\\epsilon_1\\epsilon_2}{d(\\epsilon_1 + \\epsilon_2)}U$",
+"$\\frac{d(\\epsilon_1 + \\epsilon_2)}{2S\\epsilon_1\\epsilon_2}U$"
+],
+"resposta": "C"
+},
+{
+"id": "health_and_biological_sciences:72",
+"dominio": "health_and_biological_sciences",
+"enunciado": "O uso prolongado de lentes de contato, sobretudo durante a noite, aliado a condições precárias de higiene representam fatores de risco para o aparecimento de uma infecção denominada ceratite microbiana, que causa ulceração inflamatória da córnea. Para interromper o processo da doença, é necessário tratamento antibiótico. De modo geral, os fatores de risco provocam a diminuição da oxigenação corneana e determinam mudanças no seu metabolismo, de um estado aeróbico para anaeróbico. Como decorrência, observa-se a diminuição no número e na velocidade de mitoses do epitélio, o que predispõe ao aparecimento de defeitos epiteliais e à invasão bacteriana. CRESTA, F. Lente de contato e infecção ocular. Revista Sinopse de Oftalmologia. São Paulo: Moreira Jr.,v.04, n.04, 2002 (adaptado). A instalação das bactérias e o avanço do processo infeccioso na córnea estão relacionados a algumas características gerais desses microrganismos, tais como:",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"A grande capacidade de adaptação, considerando as constantes mudanças no ambiente em que se reproduzem e o processo aeróbico como a melhor opção desses microrganismos para a obtenção de energia.",
+"A grande capacidade de sofrer mutações, aumentando a probabilidade do aparecimento de formas resistentes e o processo anaeróbico da fermentação como a principal via de obtenção de energia.",
+"A diversidade morfológica entre as bactérias, aumentando a variedade de tipos de agentes infecciosos e a nutrição heterotrófica, como forma de esses microrganismos obterem matéria-prima e energia.",
+"O alto poder de reprodução, aumentando a variabilidade genética dos milhares de indivíduos e a nutrição heterotrófica, como única forma de obtenção de matéria-prima e energia desses microrganismos.",
+"O alto poder de reprodução, originando milhares de descendentes geneticamente idênticos entre si e a diversidade metabólica, considerando processos aeróbicos e anaeróbicos para a obtenção de energia."
+],
+"resposta": "E"
+},
+{
+"id": "humanities:53",
+"dominio": "humanities",
+"enunciado": "\"Apesar de sua presumida evidência, a articulação entre liberdade e igualdade é mais complicada do que parece. Sua reunião em um mesmo indivíduo, que seria, ao mesmo tempo, livre e igual a seus semelhantes, esconde tensões significativas. Como, por exemplo, alguém poderia ser livre em um contexto no qual prevalecem desigualdades aberrantes? Em contrapartida, o que resta da liberdade se os indivíduos não puderem singularizar-se e diferenciar-se uns dos outros?\" \n(FIGUEIREDO, V. A paixão da Igualdade: uma genealogia do indivíduo moral na França. \nBelo Horizonte: Relicário, p. 9, 2021.)\nEscolha, dentre as alternativas a seguir, aquela que sintetiza \nmelhor a ideia expressa na citação de Figueiredo:",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"A realização da liberdade e da igualdade independe da su-pressão de desigualdades profundas.",
+"A articulação entre liberdade e igualdade é um ideal que não contrasta com regimes políticos antidemocráticos.",
+"A articulação entre liberdade e igualdade é complexa porque exige tanto a supressão de desigualdades extremas quanto a possibilidade da afirmação das diferenças individuais.",
+"O desenvolvimento pleno do capitalismo e da livre concor-rência são condições suficientes para a concretização da li-berdade e da igualdade."
+],
+"resposta": "C"
+},
+{
+"id": "languages:111",
+"dominio": "languages",
+"enunciado": "Cuitelinho Cheguei na bera do porto Onde as onda se espaia. As garça dá meia volta, Senta na bera da praia. E o cuitelinho não gosta Que o botão da rosa caia. Quando eu vim da minha terra, Despedi da parentaia. Eu entrei em Mato Grosso, Dei em terras paraguaia. Lá tinha revolução, Enfrentei fortes bataia. A tua saudade corta Como o aço de navaia. O coração fica aflito, Bate uma e outra faia. E os oio se enche d´água Que até a vista se atrapaia. Folclore recolhido por Paulo Vanzolini e Antônio Xandó. BORTONI-RICARDO, S. M. Educação em língua materna. São Paulo: Parábola, 2004. Transmitida por gerações, a canção Cuitelinho manifesta aspectos culturais de um povo, nos quais se inclui sua forma de falar, além de registrar um momento histórico. Depreende-se disso que a importância em preservar a produção cultural de uma nação consiste no fato de que produções como a canção Cuitelinho evidenciam a",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"recriação da realidade brasileira de forma ficcional.",
+"criação neológica na língua portuguesa.",
+"formação da identidade nacional por meio da tradição oral.",
+"incorreção da língua portuguesa que é falada por pessoas do interior do Brasil.",
+"padronização de palavras que variam regionalmente, mas possuem mesmo significado."
+],
+"resposta": "C"
+},
+{
+"id": "stem:76",
+"dominio": "stem",
+"enunciado": "Para lavar e refrescar o ambiente, que estava a 40 °C, uma pessoa resolveu jogar água sobre um piso de granito. Ela observou que o líquido se concentrou em algumas regiões, molhando parcialmente a superfície. Ao adicionar detergente sobre essa água, a pessoa verificou que o líquido se espalhou e deixou o piso totalmente molhado. A molhabilidade da superfície foi melhorada em função da",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"solubilidade do detergente em água ser alta.",
+"tensão superficial da água ter sido reduzida.",
+"pressão de vapor da água ter sido diminuída.",
+"densidade da solução ser maior que a da água.",
+"viscosidade da solução ser menor que a da água."
+],
+"resposta": "B"
+},
+{
+"id": "health_and_biological_sciences:65",
+"dominio": "health_and_biological_sciences",
+"enunciado": "O Programa Mundial de Alimentos da Organização das\nNações Unidas (PMA-ONU) foi agraciado com o prêmio\nNobel da Paz em 2020. No Brasil, um dos maiores\nprodutores de alimentos do mundo, quatro em cada $10$\nfamílias não tiveram acesso diário, regular, e permanente à\nquantidade suficiente de comida em 2017 e 2018. A fome é\ndeclarada quando a desnutrição é generalizada e quando\nas pessoas começam a morrer por falta de alimentos\nnutritivos e suficientes. A diversidade dos alimentos\ningeridos garante nutrientes para o desempenho ideal das\nfunções do organismo.\n(Fonte: UNITED NATIONS [UN]. World Food Program. What is famine?\nDisponível em https://www.wfp.org/stories/what-is-famine. Acessado em\n08/06/ 2021.)\n\nAssinale a alternativa correta sobre os nutrientes e sua\nimportância para a saúde humana.",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"A hidrólise dos carboidratos essenciais fornece aminoácidos para a formação das proteínas, as quais têm função construtora de diferentes tecidos.",
+"Os lipídios contêm desoxirriboses e ácidos graxos, constituem as membranas plasmáticas e participam da síntese de colesterol no organismo.",
+"Os sais minerais são substâncias inorgânicas essenciais para diversas funções do organismo, como a síntese de glicogênio, de proteínas e de vitaminas.",
+"As vitaminas atuam como antioxidantes e são substâncias energéticas cuja composição fornece ao organismo glicídios utilizados na respiração celular."
+],
+"resposta": "C"
+},
+{
+"id": "humanities:18",
+"dominio": "humanities",
+"enunciado": "Todo homem de bom juízo, depois que tiver realizado sua viagem, reconhecerá que é um milagre manifesto ter podido escapar de todos os perigos que se apresentam em sua peregrinação; tanto mais que há tantos outros acidentes que diariamente podem aí ocorrer que seria coisa pavorosa àqueles que aí navegam querer pô-los todos diante dos olhos quando querem empreender suas viagens. J. P. T. Histoire de plusieurs voyages aventureux. 1600. In: DELUMEAU, J. História do medo no Ocidente: 1300-1800. São Paulo: Cia. das Letras, 2009 (adaptado). Esse relato, associado ao imaginário das viagens marítimas da época moderna, expressa um sentimento de",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"gosto pela aventura.",
+"fascínio pelo fantástico.",
+"temor do desconhecido.",
+"interesse pela natureza.",
+"purgação dos pecados."
+],
+"resposta": "C"
+},
+{
+"id": "languages:6",
+"dominio": "languages",
+"enunciado": "TEXTO:\nTEXTO I\nViolência: presente e passado da história\nVilma Homero\nAo olhar para o passado, costumamos imaginar\nque estamos nos afastando dos tempos da \"barbárie pura\ne simples\" para alcançar uma almejada \"civilização\",\ncalcada sobre relações livres, iguais e fraternas, típicas do\nhomem culto. Um olhar sobre a história, no entanto, põe em\nxeque esta visão utópica. Organizado pelos historiadores\nRegina Bustamante e José Francisco de Moura, o livro\nViolência na História, publicado pela Mauad Editora com\napoio da FAPERJ, reúne diversos ensaios que mostram,\nao longo do tempo, diferentes aspectos da violência,\npropondo uma reflexão mais demorada sobre o tema. Nos\nensaios reunidos no livro, podemos vislumbrar como,\ndesde a antiguidade e ao longo da história humana, a\nviolência se insere, sob diversos vieses, nas relações de\npoder, seja entre Estado e cidadãos, entre livres e\nescravos, entre homens e mulheres, ou entre diferentes\nreligiões. \"Durante a Idade Média, por exemplo, vemos\ncomo a violência se manifesta na religiosidade, durante o\nmovimento das Cruzadas. Ou, hoje, no caso dos\nmovimentos sociais, como ela acontece em relação aos\nexcluídos das favelas. O sentido é amplo. A desigualdade\nsocial, por exemplo, é um tipo de violência; a expropriação\ndo patrimônio cultural, que significa não permitir que a\nmemória cultural de determinado grupo se manifeste,\ntambém\", prossegue a organizadora. (...) A própria palavra\n\"violência\", que etimologicamente deriva do latim vis, com\nsignificado de força, virilidade, pode ser positiva em termos\nde transformação social, no sentido de uma violência\nrevolucionária, usada como forma de se tentar transformar\numa sociedade em determinado momento. (...) Essas\nvariadas abordagens vão aparecendo ao longo do livro.\n(...) Na Roma antiga, as penas, aplicadas após\njulgamento, ganhavam um sentido religioso. Despido de\nsua humanidade, o réu era declarado homo sacer. Ou\nseja, sua vida passava a ser consagrada aos deuses.\nSegundo a pesquisadora Norma Mendes, \"havia o firme\npropósito de fazer da morte dos condenados um\nespetáculo de caráter exemplar, revestido de sentido\nreligioso e de dominação, cuja função era o reforço,\nmanutenção e ratificação das relações de poder.\" (...) O\nhistoriador Francisco Carlos Teixeira da Silva é um dos\nque traz a discussão para o presente, analisando as\ntransformações políticas do último século. \"Desde Voltaire\naté Kant e Hegel, acreditava-se no contínuo\naperfeiçoamento da condição humana como uma marcha\ninexorável em direção à razão. (...) O Holocausto,\nperpetrado em um dos países mais avançados e cultos à\népoca, deixou claro que a luta pela dignidade humana é\num esforço contínuo e, pior de tudo, lento. (...) E,\nsobretudo, mais de 50 anos depois da II Guerra Mundial, a\nocorrência de outros genocídios Ruanda, lugoslávia,\nCamboja etc. - leva a refletir sobre a convivência entre os\nhomens nesse começo do século XXI.\" O historiador\nprossegue: \"De forma paradoxal, a globalização, conforme\nse aprofunda e pluga os homens a escalas planetárias, é\nfortemente acompanhada pelo localismo e o particularismo\nreligioso, étnico ou cultural, promovendo ódios e\nincompreensões crescentes. Na Bósnia ou em Kosovo, na\nFaixa de Gaza ou na Irlanda do Norte, a capacidade de\nentendimento chegou a seu mais baixo nível de tolerância,\ne transpor uma linha, imaginária ou não, entre bairros\npode representar a morte.\" Como nem tudo se limita às\nquestões políticas e às guerras, o livro ainda analisa as\nformas que a violência assume nas relações de gênero,\nna religião, na cultura e aborda também a questão dos\ndireitos humanos, vista sob a perspectiva de diferentes\nsistemas culturais.\n(http://www.faperj.br/?id=1518.2.4. Acesso em 05 de março de 2018.)\n\nO uso do conectivo em destaque está corretamente justificado em:",
+"rotulos": [
+"A",
+"B",
+"C",
+"D"
+],
+"textos": [
+"\"...um espetáculo de caráter exemplar, revestido de sentido religioso e de dominação, **cuja** função era o reforço(...) das relações de poder.\" (l. 37 a 40) – Conecta oração, estabelecendo uma relação de posse.",
+"\"...a violência se insere, sob diversos vieses, nas relações de poder...\" (l. 13 a 15) - Acrescenta aspecto locativo.",
+"\"Ou seja, sua vida passava a ser consagrada aos deuses.\" (l. 34 e 35) - Introduz sentido de alternância.",
+"\"Como nem tudo se limita às questões políticas e às guerras, o livro ainda analisa as formas que a violência assume...\" (l. 62 a 64) – Estabelece conexão temporal."
+],
+"resposta": "A"
+},
+{
+"id": "stem:8",
+"dominio": "stem",
+"enunciado": "Seja $D$ o determinante da matriz $\\begin{vmatrix} 1 & 2 & 3 \\\\ x & x^2 & x^3 \\\\ x & x & 1 \\end{vmatrix}$. O número de possíveis valores de $x$ reais que anulam $D$ é",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"0",
+"1",
+"2",
+"3",
+"4"
+],
+"resposta": "C"
+},
+{
+"id": "health_and_biological_sciences:55",
+"dominio": "health_and_biological_sciences",
+"enunciado": "Considere uma sequência de DNA com 100 pares de bases de\ncomprimento contendo 32 timinas.\nQuantas citosinas, guaninas e adeninas essa sequência terá,\nrespectivamente?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"32, 68, 68.",
+"68, 32, 68.",
+"68, 68, 32.",
+"32, 18, 18.",
+"18, 32, 18."
+],
+"resposta": "C"
+},
+{
+"id": "humanities:49",
+"dominio": "humanities",
+"enunciado": "Contemporaneamente, pode-se definir a sociedade mundial\ncomo a do petróleo, devido à participação desta matéria-prima\nem inúmeros produtos e atividades humanas. A utilização deste\nrecurso natural data de muitos séculos, mas sua exploração e\nbeneficiamento se expandiram somente a partir do século XX.\nA respeito desse recurso natural, é correto afirmar:",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"Houve uma forte redução do preço do barril, no início dadécada de 1970, por conta dos resultados das pesquisasenvolvendo novos procedimentos de extração e refino.",
+"A estatização, no Brasil, do transporte e do refino depetróleo iniciou-se no final dos anos 1930 sob o governo deJuscelino Kubitschek.",
+"O início de seu uso como fonte de energia se deu em 1920,na Inglaterra, com a descoberta de reservas poucoprofundas.",
+"No final dos anos 1920, sete empresas petrolíferas mundiaisconstituíram um cartel controlador da extração, transporte,refino e distribuição do petróleo.",
+"Os Estados Unidos possuem reservas ilimitadas de petróleo,o que ocasiona independência em relação aos paísesparticipantes da OPEP."
+],
+"resposta": "D"
+},
+{
+"id": "languages:133",
+"dominio": "languages",
+"enunciado": "Disponível em: www.assine.abril.com.br. Acesso em: 29 fev. 2012 (adaptado). Com o advento da internet, as versões de revistas e livros também se adaptaram às novas tecnologias. A análise do texto publicitário apresentado revela que o surgimento das novas tecnologias",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"proporcionou mudanças no paradigma de consumo e oferta de revistas e livros.",
+"incentivou a desvalorização das revistas e livros impressos.",
+"viabilizou a aquisição de novos equipamentos digitais.",
+"aqueceu o mercado de venda de computadores.",
+"diminuiu os incentivos à compra de eletrônicos."
+],
+"resposta": "A"
+},
+{
+"id": "stem:7",
+"dominio": "stem",
+"enunciado": "Pontes de Hexagônia O arquipélago Hexagônia é formado por seis lindas ilhas interligadas por várias pontes. Uma propriedade importante para os habitantes de Hexagônia é que, utilizando as pontes, é possível ir de bicicleta de qualquer ilha para qualquer outra ilha, mesmo que para isso seja necessário utilizar mais de uma ponte. Infelizmente uma tempestade tropical destruiu completamente todas as pontes de Hexagônia e agora o governo precisa iniciar a construção de novas pontes. Suponha que o governo decida construir o menor número possível de pontes de forma a garantir que, utilizando as pontes, seja possível ir de bicicleta de qualquer ilha para qualquer outra ilha, atravessando uma ou mais pontes. Nesse caso, qual o menor número de pontes que o governo deve construir?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"4",
+"5",
+"6",
+"7",
+"8"
+],
+"resposta": "B"
+},
+{
+"id": "health_and_biological_sciences:90",
+"dominio": "health_and_biological_sciences",
+"enunciado": "DAVIS, J. Garfield está de dieta. Porto Alegre: L&PM, 2006. A condição física apresentada pelo personagem da tirinha é um fator de risco que pode desencadear doenças como",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"anemia.",
+"beribéri.",
+"diabetes.",
+"escorbuto.",
+"fenilcetonúria."
+],
+"resposta": "C"
+},
+{
+"id": "humanities:57",
+"dominio": "humanities",
+"enunciado": "Leia o trecho do poema da poetisa grega Safo acerca da\nbeleza de uma jovem chamada Anactória.\n\nuns dizem que é uma hoste de cavalaria, outros de\ninfantaria;\noutros dizem ser uma frota de naus, na terra negra,\na coisa mais bela: mas eu digo ser aquilo\nque se ama.\n\n(Adaptado de Luísa de Nazaré Ferreira, “Turismo e património na antiguidade\nclássica: o texto atribuído a Fílon de Bizâncio sobre as Sete Maravilhas”, em\nEspaços e Paisagens: Antiguidade Clássica e heranças contemporâneas. $2012$.\nV. $1$. Coimbra: Imprensa da Universidade de Coimbra e Annablume, p. $73$.)\n\nA partir da leitura do poema, assinale a alternativa correta\nsobre o conceito de beleza na Grécia Antiga.",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"Safo reconhece a beleza como conceito universal e destaca a sua independência em relação ao amor.",
+"Safo exemplifica o conceito de belo e o define como inerente às conquistas militares e territoriais.",
+"Safo constata a diversidade dos gostos humanos e evidencia o valor do amor para o conceito de beleza.",
+"Safo exemplifica os gostos humanos a partir do conceito de amor e o define como inerente às conquistas militares."
+],
+"resposta": "C"
+},
+{
+"id": "languages:23",
+"dominio": "languages",
+"enunciado": "Text 1 ChatGPT X: Redefining Conversations with Advanced AI In the ever-expanding (21) of artificial intelligence, ChatGPT X stands as a (22) of innovation, heralding a new era in digital interactions. Developed by OpenAI, ChatGPT X represents the (23) of conversational AI, offering a (24) into the future of human-computer interaction. Step into the future of chatbots - ChatGPT X Online is here to chat and assist you. ChatGPT X builds (25) the foundations (26) by its predecessors, incorporating sophisticated deep learning techniques and vast datasets to comprehend and generate human-like text. Its ability to engage in (27) contextually relevant conversations marks a significant advancement in natural language processing, setting it (28) from conventional chatbots. Unlike earlier iterations, ChatGPT X (29) an impressive capability to maintain context throughout conversations. This means it can understand the (30) of dialogue, respond coherently, and adapt its answers based on the ongoing conversation. This contextual (31) adds a layer of sophistication, making interactions with ChatGPT X feel remarkably natural. The versatility of ChatGPT X extends across a (32) of applications, making it a versatile tool in diverse fields. Adapted from: <https://chatgptxonline.confetti.events/> [Accessed on 9th May, 2024]. Choose the alternative that correctly completes blank (23) in Text 1.",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"outdated method",
+"dated technology",
+"cutting edge",
+"legacy technology",
+"bygone area"
+],
+"resposta": "C"
+},
+{
+"id": "stem:50",
+"dominio": "stem",
+"enunciado": "Uma determinada caixa é transportada em um caminhão que percorre, com velocidade escalar constante, uma estrada plana e horizontal. Em um determinado instante, o caminhão entra em uma curva circular de raio igual a 51,2 m, mantendo a mesma velocidade escalar. Sabendo-se que os coeficientes de atrito cinético e estático entre a caixa e o assoalho horizontal são, respectivamente, 0,4 e 0,5 e considerando que as dimensões do caminhão, em relação ao raio da curva, são desprezíveis e que a caixa esteja apoiada apenas no assoalho da carroceria, pode-se afirmar que a máxima velocidade, em m/s, que o caminhão poderá desenvolver, sem que a caixa escorregue é",
+"rotulos": [
+"A",
+"B",
+"C",
+"D"
+],
+"textos": [
+"14,3",
+"16,0",
+"18,0",
+"21,5"
+],
+"resposta": "B"
+},
+{
+"id": "health_and_biological_sciences:35",
+"dominio": "health_and_biological_sciences",
+"enunciado": "Borboleta, lula e avestruz têm como principal excreta\nnitrogenado, respectivamente,",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"ácido úrico, amônia e ácido úrico.",
+"ácido úrico, ureia e amônia.",
+"amônia, ácido úrico e amônia.",
+"amônia, ureia e ácido úrico.",
+"ureia, amônia e ácido úrico."
+],
+"resposta": "A"
+},
+{
+"id": "humanities:12",
+"dominio": "humanities",
+"enunciado": "Sobre as representações históricas da morte no Ocidente,\nPhilippe Ariès e Alcir Pécora comentam:\n“O moribundo está deitado, cercado por seus amigos e\nfamiliares. Está prestes a executar os ritos que bem\nconhecemos. (...) Seres sobrenaturais invadiram o quarto e se\ncomprimem na cabeceira do ‘jacente’. A grande reunião que\nnos séculos XII e XIII tinha lugar no final dos tempos se faz,\nentão, a partir do século XV, no quarto do enfermo.”\n(Philippe Ariès, História da morte no Ocidente: da Idade Média aos nossos dias.\nRio de Janeiro: Nova Fronteira, $2012$, p. $53$.)\n“(...) essa espécie de arte de morrer de Vieira se opõe à\ntradição das artes moriendi fundadas na preparação para a\n‘última prova’ que acontece apenas no quarto do moribundo.\nNão é mais lá que se decide a salvação ou a condenação do\ncristão, mas no exato momento de suas escolhas e ações ao\nlongo da vida, vale dizer, na resolução adequada a ser tomada\nhic et nunc (aqui e agora).”\n(Alcir Pécora, A arte de morrer, segundo Vieira, em Antonio Vieira, Sermões de\nquarta-feira de cinza. Campinas, SP: Editora da Unicamp, $2016$. p.$51$.)\nCom base nos excertos anteriores e na leitura dos três\nSermões de Quarta-feira de Cinza, assinale a alternativa\ncorreta.",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"Em Ariès, a salvação ou danação ocorre no quarto domoribundo, mas nos sermões de Vieira é a atenção aomomento presente e a decisão correta que importampara o cristão.",
+"A afirmação de Alcir Pécora é válida somente para oprimeiro sermão, pois os dois últimos sermõesretomam o tema do fim dos tempos e da agonia domoribundo para a fé cristã.",
+"Segundo Ariès, o drama da salvação se dá na imagemdo quarto do moribundo. Essa imagem é decisiva paraa compreensão do terceiro sermão.",
+"Para Alcir Pécora, o que distingue os sermões deVieira dos discursos sobre a morte nesse período é aênfase do padre jesuíta na ação futura."
+],
+"resposta": "A"
+},
+{
+"id": "languages:44",
+"dominio": "languages",
+"enunciado": "TEXTO:\nTEXTO V\nO que mais a impressionou no passeio foi a miséria\ngeral, a falta de cultivo, a pobreza das casas, o ar triste,\nabatido da gente pobre. Educada na cidade, ela tinha dos\nroceiros ideia de que eram felizes, saudáveis e alegres.\n5 Havendo tanto barro, tanta água, por que as casas não\neram de tijolos e não tinham telhas? Era sempre aquele\nsapé sinistro /.../. Por que ao redor dessas casas não\nhavia culturas, uma horta, um pomar? Não seria tão fácil,\ntrabalho de horas? /.../ Mesmo nas fazendas, o espetáculo\n10 não era mais animador. Todas soturnas, baixas, quase\nsem o pomar olente e a horta suculenta. /.../ E todas essas\nquestões desafiavam a sua curiosidade, o seu desejo de\nsaber, e também a sua piedade e simpatia por aqueles\npárias, maltrapilhos, mal alojados, talvez com fome,\n15 sorumbáticos!...\n/.../ aproveitou a ocasião para interrogar a respeito o\ntagarela Felizardo.\nOlga encontrou o camarada cá embaixo, cortando a\nmachado as madeiras mais grossas; /.../ Ela lhe falou.\nBons dias, sá dona.\n20 Então trabalha-se muito, Felizardo?\nO que se pode.\n/.../\n- É grande o sítio de você?\nTem alguma terra, sim senhora, sá dona.\nVocê por que não planta para você?\n25 Quá, sá dona! O que é que a gente come?\nO que plantar ou aquilo que a plantação der em\ndinheiro.\nSá dona tá pensando uma coisa e a coisa é outra.\nEnquanto planta cresce, e então? Quá, sá dona, não é\n30 assim.\n/.../\nTerra não é nossa... E frumiga?... Nós não tem\n35 ferramenta... isso é bom pra italiano ou alamão, que\ngoverno dá tudo... governo não gosta de nós...\n(BARRETO, Lima. Triste fim de Policarpo Quaresma. São\nPaulo: O Estado de São Paulo / Klick Editora, 1997, p. 97-98.)\n\nO emprego do advérbio \"não”, em diversas passagens do Texto V, demarca carências de personagens que representam pessoas excluídas. Esse uso só **NÃO** se verifica na alternativa:",
+"rotulos": [
+"A",
+"B",
+"C",
+"D"
+],
+"textos": [
+"\"...governo não gosta de nós...\" (l. 36)",
+"\"Nós não tem ferramenta...\" (l. 34 e 35)",
+"\"Terra não é nossa...\" (l. 34)",
+"\"...o espetáculo não era mais animador.\" (l. 9 e 10)"
+],
+"resposta": "D"
+},
+{
+"id": "stem:165",
+"dominio": "stem",
+"enunciado": "Doze times se inscreveram em um torneio de futebol amador. O jogo de abertura do torneio foi escolhido da seguinte forma: primeiro foram sorteados 4 times para compor o Grupo A. Em seguida, entre os times do Grupo A, foram sorteados 2 times para realizar o jogo de abertura do torneio, sendo que o primeiro deles jogaria em seu próprio campo, e o segundo seria o time visitante. A quantidade total de escolhas possíveis para o Grupo A e a quantidade total de escolhas dos times do jogo de abertura podem ser calculadas através de",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"uma combinação e um arranjo, respectivamente.",
+"um arranjo e uma combinação, respectivamente.",
+"um arranjo e uma permutação, respectivamente.",
+"duas combinações.",
+"dois arranjos."
+],
+"resposta": "A"
+},
+{
+"id": "health_and_biological_sciences:80",
+"dominio": "health_and_biological_sciences",
+"enunciado": "O ambiente marinho pode ser contaminado com rejeitos radioativos provenientes de testes com armas nucleares. Os materiais radioativos podem se acumular nos organismos. Por exemplo, o estrôncio-90 é quimicamente semelhante ao cálcio e pode substituir esse elemento nos processos biológicos. FIGUEIRA, R. C. L.; CUNHA, I. I. L. A contaminação dos oceanos por radionuclídeos antropogênicos. Química Nova na Escola, n. 1, 1998 (adaptado). Um pesquisador analisou as seguintes amostras coletadas em uma região marinha próxima a um local que manipula o estrôncio radioativo: coluna vertebral de tartarugas, concha de moluscos, endoesqueleto de ouriços-do-mar, sedimento de recife de corais e tentáculos de polvo. Em qual das amostras analisadas a radioatividade foi menor?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"Concha de moluscos.",
+"Tentáculos de polvo.",
+"Sedimento de recife de corais.",
+"Coluna vertebral de tartarugas.",
+"Endoesqueleto de ouriços-do-mar."
+],
+"resposta": "B"
+},
+{
+"id": "humanities:25",
+"dominio": "humanities",
+"enunciado": "TEXTO I Cidadão Tá vendo aquele edifício, moço? Ajudei a levantar Foi um tempo de aflição Eram quatro condução Duas pra ir, duas pra voltar Hoje depois dele pronto Olho pra cima e fico tonto Mas me vem um cidadão E me diz desconfiado “Tu tá aí admirado Ou tá querendo roubar?” Meu domingo tá perdido Vou pra casa entristecido Dá vontade de beber E pra aumentar meu tédio Eu nem posso olhar pro prédio Que eu ajudei a fazer. BARBOSA, L. In: ZÉ RAMALHO. 20 Super Sucessos. Rio de Janeiro: Sony Music, 1999 (fragmento). TEXTO II O trabalhador fica mais pobre à medida que produz mais riqueza e sua produção cresce em força e extensão. O trabalhador torna-se uma mercadoria ainda mais barata à medida que cria mais bens. Esse fato simplesmente subentende que o objeto produzido pelo trabalho, o seu produto, agora se lhe opõe como um ser estranho, como uma força independente do produtor. MARX, K. Manuscritos econômicos-filosóficos (Primeiro manuscrito). São Paulo: Boitempo Editorial, 2004 (adaptado). Com base nos textos, a relação entre trabalho e modo de produção capitalista é",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"baseada na desvalorização do trabalho especializado e no aumento da demanda social por novos postos de emprego.",
+"fundada no crescimento proporcional entre o número de trabalhadores e o aumento da produção de bens e serviços.",
+"estruturada na distribuição equânime de renda e no declínio do capitalismo industrial e tecnocrata.",
+"instaurada a partir do fortalecimento da luta de classes e da criação da economia solidária.",
+"derivada do aumento da riqueza e da ampliação da exploração do trabalhador."
+],
+"resposta": "E"
+},
+{
+"id": "languages:25",
+"dominio": "languages",
+"enunciado": "Picture yourself on a tranquil tropical beach. The late afternoon sun warms your face, chest and legs. Squeaky clean sand sifts through your salt-flavored fingers. Your mind thinks little further than the splashing of waves on the shoreline and the light flickering off shoals of little fish whizzing around in the crystal clear shallows. That's the scenario on many Pacific islands, where the sands, in an inevitable process, are always shifting, therefore .. The phrase \"Your mind thinks little further than the splashing of waves on the shoreline\" means that ...",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"the splashing of the waves disturbs your thoughts, which can't go further.",
+"your mind is relaxed only if you look at the splashing of waves.",
+"you are not worried about the waves because they splash far from you.",
+"the splashing of the waves helps build the perfect scenario for relaxation.",
+"the waves splash far from the shoreline."
+],
+"resposta": "D"
+},
+{
+"id": "stem:34",
+"dominio": "stem",
+"enunciado": "Seqüências Perfeitas Matemáticos gostam de usar seqüências de números inteiros que seguem várias leis de formação interessantes. Por exemplo, 0, 1, 4, 9, 16, é a seqüência dos quadrados dos números consecutivos 0, 1, 2, 3, 4, Nos problemas a seguir serão dadas algumas seqüências de números e você deverá descobrir o número que falta, indicado por uma interrogação. Qual o número que falta na seqüência 4, 9, 25, 49, 121, ?, 289, 361, ...",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"169",
+"173",
+"221",
+"213",
+"Nenhum dos números acima"
+],
+"resposta": "A"
+},
+{
+"id": "health_and_biological_sciences:42",
+"dominio": "health_and_biological_sciences",
+"enunciado": "O cultivo de camarões de água salgada vem se desenvolvendo muito nos últimos anos na região Nordeste do Brasil e, em algumas localidades, passou a ser a principal atividade econômica. Uma das grandes preocupações dos impactos negativos dessa atividade está relacionada à descarga, sem nenhum tipo de tratamento, dos efluentes dos viveiros diretamente no ambiente marinho, em estuários ou em manguezais. Esses efluentes possuem matéria orgânica particulada e dissolvida, amônia, nitrito, nitrato, fosfatos, partículas de sólidos em suspensão e outras substâncias que podem ser consideradas contaminantes potenciais. CASTRO, C. B.; ARAGÃO, J. S.; COSTA-LOTUFO, L. V. Monitoramento da toxicidade de efluentes de uma fazenda de cultivo de camarão marinho. Anais do IX Congresso Brasileiro de Ecotoxicologia, 2006 (adaptado). Suponha que tenha sido construída uma fazenda de carcinicultura próximo a um manguezal. Entre as perturbações ambientais causadas pela fazenda, espera-se que",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"a atividade microbiana se torne responsável pela reciclagem do fósforo orgânico excedente no ambiente marinho.",
+"a relativa instabilidade das condições marinhas torne as alterações de fatores físico-químicos pouco críticas à vida no mar.",
+"a amônia excedente seja convertida em nitrito, por meio do processo de nitrificação, e em nitrato, formado como produto intermediário desse processo.",
+"os efluentes promovam o crescimento excessivo de plantas aquáticas devido à alta diversidade de espécies vegetais permanentes no manguezal.",
+"o impedimento da penetração da luz pelas partículas em suspensão venha a comprometer a produtividade primária do ambiente marinho, que resulta da atividade metabólica do fitoplâncton."
+],
+"resposta": "E"
+},
+{
+"id": "humanities:113",
+"dominio": "humanities",
+"enunciado": "No Brasil, a origem do funk e do hip-hop remonta aos anos 1970, quando da proliferação dos chamados “bailes black” nas periferias dos grandes centros urbanos. Embalados pela black music americana, milhares de jovens encontravam nos bailes de final de semana uma alternativa de lazer antes inexistente. Em cidades como o Rio de Janeiro ou São Paulo, formavam-se equipes de som que promoviam bailes onde foi se disseminando um estilo que buscava a valorização da cultura negra, tanto na música como nas roupas e nos penteados. No Rio de Janeiro ficou conhecido como “Black Rio”. A indústria fonográfica descobriu o filão e, lançando discos de “equipe” com as músicas de sucesso nos bailes, difundia a moda pelo restante do país. DAYRELL, J. A música entra em cena: o rap e o funk na socialização da juventude. Belo Horizonte: UFMG, 2005. A presença da cultura hip-hop no Brasil caracteriza-se como uma forma de",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"lazer gerada pela diversidade de práticas artísticas nas periferias urbanas.",
+"entretenimento inventada pela indústria fonográfica nacional.",
+"subversão de sua proposta original já nos primeiros bailes.",
+"afirmação de identidade dos jovens que a praticam.",
+"reprodução da cultura musical norte-americana."
+],
+"resposta": "D"
+},
+{
+"id": "languages:113",
+"dominio": "languages",
+"enunciado": "Quem procura a essência de um conto no espaço que fica entre a obra e seu autor comete um erro: é muito melhor procurar não no terreno que fica entre o escritor e sua obra, mas justamente no terreno que fica entre o texto e seu leitor. OZ, A. De amor e trevas. São Paulo: Cia. das Letras, 2005 (fragmento). A progressão temática de um texto pode ser estruturada por meio de diferentes recursos coesivos, entre os quais se destaca a pontuação. Nesse texto, o emprego dos dois pontos caracteriza uma operação textual realizada com a finalidade de",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"comparar elementos opostos.",
+"relacionar informações gradativas.",
+"intensificar um problema conceitual.",
+"introduzir um argumento esclarecedor.",
+"assinalar uma consequência hipotética."
+],
+"resposta": "D"
+},
+{
+"id": "stem:26",
+"dominio": "stem",
+"enunciado": "Formatura A Comissão de Formatura da escola está escolhendo o orador da turma na cerimônia de formatura. Ficou decidido que neste ano uma menina seria a oradora da turma. Exatamente sete alunas – Fernanda, Guta, Hortênsia, Iara, Júlia, Kátia e Lia – foram selecionadas para uma entrevista. Cada aluna será entrevistada exatamente uma vez, de acordo com as seguintes restrições: • Iara será a primeira ou a última entrevistada. • Ou Guta ou Júlia deve ser a quarta entrevistada. • Hortênsia é entrevistada imediatamente antes de Lia. • Guta é entrevistada em algum momento antes de Kátia. • Júlia não é entrevistada imediatamente antes ou imediatamente após Kátia. Se a sexta estudante entrevistada é Hortênsia, então qual estudante é necessariamente a primeira entrevistada?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"Lia",
+"Iara",
+"Júlia",
+"Guta",
+"Fernanda"
+],
+"resposta": "B"
+},
+{
+"id": "health_and_biological_sciences:85",
+"dominio": "health_and_biological_sciences",
+"enunciado": "Imunobiológicos: diferentes formas de produção, diferentes aplicações Embora sejam produzidos e utilizados em situações distintas, os imunobiológicos I e II atuam de forma semelhante nos humanos e equinos, pois",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"conferem imunidade passiva.",
+"transferem células de defesa.",
+"suprimem a resposta imunológica.",
+"estimulam a produção de anticorpos.",
+"desencadeiam a produção de antígenos."
+],
+"resposta": "D"
+},
+{
+"id": "humanities:35",
+"dominio": "humanities",
+"enunciado": "Se a mania de fechar, verdadeiro habitus da mentalidade medieval nascido talvez de um profundo sentimento de insegurança, estava difundida no mundo rural, estava do mesmo modo no meio urbano, pois que uma das características da cidade era de ser limitada por portas e por uma muralha. DUBY, G. et al. \"Séculos XIV-XV\". In: ARIÉS, P.; DUBY, G. História da vida privada da Europa Feudal à Renascença. São Paulo: Cia. das Letras, 1990 (adaptado). As práticas e os usos das muralhas sofreram importantes mudanças no final d Idade Média, quando elas assumiram a função de pontos de passagem ou pórticos. Este processo está diretamente relacionado com",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"o crescimento das atividades comerciais e urbanas.",
+"a migração de camponeses e artesãos.",
+"a expansão dos parques industriais e fabris.",
+"o aumento do número de castelos e feudos.",
+"a contenção das epidemias e doenças."
+],
+"resposta": "A"
+},
+{
+"id": "languages:8",
+"dominio": "languages",
+"enunciado": "Sítio Gerimum Este é o meu lugar [...] Meu Gerimum é com g Você pode ter estranhado Gerimum em abundância Aqui era plantado E com a letra g Meu lugar foi registrado. OLIVEIRA, H. D. Língua Portuguesa, n. 88, fev. 2013 (fragmento). Nos versos de um menino de 12 anos, o emprego da palavra “Gerimum” grafada com a letra “g” tem por objetivo",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"valorizar usos informais caracterizadores da norma nacional.",
+"confirmar o uso da norma-padrão em contexto da linguagem poética.",
+"enfatizar um processo recorrente na transformação da língua portuguesa.",
+"registrar a diversidade étnica e linguística presente no território brasileiro.",
+"reafirmar discursivamente a forte relação do falante com seu lugar de origem."
+],
+"resposta": "E"
+},
+{
+"id": "stem:5",
+"dominio": "stem",
+"enunciado": "Riquezas de Atlântida Um arqueólogo finalmente encontrou a submersa cidade de Atlântida. Depois de uma rápida exploração no lugar, ficou muito feliz ao encontrar várias barras de metais valiosos num dos templos. Existem quatro barras: Platina, Ouro, Prata e Bronze; e cada uma pesa 2 quilos. A seqüência está ordenada da mais valiosa (Platina) para a menos valiosa (Bronze). O arqueólogo possui apenas uma bolsa para levar as barras para seu barco de pesquisas e existem algumas condições: • A bolsa suporta no máximo 5 quilos. • As barras ou são colocadas inteiras na bolsa ou não são levadas. Se a condição da bolsa do arqueólogo carregar 5 quilos fosse mudada para uma carga máxima de 7 quilos, quantas viagens seriam necessárias para o arqueólogo levar todas as barras ao barco?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"1.",
+"2.",
+"3.",
+"4.",
+"5."
+],
+"resposta": "B"
+},
+{
+"id": "health_and_biological_sciences:2",
+"dominio": "health_and_biological_sciences",
+"enunciado": "Analise a figura Disponível em: http//www.alcoologia.net. Acesso em: 15 jul. 2009 (adaptado). Supondo que seja necessário dar um título para essa figura, a alternativa que melhor traduziria o processo representado seria:",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"Concentração média de álcool no sangue ao longo do dia.",
+"Variação da frequência da ingestão de álcool ao longo das horas.",
+"Concentração mínima de álcool no sangue a partir de diferentes dosagens.",
+"Estimativa de tempo necessário para metabolizar diferentes quantidades de álcool.",
+"Representação gráfica da distribuição de frequência de álcool em determinada hora do dia."
+],
+"resposta": "D"
+},
+{
+"id": "humanities:71",
+"dominio": "humanities",
+"enunciado": "O Golpe Militar de 1964 foi implacável no combate ao que restava das Ligas Camponesas, generalizadas na década anterior. No entanto, em relação aos sindicatos, sua atitude foi ambígua. Por meio de acordos com os Estados Unidos, foram concebidos centros sindicais e cursos de liderança com base em princípios conservadores e ministrados por membros da Igreja Católica.\nOs sindicatos rurais foram tratados da forma descrita no texto porque o governo pretendia utilizá-los para",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"controlar as tensões políticas.",
+"limitar a legislação trabalhista.",
+"divulgar o programa populista.",
+"regularizar a propriedade da terra.",
+"estimular a oferta de mão de obra."
+],
+"resposta": "A"
+},
+{
+"id": "languages:7",
+"dominio": "languages",
+"enunciado": "Para driblar a censura imposta pela ditadura militar,\ncompositores de música popular brasileira (MPB) valiam-se\ndo que Gilberto Vasconcelos chamou de “linguagem da\nfresta”, expressão inspirada na canção “Festa imodesta”,\nde Caetano Veloso.\n(...)\nNuma festa imodesta como esta\nVamos homenagear\nTodo aquele que nos empresta sua testa\nConstruindo coisas pra se cantar\nTudo aquilo que o malandro pronuncia\nE que o otário silencia\nToda festa que se dá ou não se dá\nPassa pela fresta da cesta e resta a vida.\nAcima do coração que sofre com razão\nA razão que volta do coração\nE acima da razão a rima\nE acima da rima a nota da canção\nBemol natural sustenida no ar\nViva aquele que se presta a esta ocupação\nSalve o compositor popular\n(Gilberto de Vasconcelos, Música popular: de olho na fresta. Rio de Janeiro:\nGraal, 1977.)\nÉ correto afirmar que, na canção, essa “linguagem da\nfresta” transparece",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"na contradição entre “festa” e “fresta”, que funcionacomo crítica ao malandro.",
+"na repetição de palavras com pronúncia semelhantepara louvar a MPB.",
+"na referência à “fresta” como forma de o compositor sepronunciar.",
+"na incoerência da rima entre “festa” e “imodesta” paraprestigiar o compositor."
+],
+"resposta": "C"
+},
+{
+"id": "stem:20",
+"dominio": "stem",
+"enunciado": "No Restaurante Italiano Sandro sempre que vai ao restaurante italiano põe em sua macarronada no mínimo dois dos três tipos disponíveis de molhos: molho 1, molho 2 e molho 3. Além disso, acrescenta ao prato um ou mais acompanhamentos dos seis tipos disponíveis: U, V, W, X, Y e Z. • Se U é adicionado então V deve também ser adicionado ao prato. • U ou X deve ser adicionado, mas não ambos. • Se Z é adicionado então V não pode ser adicionado ao prato. • Se o molho 1 é colocado na macarronada então os acompanhamentos V e W devem ser adicionados. • Se o molho 3 é colocado na macarronada então o acompanhamento Z deve ser adicionado. Se Sandro adiciona o molho 1 e o molho 2, então qual das opções de acompanhamento abaixo deve ter sido adicionada?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"U",
+"Z",
+"X",
+"Y",
+"V"
+],
+"resposta": "E"
+},
+{
+"id": "health_and_biological_sciences:134",
+"dominio": "health_and_biological_sciences",
+"enunciado": "As aves apresentam dois tipos de músculos em seus corpos: vermelhos e brancos. Aves migratórias como garças, gansos e patos selvagens têm os músculos vermelhos bem desenvolvidos, com ampla rede de vasos sanguíneos.\nNas viagens por grandes distâncias, tais músculos são fundamentais, pois favorecem o(a)",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"execução de manobras.",
+"metabolismo corpóreo elevado.",
+"manutenção da aerodinâmica.",
+"deslocamento a grandes velocidades.",
+"capacidade de voo em grandes altitudes."
+],
+"resposta": "B"
+},
+{
+"id": "humanities:87",
+"dominio": "humanities",
+"enunciado": "A Cavalgada de Sant’Ana é uma expressão da devoção dos vaqueiros à padroeira de Caicó (RN). Nas décadas de 1950 a 1970, esse evento, então denominado Cavalaria, era celebrado pelas pessoas que residiam na zona rural do município de Caicó. Essas pessoas usavam os animais (jegues, mulas e cavalos) como único meio de transporte, sobretudo para se dirigirem à cidade nos dias de feiras, trazendo seus produtos para comercializarem. Estando em Caicó no período da Festa de Sant’Ana, esses agricultores se organizavam em cavalgada até o pátio da Catedral de Sant’Ana para louvar a santa e receber bênção para seus animais. Por volta da década de 1970, com a chegada do automóvel à zona rural do município, essa expressão cultural foi extinta. O meio de transporte utilizando os animais passou a ser substituído por carros, sobretudo caminhonetes e caminhões, que transportavam os camponeses para a cidade em dias de feiras e festas. Desde 2002, um grupo de caicoenses retomou essa expressão cultural e, em conjunto com a associação dos vaqueiros, realiza no primeiro domingo da Festa a Cavalgada de Sant’Ana. O evento, além de contar com a participação dos cavaleiros que residem nas zonas rurais, atrai também pessoas que residem em Caicó, cidades vizinhas e amantes das vaquejadas.\nAs mudanças culturais mencionadas no texto caracterizam-se pela presença de",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"elementos tradicionais e modernos em torno de uma crença religiosa.",
+"argumentos teológicos e históricos em consequência de uma ordem papal.",
+"fundamentos estéticos e etnográficos em função de uma cerimônia clerical.",
+"práticas corporais e esportivas em decorrência de uma imposição eclesiástica.",
+"discursos filosóficos e antropológicos em resultado de uma determinação paroquial."
+],
+"resposta": "A"
+},
+{
+"id": "languages:29",
+"dominio": "languages",
+"enunciado": "Text 1: Why we should eat less meat Why we should eat less meat Eating less meat is good for the planet, good (21) animals, and good for (22) health. It's not all or (23) . While adopting a vegan or vegetarian diet is commendable, it (24) not be possible for everyone. The current demand for animal protein (meat, dairy, and eggs) is unsustainable. It enforces the (25) for intensive farming methods, (26) animals are inhumanely caged in small spaces that restrict their natural behaviours, selectively bred to grow (27) and pumped full of antibiotics unnecessarily. Of the 70+ billion animals farmed globally (28) year, an estimated 50 billion of them will spend their entire lives on these factory farms where (29) like commodities. A substantial reduction in animal protein consumption across the globe (30) free up land and other resources, making room for higher welfare, more sustainable production systems, that would benefit both the animals and humans. Factory farming fuels climate change, pollutes landscapes and waterways, and wastefully uses precious resources. Animal agriculture is estimated to account for nearly 15% of global greenhouse gas emissions, (31) more than all the cars, planes, and other forms of transport put together. Decreasing the demand for animal products will help conserve water, save vital habitats, reduce greenhouse gas emissions and help conserve our Earth. Industrial animal agriculture is the (32) largest driver of habitat loss and deforestation worldwide. Adapted from: World Animal Protection in: https://www.worldanimalprotection.ca/news/why-we-should-eat-less-meat [Accessed on March 06th, 2023]. NAS QUESTÕES DE 21 A 32, ESCOLHA A OPÇÃO QUE COMPLETA O TEXTO 1 CORRETAMENTE. lives on these factory farms where (29) like commodities.",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"they are treated",
+"they are treaten",
+"they have treated",
+"they treat",
+"they would be treated"
+],
+"resposta": "A"
+},
+{
+"id": "stem:18",
+"dominio": "stem",
+"enunciado": "Barracas Para a Festa Junina da escola foram montadas seis barracas, numeradas de 1 a 6, no caminho que vai da quadra de esportes (início do caminho) para a biblioteca (final do caminho). Seis vendedores – Ivo, Júlia, Kátia, Lia, Mário e Neto – ocuparam cada um exatamente uma barraca, obedecendo às seguintes restrições: • Júlia ocupa uma barraca que é mais próxima do início do caminho do que a barraca de Lia. • Kátia ocupa uma barraca que é mais próxima do final do caminho do que ambas as barracas de Mário e Neto. • Ambos Ivo e Mário ocupam barracas mais próximas do final do caminho do que a barraca de Lia. Se Mário ocupa a barraca 5, então qual das alternativas é necessariamente verdadeira?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"Lia ocupa a barraca 2.",
+"Ivo ocupa a barraca 4.",
+"Kátia ocupa a barraca 6.",
+"Júlia ocupa a barraca 1.",
+"Neto ocupa a barraca 3."
+],
+"resposta": "C"
+},
+{
+"id": "health_and_biological_sciences:68",
+"dominio": "health_and_biological_sciences",
+"enunciado": "Muitas espécies de plantas lenhosas são encontradas no cerrado brasileiro. Para a sobrevivência nas condições de longos períodos de seca e queimadas periódicas, próprias desse ecossistema, essas plantas desenvolveram estruturas muito peculiares. As estruturas adaptativas mais apropriadas para a sobrevivência desse grupo de plantas nas condições ambientais do referido ecossistema são:",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"Cascas finas e sem sulcos ou fendas.",
+"Caules estreitos e retilíneos.",
+"Folhas estreitas e membranosas.",
+"Gemas apicais com densa pilosidade.",
+"Raízes superficiais, em geral, aéreas."
+],
+"resposta": "D"
+},
+{
+"id": "humanities:41",
+"dominio": "humanities",
+"enunciado": "Os produtos e seu consumo constituem a meta declarada do empreendimento tecnológico. Essa meta foi proposta pela primeira vez no início da Modernidade, como expectativa de que o homem poderia dominar a natureza. No entanto, essa expectativa, convertida em programa anunciado por pensadores como Descartes e Bacon e impulsionado pelo Iluminismo, não surgiu “de um prazer de poder”, “de um mero imperialismo humano”, mas da aspiração de libertar o homem e de enriquecer sua vida, física e culturalmente. CUPANI, A. A tecnologia como problema filosófico: três enfoques. Scientiae Studia, São Paulo, v. 2, n. 4, 2004 (adaptado). Autores da filosofia moderna, notadamente Descartes e Bacon, e o projeto iluminista concebem a ciência como uma forma de saber que almeja libertar o homem das intempéries da natureza. Nesse contexto, a investigação científica consiste em",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"expor a essência da verdade e resolver definitivamente as disputas teóricas ainda existentes.",
+"oferecer a última palavra acerca das coisas que existem e ocupar o lugar que outrora foi da filosofia.",
+"ser a expressão da razão e servir de modelo para outras áreas do saber que almejam o progresso.",
+"explicitar as leis gerais que permitem interpretar a natureza e eliminar os discursos éticos e religiosos.",
+"explicar a dinâmica presente entre os fenômenos naturais e impor limites aos debates acadêmicos."
+],
+"resposta": "C"
+},
+{
+"id": "languages:112",
+"dominio": "languages",
+"enunciado": "TEXTO I É evidente que a vitamina D é importante — mas como obtê-la? Realmente, a vitamina D pode ser produzida naturalmente pela exposição à luz do sol, mas ela também existe em alguns alimentos comuns. Entretanto, como fonte dessa vitamina, certos alimentos são melhores do que outros. Alguns possuem uma quantidade significativa de vitamina D, naturalmente, e são alimentos que talvez você não queira exagerar: manteiga, nata, gema de ovo e fígado. Disponível em: http://saude.hsw.uol.com.br. Acesso em: 31 jul. 2012. TEXTO II Todos nós sabemos que a vitamina D (colecalciferol) é crucial para sua saúde. Mas a vitamina D é realmente uma vitamina? Está presente nas comidas que os humanos normalmente consomem? Embora exista em algum percentual na gordura do peixe, a vitamina D não está em nossas dietas, a não ser que os humanos artificialmente incrementem um produto alimentar, como o leite enriquecido com vitamina D. A natureza planejou que você a produzisse em sua pele, e não a colocasse direto em sua boca. Então, seria a vitamina D realmente uma vitamina? Disponível em: www.umaoutravisao.com.br. Acesso em: 31 jul. 2012. Frequentemente circulam na mídia textos de divulgação científica que apresentam informações divergentes sobre um mesmo tema. Comparando os dois textos, constata-se que o Texto II contrapõe-se ao I quando",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"comprova cientificamente que a vitamina D não é uma vitamina.",
+"demonstra a verdadeira importância da vitamina D para a saúde.",
+"enfatiza que a vitamina D é mais comumente produzida pelo corpo que absorvida por meio de alimentos.",
+"afirma que a vitamina D existe na gordura dos peixes e no leite, não em seus derivados.",
+"levanta a possibilidade de o corpo humano produzir artificialmente a vitamina D."
+],
+"resposta": "C"
+},
+{
+"id": "stem:16",
+"dominio": "stem",
+"enunciado": "Meu Primeiro Computador Daniel ganhou seu primeiro computador pessoal e está aprendendo a trabalhar com ele. Seu computador possui uma tela de exibição de resultados e um peculiar teclado composto de cinco teclas nomeadas \"A\", \"B\", \"C\", \"D\"e \"E\". Existe ainda uma memória interna, chamada \"NUM\", que armazena apenas um número inteiro e possui inicialmente o valor zero. Pode ser pressionada qualquer combinação de teclas e o efeito resultante dependerá da seqüência digitada. As ações associadas a cada uma são: • Se \"A\"é pressionada: “NUM\"é inicializado com o valor dez. • Se \"B\"é pressionada: É armazenado em “NUM” o valor que ele possuía subtraído um. • Se \"C\"é pressionada: É armazenado em “NUM” o valor que ele possuía subtraído dois. • Se “D”é pressionada: É armazenado em “NUM” o valor que ele possuía somado um. • Se \"E\"é pressionada: É impresso na tela o valor contido em \"NUM\". Qual ordem de digitação exibe na tela a seqüência \"10 9 8 7\"?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"“E-B-E-B-E-B-E\".",
+"\"A-E-B-E-B-E-B-E\".",
+"\"A-E-B-E-B-E\".",
+"\"A-E-C-E-C-E\".",
+"\"A-E-D-E-D-E\"."
+],
+"resposta": "B"
+},
+{
+"id": "health_and_biological_sciences:25",
+"dominio": "health_and_biological_sciences",
+"enunciado": "Os planos de controle e erradicação de doenças em animais envolvem ações de profilaxia e dependem em grande medida da correta utilização e interpretação de testes diagnósticos. O quadro mostra um exemplo hipotético de aplicação de um teste diagnóstico. Manual Técnico do Programa Nacional de Controle e Erradicação da Brucelose e da Tuberculose Animal – PNCEBT. Brasília: Ministério da Agricultura, Pecuária e Abastecimento, 2006 (adaptado). Considerando que, no teste diagnóstico, a sensibilidade é a probabilidade de um animal infectado ser classificado como positivo e a especificidade é a probabilidade de um animal não infectado ter resultado negativo, a interpretação do quadro permite inferir que",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"a especificidade aponta um número de 5 falsos positivos.",
+"o teste, a cada 100 indivíduos infectados, classificaria 90 como positivos.",
+"o teste classificaria 96 como positivos em cada 100 indivíduos não infectados.",
+"ações de profilaxia são medidas adotadas para o tratamento de falsos positivos.",
+"testes de alta sensibilidade resultam em maior número de animais falsos negativos comparado a um teste de baixa sensibilidade."
+],
+"resposta": "B"
+},
+{
+"id": "humanities:83",
+"dominio": "humanities",
+"enunciado": "Os séculos 15 e 16, quando se vão desmoronando as estruturas socioeconômicas da Idade Média perante os novos imperativos da Época moderna, constituem um momento-chave na história florestal de toda a Europa Ocidental. Abre-se, genericamente, um longo período de “crise florestal”, que se manifesta com acuidade nos países onde mais se desenvolvem as atividades industriais e comerciais. As necessidades em produtos lenhosos aumentam drasticamente com o crescimento do consumo nos mercados urbanos e nas regiões onde progridem a metalurgia e a construção naval, além da sua utilização na vida quotidiana de toda a população.\nQual acontecimento do período contribuiu diretamente para o agravamento da situação descrita?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"O processo de expansão marítima.",
+"A eclosão do renascimento cultural.",
+"A concretização da centralização política.",
+"O movimento de reformas religiosas.",
+"A manutenção do sistema feudal."
+],
+"resposta": "A"
+},
+{
+"id": "languages:69",
+"dominio": "languages",
+"enunciado": "Como se assistisse à demonstração de um espetáculo mágico, ia revendo aquele ambiente tão característico de família, com seus pesados móveis de vinhático ou de jacarandá, de qualidade antiga, e que denunciavam um passado ilustre, gerações de Meneses talvez mais singelos e mais calmos; agora, uma espécie de desordem, de relaxamento, abastardava aquelas qualidades primaciais. Mesmo assim era fácil perceber o que haviam sido, esses nobres da roça, com seus cristais que brilhavam mansamente na sombra, suas pratas semi- empoeiradas que atestavam o esplendor esvanecido, seus marfins e suas opalinas – ah, respirava-se ali conforto, não havia dúvida, mas era apenas uma sobrevivência de coisas idas. Dir-se-ia, ante esse mundo que se ia desagregando, que um mal oculto o roía, como um tumor latente em suas entranhas. CARDOSO, L. Crônica da casa assassinada. Rio de Janeiro: Civilização Brasileira, 2002 (adaptado). O mundo narrado nesse trecho do romance de Lúcio Cardoso, acerca da vida dos Meneses, família da aristocracia rural de Minas Gerais, apresenta não apenas a história da decadência dessa família, mas é, ainda, a representação literária de uma fase de desagregação política, social e econômica do país. O recurso expressivo que formula literariamente essa desagregação histórica é o de descrever a casa dos Meneses como",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"ambiente de pobreza e privação, que carece de conforto mínimo para a sobrevivência da família.",
+"mundo mágico, capaz de recuperar o encantamento perdido durante o período de decadência da aristocracia rural mineira.",
+"cena familiar, na qual o calor humano dos habitantes da casa ocupa o primeiro plano, compensando a frieza e austeridade dos objetos antigos.",
+"símbolo de um passado ilustre que, apesar de superado, ainda resiste à sua total dissolução graças ao cuidado e asseio que a família dispensa à conservação da casa.",
+"espaço arruinado, onde os objetos perderam seu esplendor e sobre os quais a vida repousa como lembrança de um passado que está em vias de desaparecer completamente."
+],
+"resposta": "E"
+},
+{
+"id": "stem:67",
+"dominio": "stem",
+"enunciado": "Em meados de 2003, mais de 20 pessoas morreram no Brasil após terem ingerido uma suspensão de sulfato de bário utilizada como contraste em exames radiológicos. O sulfato de bário é um sólido pouquíssimo solúvel em água, que não se dissolve mesmo na presença de ácidos. As mortes ocorreram porque um laboratório farmacêutico forneceu o produto contaminado com carbonato de bário, que é solúvel em meio ácido. Um simples teste para verificar a existência de íons bário solúveis poderia ter evitado a tragédia. Esse teste consiste em tratar a amostra com solução aquosa de <math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mtext>HCl</mtext></math> e, após filtrar para separar os compostos insolúveis de bário, adiciona-se solução aquosa de <math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mtext>H</mtext><mn>2</mn></msub><msub><mtext>SO</mtext><mn>4</mn></msub></math> sobre o filtrado e observa-se por 30 min. TUBINO, M.; SIMONI, J. A. Refletindo sobre o caso Celobar. Química Nova, n. 2, 2007 (adaptado). A presença de íons bário solúveis na amostra é indicada pela",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"liberação de calor.",
+"alteração da cor para rosa.",
+"precipitação de um sólido branco.",
+"formação de gás hidrogênio.",
+"volatilização de gás cloro."
+],
+"resposta": "C"
+},
+{
+"id": "health_and_biological_sciences:105",
+"dominio": "health_and_biological_sciences",
+"enunciado": "Disponível em: http://algarveturistico.com/wp-content/uploads/2009/04/ptm-ginastica-ritmica-01.jpg. Acesso em: 01 set. 2010. O desenvolvimento das capacidades físicas (qualidades motoras passíveis de treinamento) ajuda na tomada de decisões em relação à melhor execução do movimento. A capacidade física predominante no movimento representado na imagem é",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"a velocidade, que permite ao músculo executar uma sucessão rápida de gestos em movimentação de intensidade máxima.",
+"a resistência, que admite a realização de movimentos durante considerável período de tempo, sem perda da qualidade da execução.",
+"a flexibilidade, que permite a amplitude máxima de um movimento, em uma ou mais articulações, sem causar lesões.",
+"a agilidade, que possibilita a execução de movimentos rápidos e ligeiros com mudanças de direção.",
+"o equilíbrio, que permite a realização dos mais variados movimentos, com o objetivo de sustentar o corpo sobre uma base."
+],
+"resposta": "C"
+},
+{
+"id": "humanities:15",
+"dominio": "humanities",
+"enunciado": "A África Ocidental é conhecida pela dinâmica das suas mulheres comerciantes, caracterizadas pela perícia, autonomia e mobilidade. A sua presença, que fora atestada por viajantes e por missionários portugueses que visitaram a costa a partir do século XV, consta também na ampla documentação sobre a região. A literatura é rica em referências às grandes mulheres como as vendedoras ambulantes, cujo jeito para o negócio, bem como a autonomia e mobilidade, é tão típico da região. HAVIK, P. Dinâmicas e assimetrias afro-atlânticas: a agência feminina e representações em mudança na Guiné (séculos XIX e XX). In: PANTOJA, S. (Org.). Identidades, memórias e histórias em terras africanas. Brasília: LGE; Luanda: Nzila, 2006. A abordagem realizada pelo autor sobre a vida social da África Ocidental pode ser relacionada a uma característica marcante das cidades no Brasil escravista nos séculos XVIII e XIX, que se observa pela",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"restrição à realização do comércio ambulante por africanos escravizados e seus descendentes.",
+"convivência entre homens e mulheres livres, de diversas origens, no pequeno comércio.",
+"presença de mulheres negras no comércio de rua de diversos produtos e alimentos.",
+"dissolução dos hábitos culturais trazidos do continente de origem dos escravizados.",
+"entrada de imigrantes portugueses nas atividades ligadas ao pequeno comércio urbano."
+],
+"resposta": "C"
+},
+{
+"id": "languages:20",
+"dominio": "languages",
+"enunciado": "Uma noite em 67, de Renato Terra e Ricardo Calil. Editora Planeta, 296 páginas. Mas foi uma noite, aquela noite de sábado 21 de outubro de 1967, que parou o nosso país. Parou pra ver a finalíssima do III Festival da Record, quando um jovem de 24 anos chamado Eduardo Lobo, o Edu Lobo, saiu carregado do Teatro Paramount em São Paulo depois de ganhar o prêmio máximo do festival com Ponteio, que cantou acompanhado da charmosa e iniciante Marília Medalha. Foi naquela noite que Chico Buarque entoou sua Roda viva ao lado do MPB-4 de Magro, o arranjador. Que Caetano Veloso brilhou cantando Alegria, alegria com a plateia ao som das guitarras dos Beat Boys, que Gilberto Gil apresentou a tropicalista Domingo no parque com os Mutantes. Aquela noite que acabou virando filme, em 2010, nas mãos de Renato Terra e Ricardo Calil, agora virou livro. O livro que está sendo lançado agora é a história daquela noite, ampliada e em estado que no jargão jornalístico chamamos de matéria bruta. Quem viu o filme vai se deliciar com as histórias — e algumas fofocas — que cada um tem para contar, agora sem os cortes necessários que um filme exige. E quem não viu o filme tem diante de si um livro de histórias, pensando bem, de História. VILLAS, A. Disponível em: www.cartacapital.com.br. Acesso em: 18 jun. 2014 (adaptado). Considerando os elementos constitutivos dos gêneros textuais circulantes na sociedade, nesse fragmento de resenha predominam",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"caracterizações de personalidades do contexto musical brasileiro dos anos 1960.",
+"questões polêmicas direcionadas à produção musical brasileira nos anos 1960.",
+"relatos de experiências de artistas sobre os festivais de música de 1967.",
+"explicações sobre o quadro cultural do Brasil durante a década de 1960.",
+"opiniões a respeito de uma obra sobre a cena musical de 1967."
+],
+"resposta": "E"
+},
+{
+"id": "stem:7",
+"dominio": "stem",
+"enunciado": "Meu primeiro computador Daniel ganhou seu primeiro computador pessoal e está aprendendo a trabalhar com ele. Seu computador possui uma tela de exibição de resultados e um peculiar teclado composto de cinco teclas nomeadas A, B, C, D e E. Existe ainda uma memória interna, chamada NUM, que armazena apenas um número inteiro e possui inicialmente o valor zero. Qualquer combinação de teclas pode ser pressionada e o efeito resultante dependerá da sequência digitada. As ações associadas a cada uma são: • Se A é pressionada: NUM é inicializado com o valor dez, independente do que tinha antes. • Se B é pressionada: é armazenado em NUM o valor que ele possuía subtraído um. • Se C é pressionada: é armazenado em NUM o valor que ele possuía subtraído dois. • Se D é pressionada: é armazenado em NUM o valor que ele possuía somado um. • Se E é pressionada: é impresso na tela o valor contido em NUM. Qual ordem de digitação entre as seguintes exibe na tela a sequência 10 9 8 7?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"EBEBEBE",
+"AEDEDE",
+"AEBEBEBE",
+"AECECE",
+"AEBEBE"
+],
+"resposta": "C"
+},
+{
+"id": "health_and_biological_sciences:125",
+"dominio": "health_and_biological_sciences",
+"enunciado": "Barbatimão é o nome popular de uma árvore cuja casca é utilizada para fins medicinais. Essa casca é constituída principalmente de dois tecidos vegetais: periderme e floema. A extração da casca tem levado à morte muitos indivíduos dessa espécie, quando o corte retira um anel completo ao longo da circunferência do tronco. Aqueles que têm parte da casca retirada sem completar essa circunferência podem sobreviver.\nA morte desses indivíduos, decorrente da retirada do anel completo da casca, é provocada pela interrupção da",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"fotossíntese.",
+"transpiração.",
+"troca de gases.",
+"formação de brotos.",
+"nutrição das raízes."
+],
+"resposta": "E"
+},
+{
+"id": "humanities:32",
+"dominio": "humanities",
+"enunciado": "Capacidade total de dessalinização das águas salobras ou salinas (por país em metros cúbicos por dia) EUA. Relatório da Academia Nacional de Ciências, 2008 (adaptado). Conforme a análise do documento cartográfico, a área de concentração das usinas de dessalinização é explicada pelo(a)",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"pioneirismo tecnológico.",
+"condição hidropedológica.",
+"escassez de água potável.",
+"efeito das mudanças climáticas.",
+"busca da sustentabilidade ambiental."
+],
+"resposta": "C"
+},
+{
+"id": "languages:119",
+"dominio": "languages",
+"enunciado": "Abatidos pelo fadinho harmonioso e nostálgico dos desterrados, iam todos, até mesmo os brasileiros, se concentrando e caindo em tristeza; mas, de repente, o cavaquinho de Porfiro, acompanhado pelo violão do Firmo, romperam vibrantemente com um chorado baiano. Nada mais que os primeiros acordes da música crioula para que o sangue de toda aquela gente despertasse logo, como se alguém lhe fustigasse o corpo com urtigas bravas. E seguiram-se outras notas, e outras, cada vez mais ardentes e mais delirantes. Já não eram dois instrumentos que soavam, eram lúbricos gemidos e suspiros soltos em torrente, a correrem serpenteando, como cobras numa floresta incendiada; eram ais convulsos, chorados em frenesi de amor: música feita de beijos e soluços gostosos; carícia de fera, carícia de doer, fazendo estalar de gozo. AZEVEDO, A. O Cortiço. São Paulo: Ática, 1983 (fragmento). No romance O Cortiço (1890) de Aluízio Azevedo, as personagens são observadas como elementos coletivos caracterizados por condicionantes de origem social, sexo e etnia. Na passagem transcrita, o confronto entre brasileiros e portugueses revela prevalência do elemento brasileiro, pois",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"destaca o nome de personagens brasileiras e omite o de personagens portuguesas.",
+"exalta a força do cenário natural brasileiro e os surtos de ave estranha, considera o do português inexpressivo.",
+"mostra o poder envolvente da música brasileira, que cala o fado português.",
+"destaca o sentimentalismo brasileiro, contrário à tristeza dos portugueses.",
+"atribui aos brasileiros uma habilidade maior com instrumentos musicais."
+],
+"resposta": "C"
+},
+{
+"id": "stem:5",
+"dominio": "stem",
+"enunciado": "Pizza Uma nova pizzaria foi inaugurada, em que o cliente pode montar sua própria pizza, escolhendo entre oito recheios: atum, bacon, cebola, frango, lombo, ovo, queijo e tomate. Um cliente enviou um pedido pela internet mas ao invés de escolher explicitamente os recheios disse que a pizza deveria obedecer às seguintes condições: • A pizza só pode conter bacon se contiver lombo. • A pizza deve conter atum ou queijo, mas não ambos. • A pizza deve ter frango. • Se atum for colocado na pizza, tomate também deve ser colocado. • A pizza deve conter ovo ou cebola, ou ambos. Qual das alternativas abaixo mostra uma pizza que obedece às condições do cliente?",
+"rotulos": [
+"A",
+"B",
+"C",
+"D",
+"E"
+],
+"textos": [
+"atum, cebola, lombo, tomate, frango",
+"ovo, bacon, cebola, queijo, frango",
+"lombo, bacon, ovo, atum, frango",
+"atum, ovo, cebola, lombo",
+"frango, atum, lombo, bacon, ovo, queijo"
+],
+"resposta": "A"
+}
+]
+}

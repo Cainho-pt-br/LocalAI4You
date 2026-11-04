@@ -1,0 +1,17 @@
+# Estado de execução de cada máquina: resultados, sondas, vereditos, caches, logs.
+# Cada máquina mede o seu hardware; o que vale guardar vira nota em cerebro/ ou relatório em relatorios/.
+estado/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Sujeira do Windows e do OneDrive
+desktop.ini
+Thumbs.db
+
+# O projeto antigo (protocolo v1) tem um state.json de 700 KB: binário-ish e não é conhecimento do projeto
+legado/state.json
+legado/state.tmp

@@ -1,0 +1,1734 @@
+{
+"suite": "mmlu_pro",
+"versao": "2026-10-a",
+"gerado_em": "2026-10-01T16:33:58+00:00",
+"n": 98,
+"sha256": "b25c6fe04636faefc90139b9f67a33f3d9b97e663229c120a8dcb6ab36f3bb89",
+"itens": [
+{
+"id": "3160",
+"categoria": "biology",
+"pergunta": "In chick embryos, the extraembryonic membrane that provides nourishment to the fetus is the",
+"opcoes": [
+"amnion",
+"blastoderm",
+"embryonic disc",
+"chorion",
+"yolk sac",
+"eggshell",
+"egg yolk",
+"placenta",
+"zona pellucida",
+"allantois"
+],
+"resposta": "G"
+},
+{
+"id": "110",
+"categoria": "business",
+"pergunta": "Determine the number of men needed to build a boat in 77 days if it takes 36 men 132 days to build one.",
+"opcoes": [
+"84 men",
+"36 men",
+"99 men",
+"132 men",
+"45 men",
+"70 men",
+"62 men",
+"50 men",
+"77 men",
+"120 men"
+],
+"resposta": "G"
+},
+{
+"id": "4166",
+"categoria": "chemistry",
+"pergunta": "During the study of the reaction A → 2B, a chemist constructs several graphs. The graph of [A] versus time and the graph of ln [A] versus time both give a curved line; however, the graph of 1/[A] versus time and gives a straight line. This implies the rate law is",
+"opcoes": [
+"Rate = k[A]^4",
+"Rate = k[A]^-1",
+"Rate = k[A]^2",
+"Rate = k[A]",
+"Rate = k[A]^-2",
+"Rate = k[A]^0",
+"Rate = k[A]^1/2",
+"Rate = k[A]^-3",
+"Rate = 2k[A]",
+"Rate = k[A]^3"
+],
+"resposta": "C"
+},
+{
+"id": "10372",
+"categoria": "computer science",
+"pergunta": "How many trees are there on 5 unlabeled vertices?",
+"opcoes": [
+"3",
+"6",
+"8",
+"10",
+"11",
+"12",
+"15",
+"9",
+"7",
+"5"
+],
+"resposta": "A"
+},
+{
+"id": "7212",
+"categoria": "economics",
+"pergunta": "How does the price mechanism act to conservethose productsand resources which are most scarce?",
+"opcoes": [
+"The price mechanism guarantees an equal distribution of scarce resources among consumers.",
+"The price mechanism ensures that scarce resources are only used by the government.",
+"The price mechanism has no effect on the conservation of scarce resources.",
+"The price mechanism leads to a rapid depletion of scarce resources due to increased demand.",
+"The price mechanism caps the price of scarce resources to make them affordable.",
+"The price mechanism reduces the production of scarce resources.",
+"The price mechanism discourages consumers from buying scarce resources.",
+"The price mechanism allocates scarce resources to the highest bidders, regardless of the conservation status.",
+"The price mechanism induces consumers to search for substitutes, an act which will tend to conserve the scarce resource.",
+"The price mechanism encourages overuse of scarce resources."
+],
+"resposta": "I"
+},
+{
+"id": "11393",
+"categoria": "engineering",
+"pergunta": "Assuming constant field excitation, calculate the no-load voltage of a separately excited generator whose armature voltage is 150 V at a speed of 1800 rpm, when (a) The speed is increased to 2000 rpm. (b) The speed is reduced to 1600 rpm.",
+"opcoes": [
+"175.5 V and 125.5 V",
+"200 V and 160 V",
+"165 V and 135 V",
+"210 V and 120 V",
+"166.7 V and 133.3 V",
+"158.3 V and 141.7 V",
+"190 V and 110 V",
+"150 V and 180 V",
+"145 V and 155 V",
+"183.3 V and 116.7 V"
+],
+"resposta": "E"
+},
+{
+"id": "6202",
+"categoria": "health",
+"pergunta": "The World Health Organization recommends zinc supplements for which groups of people?\n",
+"opcoes": [
+"Men with high physical activity levels",
+"All women over the age of 50",
+"All children in high income areas with low prevalence of stunting",
+"Elderly people with low incomes",
+"Adolescents in high-stress environments",
+"Children with severe malnutrition or diarrhoea",
+"All children in low income areas with high prevalence of stunting",
+"Patients recovering from major surgery",
+"Pregnant and lactating women",
+"All adults in areas with high prevalence of zinc deficiency"
+],
+"resposta": "F"
+},
+{
+"id": "4939",
+"categoria": "history",
+"pergunta": "This question refers to the following information.\n\"Whereas the laws and treaties of the United States, without interfering with the free expression of opinion and sympathy, or with the commercial manufacture or sale of arms or munitions of war, nevertheless impose upon all persons who may be within their territory and jurisdiction the duty of an impartial neutrality during the existence of the contest; And Whereas it is the duty of a neutral government not to permit or suffer the making of its waters subservient to the purposes of war;\n\"Now, Therefore, I, Woodrow Wilson, President of the United States of America, in order to preserve the neutrality of the United States…do hereby declare and proclaim….\n\"That the statutes and the treaties of the United States and the law of nations alike require that no person, within the territory and jurisdiction of the United States, shall take part, directly or indirectly, in the said wars, but shall remain at peace with all of the said belligerents, and shall maintain a strict and impartial neutrality….\"\nWoodrow Wilson, 1914\nThe statement above is most in harmony with the sentiments in which of the following speeches?",
+"opcoes": [
+"Washington's Farewell Address",
+"Eisenhower's \"Military-Industrial Complex\" Speech",
+"Franklin D. Roosevelt's \"Day of Infamy\"",
+"Martin Luther King's \"I Have a Dream\"",
+"Barack Obama's \"A More Perfect Union\"",
+"Richard Nixon's \"Checkers Speech\"",
+"Ronald Reagan's \"Berlin Wall\" Speech",
+"John F. Kennedy's Inaugural Address",
+"Lincoln's Gettysburg Address",
+"George H. W. Bush's \"A Thousand Points of Light\""
+],
+"resposta": "A"
+},
+{
+"id": "1121",
+"categoria": "law",
+"pergunta": "The distinction between general and particular jurisprudence was recognized by",
+"opcoes": [
+"Kelsen",
+"Hart",
+"Roscoe Pound",
+"Dworkin",
+"Austin",
+"Holland",
+"Blackstone",
+"Holmes",
+"Salmond"
+],
+"resposta": "E"
+},
+{
+"id": "8225",
+"categoria": "math",
+"pergunta": "The set of integers Z with the binary operation \"*\" defined as a*b =a +b+ 1 for a, b in Z, is a group. The identity element of this group is",
+"opcoes": [
+"-1",
+"12",
+"1",
+"0",
+"-5",
+"2",
+"-10",
+"5",
+"-2",
+"10"
+],
+"resposta": "A"
+},
+{
+"id": "5182",
+"categoria": "other",
+"pergunta": "What is the price of a five-year bond (face value $100) that pays no coupons, if its yield is 4%?",
+"opcoes": [
+"$95",
+"$80",
+"$90",
+"$70",
+"$82",
+"$100",
+"$78",
+"$105",
+"$75",
+"$85"
+],
+"resposta": "E"
+},
+{
+"id": "11261",
+"categoria": "philosophy",
+"pergunta": "Construct a complete truth table for the following argument. Then, using the truth table, determine whether the argument is valid or invalid. If the argument is invalid, choose an option which presents a counterexample. (There may be other counterexamples as well.)\n(O ≡ P) ∨ P / P ∨ ~O",
+"opcoes": [
+"Invalid. Counterexample when O is true and P is true",
+"Invalid. Counterexample when O and P are false",
+"Invalid. Counterexample when P is false and O is false",
+"Invalid. Counterexample when both O and P are simultaneously true and false",
+"Invalid. Counterexample when O and P are true",
+"Invalid. Counterexample when O is true and P is false",
+"Invalid. Counterexample when P is false and O is true",
+"Invalid. Counterexample when P is true and O is false",
+"Valid"
+],
+"resposta": "I"
+},
+{
+"id": "9229",
+"categoria": "physics",
+"pergunta": "A gun fires a projectile of mass $10 \\mathrm{~kg}$ of the type to which the curves of Figure 2-3 apply. The muzzle velocity is $140 \\mathrm{~m} / \\mathrm{s}$. Through what angle must the barrel be elevated to hit a target on the same horizontal plane as the gun and $1000 \\mathrm{~m}$ away? Compare the results with those for the case of no retardation.",
+"opcoes": [
+"17.4$^{\\circ}$ ",
+"16.2$^{\\circ}$",
+"19.1$^{\\circ}$",
+"13.8$^{\\circ}$",
+"15.2$^{\\circ}$",
+"18.6$^{\\circ}$",
+"25.3$^{\\circ}$",
+"20.7$^{\\circ}$",
+"14.9$^{\\circ}$",
+"22.5$^{\\circ}$"
+],
+"resposta": "A"
+},
+{
+"id": "2140",
+"categoria": "psychology",
+"pergunta": "At the outset of group counseling, the therapist should explain char the obligation of the group member to respect confidentiality is",
+"opcoes": [
+"on the “honor system” only",
+"protected by state/provincial laws",
+"less of an issue than it is in individual therapy",
+"mandated by federal law",
+"the legal responsibility of the therapist",
+"only applicable to the therapist",
+"only necessary if sensitive information is shared",
+"dependent on the group's consensus",
+"not applicable in group settings"
+],
+"resposta": "A"
+},
+{
+"id": "3161",
+"categoria": "biology",
+"pergunta": "A chemical agent is found to denature all enzymes in the synaptic cleft. What effect will this agent have on acetylcholine?",
+"opcoes": [
+"Acetylcholine will not be degraded in the synaptic cleft.",
+"Acetylcholine will not bind to receptor proteins on the postsynaptic membrane.",
+"Acetylcholine will not be produced in the presynaptic membrane.",
+"Acetylcholine will be excessively produced in the synaptic cleft.",
+"Acetylcholine will not be transported to the synaptic cleft.",
+"Acetylcholine will bind excessively to receptor proteins on the postsynaptic membrane.",
+"Acetylcholine will be degraded at a faster rate in the synaptic cleft.",
+"Acetylcholine will not be released from the presynaptic membrane.",
+"Acetylcholine will be released in large quantities from the presynaptic membrane.",
+"Acetylcholine will not diffuse across the cleft to the postsynaptic membrane."
+],
+"resposta": "A"
+},
+{
+"id": "111",
+"categoria": "business",
+"pergunta": "Given the above statement, find what would happen to the free amount if the reserve for contingencies to were to increase by $10,000.Retained Earnings: Reserved for contingencies $25,000 Reserved for plant expansion $20,000 Total reserves $45,000 Free retained earnings $50,000 Total retained earnings $95,000",
+"opcoes": [
+"$40,000",
+"$35,000",
+"$70,000",
+"$45,000",
+"$50,000",
+"$55,000",
+"$20,000",
+"$30,000",
+"$60,000",
+"$65,000"
+],
+"resposta": "A"
+},
+{
+"id": "4167",
+"categoria": "chemistry",
+"pergunta": "Calculate the Larmor frequency for a proton in a magnetic field of 1 T.",
+"opcoes": [
+"23.56 GHz",
+"50 MHz",
+"100 MHz",
+"42.58 MHz",
+"1 GHz",
+"13.93 MHz",
+"10 MHz",
+"74.34 kHz",
+"85.16 MHz",
+"5 GHz"
+],
+"resposta": "D"
+},
+{
+"id": "10373",
+"categoria": "computer science",
+"pergunta": "Let a undirected graph G with edges E = {<0,2>, <2,4>, <3,4>, <1,4>}, which <A,B> represent Node A is connected to Node B. What is the minimum vertex cover of G if 0 is one of vertex cover? Represent the vertex cover in a list of ascending order.",
+"opcoes": [
+"[0, 1, 2]",
+"[0, 2, 4]",
+"[0, 1, 4]",
+"[0, 4]",
+"[0, 3, 4]",
+"[0, 1, 3]",
+"[0, 1]",
+"[0, 2, 3]",
+"[0, 2]",
+"[0, 3]"
+],
+"resposta": "D"
+},
+{
+"id": "7213",
+"categoria": "economics",
+"pergunta": "In the past fewyears ,economists have started to use 'humancapital analysis' . Describe thisanalysis , concentratingon the micro economic aspect of it .",
+"opcoes": [
+"Human capital analysis is concerned with the assessment of an individual’s social skills and their effects on the labor market",
+"Human capital analysis is the evaluation of the economic impact of population demographics on a country's economy",
+"Human capital analysis deals with the study of the cultural impacts on an organization's productivity",
+"Human capital analysis focuses on the profit of a company",
+"Human capital analysis is the study of the psychological aspects of employees",
+"Human capital analysis examines the macroeconomic implications of workforce education on national productivity",
+"Human capital analysis is the analysis of the physical labor and manual skills of the workforce",
+"Human capital analysis is about analyzing the human resource management of a company",
+"Human capital analysis focuses on the geographical distribution of skills and how it affects regional economic development",
+"Human capital analysis focuses on investments made in people (education, good health care, etc.) rather than in machines or land. The micro-economic aspect examines the returns to the individual from human capital investments."
+],
+"resposta": "J"
+},
+{
+"id": "11394",
+"categoria": "engineering",
+"pergunta": "Find the current that will flow in a series circuit contain-ing a 5-k\\Omega resistor, a 470-\\rhoF capacitor, a 150-mH inductor, and a 0.001\\muF capacitor if the exciting voltage is 65V at 25-kHz.",
+"opcoes": [
+"9.5\\angle- 25.0° mA",
+"12.5\\angle- 36.3°mA",
+"8.5\\angle- 36.3°mA",
+"10.5\\angle- 36.3°mA",
+"8.0\\angle- 33.3° mA",
+"10.5\\angle- 30.3°mA",
+"11.5\\angle- 40.0° mA",
+"13.5\\angle- 30.0° mA",
+"7.5\\angle- 45.0° mA",
+"12.0\\angle- 42.0° mA"
+],
+"resposta": "D"
+},
+{
+"id": "6203",
+"categoria": "health",
+"pergunta": "Which of the following is closest to the amount of retinol formed from ß-carotene?\n",
+"opcoes": [
+"0.2 mol retinol /mol ß-carotene",
+"0.25 mol retinol /mol ß-carotene",
+"0.05 mol retinol /mol ß-carotene",
+"0.15 mol retinol /mol ß-carotene",
+"0.5 mol retinol /mol ß-carotene",
+"3 mol retinol /mol ß-carotene",
+"1 mol retinol /mol ß-carotene",
+"0.75 mol retinol /mol ß-carotene",
+"2 mol retinol /mol ß-carotene",
+"0.1 mol retinol /mol ß-carotene"
+],
+"resposta": "D"
+},
+{
+"id": "4940",
+"categoria": "history",
+"pergunta": "This question refers to the following information.\nPerhaps, however, I am more conscious of the importance of civil liberties in this particular moment of our history than anyone else, because I travel through the country and meet people and see things that have happened to little people, I realize what it means to democracy to preserve our civil liberties.\nAll through the years we have had to fight for civil liberty, and we know that there are times when the light grows rather dim, and every time that happens democracy is in danger. Now, largely because of the troubled state of the world as a whole, civil liberties have disappeared in many other countries.\nIt is impossible, of course, to be at war and keep freedom of the press and freedom of speech and freedom of assembly. They disappear automatically. And so in many countries where ordinarily they were safe, today they have gone. In other countries, even before war came, not only freedom of the press and freedom of assembly, and freedom of speech disappeared, but freedom of religion disappeared.\nAnd so we know here in this country, we have a grave responsibility. We are at peace. We have no reason for the fears which govern so many other peoples throughout the world; therefore, we have to guard the freedoms of democracy.\n—Eleanor Roosevelt, Address to the American Civil Liberties Union, Chicago, Illinois, March 14, 1940\nRoosevelt's concerns can most directly be compared to those of the people who debated which of the following?",
+"opcoes": [
+"The Homestead Act of 1862",
+"The USA Patriot Act of 2001",
+"The Gulf of Tonkin Resolution of 1964",
+"The Affordable Care Act of 2010",
+"The Civil Rights Act of 1964",
+"The Indian Removal Act of 1830",
+"The Social Security Act of 1935",
+"The Defense of Marriage Act of 1996",
+"The Voting Rights Act of 1965",
+"The Alien and Sedition Acts of 1798"
+],
+"resposta": "B"
+},
+{
+"id": "1122",
+"categoria": "law",
+"pergunta": "Which of the following most accurately describes Hart's response to Fuller's argument concerning the invalidity of Nazi law?",
+"opcoes": [
+"The Nazi law in question was validly enacted.",
+"The Nazi rule of recognition was unclear.",
+"Hart agreed with Fuller's argument.",
+"The court misunderstood the legislation.",
+"Fuller misconstrued the purpose of the law.",
+"Hart argued that the law should be disregarded due to its origin.",
+"Hart claimed the law was invalid due to a lack of enforcement.",
+"Hart contended Fuller's argument was irrelevant to the validity of the law.",
+"Hart believed the Nazi law was morally justified.",
+"Hart suggested that the Nazi law was not truly a law."
+],
+"resposta": "A"
+},
+{
+"id": "8226",
+"categoria": "math",
+"pergunta": "Statement 1 | In a group (ab)^{-2} = b^{-2}a^{-2}. Statement 2 | In a group (ab)^n = a^nb^n.",
+"opcoes": [
+"False, True",
+"False for statement 1 only for some groups, True for statement 2 for all groups",
+"False, False",
+"False, False for some groups but not all",
+"False for statement 1 for all groups, True for statement 2 only for some groups",
+"True, False",
+"True for statement 1 only for some groups, False for statement 2 for all groups",
+"True, True",
+"True for statement 1 for all groups, False for statement 2 only for some groups",
+"True, True for some groups but not all"
+],
+"resposta": "C"
+},
+{
+"id": "5183",
+"categoria": "other",
+"pergunta": "When there has been a change in accounting principles, but the effect of the change on the comparability of the financial statements is not material, the auditor should",
+"opcoes": [
+"Issue a qualified opinion due to the change.",
+"Refer to the note in the financial statements that discusses the change.",
+"Explicitly state whether the change conforms with GAAP.",
+"Include a paragraph detailing the change in the notes to the financial statements.",
+"Issue an adverse opinion due to the change.",
+"Request that the client restate the prior year's financial statements.",
+"Discontinue the audit due to the change in accounting principles.",
+"Not refer to the change in the auditor’s report.",
+"Refer to the change in an emphasis-of-matter paragraph.",
+"Require the client to disclose the change in a separate financial statement."
+],
+"resposta": "H"
+},
+{
+"id": "11262",
+"categoria": "philosophy",
+"pergunta": " What does SCNT stand for, as used in the discussion on cloning?",
+"opcoes": [
+"somatic cellular nuclear transmission",
+"somatic cell nuclear transfer",
+"none of the above",
+"specialized cell nuclear transfer",
+"skin cell nuclear transition",
+"somatic cell nucleotide transition",
+"skin cell nuclear transfer",
+"stem cell nuclear transmission",
+"stem cell nuclear transformation",
+"synthetic cell nuclear transfer"
+],
+"resposta": "B"
+},
+{
+"id": "9230",
+"categoria": "physics",
+"pergunta": "The height of a hill in meters is given by $z=2 x y-3 x^2-4 y^2-18 x+28 y+12$, where $x$ is the distance east and $y$ is the distance north of the origin. What is the $x$ distance of the top of the hill?",
+"opcoes": [
+"3m",
+"-1m",
+"4m",
+"6m",
+"2m",
+"-3m",
+"-2m ",
+"5m",
+"0m",
+"1m"
+],
+"resposta": "G"
+},
+{
+"id": "2141",
+"categoria": "psychology",
+"pergunta": "Milgram (1965) found that participants in his study were more willing to administer electric shocks to another person when they couldn't see the victim and the victim couldn't see them. This ﬁnding is predicted by Zimbardo’s notion of:",
+"opcoes": [
+"bystander effect.",
+"conformity.",
+"psychological reactance.",
+"self-perception.",
+"self-verification.",
+"groupthink.",
+"deindividuation.",
+"social facilitation.",
+"cognitive dissonance.",
+"pluralistic ignorance."
+],
+"resposta": "G"
+},
+{
+"id": "2918",
+"categoria": "biology",
+"pergunta": "Within a few weeks of treatment with the drug 3TC, a patient's HIV population consists entirely of 3TC-resistant viruses. How can this result best be explained?",
+"opcoes": [
+"The patient was initially infected with a 3TC-resistant strain of the virus.",
+"The patient's immune system developed a resistance to 3TC, causing the drug to become ineffective.",
+"The 3TC drug triggered a mutation in the HIV virus, causing it to become resistant.",
+"The patient's body started producing 3TC-resistant viruses in response to the drug treatment.",
+"A few drug-resistant viruses were present at the start of treatment, and natural selection increased their frequency.",
+"The HIV virus can naturally resist any form of drug treatment.",
+"The patient must have become reinfected with 3TC-resistant viruses.",
+"HIV began making drug-resistant versions of reverse transcriptase in response to the drug.",
+"The 3TC drug led to an increase in the production of HIV viruses.",
+"HIV can change its surface proteins and resist vaccines."
+],
+"resposta": "E"
+},
+{
+"id": "70",
+"categoria": "business",
+"pergunta": "Typical advertising regulatory bodies suggest, for example that adverts must not: encourage _________, cause unnecessary ________ or _____, and must not cause _______ offence.",
+"opcoes": [
+"Safe practices, Fear, Jealousy, Trivial",
+"Unsafe practices, Distress, Joy, Trivial",
+"Safe practices, Wants, Jealousy, Trivial",
+"Safe practices, Distress, Fear, Trivial",
+"Unsafe practices, Wants, Jealousy, Serious",
+"Safe practices, Distress, Jealousy, Serious",
+"Safe practices, Wants, Fear, Serious",
+"Unsafe practices, Wants, Fear, Trivial",
+"Unsafe practices, Distress, Fear, Serious"
+],
+"resposta": "I"
+},
+{
+"id": "3723",
+"categoria": "chemistry",
+"pergunta": "Chemical reactions can be classified as either heterogeneous or homogeneous. Which of the following equations below is best classified as a heterogeneous reaction?",
+"opcoes": [
+"2C2H2(g) + 5O2(g) → 4CO2(g) + 2H2O(g)",
+"C2H2(g) + 5N2O(g) → CO2(g) + H2O(g) + 5N2(g)",
+"C2H5OH(aq) + O2(aq) → HC2H3O2(aq) + H2O(aq)",
+"C(s) + H2O(g) → H2(g) + CO(g)",
+"N2(g) + 3H2(g) → 2NH3(g)",
+"2H2(g) + O2(g) → 2H2O(g)",
+"2CO(g) + O2(g) → 2CO2(g)",
+"2H2O2(aq) → 2H2O(l) + O2(g)",
+"CH4(g) + 2O2(g) → CO2(g) + 2H2O(g)"
+],
+"resposta": "D"
+},
+{
+"id": "10608",
+"categoria": "computer science",
+"pergunta": "Suppose the codeword that we use to describe a random variable X always starts with a symbol chosen from the set {7, 8, 9} , followed by binary digits {0, 1}. Thus we have a ternary code for the first symbol and binary thereafter. Give the optimal uniquely decodeable code (minimum expected number of symbols) for the probability distribution $p = (16/69, 15/69, 12/69, 10/69, 8/69, 8/69)$.",
+"opcoes": [
+"[7, 8, 9, 73, 83, 93]",
+"[7, 8, 9, 71, 81, 91]",
+"[7, 8, 9, 710, 810, 910]",
+"[7, 8, 9, 70, 80, 90]",
+"[7, 8, 9, 700, 800, 900]",
+"[7, 8, 9, 74, 84, 94]",
+"[7, 8, 9, 77, 87, 97]",
+"[7, 8, 9, 75, 85, 95]",
+"[7, 8, 9, 72, 82, 92]",
+"[7, 8, 9, 76, 86, 96]"
+],
+"resposta": "D"
+},
+{
+"id": "6967",
+"categoria": "economics",
+"pergunta": "Which of the following will shift the demand curve for the Mexican peso to the left?",
+"opcoes": [
+"An increase in the international demand for Mexican-made textiles",
+"Speculation that the peso will increase in value",
+"A decrease in the international demand for Mexican-made textiles",
+"An increase in the international demand for Mexican tourism",
+"A stable rate of inflation in Mexico relative to other countries",
+"A lower rate of inflation in Mexico relative to other countries",
+"An increase in interest rates in Mexico relative to other countries"
+],
+"resposta": "C"
+},
+{
+"id": "11423",
+"categoria": "engineering",
+"pergunta": "Consider a horizontal pipe of 1.2 in. inside diameter and of roughness k = 0.002 ft. If water flows through it at 9.3 ft/s, calculate the pressure loss per 10 ft. of the pipe length. Kinematic viscosity of water ѵ = 0.93 × 10^-5 ft^2/s.",
+"opcoes": [
+"4.0 psi",
+"4.5 psi",
+"3.5 psi",
+"3.0 psi",
+"2.78 psi",
+"1.8 psi",
+"2.5 psi",
+"3.2 psi",
+"1.5 psi",
+"2.0 psi"
+],
+"resposta": "E"
+},
+{
+"id": "6161",
+"categoria": "health",
+"pergunta": "Which of the following causes female pseudohermaphroditism?",
+"opcoes": [
+"Klinefelter syndrome",
+"Congenital adrenal hyperplasia",
+"Graves' disease",
+"Turner syndrome",
+"Campomelic dysplasia",
+"Androgen insensitivity",
+"Noonan syndrome",
+"Marfan syndrome",
+"Prader-Willi syndrome"
+],
+"resposta": "B"
+},
+{
+"id": "4941",
+"categoria": "history",
+"pergunta": "This question refers to the following information.\n\"One-half of the people of this nation to-day are utterly powerless to blot from the statute books an unjust law, or to write there a new and a just one. The women, dissatisfied as they are with this form of government, that enforces taxation without representation,—that compels them to obey laws to which they have never given their consent,—that imprisons and hangs them without a trial by a jury of their peers, that robs them, in marriage, of the custody of their own persons, wages and children,—are this half of the people left wholly at the mercy of the other half, in direct violation of the spirit and letter of the declarations of the framers of this government, every one of which was based on the immutable principle of equal rights to all.\"\n—Susan B. Anthony, \"I Stand Before You Under Indictment\" (speech), 1873\nWhich of the following statements best represents the criticism of Andrew Carnegie found in this cartoon?",
+"opcoes": [
+"Carnegie was dividing his attention and was therefore not as successful in either of his main endeavors.",
+"Carnegie is illustrated as being indifferent to the welfare of his workers.",
+"Carnegie's wealth was unfairly accumulated through exploitation of his workers.",
+"Carnegie's wealth was unjustly accumulated at the expense of his workers' rights.",
+"Carnegie did not give enough of his considerable fortune to charity.",
+"Carnegie was able to give away a great deal of money only because he violated his workers’ rights.",
+"Carnegie's charitable acts were a facade to hide his ruthless business practices.",
+"Carnegie was only charitable for the purpose of enhancing his public image.",
+"Carnegie's ruthless business practices were causing him to lose touch with his working-class origins.",
+"Carnegie's philanthropy was overshadowed by his poor treatment of employees."
+],
+"resposta": "F"
+},
+{
+"id": "1284",
+"categoria": "law",
+"pergunta": "A shopper purchased a can of sardines, which had been produced by a fish company. A short while later at home, the shopper was preparing a sardine sandwich when she opened the can and, to her astonishment, she saw a decomposed mouse. The shopper became nauseated and vomited upon seeing the mouse. After consulting her attorney, the shopper initiated a strict liability action against the company. At trial, the shopper presented into evidence the sardine can with the company's label, along with other corroborating evidence. The attorney representing the company objected to the introduction of the label on the can. The trial court should",
+"opcoes": [
+"overrule the objection, because the label is direct evidence of the company's responsibility.",
+"overrule the objection, because the label is the best evidence showing that the can was produced by the company.",
+"sustain the objection, because the company could not have foreseen the mouse in the can.",
+"sustain the objection, because the label does not prove the company's negligence.",
+"overrule the objection, as the label is the primary link between the product and the company.",
+"overrule the objection, because the label is self-authenticating.",
+"overrule the objection, because the label is a significant piece of evidence in strict liability cases.",
+"sustain the objection, because the shopper's proper cause of action is for infliction of emotional distress, not strict liability.",
+"sustain the objection, because the label is not a valid form of evidence.",
+"sustain the objection, because there is no corroborating evidence that the company placed the label on the can."
+],
+"resposta": "F"
+},
+{
+"id": "7783",
+"categoria": "math",
+"pergunta": "5.4-21. Let $X$ and $Y$ be independent with distributions $N(5,16)$ and $N(6,9)$, respectively. Evaluate $P(X>Y)=$ $P(X-Y>0)$.\n",
+"opcoes": [
+"$0.5873$",
+"$0.5124$",
+"$0.6915$",
+"$0.4758$",
+"$0.2431$",
+"$0.4207$",
+"$0.3256$",
+"$0.3591$",
+"$0.5389$",
+"$0.2769$"
+],
+"resposta": "F"
+},
+{
+"id": "5342",
+"categoria": "other",
+"pergunta": "A practitioner is engaged to express an opinion on management’s assertion that the square footage of a warehouse offered for sale is 150,000 square feet. The practitioner should refer to which of the following sources for professional guidance?",
+"opcoes": [
+"Statements on Standards for Personal Financial Planning Services",
+"Statements on Standards for Accounting and Review Services",
+"Statements on Standards for Financial Advisory Services",
+"Statements on Standards for Forensic Accounting Services",
+"Statements on Standards for Information Technology Services",
+"Statements on Standards for Tax Services",
+"Statements on Standards for Consulting Services",
+"Statements on Auditing Standards",
+"Statements on Standards for Business Valuation Services",
+"Statements on Standards for Attestation Engagements"
+],
+"resposta": "J"
+},
+{
+"id": "11016",
+"categoria": "philosophy",
+"pergunta": "Aristotle says  that what makes things be what they are--their essence--does not exist apart from individ-uals that exist in the world.  So if all the members of a species were destroyed, then their essence or form:",
+"opcoes": [
+"would remain preserved in the memories of the remaining species.",
+"would not be destroyed because there was no essence or form originally to be destroyed; there are only individuals, not universal essences or natures of things.",
+"would evolve into a different form or essence.",
+"would be destroyed only if the species was eliminated by unnatural causes.",
+"would be absorbed by another species.",
+"would transform into the essence of another existing species.",
+"would be destroyed only if there were no one around to remember the species.",
+"would exist as long as there are traces or remnants of the species left in the world.",
+"would continue existing (as with Plato's Forms) in some other realm of being.",
+"would likewise be destroyed."
+],
+"resposta": "J"
+},
+{
+"id": "9044",
+"categoria": "physics",
+"pergunta": "What is the significance of the 1:2:4 resonance in the Jupiter's moons system?",
+"opcoes": [
+"It causes the three moons to always be in a straight line.",
+"It causes Io to rotate on its axis faster than it orbits Jupiter",
+"It creates a gap with no asteriods between the orbits.",
+"It results in the formation of a visible ring around Jupiter.",
+"It prevents the moons from colliding with each other.",
+"It causes a gravitational pull that affects Jupiter's orbit around the sun.",
+"It results in a uniform gravitational pull on all three moons.",
+"It prevents formation of the ring material into other moons.",
+"It makes the orbit of Io slightly elliptical."
+],
+"resposta": "I"
+},
+{
+"id": "2100",
+"categoria": "psychology",
+"pergunta": "Each of the following is a step taken by a therapist who is employing systematic desensitization EXCEPT",
+"opcoes": [
+"having the client confront the actual feared object or situation",
+"instructing the client to picture each fearful image while maintaining a relaxed state",
+"constructing a hierarchy of feared images",
+"helping the client experience the desired state of relaxation through hypnosis",
+"instructing the client to express their feelings about each feared image",
+"using exposure therapy to desensitize the client to feared images",
+"using guided imagery to help the client visualize confronting their fears"
+],
+"resposta": "D"
+},
+{
+"id": "2919",
+"categoria": "biology",
+"pergunta": "Within a cell, the amount of protein synthesized using a given mRNA molecule depends in part on which of the following?",
+"opcoes": [
+"The amount of protein synthesized is determined by the rate of cell division.",
+"The age of the cell will determine how much protein is synthesized.",
+"The amount of protein synthesized is determined by the amount of DNA replication.",
+"The location and number of ribosomes in a cell will solely determine how much protein is synthesized.",
+"The type of cell will solely determine how much protein is synthesized.",
+"DNA methylation suppresses the expression of genes.",
+"The size of the nucleus will determine how much protein is synthesized.",
+"The number of chromosomes in a cell determines how much protein is synthesized.",
+"Transcription factors mediate the binding of RNA polymerase and the initiation of transcription, which will determine how much protein is manufactured.",
+"The speed with which mRNA is degraded will determine how much protein is synthesized."
+],
+"resposta": "J"
+},
+{
+"id": "71",
+"categoria": "business",
+"pergunta": "Managers are entrusted to run the company in the best interest of ________. Specifically, they have a duty to act for the benefit of the company, as well as a duty of ________ and of _______.",
+"opcoes": [
+"Shareholders, Diligence, Self-interest",
+"Shareholders, Self-interest, Care and Skill",
+"Stakeholders, Care and skill, Self-interest",
+"Stakeholders, Diligence, Care and Skill",
+"Customers, Care and Skill, Diligence",
+"Shareholders, Care and Skill, Diligence",
+"Shareholders, Self-interest, Diligence",
+"Employees, Care and Skill, Diligence",
+"Stakeholders, Self-interest, Diligence",
+"Stakeholder, Care and Skill, Diligence"
+],
+"resposta": "F"
+},
+{
+"id": "3724",
+"categoria": "chemistry",
+"pergunta": "Most transition metals share a common oxidation state of +2. Which of the following best explains why?",
+"opcoes": [
+"Transition metals will gain their outermost s-block electrons when forming bonds.",
+"Transition metals tend to gain electrons when reacting with other elements.",
+"Transition metals tend to lose electrons when reacting with other elements.",
+"Transition metals all have a minimum of two unpaired electrons.",
+"Transition metals have a maximum of two unpaired electrons.",
+"Transition metals will lose their outermost s-block electrons when forming bonds.",
+"Transition metals will share their outermost s-block electrons when forming bonds.",
+"Transition metals have a +2 charge in their ground state.",
+"Transition metals have a stable configuration and are not reactive.",
+"Transition metals have unstable configurations and are very reactive."
+],
+"resposta": "F"
+},
+{
+"id": "10609",
+"categoria": "computer science",
+"pergunta": "In Chord, assume the size of the identifier space is 16. The active nodes are N3, N6, N8 and N12. Show all the target key (in ascending order, ignore the node's identifier itself) for N6.",
+"opcoes": [
+"[7, 10, 13, 14]",
+"[7, 9, 12, 15]",
+"[7, 8, 10, 14]",
+"[7, 8, 12, 14]",
+"[7, 9, 11, 13]",
+"[6, 8, 10, 14]",
+"[6, 7, 9, 11]",
+"[8, 9, 11, 13]",
+"[3, 6, 8, 12]",
+"[8, 10, 12, 14]"
+],
+"resposta": "C"
+},
+{
+"id": "6968",
+"categoria": "economics",
+"pergunta": "Which of the following statements would \"supply-side\" economists disagree with?",
+"opcoes": [
+"Tax changes cause shifts in aggregate supply that work against shifts in aggregate demand thus reducing the effect of the tax change on real GDP.",
+"A tax increase is likely to decrease aggregate supply by decreasing after-tax wages and thus providing disincentives to work.",
+"A tax cut is likely to increase aggregate supply by boosting saving investment and thus capital accumulation.",
+"A tax cut is likely to increase aggregate supply by providing greater rewards for risk taking.",
+"A tax cut is likely to decrease aggregate supply by creating a budget deficit."
+],
+"resposta": "A"
+},
+{
+"id": "11424",
+"categoria": "engineering",
+"pergunta": "The emissivity of a hemispherical surface of a 2 in. diameter steel rod is 0.88. The surface temperature of the rod is 1400°F. The rod is quenched in saturated water at 220°F. Determine the average heat transfer coefficient between the horizontal bar and the water.",
+"opcoes": [
+"38.48 Btu/hr-ft^2 -°F",
+"42.55 Btu/hr-ft^2 -°F",
+"29.84 Btu/hr-ft^2 -°F",
+"27.39 Btu/hr-ft^2 -°F",
+"37.93 Btu/hr-ft^2 -°F",
+"45.78 Btu/hr-ft^2 -°F",
+"30.22 Btu/hr-ft^2 -°F",
+"25.67 Btu/hr-ft^2 -°F",
+"34.26 Btu/hr-ft^2 -°F",
+"31.10 Btu/hr-ft^2 -°F"
+],
+"resposta": "I"
+},
+{
+"id": "6162",
+"categoria": "health",
+"pergunta": "Autozygosity mapping is used to map disorders that show which pattern of inheritance?",
+"opcoes": [
+"Autosomal recessive",
+"Y-linked recessive",
+"Incomplete dominance",
+"Mitochondrial inheritance",
+"Autosomal dominant",
+"Codominant inheritance",
+"X-linked recessive",
+"Multifactorial inheritance",
+"X-linked dominant",
+"Y-linked dominant"
+],
+"resposta": "A"
+},
+{
+"id": "4942",
+"categoria": "history",
+"pergunta": "This question refers to the following information.\n\"Wherever I go—the street, the shop, the house, or the steamboat—I hear the people talk in such a way as to indicate that they are yet unable to conceive of the Negro as possessing any rights at all. Men who are honorable in their dealings with their white neighbors will cheat a Negro without feeling a single twinge of their honor. To kill a Negro they do not deem murder; to debauch a Negro woman they do not think fornication; to take the property away from a Negro they do not consider robbery. The people boast that when they get freedmen affairs in their own hands, to use their own classic expression, 'the niggers will catch hell.'\n\"The reason of all this is simple and manifest. The whites esteem the blacks their property by natural right, and however much they may admit that the individual relations of masters and slaves have been destroyed by the war and the President's emancipation proclamation, they still have an ingrained feeling that the blacks at large belong to the whites at large, and whenever opportunity serves they treat the colored people just as their profit, caprice or passion may dictate.\"\n—Congressional testimony of Col. Samuel Thomas, Assistant Commissioner, Bureau of Refugees, Freedmen and Abandoned Lands, 1865\nWhich of the following specific developments contributed to the general sentiment expressed in Federalist #15?",
+"opcoes": [
+"Dutch traders forced American ships to extend tribute payments in order to dock in Holland.",
+"Russian explorers claimed land in the Pacific Northwest.",
+"Portugal imposed trade restrictions on American goods.",
+"Spain denied American access to the Mississippi River.",
+"Italian mercenaries attempted to seize control of the Mississippi River.",
+"Great Britain refused to evacuate forts in the Great Lakes region.",
+"French and Spanish forces engaged in skirmishes with American settlers on the western frontier.",
+"British forces supported American Indian tribes in conducting raids on the Frontier.",
+"French forces aided American Indians in conducting raids on New England.",
+"Spanish forces retook Florida from the United States."
+],
+"resposta": "F"
+},
+{
+"id": "1285",
+"categoria": "law",
+"pergunta": "During a deer-hunting season open to rifle hunters, a hunter saw a deer in the forest. He shot his rifle at the deer, hoping to hit and kill it. Instead, he hit and injured a hiker. The hunter had not realized that the hiker was there. Does the injured hiker have an actionable battery claim against the hunter?",
+"opcoes": [
+"Yes, because the hunter was negligent in not ensuring the area was clear before shooting.",
+"No, because the hunter did not intend to shoot the hiker.",
+"No, because the hiker should have made his presence known to the hunter.",
+"Yes, because the hunter intentionally shot the rifle.",
+"No, because the hunter did not make direct physical contact with the hiker.",
+"No, because the hunter was aiming at a deer, not a human.",
+"Yes, because the hunter had a duty to ensure safety while hunting.",
+"Yes, because the hiker suffered injuries due to the hunter's action.",
+"No, because the hiker was in the forest during hunting season."
+],
+"resposta": "B"
+},
+{
+"id": "7784",
+"categoria": "math",
+"pergunta": "5.5-9. Suppose that the length of life in hours (say, $X$ ) of a light bulb manufactured by company $A$ is $N(800,14400)$ and the length of life in hours (say, $Y$ ) of a light bulb manufactured by company $B$ is $N(850,2500)$. One bulb is randomly selected from each company and is burned until \"death.\"\n(a) Find the probability that the length of life of the bulb from company $A$ exceeds the length of life of the bulb from company $B$ by at least 15 hours.\n",
+"opcoes": [
+"$0.3498$",
+"$0.1256$",
+"$0.2187$",
+"$0.3085$",
+"$0.3654$",
+"$0.4112$",
+"$0.5000$",
+"$0.4256$",
+"$0.2753$",
+"$0.1587$"
+],
+"resposta": "D"
+},
+{
+"id": "5343",
+"categoria": "other",
+"pergunta": "A CPA prepared a tax return that involved a tax shelter transaction that was disclosed on the return. In which of the following situations would a tax return preparer penalty not be applicable?",
+"opcoes": [
+"There was substantial authority for the position.",
+"The CPA had obtained written consent from the client for the position.",
+"The tax shelter transaction was disclosed to the IRS separately.",
+"There was a minimal chance of success for the position.",
+"It is reasonable to believe that the position would more likely that not be upheld.",
+"The CPA was not compensated for preparing the return.",
+"The tax shelter transaction was a minor part of the return.",
+"The CPA had no prior knowledge of the tax shelter transaction.",
+"There was a reasonable basis for the position.",
+"There was a reasonable possibility of success for the position."
+],
+"resposta": "E"
+},
+{
+"id": "11017",
+"categoria": "philosophy",
+"pergunta": "According to Hobbes, the definition of injustice is _____.",
+"opcoes": [
+"failure to abide by a contract",
+"disregard for societal norms",
+"acting against the welfare of others",
+"disobedience to parental authority",
+"disobedience to God's law",
+"acting against one's own self-interest",
+"failure to follow the rule of law",
+"failure to respect inherent rights",
+"failure to uphold moral duties",
+"disobedience to a sovereign"
+],
+"resposta": "A"
+},
+{
+"id": "9045",
+"categoria": "physics",
+"pergunta": "We were first able to accurately measure the diameter of Pluto from:",
+"opcoes": [
+"Lunar-based observations made during NASA's Apollo missions",
+"The Voyager 2 spacecraft flyby in the 1980s",
+"Observations made by the Chandra X-ray Observatory",
+"brightness measurements made during mutual eclipses of Pluto and Charon",
+"The Mars Rover's telescope observations of Pluto",
+"radar observations made by the Arecibo telescope",
+"Observations made by the Spitzer Space Telescope",
+"Hubble Space Telescope images that resolved Pluto's disk",
+"a New Horizons flyby in the 1990s",
+"Images captured by the Kepler Space Telescope"
+],
+"resposta": "D"
+},
+{
+"id": "2101",
+"categoria": "psychology",
+"pergunta": "Of the following, most children will develop which skill first?",
+"opcoes": [
+"clap their hands",
+"cut with a knife",
+"tie their shoes",
+"ride a bicycle",
+"read a book",
+"solve a math problem",
+"say a sentence",
+"draw a picture",
+"play a musical instrument",
+"write with a pencil"
+],
+"resposta": "A"
+},
+{
+"id": "2920",
+"categoria": "biology",
+"pergunta": "Which of the following would most likely describe the fate of a vesicle formed as a result of phagocytosis?",
+"opcoes": [
+"The vesicle remains intact and floats freely in the cytoplasm.",
+"The vesicle merges with a Golgi apparatus.",
+"The vesicle merges with a mitochondrion.",
+"The vesicle fuses with the cell membrane and its contents are expelled out of the cell.",
+"The vesicle breaks down on its own without merging with any other organelle.",
+"The vesicle merges with a lysosome.",
+"The vesicle releases its contents to the cytoplasm to be digested.",
+"The vesicle is absorbed by the endoplasmic reticulum.",
+"The vesicle is shuttled to the nucleus, and its contents become part of the nucleolus.",
+"The vesicle merges with a peroxisome."
+],
+"resposta": "F"
+},
+{
+"id": "72",
+"categoria": "business",
+"pergunta": "There are two main issues associated with _____ sizing. _______ is a key issue as due to the information policy of the corporation it can be argued that employees have a right to know if they are being made redundant. _______ is a second issue, particularly the ________ package that employees receive when laid off.",
+"opcoes": [
+"Down, Autonomy, Remuneration, Benefit",
+"Down, Involvement, Independence, Benefit",
+"Up, Independence, Involvement, Benefit",
+"Down, Privacy, Autonomy, Benefit",
+"Up, Involvement, Autonomy, Compensation",
+"Down, Independence, Autonomy, Compensation",
+"Up, Involvement, Remuneration, Severance",
+"Up, Privacy, Remuneration, Severance",
+"Up, Autonomy, Remuneration, Compensation",
+"Down, Involvement, Remuneration, Compensation"
+],
+"resposta": "J"
+},
+{
+"id": "3725",
+"categoria": "chemistry",
+"pergunta": "Calculate the magnetic moment (μI) of a 13C nucleus.",
+"opcoes": [
+"9.1445 x 10^-27 J T-1",
+"9.1445 x 10^-28 J T-1",
+"2.1445 x 10^-27 J T-1",
+"5.1445 x 10^-26 J T-1",
+"4.1445 x 10^-27 J T-1",
+"3.1445 x 10^-27 J T-1",
+"9.1445 x 10^-26 J T-1",
+"1.1445 x 10^-28 J T-1",
+"6.1445 x 10^-27 J T-1",
+"0.1445 x 10^-27 J T-1"
+],
+"resposta": "A"
+},
+{
+"id": "10610",
+"categoria": "computer science",
+"pergunta": "A TCP entity sends 6 segments across the Internet. The measured round-trip times (RTTM) for the 6 segments are 68ms, 42ms, 65ms, 80ms, 38ms, and 75ms, respectively. Assume that the smooth averaged RTT (RTTs) and Deviation (RTTD) was respectively 70ms and 10ms just before the first of these six samples. According to the Jacobson's algorithm, the retransmission timeout (RTO) is given by one RTTs plus 4 times the value of RTTD. Determine the value of RTO (in ms) after the six segments using the Jacobson's algorithm if the exponential smoothing parameters (a and B) are 0.15 and 0.2 for calculating RTTs and RTTD respectively.",
+"opcoes": [
+"140.00",
+"97.56",
+"114.28",
+"138.32",
+"150.34",
+"130.45",
+"120.48",
+"110.22",
+"105.62",
+"125.78"
+],
+"resposta": "C"
+},
+{
+"id": "6969",
+"categoria": "economics",
+"pergunta": "Which of the following could limit the ability of a central bank to conduct expansionary monetary policy?",
+"opcoes": [
+"Investment demand is nearly perfectly elastic.",
+"Households carry very little cash holding their money in checking and saving deposits.",
+"Banks make loans with all excess reserves.",
+"Households carry a significant amount of cash, holding very little in checking and saving deposits.",
+"Money demand is nearly perfectly elastic."
+],
+"resposta": "E"
+},
+{
+"id": "11425",
+"categoria": "engineering",
+"pergunta": "Saturated steam at 1.5 std. atm. flows through a porous flat plateover which air at 700°C and 1 std. atm. is flowing. The air-sideheat transfer coefficient is 200 Btu/hr\\bulletft^2\\bullet°F when thereis no steam flowing. (a) Compute the flow rate of steam required to keep the temperatureat the surface at 300°C. (b) What would be the flow rate if water at 30°C isused instead?",
+"opcoes": [
+"- 500 lb/ft^2\bullethr for steam, - 80 lb/ft^2\bullethr for water",
+"- 450 lb/ft^2•hr for steam, - 75 lb/ft^2•hr for water",
+"- 200 lb/ft^2\bullethr for steam, - 30 lb/ft^2\bullethr for water",
+"- 275 lb/ft^2•hr for steam, - 45 lb/ft^2•hr for water",
+"- 600 lb/ft^2•hr for steam, - 90 lb/ft^2•hr for water",
+"- 250 lb/ft^2•hr for steam, - 40 lb/ft^2•hr for water",
+"- 350 lb/ft^2•hr for steam, - 65 lb/ft^2•hr for water",
+"- 325 lb/ft^2•hr for steam, - 55 lb/ft^2•hr for water",
+"- 400 lb/ft^2\bullethr for steam, - 70 lb/ft^2\bullethr for water",
+"- 318.6 lb/ft^2\bullethr for steam, - 58.57 lb/ft^2\bullethr for water"
+],
+"resposta": "J"
+},
+{
+"id": "6163",
+"categoria": "health",
+"pergunta": "Consanguinity shows a strong association with which pattern of inheritance?",
+"opcoes": [
+"Codominant inheritance",
+"Mitochondrial inheritance",
+"Y-linked recessive",
+"X-linked dominant",
+"Autosomal dominant",
+"Incomplete dominant inheritance",
+"Autosomal recessive",
+"Y-linked dominant",
+"X-linked recessive",
+"Multifactorial inheritance"
+],
+"resposta": "G"
+},
+{
+"id": "4943",
+"categoria": "history",
+"pergunta": "This question refers to the following information.\n\"If it be conceded, as it must be by every one who is the least conversant with our institutions, that the sovereign powers delegated are divided between the General and State Governments, and that the latter hold their portion by the same tenure as the former, it would seem impossible to deny to the States the right of deciding on the infractions of their powers, and the proper remedy to be applied for their correction. The right of judging, in such cases, is an essential attribute of sovereignty, of which the States cannot be divested without losing their sovereignty itself, and being reduced to a subordinate corporate condition. In fact, to divide power, and to give to one of the parties the exclusive right of judging of the portion allotted to each, is, in reality, not to divide it at all; and to reserve such exclusive right to the General Government (it matters not by what department to be exercised), is to convert it, in fact, into a great consolidated government, with unlimited powers, and to divest the States, in reality, of all their rights, It is impossible to understand the force of terms, and to deny so plain a conclusion.\"\n—John C. Calhoun, \"South Carolina Exposition and Protest,\" 1828\nThe issue that precipitated the passage excerpted above was",
+"opcoes": [
+"the question of secession from the Union.",
+"the enactment of the Missouri Compromise.",
+"the issue of slavery in new territories.",
+"the purchase of Louisiana territory.",
+"the removal of American Indians from the South.",
+"the passage of an act creating higher tariff rates.",
+"the debate over states' rights.",
+"the funding of \"internal improvements.\"",
+"the rechartering of the Second Bank of the United States.",
+"the passing of the Fugitive Slave Act."
+],
+"resposta": "F"
+},
+{
+"id": "1286",
+"categoria": "law",
+"pergunta": "Which of the following criticisms of Llewellyn's distinction between the grand and formal styles of legal reasoning is the most compelling?",
+"opcoes": [
+"There is no distinction between the two forms of legal reasoning.",
+"Judges are appointed to interpret the law, not to make it.",
+"It is misleading to pigeon-hole judges in this way.",
+"Judicial reasoning is always formal."
+],
+"resposta": "C"
+},
+{
+"id": "7785",
+"categoria": "math",
+"pergunta": "A boy found a bicycle lock for which the combination was unknown. The correct combination is a four-digit number, $d_1 d_2 d_3 d_4$, where $d_i, i=1,2,3,4$, is selected from $1,2,3,4,5,6,7$, and 8 . How many different lock combinations are possible with such a lock?",
+"opcoes": [
+"32768",
+"8192",
+"2048",
+"1000",
+"7000",
+"256",
+"4096",
+"16384",
+"1024",
+"512"
+],
+"resposta": "G"
+},
+{
+"id": "5344",
+"categoria": "other",
+"pergunta": "A spouse died on December 31, year 1. The couple had no dependents. What should be the filing status of the surviving spouse in year 2?",
+"opcoes": [
+"Nonresident alien.",
+"Qualifying widow(er) with dependent child.",
+"Single.",
+"Married filing separately.",
+"Married filing jointly.",
+"Widow(er) with dependent child.",
+"Head of household.",
+"Jointly with deceased spouse.",
+"Qualifying widow(er).",
+"Dependent of another taxpayer."
+],
+"resposta": "C"
+},
+{
+"id": "11018",
+"categoria": "philosophy",
+"pergunta": "Mill defines “utility” as:",
+"opcoes": [
+"advantage or benefit to the user.",
+"usefulness for some craft.",
+"the ability to satisfy wants and needs.",
+"usefulness to an individual.",
+"it promotes the interests of all and does not harm anyone.",
+"it promotes self-interest.",
+"the state of being useful, profitable, or beneficial.",
+"pleasure and the absence of pain.",
+"usefulness to society.",
+"it benefits the majority and harms the minority."
+],
+"resposta": "H"
+},
+{
+"id": "9046",
+"categoria": "physics",
+"pergunta": "What about asteroids makes them stand out in sky surveys searching for them?",
+"opcoes": [
+"They reflect enough of the sun's light to make them brighter than most background stars",
+"Asteroids rotate at a high speed, making them stand out",
+"Asteroids are larger than most celestial bodies, hence easier to spot",
+"Asteroids have substantial motion relative to the background stars",
+"Asteroids have a distinct color that makes them stand out",
+"Asteroids emit a lot of their own radiation",
+"They emit a high amount of heat, making them detectable",
+"They emit a unique sound frequency that can be detected",
+"Asteroids emit pulsed radiation"
+],
+"resposta": "D"
+},
+{
+"id": "2102",
+"categoria": "psychology",
+"pergunta": "Lizette and her family watch the sunset over the ocean. While walking home in the increasing darkness, Lizette notices that she can no longer distinguish the colors of objects. Which of the following best explains why Lizette cannot see color in dim light?",
+"opcoes": [
+"Lizette's eyes are adjusting to the darkness, hence she cannot distinguish the colors of objects.",
+"Cones, which are specialized for color vision, require more light to be activated, whereas rods, which produce images in black, white, and gray, allow for vision in dim light.",
+"The retina does not respond to changes in light intensity, therefore colors are not visible in dim light.",
+"The receptive fields in the retina respond to the loss of light through light adaptation, the process of rapidly adjusting to a diminution of light.",
+"Cones, which are specialized for black and white vision, require a small amount of light to be activated, whereas rods, which produce images in color, require greater amounts of light for vision.",
+"Rods and cones both require a high amount of light to be activated, hence color vision is not possible in dim light.",
+"The cones, which are responsible for color vision, are deactivated in dim light.",
+"The color vision is not possible in the dark because the photoreceptor cells in the retina require light to detect colors.",
+"The colors are not visible in dim light because the rods, which detect colors, are deactivated.",
+"Rods, which are specialized for color vision, require more light to be activated, whereas cones, which produce images in black, white, and gray, allow for vision in dim light."
+],
+"resposta": "B"
+},
+{
+"id": "2921",
+"categoria": "biology",
+"pergunta": "What was the prevailing notion prior to the time of Lyell and Darwin?",
+"opcoes": [
+"Earth is millions of years old, and populations are unchanging.",
+"Earth is millions of years old, and populations gradually change.",
+"Earth is a few thousand years old, and populations rapidly change.",
+"Earth is a few thousand years old, and populations are unchanging.",
+"Earth is billions of years old, and populations gradually change.",
+"Earth is a few hundred years old, and populations are unchanging.",
+"Earth is billions of years old, and populations are unchanging.",
+"Earth is a few thousand years old, and populations gradually change.",
+"Earth is millions of years old, and populations rapidly change.",
+"Earth is a few hundred years old, and populations gradually change."
+],
+"resposta": "D"
+},
+{
+"id": "73",
+"categoria": "business",
+"pergunta": "_______ locate morality beyond the sphere of rationality in an emotional 'moral impulse' towards others.",
+"opcoes": [
+"Ethical egoism",
+"Ethics of duty",
+"Postmodern ethics",
+"Consequentialist ethics",
+"Utilitarian ethics",
+"Deontological ethics",
+"Virtue ethics",
+"Ethics of care",
+"Ethics of rights",
+"Relativist ethics"
+],
+"resposta": "C"
+},
+{
+"id": "3726",
+"categoria": "chemistry",
+"pergunta": "Which nuclide has an NMR frequency of 115.5 MHz in a 20.0 T magnetic field?",
+"opcoes": [
+"17O",
+"29Si",
+"31P",
+"19F",
+"13C",
+"15N",
+"27Al",
+"33S",
+"39K",
+"23Na"
+],
+"resposta": "A"
+},
+{
+"id": "10611",
+"categoria": "computer science",
+"pergunta": "A cascade of $n$ identical independent binary symmetric channels each with raw error probability $p$, and $0<p<1$. What is the capacity of the cascade when $n$ goes to infinity?",
+"opcoes": [
+"$n$",
+"0.0",
+"1.0",
+"$p$",
+"$\\frac{1}{2}$",
+"$n(1-p)$",
+"$2p$",
+"$1-p$",
+"$p^n$",
+"$\\sqrt{p}$"
+],
+"resposta": "B"
+},
+{
+"id": "6970",
+"categoria": "economics",
+"pergunta": "In a private closed economy which of the following statements is true?",
+"opcoes": [
+"Investment is always less than savings.",
+"Saving is equal to zero when consumption equals disposable income.",
+"Investment is always greater than savings.",
+"Saving is equal to zero when consumption exceeds disposable income.",
+"The economy is in equilibrium when consumption equals saving.",
+"The economy is in equilibrium when consumption exceeds saving.",
+"Household saving can occasionally be negative.",
+"Household saving is always equal to investment.",
+"The economy is in equilibrium when investment equals saving.",
+"Household saving can never be negative."
+],
+"resposta": "B"
+},
+{
+"id": "11426",
+"categoria": "engineering",
+"pergunta": "A non-Newtonian power-law fluid is flowing in a tube which is heatedby steam condensing outside the tube. Calculate the outletbulk fluid temperature for laminar flow, given the followingdata. Rate of flow of fluid = 650lbm/hr Entering temperature of the fluid = 100°F Inside wall temperature = 200°F Density of fluid = \\rho = 65lbm/ft^3 Specific heat of fluid = C_p = 0.5 Btu/lbm°F Thermal conductivity of fluid = K = 0.7 Btu/hr°Fft Flow property constants: n' = 0.4 k = 80lbms^n-2 ft^-1 at 117.5°F k = 40lbms^n-2 ft^-1 atT_w= 200°F Internal diameter of tube = 1/12 ft. Length of tube = 7.4 ft.",
+"opcoes": [
+"128°F",
+"138°F",
+"125°F",
+"150°F",
+"137.5°F",
+"132°F",
+"145°F",
+"140°F",
+"135°F",
+"130°F"
+],
+"resposta": "I"
+},
+{
+"id": "6164",
+"categoria": "health",
+"pergunta": "Which of the following best describes the structure that collects urine in the body?",
+"opcoes": [
+"Bladder",
+"Ureter",
+"Spleen",
+"Urethra",
+"Renal Vein",
+"Renal Artery",
+"Gallbladder",
+"Prostate",
+"Liver",
+"Kidney"
+],
+"resposta": "A"
+},
+{
+"id": "4944",
+"categoria": "history",
+"pergunta": "This question refers to the following information.\nRead the the following petition to answer questions.\nThe Scribbling-Machines have thrown thousands of your petitioners out of employ, whereby they are brought into great distress, and are not able to procure a maintenance for their families, and deprived them of the opportunity of bringing up their children to labour. … The number of Scribbling-Machines extending about seventeen miles south-west of Leeds exceed all belief, being no less than one hundred and seventy! And as each machine will do as much work in twelve hours, as ten men can in that time do by hand, … [And, as the machines do] as much work in one day as would otherwise employ twenty men, … [a] full four thousand men are left to shift for a living how they can, and must of course fall to the Parish, if not timely relieved. … How are those men, thus thrown out of employ to provide for their families; and what are they to put their children apprentice to, that the rising generation may have something to keep them at work, in order that they may not be like vagabonds strolling about in idleness? … Many more evils we could enumerate, but we would hope, that the sensible part of mankind, who are not biased by interest, must see the dreadful tendency of their continuance; a depopulation must be the consequence; trade being then lost, the landed interest will have no other satisfaction but that of being last devoured.\nLeeds Woolen Workers Petition, 1786\nThis document can be used as evidence for",
+"opcoes": [
+"the rise of the Luddite movement in Britain in the eighteenth century",
+"the decline of the British economy in the eighteenth century",
+"the protest against child labor in the eighteenth century Britain",
+"the rise of trade unions in Britain in the eighteenth century",
+"the spread of revolutionary ideas among the British working class in the eighteenth century",
+"an increase in the use of child labor in eighteenth-century Britain",
+"the replacing of traditional laborers by machines in the industrialization of Britain in the eighteenth century"
+],
+"resposta": "G"
+},
+{
+"id": "1287",
+"categoria": "law",
+"pergunta": "Which of the following criticisms of Llewellyn's distinction between the grand and formal styles of legal reasoning is the most compelling?",
+"opcoes": [
+"The distinction is too simplistic to capture the complexity of legal reasoning.",
+"It overemphasizes the role of judges while ignoring the role of juries.",
+"Judges are appointed to interpret the law, not to make it.",
+"It is misleading to pigeon-hole judges in this way.",
+"Legal reasoning is always grand.",
+"It does not consider the role of precedent in legal reasoning.",
+"Llewellyn's distinction lacks empirical evidence.",
+"The distinction does not take into account the influence of personal biases.",
+"There is no distinction between the two forms of legal reasoning.",
+"Judicial reasoning is always formal."
+],
+"resposta": "D"
+},
+{
+"id": "7786",
+"categoria": "math",
+"pergunta": "The set of all nth roots of unity under multiplication of complex numbers form a/an",
+"opcoes": [
+"non-abelian group",
+"infinite group",
+"commutative semigroups with identity",
+"non-commutative group",
+"abelian group",
+"non-commutative semi group with identity",
+"semi group with identity"
+],
+"resposta": "E"
+},
+{
+"id": "5345",
+"categoria": "other",
+"pergunta": "In year 6, an IRS agent completed an examination of a corporation’s year 5 tax return and proposed an adjustment that will result in an increase in taxable income for each of years 1 through year 5. All returns were filed on the original due date. The proposed adjustment relates to the disallowance of corporate jet usage for personal reasons. The agent does not find the error to be fraudulent or substantial in nature. Which of the following statements regarding this adjustment is correct?",
+"opcoes": [
+"The adjustment is improper because the statute of limitations has expired for several years of the adjustment",
+"The adjustment is improper because the agent did not find the error to be fraudulent or substantial in nature.",
+"The adjustment is proper because it relates to the disallowance of personal usage of a corporate jet.",
+"The adjustment is improper because an agent may only propose adjustments to the year under examination.",
+"The adjustment is improper because the corporation had already filed their tax returns.",
+"The adjustment is improper because the IRS agent is not authorized to propose such adjustments.",
+"The adjustment is proper because there is no statute of limitations for improperly claiming personal expenses as business expenses",
+"The adjustment is proper because it is within the agent’s discretion to propose adjustments for any year.",
+"The adjustment is proper because it relates to a change in accounting method, which can be made retroactively irrespective of the statute of limitations."
+],
+"resposta": "A"
+},
+{
+"id": "11019",
+"categoria": "philosophy",
+"pergunta": "Wolf claims that interpreting Kant’s ethics so that it consists of a finite set of constraints:",
+"opcoes": [
+"contradicts the basic principles of Kantian ethics.",
+"simplifies the complexity of Kantian ethics.",
+"transforms the theory into a form of contractarianism.",
+"makes it too lenient and flexible.",
+"yields an unattractive picture of moral sainthood.",
+"distorts the fundamental nature of the theory.",
+"makes the theory too abstract and impractical.",
+"implausibly places an “upper bound” on moral worthiness.",
+"yields a theory that is too demanding.",
+"results in a philosophical dilemma."
+],
+"resposta": "H"
+},
+{
+"id": "9047",
+"categoria": "physics",
+"pergunta": "Approximately how far away is the Andromeda Galaxy?",
+"opcoes": [
+"5 million light years",
+"2.5 million light years",
+"2.1 million light years",
+"1.9 million light years",
+"3.2 million light years",
+"4 million light years",
+"1.7 million light years",
+"3.5 million light years",
+"1.2 million light years",
+"2.8 million light years"
+],
+"resposta": "B"
+},
+{
+"id": "2103",
+"categoria": "psychology",
+"pergunta": "Approximately what percentage of participants in Milgram's obedience experiments thought they delivered the maximum amount of shock possible?",
+"opcoes": [
+"100",
+"60",
+"80",
+"30",
+"0",
+"40",
+"90",
+"50",
+"70",
+"20"
+],
+"resposta": "B"
+},
+{
+"id": "2922",
+"categoria": "biology",
+"pergunta": "On Andros Islands in the Bahamas, populations of mosquito fish, Gambusia hubbsi, colonized a series of ponds. These ponds are no longer connected. However, the environments are very similar except that some ponds contain predatory fish, while others do not. In high predation ponds, selection has favored the evolution of a body shape that enables rapid bursts of speed. In low predation ponds, another body type is favored—one that is well-suited to swim for long periods of time.",
+"opcoes": [
+"Reproductive isolation was a result of behavioral changes.",
+"Geographic isolation resulted in sympatric speciation.",
+"Allopatric isolation brought about reproductive isolation.",
+"Allopatric isolation did not affect reproductive isolation.",
+"Reproductive isolation caused geographic isolation.",
+"Sympatric isolation resulted in geographic isolation.",
+"The body shapes of the fish are the result of genetic drift.",
+"Sympatric isolation brought about reproductive isolation.",
+"Reproductive isolation was not complete.",
+"The evolution of different body shapes is an example of coevolution."
+],
+"resposta": "C"
+},
+{
+"id": "74",
+"categoria": "business",
+"pergunta": " Some of key differences between Islamic finance and conventional finance include - prohibition of charging and paying _______, prohibition on ______ and ______ transactions, prohibition of sinful investment and requirement for all financial products to be backed by __________.",
+"opcoes": [
+"Interest, Certain, Assured, Both tangible and intangible assets",
+"Interest, Uncertain, Assured, Both tangible and intangible assets",
+"Interest, Uncertain, Speculative, Intangible assets",
+"Interest, Certain, Assured, Tangible assets",
+"Interest, Uncertain, Assured, Intangible assets",
+"Profit, Uncertain, Speculative, Tangible assets",
+"Interest, Uncertain, Speculative, Tangible assets",
+"Interest, Certain, Speculative, Intangible assets",
+"Profit, Certain, Assured, Tangible assets",
+"Interest, Certain, Speculative, Both tangible and intangible assets"
+],
+"resposta": "G"
+},
+{
+"id": "3727",
+"categoria": "chemistry",
+"pergunta": "The X-band (9.5 GHz) EPR spectrum of a matrix isolated Na atom reveals four hyperfine lines with resonant field positions of 3074 G, 3174 G, 3274 G and 3374 G. Calculate the g value of the atom.",
+"opcoes": [
+"g = 2.005",
+"g = 1.950",
+"g = 2.200",
+"g = 2.250",
+"g = 1.990",
+"g = 2.002",
+"g = 2.100",
+"g = 2.020",
+"g = 2.010"
+],
+"resposta": "F"
+},
+{
+"id": "10612",
+"categoria": "computer science",
+"pergunta": "A train pulls out of the station at constant velocity. The received signal energy thus falls off with time as $1/i^2$. The total received signal at time $i$ is $Y_i = \\frac{1}{i}X_i + Z_i$ where $Z_1, Z_2, \\ldots$ are i.i.d. drawn from $N(0,1)$. The transmitter constraint for block length $n$ is $\\frac{1}{n}\\sum_{i=1}^n x_i^2(w) \\leq 2  $ for $w \\in \\{1,2,\\ldots, 2^{nR}\\}$. Use Fano's inequality to find the capacity for this channel.",
+"opcoes": [
+"1.5",
+"2.5",
+"1.0",
+"0.0",
+"0.5",
+"0.75",
+"3.0",
+"1.25",
+"0.25",
+"2.0"
+],
+"resposta": "D"
+},
+{
+"id": "6971",
+"categoria": "economics",
+"pergunta": "If the CPI goes to 150 from 120 then prices have",
+"opcoes": [
+"fallen 50 percent.",
+"fallen 25 percent.",
+"risen 15 percent.",
+"risen 20 percent.",
+"fallen 20 percent.",
+"fallen 30 percent.",
+"risen 50 percent.",
+"risen 30 percent.",
+"remained constant.",
+"risen 25 percent."
+],
+"resposta": "J"
+},
+{
+"id": "11427",
+"categoria": "engineering",
+"pergunta": "Find the Fourier cosine series over the interval 0 < x < c for the function f(x) = x.",
+"opcoes": [
+"f(x) \\sim (1 / 2)c + (2c / \\pi^2)\\infty\\sum_k=1 [{cos[(2k)\\pix/ c]} / (2k)^2]",
+"f(x) \\sim (1 / 2)c + (4c / \\pi^2)\\infty\\sum_k=0 [{cos[(2k + 1)\\pix/ c]} / (2k + 1)^2]",
+"f(x) \\sim (1 / 2)c - (4c / \\pi^2)\\infty\\sum_n=1 [1 / n^2]cos{(n\\pix) / c}",
+"f(x) \\sim (1 / 2)c - (4c / \\pi^2)\\infty\\sum_k=0 [{cos[(2k + 1)\\pix/ c]} / (2k + 1)^2]",
+"f(x) \\sim (1 / 2)c - (4c / \\pi^2)\\infty\\sum_k=1 [{cos[(2k)\\pix/ c]} / (2k)^2]",
+"f(x) \\sim (1 / 2)c - (2c / \\pi^2)\\infty\\sum_n=0 [{1 - (-1)^n} / n^2]cos{(n\\pix) / c}",
+"f(x) \\sim (1 / 2)c + (4c / \\pi^2)\\infty\\sum_n=1 [{(-1)^n} / n^2]cos{(n\\pix) / c}",
+"f(x) \\sim (1 / 2)c + (2c / \\pi^2)\\infty\\sum_n=1 [{1 - (- 1)^n} / n^2]cos{(n\\pix) / c}",
+"f(x) \\sim (1 / 2)c + (2c / \\pi^2)\\infty\\sum_n=1 [(-1)^n / n^2]cos{(n\\pix) / c}",
+"f(x) \\sim (1 / 2)c - (2c / \\pi^2)\\infty\\sum_n=1 [{1 - (- 1)^n} / n^2]cos{(n\\pix) / c}"
+],
+"resposta": "D"
+},
+{
+"id": "6165",
+"categoria": "health",
+"pergunta": "Which of the following describes the cluster of blood capillaries found in each nephron in the kidney?",
+"opcoes": [
+"Afferent arteriole",
+"Glomerulus",
+"Renal medulla",
+"Proximal convoluted tubule",
+"Efferent arteriole",
+"Loop of Henle",
+"Distal convoluted tubule",
+"Renal pelvis",
+"Bowman's capsule",
+"Renal capsule"
+],
+"resposta": "B"
+},
+{
+"id": "4945",
+"categoria": "history",
+"pergunta": "This question refers to the following information.\n\"The substitution of Plato for the scholastic Aristotle was hastened by contact with Byzantine scholarship. Already at the Council of Ferrera (1438), which nominally reunited the Eastern and Western churches, there was a debate in which the Byzantines maintained the superiority of Plato to Aristotle. Cosimo and Lorenzo de Medici were both addicted to Plato; Cosimo founded and Lorenzo continued the Florentine Academy, which was largely devoted to the study of Plato&…The humanists of the time, however, were too busy acquiring knowledge of antiquity to be able to produce anything of value.\"\nBertrand Russell, British philosopher, History of Western Philosophy, 1946\nIn what way does this passage best exemplify the view of twentieth-century philosophers and thinkers?",
+"opcoes": [
+"Twentieth-century philosophers and thinkers championed the fusion of Eastern and Western philosophical traditions.",
+"The humanists of the twentieth century focused solely on the acquisition of knowledge, disregarding its application or value.",
+"Nihilists typically find ways to doubt the postulations of those who came before them.",
+"The twentieth century rejected the philosophies of the past, focusing instead on creating new ways of thinking and understanding the world.",
+"The twentieth century was marked by an emphasis on the preservation of historic knowledge and the reevaluation of past philosophies.",
+"The twentieth century saw a resurgence in the appreciation of ancient Greek philosophy, particularly within the context of Christian theology.",
+"After the devastation of World Wars I and II erased the possibility of finding a unified meaning to life, philosophers occupied themselves with finding small differences between the philosophies of past thinkers.",
+"The twentieth century was characterized by a return to the study of ancient philosophers, with a particular emphasis on Plato over Aristotle.",
+"Overwhelmed by the unprecedented number of social and technological changes, the twentieth century sought refuge in the longstanding traditions of the past.",
+"Faced with an unprecedented number of social and technological changes, the twentieth century embraced innovation as one of the most valued characteristics of life."
+],
+"resposta": "J"
+},
+{
+"id": "1288",
+"categoria": "law",
+"pergunta": "Which statement best describes one of Dworkin's central arguments in Justice for Hedgehogs?",
+"opcoes": [
+"The law is the only guide for ethical behaviour.",
+"The law dictates what moral values should affect our ethical behaviour.",
+"Morality plays no role in the concept of law.",
+"Moral arguments operate only in hard cases.",
+"Morality only applies to specific, complex cases.",
+"Legal principles should not be influenced by moral values.",
+"Moral values are both independent and objective.",
+"Law and morality are entirely separate entities with no overlap.",
+"Morality is subjective and changes over time.",
+"Ethical behaviour is independent of moral values."
+],
+"resposta": "G"
+},
+{
+"id": "7787",
+"categoria": "math",
+"pergunta": "Determine whether the polynomial in Z[x] satisfies an Eisenstein criterion for irreducibility over Q. 8x^3 + 6x^2 - 9x + 24",
+"opcoes": [
+"Yes, with p=7.",
+"No, but it is irreducible over Z.",
+"Yes, with p=3.",
+"Yes, with p=5.",
+"No, but it is reducible over Z.",
+"Yes, with p=6.",
+"Yes, with p=8.",
+"Yes, with p=2.",
+"No.",
+"Yes, with p=4."
+],
+"resposta": "C"
+},
+{
+"id": "5346",
+"categoria": "other",
+"pergunta": "Hall Co. purchased a machine on January 1 at a cost of $140000. The machine had an estimated useful life of eight years and a salvage value of $60000. Hall chose to depreciate the machine using the double- declining balance method. What was the carrying amount of the machine in Hall's balance sheet at the end of its second year of operations?",
+"opcoes": [
+"$60,000",
+"$70,000",
+"$61,250",
+"$100,000",
+"$85,000",
+"$78,750",
+"80000",
+"$90,000",
+"$95,000",
+"$110,000"
+],
+"resposta": "F"
+},
+{
+"id": "11020",
+"categoria": "philosophy",
+"pergunta": "According to Hobbes, in the condition of man in which there is a state of war of everyone against everyone, every man has a right to _____.",
+"opcoes": [
+"due process",
+"property",
+"self-defense",
+"freedom of speech",
+"lawful treatment",
+"good health",
+"privacy",
+"everything",
+"peace and harmony",
+"some things"
+],
+"resposta": "H"
+},
+{
+"id": "9048",
+"categoria": "physics",
+"pergunta": "What is the source of the material that causes meteor showers?",
+"opcoes": [
+"Large meteorites disintegrate in the Earth's atmosphere, creating smaller particles that cause a meteor shower.",
+"Near-Earth asteroids gradually disintegrate and spread out along their orbital paths. When the Earth passes through the orbit of an asteroid we are bombarded by sand-sized particles that cause a meteor shower.",
+"Asteroid impacts elsewhere in the solar system throw sand-sized particles into space and occasionally the Earth passes through a cloud of these particles which burn up in our atmosphere and cause a meteor shower.",
+"Meteor showers are caused by the Earth passing through a cloud of dust and debris left behind by the disintegration of planets in our solar system.",
+"The gravitational pull of the moon causes rocks on its surface to be ejected into space. These rocks then enter Earth's atmosphere and cause a meteor shower.",
+"Meteor showers are caused by the Earth passing through the tail of a comet, where dust and ice particles are left behind.",
+"Meteor showers are caused by the Earth passing through a cloud of dust and debris left behind by the disintegration of distant stars.",
+"Near-Earth asteroids disintegrate as they enter Earth's atmosphere creating hundreds of bright meteors that appear to radiate from a single location in the sky.",
+"Meteor showers are caused by the disintegration of satellites and space debris as they re-enter the Earth's atmosphere.",
+"The nuclei of comets gradually disintegrate and spread out along their orbital paths. When the Earth passes through the orbit of an comet we are bombarded by sand-sized particles that cause a meteor shower."
+],
+"resposta": "J"
+},
+{
+"id": "2104",
+"categoria": "psychology",
+"pergunta": "Which of the following illustrates why most people can detect the difference between Coke and Pepsi most of the time?",
+"opcoes": [
+"Depth perception",
+"Sensory adaptation",
+"Subliminal perception",
+"Perceptual constancy",
+"Gestalt principles",
+"Absolute threshold",
+"Signal detection theory",
+"Divided attention",
+"Selective attention",
+"Difference threshold"
+],
+"resposta": "J"
+}
+]
+}

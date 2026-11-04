@@ -1,0 +1,440 @@
+[
+  {
+    "key": 138,
+    "prompt": "Compare a abordagem de desigualdade social em 'Macunaíma' com outras obras de Mário de Andrade. Siga estritamente: NÃO use pontos de exclamação.",
+    "instruction_id_list": [
+      "forbidden:no_exclamations"
+    ],
+    "kwargs": [
+      {}
+    ],
+    "difficulty": "easy",
+    "book": "Macunaíma",
+    "num_instructions": 1
+  },
+  {
+    "key": 185,
+    "prompt": "Escreva uma análise crítica de 'Grande Sertão: Veredas' de João Guimarães Rosa, explorando como a obra aborda a condição humana. Siga estritamente: a resposta deve ter pelo menos 80 palavras.",
+    "instruction_id_list": [
+      "count:min_word_count"
+    ],
+    "kwargs": [
+      {
+        "min_words": 80
+      }
+    ],
+    "difficulty": "easy",
+    "book": "Grande Sertão: Veredas",
+    "num_instructions": 1
+  },
+  {
+    "key": 102,
+    "prompt": "Produza uma breve resenha crítica de 'O Cortiço', analisando o tratamento de natureza e civilização. Siga estritamente: use no máximo 5 palavras terminadas em -mente.",
+    "instruction_id_list": [
+      "pattern:terminacao_mente_limit"
+    ],
+    "kwargs": [
+      {
+        "max_count": 5
+      }
+    ],
+    "difficulty": "easy",
+    "book": "O Cortiço",
+    "num_instructions": 1
+  },
+  {
+    "key": 167,
+    "prompt": "Reflita sobre como 'Vidas Secas' de Graciliano Ramos contribui para discussões sobre a condição humana. Siga estritamente: NÃO use números (algarismos).",
+    "instruction_id_list": [
+      "forbidden:no_numbers"
+    ],
+    "kwargs": [
+      {}
+    ],
+    "difficulty": "easy",
+    "book": "Vidas Secas",
+    "num_instructions": 1
+  },
+  {
+    "key": 48,
+    "prompt": "Discuta a importância de 'Capitães da Areia' para a literatura brasileira, considerando amor e ciúme. Siga estritamente: capitalize a primeira letra de cada frase.",
+    "instruction_id_list": [
+      "format:title_case_start"
+    ],
+    "kwargs": [
+      {}
+    ],
+    "difficulty": "easy",
+    "book": "Capitães da Areia",
+    "num_instructions": 1
+  },
+  {
+    "key": 157,
+    "prompt": "Analise como 'O Cortiço' representa poder e opressão na literatura brasileira do período. Siga estritamente: formate a resposta como lista com marcadores (use • ou - no início de cada item).",
+    "instruction_id_list": [
+      "format:bullet_list"
+    ],
+    "kwargs": [
+      {}
+    ],
+    "difficulty": "easy",
+    "book": "O Cortiço",
+    "num_instructions": 1
+  },
+  {
+    "key": 90,
+    "prompt": "Redija uma apresentação de 'Capitães da Areia' para um grupo de leitura, explicando como Jorge Amado trata poder e opressão. Siga estritamente: NÃO use números (algarismos).",
+    "instruction_id_list": [
+      "forbidden:no_numbers"
+    ],
+    "kwargs": [
+      {}
+    ],
+    "difficulty": "easy",
+    "book": "Capitães da Areia",
+    "num_instructions": 1
+  },
+  {
+    "key": 104,
+    "prompt": "Analise como 'Vidas Secas' representa a condição humana na literatura brasileira do período. Siga estritamente: use pelo menos 4 conectivos (portanto, assim, além disso, etc.).",
+    "instruction_id_list": [
+      "words:connective"
+    ],
+    "kwargs": [
+      {
+        "min_connectives": 4
+      }
+    ],
+    "difficulty": "easy",
+    "book": "Vidas Secas",
+    "num_instructions": 1
+  },
+  {
+    "key": 122,
+    "prompt": "Redija uma apresentação de 'Grande Sertão: Veredas' para um grupo de leitura, explicando como João Guimarães Rosa trata sobrevivência e resistência. Siga estritamente: a resposta deve ter pelo menos 4 frases; e NÃO use pronomes de primeira pessoa (eu, me, mim, nós, meu, nosso, etc.).",
+    "instruction_id_list": [
+      "count:min_sentence_count",
+      "forbidden:no_first_person"
+    ],
+    "kwargs": [
+      {
+        "N": 4
+      },
+      {}
+    ],
+    "difficulty": "medium",
+    "book": "Grande Sertão: Veredas",
+    "num_instructions": 2
+  },
+  {
+    "key": 176,
+    "prompt": "Escreva uma análise crítica de 'A Hora da Estrela' de Clarice Lispector, explorando como a obra aborda marginalização e exclusão. Siga estritamente: a resposta deve ter pelo menos 6 frases; e NÃO use pronomes de primeira pessoa (eu, me, mim, nós, meu, nosso, etc.).",
+    "instruction_id_list": [
+      "count:min_sentence_count",
+      "forbidden:no_first_person"
+    ],
+    "kwargs": [
+      {
+        "N": 6
+      },
+      {}
+    ],
+    "difficulty": "medium",
+    "book": "A Hora da Estrela",
+    "num_instructions": 2
+  },
+  {
+    "key": 27,
+    "prompt": "Escreva uma resenha de 'A Hora da Estrela' que explore como a obra de Clarice Lispector aborda desigualdade social. Siga estritamente: a resposta deve conter entre 100 e 146 palavras; e use no máximo 7 palavras terminadas em -ando, -endo ou -indo.",
+    "instruction_id_list": [
+      "count:word_count_range",
+      "pattern:terminacao_ando_endo_indo_limit"
+    ],
+    "kwargs": [
+      {
+        "min_words": 100,
+        "max_words": 146
+      },
+      {
+        "max_count": 7
+      }
+    ],
+    "difficulty": "medium",
+    "book": "A Hora da Estrela",
+    "num_instructions": 2
+  },
+  {
+    "key": 186,
+    "prompt": "Escreva uma resenha de 'Grande Sertão: Veredas' que explore como a obra de João Guimarães Rosa aborda identidade e pertencimento. Siga estritamente: use pelo menos 4 palavras terminadas em -ando, -endo ou -indo; e use pelo menos 2 conectivos (portanto, assim, além disso, etc.).",
+    "instruction_id_list": [
+      "pattern:terminacao_ando_endo_indo_min",
+      "words:connective"
+    ],
+    "kwargs": [
+      {
+        "min_count": 4
+      },
+      {
+        "min_connectives": 2
+      }
+    ],
+    "difficulty": "medium",
+    "book": "Grande Sertão: Veredas",
+    "num_instructions": 2
+  },
+  {
+    "key": 3,
+    "prompt": "Produza uma breve resenha crítica de 'Iracema', analisando o tratamento de desigualdade social. Siga estritamente: a resposta deve conter entre 80 e 114 palavras; e use no máximo 4 palavras terminadas em -ando, -endo ou -indo.",
+    "instruction_id_list": [
+      "count:word_count_range",
+      "pattern:terminacao_ando_endo_indo_limit"
+    ],
+    "kwargs": [
+      {
+        "min_words": 80,
+        "max_words": 114
+      },
+      {
+        "max_count": 4
+      }
+    ],
+    "difficulty": "medium",
+    "book": "Iracema",
+    "num_instructions": 2
+  },
+  {
+    "key": 107,
+    "prompt": "Escreva um comentário sobre 'Capitães da Areia' para um grupo de leitura, destacando desigualdade social. Siga estritamente: a resposta deve ter pelo menos 4 parágrafos; e use pelo menos um ponto e vírgula (;).",
+    "instruction_id_list": [
+      "count:min_paragraph_count",
+      "punctuation:use_semicolon"
+    ],
+    "kwargs": [
+      {
+        "min_paragraphs": 4
+      },
+      {}
+    ],
+    "difficulty": "medium",
+    "book": "Capitães da Areia",
+    "num_instructions": 2
+  },
+  {
+    "key": 148,
+    "prompt": "Produza uma análise mostrando como 'A Hora da Estrela' dialoga com questões de ambiguidade moral. Siga estritamente: inclua pelo menos uma citação entre aspas (\"...\"); e a resposta deve ter pelo menos 6 frases.",
+    "instruction_id_list": [
+      "punctuation:include_quote",
+      "count:min_sentence_count"
+    ],
+    "kwargs": [
+      {},
+      {
+        "N": 6
+      }
+    ],
+    "difficulty": "medium",
+    "book": "A Hora da Estrela",
+    "num_instructions": 2
+  },
+  {
+    "key": 155,
+    "prompt": "Escreva um comentário sobre 'Macunaíma' para um grupo de leitura, destacando memória e narrativa. Siga estritamente: não comece duas frases com a mesma palavra; e a resposta deve ter pelo menos 4 parágrafos.",
+    "instruction_id_list": [
+      "structure:no_repeat_sentence_start",
+      "count:min_paragraph_count"
+    ],
+    "kwargs": [
+      {},
+      {
+        "min_paragraphs": 4
+      }
+    ],
+    "difficulty": "medium",
+    "book": "Macunaíma",
+    "num_instructions": 2
+  },
+  {
+    "key": 112,
+    "prompt": "Produza uma análise mostrando como 'Vidas Secas' dialoga com questões de sobrevivência e resistência. Siga estritamente: a resposta deve ter exatamente 6 frases; use no máximo 4 palavras terminadas em -mente; e use pelo menos 4 conectivos (portanto, assim, além disso, etc.).",
+    "instruction_id_list": [
+      "count:exact_sentence_count",
+      "pattern:terminacao_mente_limit",
+      "words:connective"
+    ],
+    "kwargs": [
+      {
+        "N": 6
+      },
+      {
+        "max_count": 4
+      },
+      {
+        "min_connectives": 4
+      }
+    ],
+    "difficulty": "hard",
+    "book": "Vidas Secas",
+    "num_instructions": 3
+  },
+  {
+    "key": 106,
+    "prompt": "Discuta a importância de 'Iracema' para a literatura brasileira, considerando relações humanas e conflitos. Siga estritamente: use pelo menos 3 palavras terminadas em -ão ou -ões; use pelo menos 2 marcadores temporais (primeiro, depois, então, finalmente, etc.); e NÃO use pronomes de primeira pessoa (eu, me, mim, nós, meu, nosso, etc.).",
+    "instruction_id_list": [
+      "pattern:terminacao_ao_oes_min",
+      "words:temporal_marker",
+      "forbidden:no_first_person"
+    ],
+    "kwargs": [
+      {
+        "min_count": 3
+      },
+      {
+        "min_markers": 2
+      },
+      {}
+    ],
+    "difficulty": "hard",
+    "book": "Iracema",
+    "num_instructions": 3
+  },
+  {
+    "key": 121,
+    "prompt": "Escreva uma análise crítica de 'Iracema' de José de Alencar, explorando como a obra aborda a condição humana. Siga estritamente: use pelo menos 4 palavras terminadas em -inho ou -inha; use no máximo 4 palavras terminadas em -mente; e a resposta deve conter entre 180 e 224 palavras.",
+    "instruction_id_list": [
+      "pattern:terminacao_inho_inha_min",
+      "pattern:terminacao_mente_limit",
+      "count:word_count_range"
+    ],
+    "kwargs": [
+      {
+        "min_count": 4
+      },
+      {
+        "max_count": 4
+      },
+      {
+        "min_words": 180,
+        "max_words": 224
+      }
+    ],
+    "difficulty": "hard",
+    "book": "Iracema",
+    "num_instructions": 3
+  },
+  {
+    "key": 193,
+    "prompt": "Produza uma análise mostrando como 'Vidas Secas' dialoga com questões de poder e opressão. Siga estritamente: a resposta deve ter exatamente 120 palavras; nenhuma palavra pode se repetir mais de 4 vezes; NÃO use pronomes de primeira pessoa (eu, me, mim, nós, meu, nosso, etc.); e inclua pelo menos um marcador de contraste (porém, contudo, no entanto, por outro lado, etc.).",
+    "instruction_id_list": [
+      "count:exact_word_count",
+      "words:max_word_repeat",
+      "forbidden:no_first_person",
+      "words:contrast_marker"
+    ],
+    "kwargs": [
+      {
+        "target_words": 120
+      },
+      {
+        "N": 4
+      },
+      {},
+      {}
+    ],
+    "difficulty": "hard",
+    "book": "Vidas Secas",
+    "num_instructions": 4
+  },
+  {
+    "key": 156,
+    "prompt": "Escreva um comentário sobre 'A Hora da Estrela' para um grupo de leitura, destacando relações humanas e conflitos. Siga estritamente: a resposta deve ter entre 800 e 1081 caracteres; inclua a palavra 'história' na resposta; NÃO use números (algarismos); e use pelo menos um ponto e vírgula (;).",
+    "instruction_id_list": [
+      "count:character_count_range",
+      "words:include_word",
+      "forbidden:no_numbers",
+      "punctuation:use_semicolon"
+    ],
+    "kwargs": [
+      {
+        "min_chars": 800,
+        "max_chars": 1081
+      },
+      {
+        "word": "história"
+      },
+      {},
+      {}
+    ],
+    "difficulty": "hard",
+    "book": "A Hora da Estrela",
+    "num_instructions": 4
+  },
+  {
+    "key": 41,
+    "prompt": "Elabore um texto analítico sobre 'Iracema', explorando como José de Alencar aborda marginalização e exclusão. Siga estritamente: a resposta deve ter exatamente 7 frases; use no máximo 5 palavras terminadas em -mente; e use pelo menos 2 conectivos (portanto, assim, além disso, etc.).",
+    "instruction_id_list": [
+      "count:exact_sentence_count",
+      "pattern:terminacao_mente_limit",
+      "words:connective"
+    ],
+    "kwargs": [
+      {
+        "N": 7
+      },
+      {
+        "max_count": 5
+      },
+      {
+        "min_connectives": 2
+      }
+    ],
+    "difficulty": "hard",
+    "book": "Iracema",
+    "num_instructions": 3
+  },
+  {
+    "key": 177,
+    "prompt": "Escreva um comentário sobre 'Vidas Secas' para um grupo de leitura, destacando a condição humana. Siga estritamente: use a palavra 'portanto' pelo menos 2 vezes; use no máximo 5 palavras terminadas em -ando, -endo ou -indo; e NÃO use pontos de exclamação.",
+    "instruction_id_list": [
+      "words:word_frequency",
+      "pattern:terminacao_ando_endo_indo_limit",
+      "forbidden:no_exclamations"
+    ],
+    "kwargs": [
+      {
+        "word": "portanto",
+        "min_count": 2
+      },
+      {
+        "max_count": 5
+      },
+      {}
+    ],
+    "difficulty": "hard",
+    "book": "Vidas Secas",
+    "num_instructions": 3
+  },
+  {
+    "key": 160,
+    "prompt": "Escreva uma carta para um clube de leitura convidando o grupo a debater 'Grande Sertão: Veredas', destacando tradição e modernidade. Siga estritamente: use pelo menos 4 palavras terminadas em -inho ou -inha; use no máximo 5 palavras terminadas em -mente; e a resposta deve conter entre 120 e 163 palavras.",
+    "instruction_id_list": [
+      "pattern:terminacao_inho_inha_min",
+      "pattern:terminacao_mente_limit",
+      "count:word_count_range"
+    ],
+    "kwargs": [
+      {
+        "min_count": 4
+      },
+      {
+        "max_count": 5
+      },
+      {
+        "min_words": 120,
+        "max_words": 163
+      }
+    ],
+    "difficulty": "hard",
+    "book": "Grande Sertão: Veredas",
+    "num_instructions": 3
+  }
+]

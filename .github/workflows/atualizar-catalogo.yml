@@ -1,0 +1,44 @@
+name: Atualizar catálogo público
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 8 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Atualizar catálogo usando o radar do projeto
+        run: python scripts/atualizar-catalogo-publico.py
+      - name: Salvar catálogo novo
+        id: commit
+        run: |
+          if git diff --quiet -- site/dados.js; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/dados.js
+          git commit -m "Atualiza catálogo público de modelos"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: Solicitar publicação no Vercel
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -n "$DEPLOY_HOOK" ]; then
+            curl --fail --silent --show-error --request POST "$DEPLOY_HOOK"
+          else
+            echo "Catálogo foi enviado ao Git; configure VERCEL_DEPLOY_HOOK para publicar automaticamente."
+          fi

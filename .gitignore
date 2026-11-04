@@ -1,0 +1,9 @@
+.vercel/
+local-notes/
+__pycache__/
+*.pyc
+download/LocalIntelligence/deploy/indice-cerebro.py
+download/LocalIntelligence/deploy/agendadas/
+download/LocalIntelligence/PENDENCIAS.md
+download/LocalIntelligence/deploy/instalar-maquina-linux.sh
+download/LocalIntelligence/deploy/instalar-maquina-windows.ps1
