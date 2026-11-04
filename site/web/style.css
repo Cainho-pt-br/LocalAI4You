@@ -294,6 +294,18 @@ dialog::backdrop { background: rgba(10, 12, 18, .55); backdrop-filter: blur(2px)
 .public-empty h1,.public-empty h2 { margin:14px 0; }
 .public-empty p { max-width:62ch; margin:0 auto 24px; color:var(--muted); line-height:1.7; }
 .public-empty-icon { font-size:2.4rem; color:var(--ink); }
+.radar-estimado-lista { display:grid; gap:14px; margin-top:20px; }
+.radar-modelo { padding:20px; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface); box-shadow:var(--shadow); }
+.radar-modelo-topo { display:flex; justify-content:space-between; gap:18px; align-items:start; }
+.radar-modelo h2 { margin:10px 0 4px; }
+.radar-fit { min-width:100px; display:grid; text-align:right; gap:4px; }
+.radar-fit b { font-size:1.1rem; color:var(--ink); }
+.radar-fit span,.radar-modelo p { color:var(--muted); }
+.radar-tags,.radar-links { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+.radar-variantes { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:8px; margin:12px 0; }
+.radar-variante { padding:8px 10px; border:1px solid var(--line); border-radius:8px; font-size:.82rem; overflow-wrap:anywhere; }
+.radar-links a { color:var(--link); }
+@media(max-width:600px){.radar-modelo-topo{display:grid}.radar-fit{text-align:left;display:flex;align-items:center}}
 
 /* ------------------------------------------------------------ calculadora */
 .passos { display: grid; gap: 16px; }

@@ -149,6 +149,7 @@ aplicarTema(temaAtual());
 function desenharStatus() {
   const s = S.saude;
   const el = $('#status');
+  if (window.LI_PUBLIC_MODE) { el.replaceChildren(h('span',{class:'pill'},h('i',{class:'dot ok'}),'Catálogo público · estimativas')); return; }
   if (!s) { el.replaceChildren(h('span', { class: 'pill' }, h('i', { class: 'dot bad' }), 'painel sem resposta')); return; }
   const gpu = s.gpu, kv = S.mesa?.kv_medido;
   el.replaceChildren(

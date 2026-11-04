@@ -65,7 +65,13 @@ async function pRadar() {
     }
     cabem.sort((a,b)=>b.c.params_b-a.c.params_b);
     raiz.replaceChildren(h('div',{class:'pagina-topo'},h('h1',{},'Radar estimado para '+perfil.nome),h('p',{class:'sub'},`${cabem.length} modelos do catálogo cabem com a configuração salva. Estimativa em Q8_0 e contexto de 8k; confirme no aplicativo local antes de baixar.`),h('button',{class:'btn mini',onclick:()=>irPara('calculadora')},'Alterar hardware')),
-      h('div',{class:'guia-grid'},cabem.slice(0,36).map(({c,v})=>h('article',{class:'guia-card'},h('span',{class:'chip'},'ESTIMADO'),h('h3',{},c.nome),h('p',{},`${c.params_b}B · ${v.quant} · ${fmtN(v.bytes/1e9,1)} GB`),h('p',{class:'sub'},'Caberia com 8k de contexto · tamanho/encaixe estimados'),c.repo?h('a',{href:`https://huggingface.co/${c.repo}`,target:'_blank',rel:'noopener'},'Ver modelo ↗'):null)))); return;
+      h('div',{class:'radar-estimado-lista'},cabem.slice(0,60).map(({c,v})=>h('article',{class:'radar-modelo'},
+        h('div',{class:'radar-modelo-topo'},h('div',{},h('span',{class:'chip'},'ESTIMADO'),h('h2',{},c.nome),h('p',{class:'sub'},`${c.params_b}B parâmetros${c.ativos_b?` · ${c.ativos_b}B ativos`:''} · ${c.origem==='hf'?'Hugging Face':'Ollama'}`)),h('div',{class:'radar-fit'},h('b',{},v.quant),h('span',{},`${fmtN(v.bytes/1e9,1)} GB`))),
+        h('p',{},c.descricao||'Descrição do modelo não disponível.'),
+        h('div',{class:'radar-tags'},(c.caps||[]).map(x=>h('span',{class:'chip neutro'},x)),c.licenca?h('span',{class:'chip neutro'},`Licença: ${c.licenca}`):null,c.ctx_max?h('span',{class:'chip neutro'},`Contexto declarado: ${fmtCtx(c.ctx_max)}`):null),
+        h('p',{class:'sub'},`Estimativa em Q8_0 e contexto de 8k para ${perfil.nome}. Confirme o hardware antes de baixar.`),
+        h('details',{},h('summary',{},`Ver ${c.variantes?.length||0} quantizações e tamanhos`),h('div',{class:'radar-variantes'},(c.variantes||[]).map(q=>h('div',{class:'radar-variante'},h('b',{},q.quant),` · ${fmtN(q.bytes/1e9,1)} GB · ${q.pull}`))),
+          h('div',{class:'radar-links'},c.repo?h('a',{href:`https://huggingface.co/${c.repo}`,target:'_blank',rel:'noopener'},'Página no Hugging Face ↗'):null,c.repo_gguf?h('a',{href:`https://huggingface.co/${c.repo_gguf}`,target:'_blank',rel:'noopener'},'GGUF no Hugging Face ↗'):null,c.familia?h('a',{href:`https://ollama.com/library/${c.familia}`,target:'_blank',rel:'noopener'},'Biblioteca Ollama ↗'):null)))))); return;
   }
   if (!S.mesa) return;
   const maquinas = (S.calc?.maquinas || []).map(x => x.id);
