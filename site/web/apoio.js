@@ -1,21 +1,21 @@
 'use strict';
-/* Apoio ao projeto, de forma discreta:
-   • um link pequeno no rodapé da barra lateral, sempre disponível;
-   • uma linha única, que some sozinha, DEPOIS de um momento em que a ferramenta ajudou (copiar um comando,
-     terminar uma medição ou um duelo). Nunca na primeira ação, no máximo uma vez a cada 60 dias, e some de vez
-     com "não mostrar mais". Nada é rastreado nem enviado: os contadores ficam só neste navegador.
+/* Apoio ao projeto, sempre presente e sem atrapalhar:
+   • um link pequeno no rodapé da barra lateral (no celular, no pé da página);
+   • um bloco discreto no fim do Radar;
+   • uma linha compacta depois de cada momento em que a ferramenta ajudou (copiar um comando, terminar uma medição
+     ou um duelo). Ela não cobre nada importante, nunca empilha, some sozinha em poucos segundos e o ✕ a esconde
+     até o fim da visita. Nada é rastreado nem enviado.
    Para ativar doações, preencha APOIO abaixo (chave Pix e/ou um link como GitHub Sponsors, Ko-fi ou Apoia.se). */
 const APOIO = {
   pix: '',          // ex.: 'seu-email@exemplo.com' ou chave aleatória
   link: '',         // ex.: 'https://github.com/sponsors/SEU-USUARIO'
   linkRotulo: 'Doar pelo navegador',
 };
-const APOIO_LS = 'li-apoio-v1';
-const APOIO_INTERVALO_DIAS = 60;
-const APOIO_MOMENTOS_ANTES = 2;     // só depois do 2º momento de valor
+const APOIO_SESSAO = 'li-apoio-oculto';   // ✕ esconde só nesta visita
+const APOIO_SEGUNDOS = 7;
 
-function _apoioEstado() { try { return JSON.parse(localStorage.getItem(APOIO_LS) || '{}') || {}; } catch (e) { return {}; } }
-function _apoioGuardar(s) { try { localStorage.setItem(APOIO_LS, JSON.stringify(s)); } catch (e) { /* navegação privada: sem lembrete */ } }
+function _apoioOculto() { try { return sessionStorage.getItem(APOIO_SESSAO) === '1'; } catch (e) { return false; } }
+function _apoioOcultar() { try { sessionStorage.setItem(APOIO_SESSAO, '1'); } catch (e) { /* navegação privada */ } }
 
 function abrirApoio() {
   const linhas = [
@@ -42,21 +42,31 @@ function desenharApoio() {
   if (main && !main.querySelector('.rodape-apoio')) main.appendChild(h('footer', { class: 'rodape-apoio' }, link()));
 }
 
-/* Chamado quando a ferramenta acabou de ser útil. Mostra (raramente) uma linha discreta no rodapé. */
+/* Bloco fixo e discreto para o fim de páginas longas (Radar). */
+function blocoApoio() {
+  return h('aside', { class: 'apoio-bloco' },
+    h('span', { class: 'apoio-coracao', 'aria-hidden': 'true' }, '♥'),
+    h('div', { class: 'grow' }, h('b', {}, 'O Local AI Search é gratuito e de código aberto.'),
+      h('span', { class: 'sub' }, ' Se ele te ajudou a escolher, dá para apoiar com uma estrela, um comentário ou uma doação.')),
+    h('button', { type: 'button', class: 'btn mini', onclick: abrirApoio }, 'Como apoiar'));
+}
+
+/* Chamado quando a ferramenta acabou de ser útil: uma linha compacta que some sozinha. */
+let _apoioTimer = null;
 function momentoDeValor(tipo) {
-  const s = _apoioEstado();
-  s.momentos = (s.momentos || 0) + 1;
-  const agora = Date.now(), dias = s.mostrado ? (agora - s.mostrado) / 864e5 : Infinity;
-  const mostrar = !s.nunca && s.momentos >= APOIO_MOMENTOS_ANTES && dias >= APOIO_INTERVALO_DIAS;
-  if (mostrar) s.mostrado = agora;
-  _apoioGuardar(s);
-  if (!mostrar || document.querySelector('.apoio-linha')) return;
-  const texto = tipo === 'medicao' ? 'Medição pronta. Se o Local AI Search está te ajudando,' : 'Comando copiado. Se o Local AI Search te ajudou a escolher,';
-  const linha = h('div', { class: 'apoio-linha', role: 'status' },
-    h('span', {}, texto + ' '), h('button', { type: 'button', class: 'apoio-link forte', onclick: () => { linha.remove(); abrirApoio(); } }, 'veja como apoiar ♥'),
-    h('button', { type: 'button', class: 'apoio-fechar', title: 'Não mostrar mais', 'aria-label': 'Não mostrar mais', onclick: () => { const e = _apoioEstado(); e.nunca = true; _apoioGuardar(e); linha.remove(); } }, '✕'));
-  document.body.appendChild(linha);
-  setTimeout(() => linha.remove(), 14000);
+  if (_apoioOculto()) return;
+  const texto = tipo === 'medicao' ? 'Medição pronta.' : 'Comando copiado.';
+  let linha = document.querySelector('.apoio-linha');
+  if (!linha) {
+    linha = h('div', { class: 'apoio-linha', role: 'status' });
+    document.body.appendChild(linha);
+  }
+  linha.replaceChildren(
+    h('span', {}, texto + ' Gostou? '),
+    h('button', { type: 'button', class: 'apoio-link forte', onclick: () => { linha.remove(); abrirApoio(); } }, 'Apoie o projeto ♥'),
+    h('button', { type: 'button', class: 'apoio-fechar', title: 'Esconder até a próxima visita', 'aria-label': 'Esconder até a próxima visita', onclick: () => { _apoioOcultar(); linha.remove(); } }, '✕'));
+  clearTimeout(_apoioTimer);
+  _apoioTimer = setTimeout(() => linha.remove(), APOIO_SEGUNDOS * 1000);
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', desenharApoio); else desenharApoio();

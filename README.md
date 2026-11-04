@@ -40,7 +40,7 @@ cd download/LocalIntelligence && python -m unittest discover -s tests
 
 O projeto é gratuito e de código aberto. Se ele te ajudou: deixe uma ⭐, [conte o que achou ou relate um problema](https://github.com/Cainho-pt-br/LocalAISearch/issues) e mostre para quem está começando com IA local.
 
-Para ativar doações no site e no app, preencha `APOIO` em `download/LocalIntelligence/web/apoio.js` (chave Pix e/ou link do GitHub Sponsors, Ko-fi, Apoia.se…) e rode `python scripts/sincronizar-web.py`. O aviso é discreto: um link no rodapé da barra lateral e, no máximo a cada 60 dias, uma linha que aparece só depois que a ferramenta foi útil (copiar um comando, terminar uma medição). Nada é rastreado.
+Para ativar doações no site e no app, preencha `APOIO` em `download/LocalIntelligence/web/apoio.js` (chave Pix e/ou link do GitHub Sponsors, Ko-fi, Apoia.se…) e rode `python scripts/sincronizar-web.py`. O apoio aparece sempre, sem atrapalhar: um link no rodapé da barra lateral, um bloco discreto no fim do Radar e uma linha compacta depois de cada momento útil (copiar um comando, terminar uma medição). A linha some sozinha em segundos e o ✕ a esconde até a próxima visita. Nada é rastreado.
 
 ## Dados e licença
 
