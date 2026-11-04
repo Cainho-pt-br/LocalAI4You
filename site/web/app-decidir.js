@@ -47,6 +47,7 @@ function alternarManterModelo(id) {
 
 function pDecidir() {
   const m = S.mesa, raiz = $('#p-decidir');
+  if (window.LI_PUBLIC_MODE) { raiz.replaceChildren(h('div',{class:'public-empty'},h('div',{class:'public-empty-icon'},'◈'),h('h1',{},'Decidir, com os seus dados'),h('p',{},'Esta área usa os modelos instalados e os benchmarks feitos no seu computador. O site não acessa seu Ollama nem inventa notas.'),h('a',{class:'btn primario',href:'https://github.com/Cainho-pt-br/LocalAISearch/archive/refs/heads/main.zip'},'Baixar o app local'))); return; }
   if (!m) { raiz.replaceChildren(h('div', { class: 'vazio' }, 'Carregando…')); return; }
   const pend = (m.vereditos || []).filter(v => v.pendente);
   const oculto = mancheteOculta(m);
@@ -1059,6 +1060,7 @@ async function iniciarDueloRapido(va, vb, papel = 'chat_pt', nivel = 'padrao') {
 
 async function pModelos() {
   const m = S.mesa, raiz = $('#p-modelos');
+  if (window.LI_PUBLIC_MODE) { raiz.replaceChildren(h('div',{class:'public-empty'},h('div',{class:'public-empty-icon'},'▣'),h('h1',{},'Seus modelos, no seu computador'),h('p',{},'A lista de modelos instalados e as notas medidas vêm do Ollama local. No site, escolha seu hardware no Radar para ver apenas estimativas.'),h('a',{class:'btn primario',href:'https://github.com/Cainho-pt-br/LocalAISearch/archive/refs/heads/main.zip'},'Baixar o app local'))); return; }
   if (!m) return;
   const papeisNota = m.papeis.filter(p => !p.sem_nota);
   const ordPlacar = S.ordPlacar || (S.ordPlacar = { col: 'indice', dir: -1 });

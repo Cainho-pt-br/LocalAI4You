@@ -45,6 +45,28 @@ async function abrirQuants(candId, papelId, maquinaId) {
 // ---------------------------------------------------------------- RADAR
 async function pRadar() {
   const raiz = $('#p-radar'), f = S.filtroRadar;
+  if (window.LI_PUBLIC_MODE) {
+    const dados = await garantirCalc();
+    Calc.configurar(dados.constantes);
+    let salvo = {}; try { salvo = JSON.parse(localStorage.getItem('li-calculadora-v1') || '{}'); } catch (_) {}
+    if (!salvo.modo && !salvo.gpuId && !salvo.cpuId && !salvo.chipId) {
+      raiz.replaceChildren(h('div',{class:'pagina-topo'},h('h1',{},'Radar de modelos para o seu hardware'),h('p',{class:'sub'},'O Radar estima quais modelos do catálogo cabem no computador que você configurar. Primeiro informe sua placa de vídeo, memória ou processador.')),
+        h('div',{class:'public-empty'},h('div',{class:'public-empty-icon'},'⌁'),h('h2',{},'Ainda falta configurar seu computador'),h('p',{},'A calculadora salva sua configuração neste navegador. Depois volte aqui para ver modelos estimados para sua máquina.'),h('button',{class:'btn primario',onclick:()=>irPara('calculadora')},'Configurar hardware'))); return;
+    }
+    const perfil=LI_CALC_UI.perfilDe(salvo,dados), reserva=dados.reserva_vram_gb??1.3;
+    const cabem=[];
+    for (const c of dados.candidatos||[]) {
+      let melhor=null;
+      for (const v of c.variantes||[]) {
+        const enc=Calc.avaliarEncaixe(v.bytes+(v.extra_bytes||0),c.arch,perfil,8192,'q8_0',reserva);
+        if (enc.nivel!=='nao_cabe'&&(!melhor||v.bytes<melhor.bytes)) melhor={...v,enc};
+      }
+      if (melhor) cabem.push({c,v:melhor});
+    }
+    cabem.sort((a,b)=>b.c.params_b-a.c.params_b);
+    raiz.replaceChildren(h('div',{class:'pagina-topo'},h('h1',{},'Radar estimado para '+perfil.nome),h('p',{class:'sub'},`${cabem.length} modelos do catálogo cabem com a configuração salva. Estimativa em Q8_0 e contexto de 8k; confirme no aplicativo local antes de baixar.`),h('button',{class:'btn mini',onclick:()=>irPara('calculadora')},'Alterar hardware')),
+      h('div',{class:'guia-grid'},cabem.slice(0,36).map(({c,v})=>h('article',{class:'guia-card'},h('span',{class:'chip'},'ESTIMADO'),h('h3',{},c.nome),h('p',{},`${c.params_b}B · ${v.quant} · ${fmtN(v.bytes/1e9,1)} GB`),h('p',{class:'sub'},'Caberia com 8k de contexto · tamanho/encaixe estimados'),c.repo?h('a',{href:`https://huggingface.co/${c.repo}`,target:'_blank',rel:'noopener'},'Ver modelo ↗'):null)))); return;
+  }
   if (!S.mesa) return;
   const maquinas = (S.calc?.maquinas || []).map(x => x.id);
   const ids = maquinas.length ? maquinas : ['boss', 'aspire5', 'raspberrypi', 'celeron', 'i3'];

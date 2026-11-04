@@ -57,6 +57,7 @@ async function carregarSaude() {
   desenharStatus();
 }
 async function carregarMesa() {
+  if (window.LI_PUBLIC_MODE) { S.mesa = null; return; }
   try { S.mesa = await api('/api/mesa'); } catch (e) { toast('Falha ao carregar a mesa de decisão: ' + e.message); }
 }
 async function carregarJobs() {
