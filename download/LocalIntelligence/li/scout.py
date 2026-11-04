@@ -72,7 +72,7 @@ def papeis_provaveis(nome: str, caps: List[str], params_b: Optional[float], desc
 
 _ESPECIALIZADO = re.compile(
     r"(?i)(computer[- ]use|gui[- ]agent|desktop[- ]agent|web[- ]agent|browser[- ]automation|\bocr\b|ui-mate|embodied|\brobot|"
-    r"medical|clinical|protein|biolog|chemistry|translat|\bguard\b|safeguard|\breward\b|\bjudge\b|retriev|\bembed|rerank|speech|\btts\b|\basr\b|"
+    r"medical|clinical|protein|biolog|chemistry|translat|(?<!van)guard(?:ian)?\b|\breward\b|\bjudge\b|decision model|retriev|\bembed|rerank|speech|\btts\b|\basr\b|"
     r"text-to-sql|\bsql\b|context-management|visual-text-compression|\bmedia\b|\bsports?\b|\btennis\b|\bfara\b|lensvlm|"
     r"autonomous[- ]driving|time[- ]series|forecast|geospatial|\blegal\b|\bfinance\b|\bfinancial\b)")
 _LICENCAS_RESTRITAS = ("cc-by-nc", "other", "research", "non-commercial", "llama", "apple-amlr", "gemma")

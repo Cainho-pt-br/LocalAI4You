@@ -706,3 +706,42 @@ dialog::backdrop { background: rgba(10, 12, 18, .55); backdrop-filter: blur(2px)
 .alvo select { width: 100%; }
 .banner-alvo { margin-bottom: 20px; padding: 12px 16px; border: 1px solid var(--info); background: var(--info-soft); color: var(--text); border-radius: 12px; }
 .banner-alvo .linha { justify-content: space-between; }
+
+/* ------------------------------------------------------------ Radar em lista: tudo que cabe, do mais ao menos indicado; os 5 primeiros com borda colorida */
+.palpite-hw { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin:12px 0 0; padding:10px 14px; border-radius:var(--radius-sm); background:var(--info-soft); border:1px solid color-mix(in srgb, var(--info) 30%, transparent); font-size:.88rem; }
+.palpite-hw.exemplo { background:var(--warn-soft); border-color:color-mix(in srgb, var(--warn) 35%, transparent); }
+.calc-card-hw .palpite-hw { margin:0 0 12px; }
+.usos { display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 12px; }
+.usos button { border:1px solid var(--line-strong); background:var(--surface); color:var(--text); padding:7px 13px; border-radius:99px; font-size:.86rem; font-weight:600; }
+.usos button:hover { border-color:var(--ink); }
+.usos button[aria-pressed="true"] { background:var(--ink); border-color:var(--ink); color:var(--on-ink); }
+.radar-regra { margin-bottom:16px; }
+.radar-lista { display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,420px),1fr)); gap:14px; align-items:start; }
+.radar-item { position:relative; display:flex; flex-direction:column; gap:10px; padding:16px 18px; border:1px solid var(--line-strong); border-radius:var(--radius); background:var(--surface); box-shadow:var(--shadow); min-width:0; }
+.radar-item h2 { font-size:1.08rem; margin-bottom:6px; }
+.radar-item-topo { display:flex; gap:12px; align-items:flex-start; }
+.radar-pos { flex:none; min-width:38px; height:30px; padding:0 8px; display:inline-grid; place-items:center; border-radius:99px; background:var(--surface-2); color:var(--muted); font-weight:750; font-size:.85rem; font-variant-numeric:tabular-nums; }
+.radar-porque { margin:0; color:var(--text); font-size:.9rem; line-height:1.55; }
+.radar-mais summary { cursor:pointer; color:var(--link); font-weight:600; font-size:.88rem; }
+.radar-mais[open] summary { margin-bottom:8px; }
+.radar-item .radar-fit { min-width:80px; }
+/* Os 5 primeiros: moldura em gradiente (borda transparente + dois fundos) e posição colorida */
+.radar-top { --cor-top: var(--ink); border:2px solid transparent; background:linear-gradient(var(--surface),var(--surface)) padding-box, linear-gradient(135deg,var(--cor-top),color-mix(in srgb,var(--cor-top) 35%,#a855f7)) border-box; box-shadow:0 10px 30px color-mix(in srgb,var(--cor-top) 16%,transparent); }
+.radar-top .radar-pos { background:var(--cor-top); color:#fff; }
+.radar-top-1 { --cor-top:#f59e0b; } .radar-top-2 { --cor-top:#10b981; } .radar-top-3 { --cor-top:#3b82f6; } .radar-top-4 { --cor-top:#8b5cf6; } .radar-top-5 { --cor-top:#ec4899; }
+:root[data-theme="dark"] .radar-top { background:linear-gradient(#111622,#111622) padding-box, linear-gradient(135deg,var(--cor-top),color-mix(in srgb,var(--cor-top) 35%,#a855f7)) border-box; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .radar-top { background:linear-gradient(#111622,#111622) padding-box, linear-gradient(135deg,var(--cor-top),color-mix(in srgb,var(--cor-top) 35%,#a855f7)) border-box; } }
+.radar-fora { margin-top:18px; }
+.radar-fora summary { cursor:pointer; font-weight:650; }
+.radar-fora-lista { columns:2 320px; margin:10px 0; padding-left:20px; color:var(--muted); font-size:.87rem; }
+.radar-fora-lista li { margin:3px 0; break-inside:avoid; }
+.radar-cta { margin-top:26px; }
+.descricao-modelo p { margin:0 0 6px; }
+.descricao-autor { font-size:.82rem; }
+.guia-detalhes { margin-top:28px; }
+.guia-detalhes > summary { cursor:pointer; font-weight:650; }
+.guia-detalhes h3 { margin:18px 0 6px; }
+/* Radar do painel local: os 5 primeiros da fila também ganham a moldura */
+.radar-card.radar-top { position:relative; padding-top:18px; }
+.radar-card .radar-pos-local { position:absolute; top:-11px; left:14px; }
+@media (max-width:600px) { .radar-item { padding:14px; } .radar-item-topo { flex-wrap:wrap; } }

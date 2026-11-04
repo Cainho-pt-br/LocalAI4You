@@ -18,6 +18,37 @@ const LI_CALC_UI = (function () {
   const num = (v, pad) => { const n = Number(String(v).replace(',', '.')); return Number.isFinite(n) && n > 0 ? n : pad; };
   const slug = s => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
 
+  // ---------------------------------------------------------------- descrição em português (gerada só com fatos do catálogo)
+  const CAPS_PT = { vision: ['👁 imagens', 'entende imagens'], tools: ['🛠 ferramentas', 'chama ferramentas (útil para agentes)'], thinking: ['🧠 raciocínio', 'tem modo de raciocínio'], audio: ['🔊 áudio', 'entende áudio'] };
+  const chipsCaps = c => (c.caps || []).filter(k => CAPS_PT[k]).map(k => chip(CAPS_PT[k][0], 'neutro', CAPS_PT[k][1]));
+  const listaPt = xs => xs.length <= 1 ? (xs[0] || '') : xs.slice(0, -1).join(', ') + ' e ' + xs[xs.length - 1];
+  const bilhoes = b => b < 1 ? `${Math.round(b * 1000)} milhões` : `${fmtN(b, b < 10 && b % 1 ? 1 : 0)} bilhões`;
+  function autorDe(c) {
+    if (c.origem === 'ollama') return 'biblioteca oficial do Ollama';
+    const dono = String(c.repo || c.id || '').replace(/^hf:/, '').split('/')[0];
+    return dono ? `${dono}, no Hugging Face` : 'Hugging Face';
+  }
+  function descricaoPt(c) {
+    const frases = [];
+    let f = `Modelo de ${bilhoes(c.params_b || 0)} de parâmetros`;
+    if (c.ativos_b) f += `, dos quais só ${bilhoes(c.ativos_b)} trabalham a cada palavra (MoE: rápido para o tamanho, mas ocupa memória pelo total)`;
+    f += `, da ${autorDe(c)}`;
+    const data = String(c.lancamento || '').slice(0, 7).split('-');
+    if (data.length === 2 && data[0]) f += `, ${c.data_aproximada ? 'publicado por volta de' : 'lançado em'} ${data[1]}/${data[0]}`;
+    frases.push(f + '.');
+    const caps = (c.caps || []).filter(k => CAPS_PT[k]).map(k => CAPS_PT[k][1]);
+    frases.push(caps.length ? listaPt(caps).replace(/^./, x => x.toUpperCase()) + '.' : 'Trabalha só com texto.');
+    if (c.ctx_max) frases.push(`Aceita até ${fmtCtx(c.ctx_max)} de contexto (~${fmtN(c.ctx_max * 0.75 / 1000, 0)} mil palavras por conversa).`);
+    if (c.confianca === 'comunidade') frases.push('É um ajuste feito pela comunidade, não pelo laboratório original.');
+    if (c.licenca_restrita) frases.push(`Licença ${c.licenca || 'restrita'}: confira os termos antes de uso comercial.`);
+    return frases.join(' ');
+  }
+  /* Descrição para mostrar: a nossa (português) e, se houver, a do autor, que costuma vir em inglês. */
+  function blocoDescricao(c, cls = 'sub') {
+    return h('div', { class: 'descricao-modelo' }, h('p', { class: cls }, descricaoPt(c)),
+      c.descricao ? h('p', { class: 'sub descricao-autor', lang: 'en' }, h('b', {}, 'Nas palavras do autor: '), c.descricao) : null);
+  }
+
   // ---------------------------------------------------------------- hardware
   const cpuPadrao = hw => hw.cpus.find(c => /Ryzen 7000 \(Zen 4\)/.test(c.nome)) || hw.cpus[0];
   const grupoGpu = g => g.fab === 'NVIDIA' ? (/Laptop/.test(g.nome) ? 'NVIDIA GeForce — notebook' : /GeForce/.test(g.nome) ? 'NVIDIA GeForce — desktop' : 'NVIDIA — estação e servidor')
@@ -237,8 +268,8 @@ const LI_CALC_UI = (function () {
     const links = linksDoModelo(c).map(([t, u]) => linkExterno(u, t)).filter(Boolean);
     corpo.replaceChildren(
       h('div', {}, h('h2', { class: 'quebra' }, c.nome), h('div', { class: 'sub' }, `${c.params_b}B${c.ativos_b ? ' · MoE com ' + c.ativos_b + 'B ativos' : ''} · contexto nativo ${fmtCtx(c.ctx_max)}${c.licenca ? ' · licença ' + c.licenca : ''}`),
-        c.descricao ? h('div', { class: 'sub', style: 'margin-top:4px' }, c.descricao) : null),
-      h('div', { class: 'chips' }, ...(c.caps || []).filter(x => x !== 'completion' && x !== 'cloud').map(x => chip(x)), c.confianca === 'comunidade' ? chip('comunidade', 'warn', 'Ajuste de terceiros: pode ter perdido qualidade') : null),
+        blocoDescricao(c)),
+      h('div', { class: 'chips' }, ...chipsCaps(c), c.confianca === 'comunidade' ? chip('comunidade', 'warn', 'Ajuste de terceiros: pode ter perdido qualidade') : null),
       links.length ? h('div', { class: 'filtros', style: 'margin:0' }, ...links) : null,
       zona, tabelas, corpoSel,
       h('div', { class: 'info-caixa' }, 'Tudo aqui é ', h('b', {}, 'ESTIMADO'), ': tamanho real dos arquivos + conta de memória e de banda. A velocidade em CPU vale ±2×. Clique numa linha para ver os comandos daquela quantização.'),
@@ -363,24 +394,68 @@ const LI_CALC_UI = (function () {
   }
 
   // ---------------------------------------------------------------- montagem
-  function montar(el, dados, opts = {}) {
-    Calc.configurar(dados.constantes);
-    window.LI_DADOS_PAPEIS = dados.papeis || [];
+  /* Palpite do hardware do visitante pelo navegador (só quando ele ainda não escolheu nada). O navegador revela o NOME da
+     placa de vídeo (WebGL), mas não a VRAM nem a RAM real: por isso é um palpite que a pessoa confirma. Nada sai do navegador. */
+  function palpiteHardware(hw) {
+    if (typeof document === 'undefined' || typeof navigator === 'undefined') return null;
+    let r = '';
+    try {
+      const gl = document.createElement('canvas').getContext('webgl');
+      const ext = gl && gl.getExtension('WEBGL_debug_renderer_info');
+      r = String(gl ? gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER) : '');
+    } catch (x) { /* sem WebGL */ }
+    const norm = s => ' ' + String(s).toLowerCase().replace(/\((tm|r)\)/g, ' ').replace(/[^a-z0-9]+/g, ' ').trim() + ' ';
+    const R = norm(r);
+    const maior = lst => lst.filter(x => x.n.trim() && R.includes(x.n)).sort((a, b) => b.n.length - a.n.length)[0];
+    const apple = maior(hw.unificadas.filter(c => c.fab === 'Apple').map(c => ({ c, n: norm(c.nome.replace(/\(.*\)/, '')) })));
+    if (apple) return { modo: 'unificada', chipId: apple.c.id, chipRam: apple.c.ram_opcoes[0], palpite: apple.c.nome };
+    const g = maior(hw.gpus.map(g => ({ g, n: norm(g.nome.replace(/\b\d+ ?GB\b/i, '')) })));
+    if (g) return { modo: 'gpu', gpuId: g.g.id, palpite: g.g.nome };
+    const plat = String((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '');
+    if (/mac/i.test(plat) && / apple /.test(R)) return { modo: 'unificada', chipId: 'm4', chipRam: 16, palpite: 'um Mac com chip Apple (modelo não identificado)' };
+    const mem = Number(navigator.deviceMemory) || 0;     // Chrome arredonda e limita a 8: serve só de pista
+    if (/ (intel|uhd|iris|llvmpipe|swiftshader|microsoft basic) /.test(R)) return { modo: 'cpu', ramGb: mem && mem < 8 ? mem : 16, palpite: 'um computador sem placa de vídeo dedicada' };
+    return null;
+  }
+  /* Estado da calculadora: padrão + o que a pessoa salvou + (na primeira visita) o palpite do navegador. É gravado logo,
+     para o Radar e a Calculadora mostrarem SEMPRE o mesmo computador. */
+  function estadoInicial(dados, opts = {}) {
     const hw = dados.hardware;
     const salvo = lembrar();
     const cpu0 = cpuPadrao(hw);
     const E = { modo: 'gpu', gpuId: 'rtx-4070', gpuFiltro: '', nGpus: 1, vram: 12, bw: 500, ramGb: 32, cpuId: cpu0.id, memId: cpu0.mem, canais: cpu0.canais, memTocada: false, bwCustom: '', sisId: 'windows', chipId: 'm4-pro', chipRam: 24,
-      preset: '', ctx: 0, kv: 'q8_0', comunidade: false, antigos: false, offload: false, ...salvo };
-    if (opts.solo) { try { const m = /[#&]c=([^&]+)/.exec(location.hash); if (m) Object.assign(E, JSON.parse(decodeURIComponent(escape(atob(m[1])))), { preset: '' }); } catch (x) { /* link inválido: segue com o padrão */ } }
-    if (!salvo.modo && !E.preset && dados.esta_maquina && !/[#&]c=/.test(opts.solo ? location.hash : '')) E.preset = dados.esta_maquina;
+      preset: '', ctx: 0, kv: 'q8_0', comunidade: false, antigos: false, offload: false, palpite: '', ...salvo };
+    const link = opts.solo && /[#&]c=/.test(location.hash);
+    if (opts.solo) { try { const m = /[#&]c=([^&]+)/.exec(location.hash); if (m) Object.assign(E, JSON.parse(decodeURIComponent(escape(atob(m[1])))), { preset: '', palpite: '' }); } catch (x) { /* link inválido: segue com o padrão */ } }
+    if (!salvo.modo && !E.preset && dados.esta_maquina && !link) E.preset = dados.esta_maquina;
+    if (!salvo.modo && !E.preset && !link) Object.assign(E, palpiteHardware(hw) || { palpite: 'exemplo' });
     if (E.preset && !(dados.maquinas || []).some(m => m.id === E.preset)) E.preset = '';
     if (!hw.cpus.some(c => c.id === E.cpuId)) { E.cpuId = cpu0.id; E.memId = cpu0.mem; E.canais = cpu0.canais; E.memTocada = false; }
     if (!hw.memorias_ram.some(m => m.id === E.memId)) E.memId = cpu0.mem;
+    if (!opts.solo || !link) guardar(E);
+    return E;
+  }
+  /* Aviso quando o hardware mostrado é palpite ou exemplo (some quando a pessoa mexe em qualquer campo). */
+  function avisoPalpite(E, aoConfirmar) {
+    if (!E.palpite || E.preset) return null;
+    const ex = E.palpite === 'exemplo';
+    return h('div', { class: 'palpite-hw' + (ex ? ' exemplo' : '') },
+      h('span', {}, ex ? h('b', {}, 'PC de exemplo. ') : [h('b', {}, 'Palpite: '), `parece ${E.palpite}. `],
+        ex ? 'Não deu para reconhecer seu computador pelo navegador; escolha o seu abaixo.' : 'O navegador não informa a memória: confira a memória e ajuste se precisar.'),
+      ex ? null : h('button', { class: 'btn mini', onclick: aoConfirmar }, 'Está certo'));
+  }
+
+  function montar(el, dados, opts = {}) {
+    Calc.configurar(dados.constantes);
+    window.LI_DADOS_PAPEIS = dados.papeis || [];
+    const hw = dados.hardware;
+    const cpu0 = cpuPadrao(hw);
+    const E = estadoInicial(dados, opts);
     const zonaHw = h('div'), zonaRes = h('div', { class: 'empilha' }), zonaResumo = h('div'), zonaGeral = h('div'), zonaUpgrade = h('div');
     const campo = (r, el) => h('label', { class: 'campo' }, r, el);
     const sel = (lista, valor, aoMudar, rot) => h('select', { onchange: ev => { aoMudar(ev.target.value); } }, lista.map(x => h('option', { value: x.id, selected: x.id === valor }, rot ? rot(x) : x.nome)));
     const entrada = (valor, aoMudar, ph) => h('input', { type: 'text', value: valor, placeholder: ph, inputmode: 'decimal', oninput: ev => aoMudar(ev.target.value) });
-    const mudou = (estrutura) => { guardar(E); if (estrutura) desenharHw(); desenharResumo(); desenharRes(); };
+    const mudou = (estrutura) => { if (E.palpite) { E.palpite = ''; estrutura = true; } guardar(E); if (estrutura) desenharHw(); desenharResumo(); desenharRes(); };
 
     // --- campos reutilizáveis
     function campoGpu() {
@@ -445,6 +520,7 @@ const LI_CALC_UI = (function () {
         h('button', { 'aria-pressed': String(E.modo === id), onclick: () => { E.modo = id; E.preset = ''; mudou(true); } }, t)));
       const presets = (dados.maquinas || []).length ? campo('Ou escolha uma máquina conhecida', h('select', { onchange: ev => { E.preset = ev.target.value; const m = (dados.maquinas || []).find(x => x.id === E.preset); if (m) E.modo = m.gpu ? 'gpu' : 'cpu'; mudou(true); } }, h('option', { value: '' }, 'Personalizado (informar manualmente)'), dados.maquinas.map(m => h('option', { value: m.id, selected: m.id === E.preset }, m.nome + (m.gpu ? ` — ${m.gpu.nome}` : ' — só CPU'))))) : null;
       zonaHw.replaceChildren(h('div', { class: 'cartao calc-card-hw' },
+        avisoPalpite(E, () => mudou(true)),
         h('div', { class: 'linha', style: 'flex-wrap:wrap;gap:8px' }, h('h3', {}, h('span', { class: 'passo-n' }, '1'), 'Seu hardware'), seg),
         h('div', { class: 'campos' }, ...camposPrincipais, presets),
         camposAvancados.length ? h('details', { class: 'dica-clean', style: 'margin-top:10px' },
@@ -591,5 +667,5 @@ const LI_CALC_UI = (function () {
   }
   /* Deixa a calculadora já apontada para uma máquina do parque (usado pelo botão "Abrir na calculadora"). */
   function definirPreset(id, semGpu) { const e = lembrar(); e.modo = semGpu ? 'cpu' : 'gpu'; e.preset = id; guardar(e); }
-  return { montar, dialogoModelo, avaliarVariante, gruposDeVariantes, linksDoModelo, comandosDe, perfilDe, definirPreset };
+  return { montar, estadoInicial, salvarEstado: guardar, avisoPalpite, descricaoPt, blocoDescricao, chipsCaps, dialogoModelo, avaliarVariante, gruposDeVariantes, linksDoModelo, comandosDe, perfilDe, definirPreset };
 })();

@@ -566,6 +566,8 @@ def candidatos_para(maq: dict, instalados: List[dict], snap: Optional[dict], pap
             continue
         if c["origem"] == "hf" and (c.get("baixas") or 0) < 4000:
             continue
+        if "decision" in (c.get("caps") or []):   # modelo de decisão: não conversa e não roda no Ollama (mesma regra de web/calc.js)
+            continue
         for p in papeis_alvo:
             if c.get("especializado") and not (p["id"] == "visao" and c["especializado"] == "ocr"):
                 continue

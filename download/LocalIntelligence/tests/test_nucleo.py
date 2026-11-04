@@ -212,6 +212,10 @@ class TestScout(unittest.TestCase):
         self.assertTrue(scout.eh_especializado("UI-Mate-27B", ["computer-use-agent", "gui-agent"]))
         self.assertTrue(scout.eh_especializado("x", ["ocr"]))
         self.assertIsNone(scout.eh_especializado("granite-4.2-8b", ["reasoning", "tool-calling", "conversational"]))
+        for nome in ("granite-guardian-4.1-8b", "SingGuard-2b", "Llama Guard 4"):          # classificadores de segurança não conversam
+            self.assertTrue(scout.eh_especializado(nome, []), nome)
+        self.assertTrue(scout.eh_especializado("tev1 4B", [], "A 4B decision model from Together AI for fast classification."))
+        self.assertIsNone(scout.eh_especializado("vanguard-7b", []))
 
 
 def _cand(nome, params, **kw):

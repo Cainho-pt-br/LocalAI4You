@@ -1,0 +1,17 @@
+{
+  "_nota": "Parque de exemplo SÓ para os testes: uma estação com GPU e máquinas pequenas. A instalação pública usa parque/parque.json vazio (auto-detecta este PC).",
+  "atualizado_em": "2026-11-04",
+  "maquinas": [
+    {"id": "boss", "nome": "Estação com GPU", "papel": "PC principal", "so": "Windows 11", "cpu": "AMD Ryzen 7 7700", "nucleos": 8, "ram_gb": 32,
+     "gpu": {"nome": "GeForce RTX 5060 Ti 16 GB", "vram_gb": 16, "bw_gbs": 448}, "unificada": false,
+     "bw_gbs_min": 65, "bw_gbs_max": 83, "simd": ["avx", "avx2", "avx512"], "reserva_so_gb": 4, "runtime": "ollama"},
+    {"id": "aspire5", "nome": "Notebook", "papel": "notebook sem GPU dedicada", "so": "Windows 11", "cpu": "Intel Core i5-1135G7", "nucleos": 4, "ram_gb": 8,
+     "gpu": null, "bw_gbs_min": 35, "bw_gbs_max": 51, "simd": ["avx", "avx2", "avx512"], "reserva_so_gb": 3.5, "runtime": "ollama"},
+    {"id": "raspberrypi", "nome": "Raspberry Pi 4", "papel": "placa pequena", "so": "Linux", "cpu": "Cortex-A72", "nucleos": 4, "ram_gb": 3.7,
+     "gpu": null, "bw_gbs_min": 3, "bw_gbs_max": 4, "simd": ["neon"], "reserva_so_gb": 2.2, "max_modelo_gb": 1.5, "runtime": "ollama"},
+    {"id": "celeron", "nome": "Mini PC Celeron", "papel": "máquina pequena", "so": "Linux", "cpu": "Intel Celeron N5105", "nucleos": 4, "ram_gb": 8,
+     "gpu": null, "bw_gbs_min": 12, "bw_gbs_max": 18, "simd": ["sse"], "reserva_so_gb": 2, "runtime": "ollama"},
+    {"id": "i3", "nome": "Desktop i3", "papel": "desktop antigo", "so": "Windows 10", "cpu": "Intel Core i3-8100", "nucleos": 4, "ram_gb": 16,
+     "gpu": null, "bw_gbs_min": 25, "bw_gbs_max": 35, "simd": ["avx", "avx2"], "reserva_so_gb": 3.5, "runtime": "ollama"}
+  ]
+}
