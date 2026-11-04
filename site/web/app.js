@@ -3,7 +3,7 @@
    Estrutura: base.js (helpers) · calc.js (motor da calculadora) · calc-ui.js · app-*.js (uma página cada) · este arquivo (estado, tarefas, rotas). */
 
 const ABAS = [['decidir', 'Decidir', 'Decisão'], ['modelos', 'Meus modelos'], ['radar', 'Radar', 'Explorar & Arena'], ['calculadora', 'Calculadora'], ['medir', 'Medir'],
-              ['parque', 'Parque', 'Sistema'], ['offline', 'Offline'], ['ajuda', 'Como ler']];
+              ['parque', 'Parque', 'Sistema'], ['offline', 'Offline'], ['ajuda', 'Como ler'], ['guias', 'Guias de uso']];
 const ANTIGAS = { esquadra: 'modelos', lab: 'medir' };   // links salvos de versões anteriores
 const S = { aba: 'decidir', mesa: null, saude: null, jobs: [], jobsVistos: {}, radarInfo: null, calc: null, calcT: 0, filtroRadar: { maquina: 'boss', papel: '', comunidade: false, antigos: false, cap: '', ordem: 'prioridade', pagina: 0 } };
 const papelPorId = id => (S.mesa?.papeis || []).find(p => p.id === id);
@@ -171,43 +171,29 @@ async function pCalculadora() {
 
 // ---------------------------------------------------------------- AJUDA
 function pAjuda() {
+  const cards = [
+    ['1', 'Cabe no meu PC?', 'A calculadora estima o que cabe na GPU ou na RAM e quanto contexto sobra. No painel local, a sonda mede o uso real.'],
+    ['2', 'É melhor que o meu modelo?', 'Só compare modelos testados com os mesmos itens e protocolo. O intervalo de confiança mostra a incerteza.'],
+    ['3', 'Posso apagar o antigo?', 'Espere um substituto ganhar com evidência. Empate técnico é um resultado válido; não precisa trocar.']
+  ];
+  const evidencias = [
+    ['MEDIDO', 'Rodou no computador indicado, com intervalo de confiança. Só vale comparar resultados do mesmo protocolo.'],
+    ['ESTIMADO', 'Conta feita com tamanho do modelo e hardware. Velocidade em CPU é aproximada; confirme no seu PC.'],
+    ['PRIORIDADE', 'Ajuda a escolher o que testar primeiro. Não é nota de qualidade.']
+  ];
   $('#p-ajuda').replaceChildren(
-    h('div', { class: 'pagina-topo' }, h('h1', {}, 'Como ler este painel'), h('p', { class: 'sub' }, 'Três perguntas, três selos de evidência e o que fazer quando sair um modelo novo.')),
-    h('h3', {}, 'As três perguntas'),
-    h('ol', {}, h('li', {}, h('b', {}, 'Cabe? '), 'O painel calcula, com o tamanho exato do arquivo e a arquitetura do modelo, se ele cabe na máquina e com quanto contexto. Nos seus modelos instalados isso é MEDIDO (aba Medir → Sonda de contexto).'),
-      h('li', {}, h('b', {}, 'É melhor do que o que eu já tenho? '), 'Só um teste responde. “Testar contra o titular” ou “Arena: Duelo Direto (A × B)” baixa, mede nos mesmos itens e compara. Se a diferença não passa do ruído, o veredito é “empate técnico” — e a decisão racional é manter o que já está instalado.'),
-      h('li', {}, h('b', {}, 'O que eu apago? '), 'O painel mostra quem não se justifica: pior que o titular, dominados por um menor e mais rápido, ou que só “lidera” por empate com um modelo bem menor (custo-benefício). “Aposentar” apaga, passa as funções a um herdeiro e guarda as notas em Meus modelos → Aposentados.')),
-    h('h3', {}, 'Os três selos'),
-    h('dl', {}, h('dt', {}, 'MEDIDO'), h('dd', {}, 'Rodou aqui, na sua GPU, no protocolo v2, com os mesmos itens para todos. Tem intervalo de confiança (±).'),
-      h('dt', {}, 'ESTIMADO'), h('dd', {}, 'Conta de memória e velocidade usando o tamanho real dos arquivos e a configuração do modelo. Em máquinas sem GPU a velocidade vale ±2×.'),
-      h('dt', {}, 'PRIORIDADE'), h('dd', {}, 'Nota de 0–100 de “vale testar?”: porte, recência, confiança do autor, adoção. NÃO mede qualidade — só ordena a fila de testes.')),
-    h('h3', {}, 'Como ler a nota e o ±'),
-    h('p', {}, 'A nota de cada função (0–100) é a média ponderada de acertos em testes públicos (MMLU-PT, MMLU-Pro, CAPITU, IFEval, BFCL, HumanEval, GSM8K e Visão). Com poucas dezenas de itens, a margem é grande: 78 ± 8 e 85 ± 7 NÃO são diferentes. Por isso as comparações usam bootstrap pareado e só declaram vencedor se o intervalo da diferença exclui zero e passa de 3 pontos.'),
-    h('h3', {}, 'Quantização: do modelo e do cache de contexto'),
-    h('p', {}, 'Quantizar o modelo (Q4_K_M, IQ3_S…) encolhe os pesos. Quantizar o cache de contexto (KV: f16, q8_0, q4_0) encolhe a memória da conversa, que cresce com o contexto. As duas coisas liberam memória, mas custam qualidade de formas diferentes — a aba Calculadora mostra os números do seu hardware e os comandos para ligar cada uma. Em “Radar → Outras quantizações” você vê todas as formas de baixar um modelo (Ollama e GGUF do Hugging Face) e se cada uma cabe.'),
-    h('h3', {}, 'Calculadora de hardware'),
-    h('p', {}, 'Escolha placa de vídeo (ou Mac, ou só processador), memória e uso: a calculadora mostra, para cada atividade, o modelo mais capaz que cabe, o de melhor equilíbrio e o leve/rápido, além de opções com muito contexto. É a mesma conta do painel, e dá para exportá-la como um arquivo HTML único para qualquer pessoa usar offline.'),
-    h('h3', {}, 'Quando sair um modelo novo daqui a 2 meses'),
-    h('ol', {}, h('li', {}, 'A vigia semanal (ou o botão “Varrer de novo” no Radar) detecta lançamentos dos laboratórios que você acompanha e mostra “NOVO” com a data.'),
-      h('li', {}, 'O painel diz em quais máquinas ele cabe e em qual quantização — e você pode escolher outra no explorador de quantizações.'),
-      h('li', {}, 'Clique em “Testar contra o titular”: o mesmo protocolo mede o novato — e a comparação com o titular é imediata, sem refazer nada.'),
-      h('li', {}, 'Promova só nas funções em que ele ganhou e aposente quem sobrou sem função. O histórico de trocas fica registrado.')),
-    h('h3', {}, 'Glossário rápido'),
-    h('dl', {}, h('dt', {}, 'Quantização (Q4_K_M, IQ3_S…)'), h('dd', {}, 'Compressão dos pesos. Q4 é o padrão: perda pequena com ~1/4 do tamanho. Abaixo de 3 bits por peso a qualidade cai de forma perceptível — prefira um modelo menor em Q4.'),
-      h('dt', {}, 'MoE (A3B, A4B…)'), h('dd', {}, 'Modelo com “especialistas”: tem 35B de parâmetros mas usa só ~3B por token. Ocupa memória como um 35B, mas roda rápido como um 3B.'),
-      h('dt', {}, 'KV cache / contexto'), h('dd', {}, 'A memória da conversa. Cresce com o tamanho do contexto. O painel liga cache quantizado (q8_0) para caber mais contexto na VRAM.'),
-      h('dt', {}, 'tok/s'), h('dd', {}, 'Tokens por segundo na geração. Em CPU é limitado pela banda da memória RAM; em GPU, pela VRAM.'),
-      h('dt', {}, '100% na GPU'), h('dd', {}, 'Se qualquer parte do modelo vaza para a RAM do PC, a velocidade despenca. O benchmark só ranqueia quem fica 100% na GPU.')),
-    h('h3', {}, 'Limites que você precisa conhecer'),
-    h('ul', {}, h('li', {}, 'Os testes são públicos e curtos; não substituem experimentar o modelo no seu trabalho real.'),
-      h('li', {}, 'HumanEval mede funções Python curtas — não é o mesmo que editar um repositório inteiro.'),
-      h('li', {}, 'Visão mede leitura de notas fiscais, gráficos e painéis sintéticos; documentos reais escaneados com ruído podem exigir modelos maiores.'),
-      h('li', {}, 'As notas do protocolo antigo (v1) não são comparáveis: o contexto era 2048 e as respostas eram cortadas em 512 tokens.'),
-      h('li', {}, 'Na calculadora, “mais capaz” é regra de bolso (porte efetivo), não nota: só os modelos marcados MEDIDO foram testados.')));
+    h('div',{class:'pagina-topo'},h('span',{class:'guia-kicker'},'LEIA SEM PRESSA'),h('h1',{},'Como ler os resultados'),h('p',{class:'sub'},'Um guia curto para entender o que o painel sabe, o que ele estima e qual próximo passo faz sentido.')),
+    h('div',{class:'guia-grid'},cards.map(([n,t,d])=>h('article',{class:'guia-card'},h('span',{class:'guia-num'},n),h('h2',{},t),h('p',{},d)))),
+    h('h2',{class:'guia-sec'},'Três selos, três significados'),
+    h('div',{class:'guia-grid'},evidencias.map(([t,d])=>h('article',{class:'guia-card'},h('span',{class:'chip'},t),h('p',{},d)))),
+    h('div',{class:'guia-callout'},h('b',{},'Uma regra prática'),h('p',{},'Se a diferença entre dois modelos não supera a incerteza, trate como empate. Prefira o que já funciona para você e evite baixar ou apagar por impulso.')),
+    h('h2',{class:'guia-sec'},'Seu caminho em quatro passos'),
+    h('ol',{class:'guia-passos'},h('li',{},'Escolha seu hardware na Calculadora.'),h('li',{},'Confira a quantização e o contexto recomendados.'),h('li',{},'No painel baixado, meça modelos instalados com o mesmo protocolo.'),h('li',{},'Compare evidências; só então decida manter, testar ou aposentar.')),
+    h('a',{class:'btn primario',href:'#guias'},'Quero um passo a passo para usar IA local')
+  );
 }
 
-// ---------------------------------------------------------------- roteamento
-const PAGINAS = { decidir: pDecidir, modelos: pModelos, radar: pRadar, calculadora: pCalculadora, parque: pParque, offline: pOffline, medir: pMedir, ajuda: pAjuda };
+const PAGINAS = { decidir: pDecidir, modelos: pModelos, radar: pRadar, calculadora: pCalculadora, parque: pParque, offline: pOffline, medir: pMedir, ajuda: pAjuda, guias: pGuias };
 function desenhar() {
   desenharAbas();
   for (const [id] of ABAS) $('#p-' + id).classList.toggle('on', id === S.aba);
