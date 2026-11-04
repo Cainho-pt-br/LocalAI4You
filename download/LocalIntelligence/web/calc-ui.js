@@ -653,6 +653,7 @@ const LI_CALC_UI = (function () {
 
     function desenharRes() {
       const maq = perfilDe(E, dados), op = { kv: E.kv, ctx: E.ctx || null, comunidade: E.comunidade, antigos: E.antigos, offload: E.offload };
+      if (typeof registrarUmaVez === 'function') registrarUmaVez('calc|' + maq.nome, 'calculadora', { perfil: maq.nome, modo: E.modo, palpite: E.palpite || null });
       const res = new Map();
       for (const id of ATIVIDADES) {
         const papel = dados.papeis.find(p => p.id === id);

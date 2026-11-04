@@ -128,7 +128,7 @@ async function pRadar() {
     lista.replaceChildren(
       bannerNovos,
       titulo(`Melhores opções para ${(maqLista.find(m => m.id === f.maquina) || {}).nome || f.maquina}`, 'Cada cartão mostra a comparação direta com o seu modelo atual naquele uso para você saber na hora se vale a pena testar. Clique no nome para ver o mesmo modelo em outros tamanhos.'),
-      fatia.length ? [h('div', { class: 'radar-grid-3' }, fatia.map((c, i) => cartaoCandidato(c, f.ordem === 'prioridade' ? f.pagina * POR_PAGINA + i : null))), nav(), typeof blocoApoio === 'function' ? blocoApoio() : null] : h('div', { class: 'vazio' }, 'Nenhum candidato cabe nessa máquina com esses filtros.'));
+      fatia.length ? [h('div', { class: 'radar-grid-3' }, fatia.map((c, i) => cartaoCandidato(c, f.ordem === 'prioridade' ? f.pagina * POR_PAGINA + i : null))), nav()] : h('div', { class: 'vazio' }, 'Nenhum candidato cabe nessa máquina com esses filtros.'));
   } catch (e) { $('#radar-lista')?.replaceChildren(h('div', { class: 'aviso-caixa' }, e.message)); }
 }
 // ---------------------------------------------------------------- RADAR do site (e do painel sem Ollama): tudo que cabe, em ordem
@@ -207,6 +207,7 @@ async function pRadarPublico(raiz) {
       h('button', { type: 'button', 'aria-pressed': String(f.uso === id), title: id ? (papeis.find(p => p.id === id)?.descricao || '') : 'Os melhores para qualquer uso', onclick: () => { f.uso = id; f.mostrar = POR_LOTE; guardarUso(id); redesenhar(); } }, ic + ' ' + t)));
   const nomeUso = f.uso ? (USO_CURTO[f.uso] || f.uso).toLowerCase() : null;
   const visiveis = rk.slice(0, f.mostrar);
+  if (typeof registrarUmaVez === 'function') registrarUmaVez('radar|' + perfil.nome + '|' + (f.uso || ''), 'radar', { perfil: perfil.nome, uso: f.uso || 'tudo', palpite: E.palpite || null, cabem: rk.length, top: rk[0] ? rk[0].c.id : null });
   raiz.replaceChildren(
     h('div', { class: 'pagina-topo' },
       h('span', { class: 'guia-kicker' }, 'RADAR · ESTIMADO PARA O SEU COMPUTADOR'),
@@ -232,11 +233,11 @@ async function pRadarPublico(raiz) {
     fora.length ? h('details', { class: 'cartao radar-fora' }, h('summary', {}, `Não cabem no seu computador (${fora.length}) — e por quê`),
       h('p', { class: 'sub' }, `Mesmo na menor versão com boa qualidade, estes precisam de mais memória que os ${fmtN(fora[0].orcamento_gb, 1)} GB disponíveis para o modelo. Os primeiros são os que estão mais perto de caber.`),
       h('ul', { class: 'radar-fora-lista' }, fora.slice(0, 40).map(y => h('li', {}, h('b', {}, nomeAmigavelModelo(y.c.nome)), ` — precisa de ~${fmtN(y.precisa_gb, 1)} GB (${y.variante.quant})`))),
-      perfil.gpu && !perfil.unificada && !op.offload ? h('p', { class: 'sub' }, 'Dica: na Calculadora, em ajustes avançados, “usar a RAM do PC” faz alguns caberem — rodando bem mais devagar.') : null) : null,
+      perfil.gpu && !perfil.unificada && !op.offload ? h('p', { class: 'sub' }, 'Dica: na Calculadora, em ajustes avançados, “usar a RAM do PC” faz alguns caberem — rodando bem mais devagar.') : null,
+      h('button', { class: 'btn mini', onclick: () => { irPara('calculadora'); setTimeout(() => document.getElementById('calc-sec-upgrade')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 350); } }, 'Ver o que muda trocando a placa →')) : null,
     window.LI_PUBLIC_MODE ? h('div', { class: 'guia-callout radar-cta' }, h('b', {}, 'Quer saber qual é melhor de verdade no SEU computador?'),
       h('p', {}, 'O app local mede os modelos instalados com benchmarks públicos, faz duelos entre dois modelos e diz qual manter. Roda tudo no seu PC; nada é enviado.'),
-      h('a', { class: 'btn primario', href: LINK_DOWNLOAD }, 'Baixar o app local')) : null,
-    typeof blocoApoio === 'function' ? blocoApoio() : null);
+      h('a', { class: 'btn primario', href: LINK_DOWNLOAD, onclick: () => { if (typeof registrarEvento === 'function') registrarEvento('download', { origem: 'radar' }); } }, 'Baixar o app local')) : null);
 }
 
 function classeCorPrio(pr) {

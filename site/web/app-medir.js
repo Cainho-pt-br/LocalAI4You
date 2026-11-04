@@ -21,6 +21,7 @@ async function pMedir() {
     pl.passos.length ? h('div', { class: 'empilha' }, pl.passos.map(cartaoPasso)) : h('div', { class: 'ok-caixa' }, h('b', {}, 'Tudo em dia.'), ' Todos os modelos instalados têm nota no nível Padrão e sonda de contexto.'),
     titulo('Seus modelos', 'Status das medições de cada modelo.'),
     tabelaModelos(pl),
+    typeof cartaoComunidade === 'function' ? cartaoComunidade() : null,
     h('div', { id: 'cartao-visao' }),
     h('details', { class: 'painel-colapsavel', style: 'margin-top:24px' },
       h('summary', {},

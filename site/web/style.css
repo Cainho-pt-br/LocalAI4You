@@ -742,8 +742,7 @@ dialog::backdrop { background: rgba(10, 12, 18, .55); backdrop-filter: blur(2px)
 /* ------------------------------------------------------------ apoio ao projeto (discreto) */
 .apoio { padding:0 6px; margin-top:auto; }
 .apoio + .status { margin-top:4px; }
-.rodape-apoio { display:none; margin:40px 0 0; text-align:center; }
-@media (max-width:880px) { .apoio { display:none; } .rodape-apoio { display:block; } }
+@media (max-width:880px) { .apoio { display:none; } }
 .apoio-link { background:none; border:0; padding:4px 0; color:var(--muted); font-size:.78rem; font-weight:600; }
 .apoio-link:hover { color:#e11d48; text-decoration:underline; }
 .apoio-link.forte { color:var(--link); padding:0; font-size:inherit; }
@@ -956,3 +955,21 @@ details.painel-colapsavel > summary > h3 { flex:1; text-align:left; }
 .previa-cta { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; padding:20px 22px; border-radius:20px;
   background:linear-gradient(120deg, color-mix(in srgb,#6366f1 14%, var(--surface)), color-mix(in srgb,#ec4899 12%, var(--surface))); border:1px solid var(--line-strong); }
 @media (max-width:900px) { .previa-grade { grid-template-columns:1fr; } .previa-linha { grid-template-columns:auto minmax(0,1fr) auto; } .previa-linha .previa-barra, .previa-linha > .sub { display:none; } .duelo-linha { grid-template-columns:minmax(0,1fr) auto auto; } .duelo-barras { display:none; } .previa-topo h1 { font-size:1.5rem; } }
+
+/* ------------------------------------------------------------ rodapé de todas as abas: apoio + aviso por e-mail */
+.rodape-global { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:14px; align-items:stretch; margin-top:48px; padding-top:22px; border-top:1px solid var(--line); }
+.rodape-global .apoio-bloco { margin:0; }
+.lead { display:flex; flex-direction:column; gap:6px; padding:14px 18px; border-radius:var(--radius); border:1px solid var(--line-strong); background:linear-gradient(120deg, color-mix(in srgb,#6366f1 7%, var(--surface)), var(--surface)); font-size:.88rem; }
+.lead-titulo b { color:var(--text); }
+.lead-hw { font-size:.8rem; margin:0; }
+.lead-linha { display:flex; gap:8px; flex-wrap:wrap; }
+.lead-linha input { flex:1 1 200px; min-width:0; padding:8px 12px; border-radius:var(--radius-sm); border:1px solid var(--line-strong); background:var(--fundo-cartao); color:var(--text); font:inherit; }
+.lead-linha input:focus { outline:2px solid var(--link); outline-offset:1px; }
+.lead-status { font-size:.8rem; color:var(--muted); min-height:1em; }
+.lead-consent { font-size:.74rem; margin:0; }
+.lead-ok { padding:10px 12px; border-radius:var(--radius-sm); background:var(--ok-soft); color:var(--ok); font-weight:650; }
+.privacidade li { line-height:1.55; }
+@media (max-width:900px) { .rodape-global { grid-template-columns:1fr; } }
+/* cartão da comunidade (app) */
+.comunidade { border-top:3px solid #10b981; }
+.comunidade-previa { max-height:260px; overflow:auto; margin:8px 0 0; padding:10px 12px; border-radius:10px; background:var(--surface-2); font-size:.74rem; }
