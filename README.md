@@ -10,7 +10,7 @@ Descubra qual IA local roda bem no **seu** computador e use-a do jeito certo.
 | Pasta | O que é |
 |---|---|
 | `download/LocalIntelligence/` | O app local (Python + Ollama). **Fonte única da interface** em `web/`. |
-| `site/` | O site estático publicado no Vercel. `site/web/` é uma cópia de `download/LocalIntelligence/web/` + `public-mode.js`. |
+| `site/` | O site estático publicado no Vercel: `index.html` é a página inicial (`landing.css`/`landing.js`, só do site) e `app.html` é o app. `site/web/` é uma cópia de `download/LocalIntelligence/web/` + `public-mode.js`. |
 | `site/dados.js` | Catálogo público, atualizado todo dia pelo GitHub Actions. |
 | `scripts/` | Atualização do catálogo e sincronização da interface. |
 
