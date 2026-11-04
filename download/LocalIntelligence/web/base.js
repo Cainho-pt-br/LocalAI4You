@@ -89,6 +89,7 @@ function toast(msg, ms = 5000) {
 async function copiar(txt) {
   try { await navigator.clipboard.writeText(txt); toast('Copiado: ' + (txt.length > 90 ? txt.slice(0, 90) + '…' : txt)); } catch (e) { toast('Não consegui copiar — selecione o texto.'); return; }
   if (typeof momentoDeValor === 'function' && /^ollama /.test(txt)) momentoDeValor('copiou');   // apoio.js (só no painel e no site)
+  if (typeof registrarEvento === 'function' && /^ollama /.test(txt)) registrarEvento('copiar', { comando: txt.slice(0, 160) });   // coleta.js (métrica anônima, só no site)
 }
 const chip = (txt, cls = 'neutro', titulo) => h('span', { class: 'chip ' + cls, title: titulo }, txt);
 const CHIP_MEDIDO = () => chip('MEDIDO', 'medido', 'Rodou aqui, no protocolo v2, com intervalo de confiança');

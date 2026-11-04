@@ -6,7 +6,7 @@ const fmtMin = m => m >= 90 ? `~${fmtN(m / 60, 1)} h` : `~${m} min`;
 
 async function pMedir() {
   const raiz = $('#p-medir');
-  if (window.LI_PUBLIC_MODE) { const link=LINK_DOWNLOAD; raiz.replaceChildren(h('div',{class:'pagina-topo'},h('h1',{},'Medir modelos no seu computador'),h('p',{class:'sub'},'O site não inventa resultados nem mede a máquina de outra pessoa. Benchmarks só fazem sentido quando executados junto do modelo e do hardware que estão sendo avaliados.')),h('div',{class:'guia-grid'},h('article',{class:'guia-card'},h('span',{class:'guia-num'},'1'),h('h2',{},'Instale o Ollama'),h('p',{},'O aplicativo local usa o Ollama para carregar e conversar com os modelos.'),h('a',{href:'https://ollama.com/download',target:'_blank',rel:'noopener'},'Baixar Ollama ↗')),h('article',{class:'guia-card'},h('span',{class:'guia-num'},'2'),h('h2',{},'Baixe o painel'),h('p',{},'Extraia o ZIP, abra a pasta e siga o README. No Windows, inicie pelo arquivo 1_ABRIR_PAINEL.bat.'),h('a',{class:'btn primario',href:link},'Baixar Local AI Search')),h('article',{class:'guia-card'},h('span',{class:'guia-num'},'3'),h('h2',{},'Meça e compare'),h('p',{},'Use Medir para rodar o protocolo local. O app guarda resultados no seu PC e compara modelos nos mesmos testes.'))),h('div',{class:'guia-callout'},h('b',{},'O que significa uma medição?'),h('p',{},'MEDIDO significa que o modelo rodou no seu PC. ESTIMADO significa cálculo de encaixe/velocidade. PRIORIDADE só indica o que vale testar; não é uma nota.'))); return; }
+  if (window.LI_PUBLIC_MODE) { paginaPrevia('medir', raiz); return; }
   if (!S.mesa) return;
   const topo = h('div', { class: 'pagina-topo' }, h('h1', {}, 'Medir e testar'), h('p', { class: 'sub' }, 'Os testes que transformam “parece bom” em nota com margem de erro. Aqui você pode rodar um Duelo Direto (A × B), executar o que o painel recomenda agora ou escolher os testes manualmente.'));
   raiz.replaceChildren(topo, h('div', { class: 'sub' }, 'Calculando o que vale medir…'));
@@ -21,6 +21,7 @@ async function pMedir() {
     pl.passos.length ? h('div', { class: 'empilha' }, pl.passos.map(cartaoPasso)) : h('div', { class: 'ok-caixa' }, h('b', {}, 'Tudo em dia.'), ' Todos os modelos instalados têm nota no nível Padrão e sonda de contexto.'),
     titulo('Seus modelos', 'Status das medições de cada modelo.'),
     tabelaModelos(pl),
+    typeof cartaoComunidade === 'function' ? cartaoComunidade() : null,
     h('div', { id: 'cartao-visao' }),
     h('details', { class: 'painel-colapsavel', style: 'margin-top:24px' },
       h('summary', {},

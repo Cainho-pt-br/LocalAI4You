@@ -180,8 +180,18 @@
   }
 
   // ---------------------------------------------------------------- o que é novo da calculadora
+  /* Porte efetivo: num MoE (35B com 3B ativos), a "inteligência" fica entre o total e os ativos. Regra de bolso da
+     comunidade: média geométrica (√(total × ativos)), com 25% de folga para os MoE modernos e nunca acima do total.
+     35B-A3B ≈ 13B denso · 24B-A2B ≈ 9B · 8B-A1B ≈ 3,5B. (Mesma regra de li/decide.py → porte_efetivo.) */
+  // Modelos "E4B"/"E2B" (Gemma 3n/4, Nemotron Bolt): o arquivo inclui embeddings por camada; o porte que conta é perto do E.
+  const RE_EFETIVO = /(?:^|[\s:_-])e(\d+(?:\.\d+)?)b(?:$|[\s:_-])/i;
+  function porteEfetivo(c) {
+    if (c.ativos_b) return Math.min(c.params_b, 1.25 * Math.sqrt(c.params_b * c.ativos_b));
+    const e = RE_EFETIVO.exec(String(c.nome || ''));
+    return e ? Math.min(c.params_b, 1.4 * Number(e[1])) : c.params_b;
+  }
   function capacidade(c, v) {
-    const eff = c.ativos_b ? (c.params_b * 0.70 + c.ativos_b * 0.30) : c.params_b;
+    const eff = porteEfetivo(c);
     const b = v.bpw;
     const fq = b >= 6 ? 1.0 : b >= 4.5 ? 0.99 : b >= 3.9 ? 0.97 : b >= 3.5 ? 0.92 : b >= 3.2 ? 0.85 : 0.7;
     const d = c.dias;
@@ -331,34 +341,39 @@
     return r;
   }
 
-  /* Ranking COMPLETO para o Radar: todos os modelos que cabem, do mais indicado ao menos indicado, em uma ou várias atividades.
-     Regra (mostrada ao usuário): 55% capacidade (porte efetivo × qualidade da quantização × geração, relativa ao mais capaz
-     que cabe) + 45% prioridade (recência, confiança do autor, adoção, velocidade e folga). Penaliza o que cabe no limite,
-     o que fica lento demais e o que precisa transbordar para a RAM. Em várias atividades, cada modelo vale pela melhor delas. */
+  /* Ranking COMPLETO para o Radar: todos os modelos que cabem, do mais indicado ao menos indicado.
+     Regra (explicada ao usuário): primeiro a INTELIGÊNCIA ESTIMADA (porte efetivo × qualidade da compressão × geração,
+     relativa ao mais capaz que cabe); a velocidade só conta até ficar confortável para ler (~10 tokens/s; 30 no uso
+     "rápido"): acima disso não vale ponto, abaixo disso desconta. Ser 10× mais rápido e mais burro não sobe na lista.
+     Pequenos ajustes: cabe no limite (−10%), precisa da RAM do PC (−25%) e maturidade (recência, autor, adoção: ±15%).
+     Em várias atividades, cada modelo vale pela melhor delas. */
+  const VEL_CONFORTO = { padrao: 10, rapido: 30 };
+  function notaRadar(e, capMax, pid) {
+    const t = tpsMid(e), alvo = VEL_CONFORTO[pid] || VEL_CONFORTO.padrao;
+    const intel = Math.pow(e.cap.valor / capMax, 0.7);
+    const vel = t >= alvo ? 1 : Math.pow(Math.max(t, 0.1) / alvo, 0.8);   // 5 tok/s ≈ −43%, 3 tok/s ≈ −62%
+    const encaixe = e.offload ? 0.75 : e.enc.encaixe.nivel === 'justo' ? 0.9 : 1;
+    const maturidade = 0.85 + 0.15 * Math.min(Math.max(e.prio, 0), 100) / 100;
+    return { nota: Math.round(1000 * intel * vel * encaixe * maturidade) / 10, t, alvo, intel, vel };
+  }
   function ranking(dados, maq, papeisIds, opcoes) {
     const op = { ...PADRAO_OPCOES, ...(opcoes || {}) };
-    const gpu = !!(maq.gpu && maq.gpu.vram_gb);
     const porId = new Map();
     const porPapel = papeisIds.map(pid => (dados.papeis || []).find(p => p.id === pid)).filter(Boolean).map(papel => ({ papel, esc: escolher(dados, maq, papel, op) }));
-    // capacidade relativa ao mais capaz que cabe em QUALQUER das atividades: um 4B não vira "o mais capaz" só porque lidera a de tarefas rápidas
+    // inteligência relativa ao mais capaz que cabe em QUALQUER das atividades: um 4B não vira "o mais capaz" só porque lidera a de tarefas rápidas
     const capMax = Math.max(1e-9, ...porPapel.flatMap(x => x.esc.lista.map(e => e.cap.valor)));
     for (const { papel, esc } of porPapel) {
       const pid = papel.id;
       const selo = new Map([[esc.parrudo, 'parrudo'], [esc.equilibrado, 'equilibrado'], [esc.leve, 'leve']].filter(([e]) => e).map(([e, s]) => [e.c.id, s]));
       for (const e of esc.lista) {
-        const t = tpsMid(e), usavel = e.offload ? t >= 2 : gpu ? t >= 8 : t >= 2;
-        let nota = 55 * (e.cap.valor / capMax) + 0.45 * e.prio;
-        if (e.enc.encaixe.nivel === 'justo') nota *= 0.9;
-        if (!usavel) nota *= 0.3;                            // lento demais para usar: vai para o fim (continua visível, com aviso)
-        const devagar = usavel && t < (gpu ? 15 : 5);
-        if (devagar) nota *= 0.75;          // usável, mas arrastado para conversar: não deve abrir a lista
-        if (e.offload) nota *= 0.6;
-        nota = Math.round(nota * 10) / 10;
+        const r = notaRadar(e, capMax, pid);
+        const lento = r.t < 2, devagar = !lento && r.t < r.alvo * 0.6;
+        const item = { enc: e.enc, cap: e.cap, prio: e.prio, nota: r.nota, intel: r.intel, papel: pid, lento, devagar, offload: e.offload };
         const atual = porId.get(e.c.id);
-        if (!atual) porId.set(e.c.id, { c: e.c, enc: e.enc, cap: e.cap, prio: e.prio, nota, papel: pid, selo: selo.get(e.c.id) || null, papeis: [pid], lento: !usavel, devagar, offload: e.offload });
+        if (!atual) porId.set(e.c.id, { c: e.c, ...item, selo: selo.get(e.c.id) || null, papeis: [pid] });
         else {
           atual.papeis.push(pid);
-          if (nota > atual.nota) Object.assign(atual, { enc: e.enc, cap: e.cap, prio: e.prio, nota, papel: pid, selo: selo.get(e.c.id) || atual.selo, lento: !usavel, devagar, offload: e.offload });
+          if (r.nota > atual.nota) Object.assign(atual, item, { selo: selo.get(e.c.id) || atual.selo });
         }
       }
     }
@@ -443,6 +458,6 @@
   }
 
   return { K, configurar, GB, GIB, BPW_QUANT, camadasPorTipo, kvBytes, vramTotal, orcamentoBytes, ctxMaximo, avaliarEncaixe, bpw, faixaQualidade,
-    simdDaMaquina, estimarTps, pesoAtivo, escolherVariante, ctxPara, encaixeCandidato, fatorVelocidade, prioridade, capacidade, kvGuia,
+    simdDaMaquina, estimarTps, pesoAtivo, escolherVariante, ctxPara, encaixeCandidato, fatorVelocidade, prioridade, capacidade, porteEfetivo, kvGuia,
     hibridoVariante, encaixeHibrido, elegivel, avaliar, escolher, ranking, naoCabem, perfilGpu, perfilUnificado, perfilCpu, memBw, classeTps, archGenerica, modeloLivre, mapaTamanhos };
 });

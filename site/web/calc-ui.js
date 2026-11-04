@@ -286,14 +286,14 @@ const LI_CALC_UI = (function () {
       (c.caps || []).includes('vision') ? chip('visão', 'neutro') : null, (c.caps || []).includes('tools') ? chip('ferramentas', 'neutro') : null,
       (c.caps || []).includes('thinking') ? chip('raciocínio', 'neutro') : null, c.confianca === 'comunidade' ? chip('comunidade', 'warn') : null];
   }
-  function blocoEscolha(rotulo, e, papel, maq, op, dados, ctxRotulo) {
-    if (!e) return h('div', { class: 'escolha vazia' }, h('div', { class: 'rotulo' }, rotulo), 'Nada que caiba aqui com esse hardware e contexto.');
+  function blocoEscolha(rotulo, e, papel, maq, op, dados, ctxRotulo, cls = '') {
+    if (!e) return h('div', { class: 'escolha vazia ' + cls }, h('div', { class: 'rotulo' }, rotulo), 'Nada que caiba aqui com esse hardware e contexto.');
     const c = e.c, v = e.enc.variante, med = c.medido && (c.medido.papeis[papel.id === 'contexto' ? 'chat_pt' : papel.id]);
     const peso = v.bytes + Math.trunc(v.extra_bytes || 0), reserva = maq.reserva_vram_gb ?? 1.3, kv = op.kv;
     const ctxEf = e.offload ? e.ctx : Math.min(e.ctx, e.enc.encaixe.ctx_max || e.ctx);   // o contexto que ele de fato alcança
     const usado = e.offload ? e.enc.encaixe.usado_ctx_alvo_gb : r1gb(Calc.vramTotal(peso, c.arch, ctxEf, kv));
     const L = linksDoModelo(c), linkOl = L.find(l => /Ollama/.test(l[0])), linkHf = L.find(l => /Hugging Face/.test(l[0]));
-    return h('div', { class: 'escolha' },
+    return h('div', { class: 'escolha ' + cls },
       h('div', { class: 'rotulo' }, rotulo),
       h('div', {}, h('div', { class: 'nome' }, c.nome), h('div', { class: 'sub' }, `${c.params_b}B${c.ativos_b ? ' (' + c.ativos_b + 'B ativos)' : ''}${c.dias != null ? ' · ' + fmtIdade(c.dias) : ''}`)),
       h('div', { class: 'chips' }, ...chipsDoModelo(c)),
@@ -315,7 +315,7 @@ const LI_CALC_UI = (function () {
       h('div', { class: 'atividade-topo' }, h('div', { class: 'papel-icone' }, papel.icone), h('div', { class: 'grow' }, h('h3', {}, papel.rotulo), h('div', { class: 'sub' }, papel.descricao),
         papel.id === 'contexto' ? h('div', { class: 'sub' }, `Meta de contexto: ${fmtCtx(op.ctx || papel.ctx_alvo)}. Modelo de atenção linear ou com janela deslizante guarda pouco cache: é o que mais rende aqui.`) : null)),
       vazio ? h('div', { class: 'aviso-caixa' }, 'Nenhum modelo do radar cabe nessa atividade com esse hardware' + (op.ctx ? ` e ${fmtCtx(op.ctx)} de contexto` : '') + '. Tente um contexto menor' + (maq.gpu && !maq.unificada && !op.offload ? ' ou permita usar a RAM do PC.' : '.'))
-        : h('div', { class: 'escolhas' }, blocoEscolha(rot.parrudo, r.parrudo, papel, maq, op, dados), blocoEscolha(rot.equilibrado, r.equilibrado, papel, maq, op, dados), blocoEscolha(rot.leve, r.leve, papel, maq, op, dados)),
+        : h('div', { class: 'escolhas' }, blocoEscolha(rot.parrudo, r.parrudo, papel, maq, op, dados, null, 'e-capaz'), blocoEscolha(rot.equilibrado, r.equilibrado, papel, maq, op, dados, null, 'e-equilibrio'), blocoEscolha(rot.leve, r.leve, papel, maq, op, dados, null, 'e-leve')),
       papel.nota ? h('div', { class: 'sub', style: 'margin-top:12px' }, 'ℹ ' + papel.nota) : null);
   }
 
@@ -363,6 +363,92 @@ const LI_CALC_UI = (function () {
     return h('div', { class: 'tabela-wrap' }, h('table', {}, h('thead', {}, h('tr', {}, ['Hardware', 'Conversa: o mais capaz', 'Código: o mais capaz', 'Muito contexto: o mais capaz'].map(t => h('th', {}, t)))), h('tbody', {}, linhas)),
       h('div', { class: 'sub', style: 'padding:10px 14px' }, 'Mesma RAM, processador e opções acima; só a placa muda. ESTIMADO. Placas de referência: popular de entrada, 12 GB, 16 GB, 24 GB e 32 GB.'));
   }
+  const USO_CURTO_C = { chat_pt: 'Conversa', codigo: 'Código', agente: 'Agentes', regras: 'Extrair dados e JSON', raciocinio: 'Raciocínio', rapido: 'Rápido e leve', visao: 'Imagens e documentos', contexto: 'Documentos longos' };
+  const papeisComNota = dados => (dados.papeis || []).filter(p => !p.sem_nota).map(p => p.id);
+
+  /* "O que cabe": quatro números grandes e a escada de tamanhos (modelos densos em Q4, 8k de contexto). */
+  function painelCabe(maq, op, dados, aoVerRadar) {
+    const reserva = maq.reserva_vram_gb ?? 1.3;
+    const orc = Calc.orcamentoBytes(maq, reserva) / Calc.GIB;
+    const m = Calc.mapaTamanhos(maq, op.kv, reserva), q4 = m.valores[m.quants.indexOf('Q4_K_M')];
+    const t8 = Calc.estimarTps(Math.round(8e9 * Calc.BPW_QUANT.Q4_K_M / 8), maq, false), cl8 = Calc.classeTps(t8);
+    const rk = Calc.ranking(dados, maq, papeisComNota(dados), op), top = rk[0];
+    const f = v => (v < 0.5 ? 'nenhum' : '~' + fmtN(v, v < 10 ? 1 : 0) + 'B');
+    const tile = (cls, rot, valor, sub, extra) => h('div', { class: 'calc-tile ' + cls }, h('span', { class: 'calc-tile-rot' }, rot), h('b', { class: 'calc-tile-val' }, valor), h('span', { class: 'sub' }, sub), extra || null);
+    const TAMS = [1, 3, 4, 8, 12, 14, 24, 32, 70];
+    const degraus = TAMS.map((b, i) => {
+      const r = Calc.modeloLivre({ params_b: b, ativos_b: null, bpw: Calc.BPW_QUANT.Q4_K_M, ctx: 8192, kv: op.kv }, maq, reserva);
+      const est = r.confortavel ? 'ok' : r.cabe ? 'justo' : 'nao';
+      const tps = r.cabe && r.tps_est ? (r.tps_est[0] + r.tps_est[1]) / 2 : null;
+      return h('div', { class: 'degrau d-' + est, title: `${b}B em Q4 com 8k de contexto: ${est === 'ok' ? 'cabe com folga' : est === 'justo' ? 'cabe no limite' : 'não cabe'} (${fmtN(r.total_gb, 1)} GB de ${fmtN(r.orcamento_gb, 1)} GB)` },
+        h('span', { class: 'degrau-barra', style: `height:${16 + i * 9}px` }), h('b', {}, b + 'B'), h('small', {}, tps ? `~${fmtN(tps, tps < 10 ? 1 : 0)} t/s` : 'não cabe'));
+    });
+    return h('div', { class: 'empilha' },
+      h('div', { class: 'calc-tiles' },
+        tile('t-mem', 'Memória para o modelo', fmtN(orc, 1) + ' GB', maq.gpu ? (maq.unificada ? 'da memória unificada' : 'de VRAM na placa') : 'de RAM (sem placa de vídeo)'),
+        tile('t-tam', 'Maior modelo com folga', f(q4[0]), `em Q4 com ${fmtCtx(m.ctxs[0])} de contexto · ${f(q4[1])} com ${fmtCtx(m.ctxs[1])}`),
+        tile('t-vel', 'Um modelo de 8B roda a', '~' + fmtTps(t8) + ' tok/s', cl8[0] + (maq.gpu && !maq.unificada ? ' · MoE rodam bem mais rápido' : '')),
+        tile('t-top', 'Melhor aposta agora', top ? nomeAmigavelModelo(top.c.nome) : '—', top ? `${top.enc.variante.quant} · ${fmtGB(top.enc.variante.bytes)} · ${rk.length} modelos cabem` : 'nenhum modelo do catálogo cabe',
+          top && aoVerRadar ? h('button', { class: 'btn mini', onclick: aoVerRadar }, 'Ver todos em ordem no Radar →') : null)),
+      h('div', { class: 'cartao escada' },
+        h('div', { class: 'linha' }, h('h3', {}, 'Escada de tamanhos'), h('div', { class: 'legenda-escada' }, h('span', { class: 'l-ok' }, 'cabe com folga'), h('span', { class: 'l-justo' }, 'no limite'), h('span', { class: 'l-nao' }, 'não cabe'))),
+        h('div', { class: 'degraus' }, degraus),
+        h('p', { class: 'sub' }, 'Modelos densos em Q4 com 8k de contexto e a velocidade estimada. Quanto mais alto o degrau que cabe, mais capaz o modelo que você consegue rodar.')));
+  }
+
+  /* "Trocar a placa?": o que cada upgrade destrava, com links de loja. */
+  const GPUS_UPGRADE = ['rtx-4060', 'rtx-3060-12', 'rtx-5060-ti-16', 'rtx-4090', 'rtx-5090'];
+  const buscaPlaca = nome => nome.replace(/^GeForce\s+/i, '').replace(/\s(\d+)\sGB\b/i, ' $1GB');
+  function painelUpgrade(maq, op, dados, E) {
+    const hw = dados.hardware, ids = papeisComNota(dados);
+    const resumo = m => { const rk = Calc.ranking(dados, m, ids, op); return { rk, top: rk[0] }; };
+    const atual = resumo(maq);
+    let opcoes = [];
+    if (maq.unificada) {
+      const chip = hw.unificadas.find(c => c.id === E.chipId);
+      const ram = Number(E.chipRam) || maq.ram_gb;
+      opcoes = (chip ? chip.ram_opcoes.filter(r => r > ram) : []).slice(0, 3).map(r => ({ rotulo: `${chip.nome} com ${r} GB`, sub: `${r} GB de memória unificada`, perfil: { ...Calc.perfilUnificado({ chip, ram_gb: r, cpu: null, sistema: hw.sistemas.find(s => s.id === 'macos') || hw.sistemas[0] }) }, busca: `${chip.nome} ${r}GB` }));
+    } else {
+      const sis = { reserva_vram_gb: 1.3, reserva_ram_gb: maq.reserva_so_gb ?? 4 };
+      const cpuRef = { simd: maq.simd }, memRef = { bw_min: maq.bw_gbs_min || 40, bw_max: maq.bw_gbs_max || 50 };
+      // só placas que ampliam o que cabe: mais VRAM que a placa atual (ou, sem placa, perto da RAM livre de hoje)
+      const vramAtual = maq.gpu ? maq.gpu.vram_gb : 0.8 * Calc.orcamentoBytes(maq, maq.reserva_vram_gb ?? 1.3) / Calc.GIB;
+      opcoes = GPUS_UPGRADE.map(id => hw.gpus.find(g => g.id === id)).filter(g => g && g.vram_gb > vramAtual && (!maq.gpu || maq.gpu.nome !== g.nome))
+        .slice(0, 3).map(g => ({ rotulo: g.nome, sub: `${g.vram_gb} GB de VRAM · ${g.bw_gbs} GB/s`, perfil: { ...Calc.perfilGpu({ gpu: g, n: 1, ram_gb: maq.ram_gb || 16, mem: memRef, cpu: cpuRef, sistema: sis }), reserva_vram_gb: 1.3 }, busca: buscaPlaca(g.nome) }));
+    }
+    const maiorFolga = m => { const mp = Calc.mapaTamanhos(m, op.kv, m.reserva_vram_gb ?? 1.3); const v = mp.valores[mp.quants.indexOf('Q4_K_M')][0]; return v < 0.5 ? 'nenhum' : '~' + fmtN(v, v < 10 ? 1 : 0) + 'B'; };
+    const tpsDe = x => x && x.enc.tps_est ? (x.enc.tps_est[0] + x.enc.tps_est[1]) / 2 : 0;
+    const topo = (r, ref) => r.top ? h('div', { class: 'upgrade-top' }, h('span', { class: 'sub' }, 'Melhor aposta'), h('b', {}, nomeAmigavelModelo(r.top.c.nome)),
+      h('span', { class: 'upgrade-vel' }, `~${fmtTps(r.top.enc.tps_est)} tok/s`, ref && tpsDe(ref.top) && tpsDe(r.top) / tpsDe(ref.top) >= 1.5 ? h('span', { class: 'chip ok' }, `≈ ${fmtN(tpsDe(r.top) / tpsDe(ref.top), 0)}× mais rápido`) : null)) : h('div', { class: 'sub' }, 'Nenhum modelo do catálogo cabe.');
+    const cartao = (o, i) => {
+      const r = resumo(o.perfil);
+      return h('div', { class: 'upgrade-card u-' + (i + 1) },
+        h('span', { class: 'upgrade-rot' }, maq.unificada ? 'Mais memória' : 'Upgrade ' + (i + 1)),
+        h('h3', {}, o.rotulo), h('div', { class: 'sub' }, o.sub),
+        topo(r, atual),
+        h('div', { class: 'chips' }, chip(`até ${maiorFolga(o.perfil)} com folga`, 'neutro', 'Maior modelo denso em Q4 com 8k de contexto'), chip(`${r.rk.length} modelos cabem`, 'neutro')),
+        typeof botoesLoja === 'function' ? botoesLoja(o.busca, { origem: 'calculadora-upgrade', de: maq.nome }) : null);
+    };
+    const seu = h('div', { class: 'upgrade-card u-atual' }, h('span', { class: 'upgrade-rot' }, 'O seu hoje'), h('h3', {}, maq.gpu ? (maq.gpu.nome || maq.nome) : 'Computador sem placa de vídeo'),
+      h('div', { class: 'sub' }, maq.gpu ? `${fmtN(maq.gpu.vram_gb, 0)} GB${maq.unificada ? ' para a GPU' : ' de VRAM'}` : `${fmtN(maq.ram_gb, 0)} GB de RAM`),
+      topo(atual, null),
+      h('div', { class: 'chips' }, chip(`até ${maiorFolga(maq)} com folga`, 'neutro'), chip(`${atual.rk.length} modelos cabem`, 'neutro')));
+    return h('div', { class: 'empilha' },
+      opcoes.length ? h('div', { class: 'upgrade-grade' }, seu, opcoes.map(cartao))
+        : h('div', { class: 'info-caixa' }, 'Seu hardware já está no topo das opções de referência. Com duas placas iguais (campo “Quantidade de placas”), a memória soma.'),
+      typeof avisoLojas === 'function' && opcoes.length ? avisoLojas() : null,
+      maq.unificada ? null : h('details', { class: 'painel-colapsavel' }, h('summary', {}, h('h3', {}, 'Comparar com mais placas (tabela)')), h('div', { class: 'painel-conteudo' }, cartaoUpgrade(maq, op, dados, E))));
+  }
+
+  /* Visão de todos os usos numa tabela compacta (só nomes): um clique abre o uso. */
+  function tabelaTodosUsos(res, abrir) {
+    const nome = e => e ? nomeAmigavelModelo(e.c.nome) : '—';
+    return h('div', { class: 'tabela-wrap' }, h('table', { class: 'tabela-compacta' },
+      h('thead', {}, h('tr', {}, ['Uso', 'Mais capaz', 'Equilíbrio', 'Leve e rápido'].map(x => h('th', {}, x)))),
+      h('tbody', {}, [...res.values()].map(({ papel, r }) => h('tr', { class: 'clicavel', onclick: () => abrir(papel.id), title: 'Ver as três escolhas para ' + papel.rotulo },
+        h('td', {}, papel.icone + ' ' + (USO_CURTO_C[papel.id] || papel.rotulo)), h('td', {}, h('b', {}, nome(r.parrudo))), h('td', {}, nome(r.equilibrado)), h('td', {}, nome(r.leve)))))));
+  }
+
   function cartaoModeloLivre(maq) {
     const E = { params: '14', ativos: '', quant: 'Q4_K_M', ctx: 16384, kv: 'q8_0' };
     const saida = h('div', { class: 'empilha' });
@@ -556,74 +642,31 @@ const LI_CALC_UI = (function () {
             h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: E.offload, onchange: ev => { E.offload = ev.target.checked; mudou(false); } }), 'Permitir transbordar para a RAM do PC (cabe modelo maior, mas fica bem mais lento)'),
             h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: E.comunidade, onchange: ev => { E.comunidade = ev.target.checked; mudou(false); } }), 'Incluir fine-tunes da comunidade'),
             h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: E.antigos, onchange: ev => { E.antigos = ev.target.checked; mudou(false); } }), 'Incluir modelos antigos (> 1 ano)')))));
-    const zonaStatusCalc = h('div');
-    const zonaAbasAtiv = h('div', { style: 'margin-bottom:14px' });
-    let filtroAtividade = 'todas';
+    const zonaUsos = h('div'), zonaTodos = h('div');
+    let usoSel = (() => { try { return localStorage.getItem('li-calc-uso') || 'chat_pt'; } catch (x) { return 'chat_pt'; } })();
+    const escolherUso = (id, rolar) => {
+      usoSel = id; try { localStorage.setItem('li-calc-uso', id); } catch (x) { /* ok */ }
+      desenharRes();
+      if (rolar) document.getElementById('calc-sec-uso')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    const verRadar = !opts.solo && typeof irPara === 'function' ? () => irPara('radar') : null;
 
     function desenharRes() {
       const maq = perfilDe(E, dados), op = { kv: E.kv, ctx: E.ctx || null, comunidade: E.comunidade, antigos: E.antigos, offload: E.offload };
-      const orcGb = Calc.orcamentoBytes(maq, maq.reserva_vram_gb ?? 1.3) / Calc.GIB;
-
-      // Calcular escolhas para todas as atividades
-      const resultadosPorPapel = new Map();
+      if (typeof registrarUmaVez === 'function') registrarUmaVez('calc|' + maq.nome, 'calculadora', { perfil: maq.nome, modo: E.modo, palpite: E.palpite || null });
+      const res = new Map();
       for (const id of ATIVIDADES) {
         const papel = dados.papeis.find(p => p.id === id);
-        if (papel) {
-          resultadosPorPapel.set(id, { papel, res: Calc.escolher(dados, maq, papel, op) });
-        }
+        if (papel) res.set(id, { papel, r: Calc.escolher(dados, maq, papel, op) });
       }
-
-      // Card de Feedback e Status Reativo
-      const geralRes = resultadosPorPapel.get('chat_pt')?.res;
-      const rapidoRes = resultadosPorPapel.get('rapido')?.res;
-      const topParrudo = geralRes?.parrudo?.c ? nomeAmigavelModelo(geralRes.parrudo.c.nome) : null;
-      const topRapido = rapidoRes?.leve?.c ? nomeAmigavelModelo(rapidoRes.leve.c.nome) : (rapidoRes?.equilibrado?.c ? nomeAmigavelModelo(rapidoRes.equilibrado.c.nome) : null);
-
-      zonaStatusCalc.replaceChildren(
-        h('div', { class: 'cartao destaque pulso-calc', style: 'border-left:4px solid var(--ok, #10b981);margin-bottom:16px;background:var(--surface)' },
-          h('div', { class: 'linha' },
-            h('div', {},
-              h('div', { class: 'linha', style: 'justify-content:flex-start;gap:8px;margin-bottom:4px' },
-                chip('⚡ Atualizado agora para o seu hardware', 'ok'),
-                h('b', { style: 'font-size:.95rem' }, maq.gpu ? (maq.gpu.nome || maq.nome) : maq.nome)),
-              h('div', { class: 'sub' },
-                `${fmtN(orcGb, 1)} GB disponíveis para o modelo · Contexto: ${op.ctx ? fmtCtx(op.ctx) : 'Padrão da atividade'} · Cache KV: ${op.kv}`)),
-            (topParrudo || topRapido) ? h('div', { class: 'chips', style: 'align-items:center' },
-              topParrudo ? chip('🏆 Campeão Geral: ' + topParrudo, 'neutro') : null,
-              topRapido ? chip('⚡ Mais Veloz: ' + topRapido, 'neutro') : null) : null)));
-
-      // Barra de Abas / Filtro Rápido de Atividades
-      const abas = [
-        ['todas', 'Todas as atividades (8)'],
-        ['chat_pt', '💬 Geral / Conversa'],
-        ['codigo', '💻 Código'],
-        ['rapido', '⚡ Tarefas Rápidas'],
-        ['raciocinio', '🧠 Raciocínio'],
-        ['visao', '👁️ Visão'],
-        ['contexto', '📚 Muito Contexto'],
-        ['agente', '🛠️ Agentes'],
-      ];
-
-      zonaAbasAtiv.replaceChildren(
-        h('div', { class: 'seg', role: 'group', 'aria-label': 'Filtrar atividade' },
-          abas.map(([id, tit]) => h('button', {
-            'aria-pressed': String(filtroAtividade === id),
-            onclick: () => { filtroAtividade = id; desenharRes(); }
-          }, tit))));
-
-      // Renderizar apenas a atividade selecionada ou todas
-      const ativsParaMostrar = filtroAtividade === 'todas'
-        ? ATIVIDADES
-        : [filtroAtividade];
-
-      const cartoes = ativsParaMostrar
-        .map(id => resultadosPorPapel.get(id))
-        .filter(Boolean)
-        .map(({ papel, res }) => cartaoAtividade(papel, res, maq, op, dados));
-
-      zonaRes.replaceChildren(...cartoes);
-      zonaGeral.replaceChildren(resumoGeral(maq, op));
-      zonaUpgrade.replaceChildren(cartaoUpgrade(maq, op, dados, E));
+      if (!res.has(usoSel)) usoSel = res.keys().next().value;
+      zonaUsos.replaceChildren(h('div', { class: 'usos', role: 'group', 'aria-label': 'Escolha o uso' },
+        [...res.values()].map(({ papel }) => h('button', { type: 'button', 'aria-pressed': String(papel.id === usoSel), title: papel.descricao, onclick: () => escolherUso(papel.id) }, papel.icone + ' ' + (USO_CURTO_C[papel.id] || papel.rotulo)))));
+      const sel = res.get(usoSel);
+      zonaRes.replaceChildren(sel ? cartaoAtividade(sel.papel, sel.r, maq, op, dados) : h('div', { class: 'vazio' }, 'Nenhuma atividade disponível.'));
+      zonaTodos.replaceChildren(tabelaTodosUsos(res, id => escolherUso(id, true)));
+      zonaGeral.replaceChildren(painelCabe(maq, op, dados, verRadar));
+      zonaUpgrade.replaceChildren(painelUpgrade(maq, op, dados, E));
       zonaGuia.replaceChildren(cartaoGuia(maq, op, dados));
       zonaLivre.replaceChildren(cartaoModeloLivre(maq));
       zonaMapa.replaceChildren(cartaoMapa(maq, op));
@@ -633,36 +676,50 @@ const LI_CALC_UI = (function () {
       h('p', { class: 'sub', style: 'max-width:70ch;margin-top:6px' }, 'Escolha sua placa de vídeo (ou Mac, ou só o processador) e veja que modelos de IA rodam nela, em qual quantização, com quanto contexto e a que velocidade — para cada tipo de uso. Funciona offline: nada sai do seu computador.'),
       h('div', { class: 'legenda', style: 'margin-top:8px' }, `Catálogo de ${dados.candidatos.length} modelos da varredura de ${fmtData(dados.radar)} · gerado em ${fmtData(dados.gerado)}`, dados.n_medidos ? chip(`${dados.n_medidos} com nota MEDIDA`, 'medido') : null))
       : h('div', { class: 'pagina-topo' },
-          h('div', { class: 'eyebrow-tech' }, 'LOCAL AI SEARCH · CALCULADORA'),
-          h('h1', {}, 'Calculadora de hardware'),
-          h('p', { class: 'sub' }, 'Informe sua placa/memória nos cartões abaixo e veja instantaneamente o feed de modelos recomendados com base nos catálogos online do Ollama e Hugging Face.'));
+          h('span', { class: 'guia-kicker' }, 'CALCULADORA · ' + dados.candidatos.length + ' MODELOS DO OLLAMA E DO HUGGING FACE'),
+          h('h1', {}, 'O que o seu computador aguenta?'),
+          h('p', { class: 'sub' }, 'Diga qual é o seu hardware e veja, por partes: quanto cabe, o melhor modelo para cada uso e o que muda se você trocar a placa.'));
     const linkAtual = () => { const e = { ...E, preset: '' }; return location.href.split('#')[0] + '#c=' + btoa(unescape(encodeURIComponent(JSON.stringify(e)))); };
-    const botaoExportar = opts.aoExportar ? h('button', { class: 'btn', onclick: opts.aoExportar }, 'Baixar como arquivo para compartilhar')
-      : opts.solo ? h('button', { class: 'btn', onclick: () => copiar(linkAtual()) }, 'Copiar link desta configuração') : null;
-    el.replaceChildren(h('div', { class: 'calc' }, cab, botaoExportar ? h('div', { style: 'margin:-12px 0 18px' }, botaoExportar) : null,
-      h('div', { class: 'calc-topo-grid' }, zonaHw, opcoes()),
-      zonaGeral,
-      titulo(`Feed de Recomendações (${dados.candidatos.length} modelos do Ollama + Hugging Face)`, 'Calculado em tempo real para o seu hardware: o mais capaz que cabe, o melhor equilíbrio e o mais rápido em cada atividade.'),
-      zonaStatusCalc, zonaAbasAtiv,
-      zonaRes,
-      h('details', { class: 'painel-colapsavel', style: 'margin-top:24px' },
-        h('summary', {},
-          h('div', { class: 'linha', style: 'gap:10px' },
-            h('h2', {}, 'Simulador de Upgrade, Modelo Livre e Guia Técnico'),
-            chip('Ferramentas extras', 'neutro')),
-          h('span', { class: 'colapsavel-dica' }, 'Clique para expandir')),
-        h('div', { class: 'painel-conteudo empilha' },
-          titulo('E se eu trocasse a placa?', 'O mesmo computador com outras placas de referência: quanto modelo a mais cabe e a que velocidade.'), zonaUpgrade,
-          titulo('Cabe um modelo que não está na lista?', 'Digite os parâmetros de um modelo novo e veja se cabe no hardware escolhido.'), zonaLivre,
-          titulo('Que tamanho cabe?', 'O maior modelo denso que cabe com folga, por quantização e contexto.'), zonaMapa,
-          titulo('Guia: Quantização do modelo e do cache de contexto (KV)', 'O que mudar para caber mais modelo ou mais contexto — e onde ligar cada coisa.'), zonaGuia)),
-      h('div', { class: opts.solo ? 'rodape-solo' : '', style: opts.solo ? '' : 'margin-top:28px' }, h('h3', {}, 'Como isto é calculado — e o que não sabe'),
-        h('ul', { class: 'sub', style: 'padding-left:18px;max-width:80ch' },
+    const botaoExportar = opts.aoExportar ? h('button', { class: 'btn mini', onclick: opts.aoExportar }, 'Baixar como arquivo para compartilhar')
+      : opts.solo ? h('button', { class: 'btn mini', onclick: () => copiar(linkAtual()) }, 'Copiar link desta configuração') : null;
+
+    // seções numeradas + navegação fixa com indicação da seção atual
+    const SECOES = [['calc-sec-pc', 'Seu computador'], ['calc-sec-cabe', 'O que cabe'], ['calc-sec-uso', 'Por uso'], ['calc-sec-upgrade', 'Trocar a placa?'], ['calc-sec-ferramentas', 'Ferramentas']];
+    const secao = (i, sub, ...conteudo) => h('section', { class: 'calc-sec', id: SECOES[i][0] },
+      h('div', { class: 'calc-sec-cab' }, h('span', { class: 'calc-sec-n' }, i + 1), h('div', {}, h('h2', {}, SECOES[i][1]), sub ? h('p', { class: 'sub' }, sub) : null)), ...conteudo);
+    const nav = h('nav', { class: 'calc-nav', 'aria-label': 'Seções da calculadora' }, SECOES.map(([id, nome], i) =>
+      h('a', { href: '#' + id, 'data-sec': id, onclick: ev => { ev.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }, h('span', { class: 'calc-nav-n' }, i + 1), nome)));
+    const painel = (titulo, sub, conteudo) => h('details', { class: 'painel-colapsavel' }, h('summary', {}, h('div', {}, h('h3', {}, titulo), sub ? h('div', { class: 'sub' }, sub) : null)), h('div', { class: 'painel-conteudo' }, conteudo));
+
+    el.replaceChildren(h('div', { class: 'calc' }, cab, botaoExportar ? h('div', { class: 'calc-exportar' }, botaoExportar) : null, opts.solo ? null : nav,
+      secao(0, null, h('div', { class: 'calc-topo-grid' }, zonaHw, opcoes())),
+      secao(1, 'Um resumo do seu hardware em números, e até onde ele vai.', zonaGeral),
+      secao(2, 'Escolha o uso: o mais capaz que cabe, o melhor equilíbrio e o leve e rápido.', zonaUsos, zonaRes,
+        h('details', { class: 'painel-colapsavel' }, h('summary', {}, h('h3', {}, 'Ver todos os usos de uma vez')), h('div', { class: 'painel-conteudo' }, zonaTodos))),
+      secao(3, 'O mesmo computador com outras placas: até onde vai, qual vira a melhor aposta e quanto fica mais rápido.', zonaUpgrade),
+      secao(4, null,
+        painel('Cabe um modelo que não está na lista?', 'Digite os parâmetros de um modelo e veja se cabe.', zonaLivre),
+        painel('Que tamanho cabe, por compressão e contexto?', 'O maior modelo denso que cabe com folga.', zonaMapa),
+        painel('Guia: compressão do modelo e do cache de contexto (KV)', 'O que mudar para caber mais modelo ou mais contexto, e onde ligar.', zonaGuia),
+        painel('Como isto é calculado, e o que a conta não sabe', null, h('ul', { class: 'sub', style: 'padding-left:18px;max-width:80ch' },
           h('li', {}, 'Cabe = tamanho real do arquivo + cache de contexto (conta por arquitetura) + buffers. Em GPU a conta bate com o medido em ±1,5 GB (sempre para o lado seguro).'),
           h('li', {}, 'Velocidade = banda de memória ÷ bytes lidos por token × eficiência. Em GPU é confiável; em CPU vale ±2×; com RAM + GPU é só ordem de grandeza.'),
-          h('li', {}, '“Mais capaz” ordena pelo porte efetivo (MoE = raiz de total × ativos), descontando quantização agressiva e geração antiga. É regra de bolso, não nota de qualidade.'),
-          h('li', {}, 'Nota MEDIDA só existe para os modelos que o autor testou no protocolo v2 (9 testes públicos, mesmos itens para todos). Para os outros, teste no seu uso real.'),
-          h('li', {}, 'Especificações de placas vêm das fichas dos fabricantes; se algo estiver errado ou faltar, informe os valores manualmente.')))));
+          h('li', {}, '“Mais capaz” ordena pelo porte efetivo (num MoE, entre o total e os ativos), descontando compressão agressiva e geração antiga. É regra de bolso, não nota de qualidade.'),
+          h('li', {}, 'Nota MEDIDA só existe para modelos testados no protocolo v2. Para os outros, o duelo do app local mede no seu PC.'),
+          h('li', {}, 'Especificações de placas vêm das fichas dos fabricantes; se algo estiver errado ou faltar, informe os valores manualmente.'))))));
+
+    // indicação da seção visível na navegação
+    if (!opts.solo && typeof IntersectionObserver === 'function') {
+      if (window._calcObservador) window._calcObservador.disconnect();
+      const links = new Map([...nav.querySelectorAll('a')].map(a => [a.dataset.sec, a]));
+      const obs = new IntersectionObserver(entradas => {
+        for (const en of entradas) if (en.isIntersecting) links.forEach((a, id) => a.toggleAttribute('aria-current', id === en.target.id));
+      }, { rootMargin: '-35% 0px -55% 0px' });
+      el.querySelectorAll('.calc-sec').forEach(s => obs.observe(s));
+      window._calcObservador = obs;
+      const ajustarTopo = () => { const a = document.querySelector('aside.lateral'); const mob = window.matchMedia('(max-width: 880px)').matches; nav.style.top = mob && a ? a.offsetHeight + 'px' : '0px'; };
+      ajustarTopo(); window.removeEventListener('resize', window._calcAjusteTopo || (() => {})); window._calcAjusteTopo = ajustarTopo; window.addEventListener('resize', ajustarTopo);
+    }
     desenharHw(); desenharResumo(); desenharRes();
   }
   /* Deixa a calculadora já apontada para uma máquina do parque (usado pelo botão "Abrir na calculadora"). */

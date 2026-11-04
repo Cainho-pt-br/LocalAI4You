@@ -236,6 +236,7 @@ function desenhar() {
   desenharAbas();
   for (const [id] of ABAS) $('#p-' + id).classList.toggle('on', id === S.aba);
   PAGINAS[S.aba]();
+  if (typeof registrarEvento === 'function' && S._abaContada !== S.aba) { registrarEvento(S._abaContada ? 'aba' : 'pagina', { aba: S.aba }); S._abaContada = S.aba; }
 }
 function abaDoHash() {
   const x = ANTIGAS[location.hash.slice(1)] || location.hash.slice(1);

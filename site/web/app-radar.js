@@ -128,7 +128,7 @@ async function pRadar() {
     lista.replaceChildren(
       bannerNovos,
       titulo(`Melhores opções para ${(maqLista.find(m => m.id === f.maquina) || {}).nome || f.maquina}`, 'Cada cartão mostra a comparação direta com o seu modelo atual naquele uso para você saber na hora se vale a pena testar. Clique no nome para ver o mesmo modelo em outros tamanhos.'),
-      fatia.length ? [h('div', { class: 'radar-grid-3' }, fatia.map((c, i) => cartaoCandidato(c, f.ordem === 'prioridade' ? f.pagina * POR_PAGINA + i : null))), nav(), typeof blocoApoio === 'function' ? blocoApoio() : null] : h('div', { class: 'vazio' }, 'Nenhum candidato cabe nessa máquina com esses filtros.'));
+      fatia.length ? [h('div', { class: 'radar-grid-3' }, fatia.map((c, i) => cartaoCandidato(c, f.ordem === 'prioridade' ? f.pagina * POR_PAGINA + i : null))), nav()] : h('div', { class: 'vazio' }, 'Nenhum candidato cabe nessa máquina com esses filtros.'));
   } catch (e) { $('#radar-lista')?.replaceChildren(h('div', { class: 'aviso-caixa' }, e.message)); }
 }
 // ---------------------------------------------------------------- RADAR do site (e do painel sem Ollama): tudo que cabe, em ordem
@@ -145,9 +145,21 @@ function porqueDoModelo(x, perfil) {
   const partes = [x.offload ? `Só roda usando a RAM do PC (${enc.pct_gpu}% na placa): funciona, mas bem mais devagar`
     : nivel === 'confortavel' ? `Cabe com folga (${fmtGB(enc.variante.bytes)} de ${fmtN(enc.encaixe.orcamento_gb, 1)} GB)`
     : `Cabe no limite (${fmtGB(enc.variante.bytes)} de ${fmtN(enc.encaixe.orcamento_gb, 1)} GB): use contexto menor`];
-  if (enc.tps_est) { const cl = Calc.classeTps(enc.tps_est); partes.push(`~${fmtTps(enc.tps_est)} tokens/s (${cl[0]})`); }
   partes.push('bom para ' + x.papeis.map(p => USO_CURTO[p] || p).join(', ').toLowerCase());
   return partes.join(' · ') + '.';
+}
+/* Dois medidores que explicam a posição sem texto: inteligência estimada (relativa ao mais capaz que cabe) e velocidade
+   (cheia quando já é confortável de ler; passar disso não vale ponto). */
+function medidoresRadar(x) {
+  const t = x.enc.tps_est ? (x.enc.tps_est[0] + x.enc.tps_est[1]) / 2 : 0, alvo = x.papel === 'rapido' ? 30 : 10;
+  const cl = x.enc.tps_est ? Calc.classeTps(x.enc.tps_est)[0] : '?';
+  const intel = Math.max(0.04, Math.min(1, x.intel || 0)), vel = Math.max(0.04, Math.min(1, t / alvo));
+  const nivelIntel = intel >= 0.85 ? 'alta' : intel >= 0.6 ? 'boa' : intel >= 0.4 ? 'média' : 'básica';
+  const barra = (rot, frac, txt, cls, dica) => h('div', { class: 'medidor ' + cls, title: dica },
+    h('span', { class: 'medidor-rot' }, rot), h('span', { class: 'medidor-trilho' }, h('i', { style: `width:${Math.round(frac * 100)}%` })), h('span', { class: 'medidor-val' }, txt));
+  return h('div', { class: 'medidores' },
+    barra('Inteligência', intel, nivelIntel + ` · ~${fmtN(x.cap.efetivo_b, x.cap.efetivo_b < 10 ? 1 : 0)}B`, 'm-intel', 'Estimada pelo porte efetivo, pela qualidade da compressão e pela geração do modelo, comparada ao mais capaz que cabe no seu computador.'),
+    barra('Velocidade', vel, `~${fmtTps(x.enc.tps_est)} tok/s · ${cl}`, 'm-vel' + (vel >= 1 ? ' cheio' : ''), `Cheia a partir de ~${alvo} tokens/s: mais rápido que isso não muda a posição.`));
 }
 
 function cartaoRadarPublico(x, pos, perfil, dados) {
@@ -163,6 +175,7 @@ function cartaoRadarPublico(x, pos, perfil, dados) {
         h('div', { class: 'chips' }, selo ? chip(selo[0], 'ok', selo[1]) : null, x.lento ? chip('⚠ lento demais aqui', 'warn', 'Deve gerar menos de 2 palavras por segundo neste hardware') : x.devagar ? chip('🐢 devagar', 'neutro', 'Funciona, mas a resposta sai devagar neste hardware') : null,
           ...LI_CALC_UI.chipsCaps(c), c.confianca === 'comunidade' ? chip('comunidade', 'neutro', 'Ajuste de terceiros') : null)),
       h('div', { class: 'radar-fit' }, h('b', {}, v.quant), h('span', {}, fmtGB(v.bytes)))),
+    medidoresRadar(x),
     h('p', { class: 'radar-porque' }, porqueDoModelo(x, perfil)),
     cmd('ollama pull ' + v.pull),
     h('details', { class: 'radar-mais' }, h('summary', {}, 'Mais sobre este modelo'),
@@ -194,6 +207,7 @@ async function pRadarPublico(raiz) {
       h('button', { type: 'button', 'aria-pressed': String(f.uso === id), title: id ? (papeis.find(p => p.id === id)?.descricao || '') : 'Os melhores para qualquer uso', onclick: () => { f.uso = id; f.mostrar = POR_LOTE; guardarUso(id); redesenhar(); } }, ic + ' ' + t)));
   const nomeUso = f.uso ? (USO_CURTO[f.uso] || f.uso).toLowerCase() : null;
   const visiveis = rk.slice(0, f.mostrar);
+  if (typeof registrarUmaVez === 'function') registrarUmaVez('radar|' + perfil.nome + '|' + (f.uso || ''), 'radar', { perfil: perfil.nome, uso: f.uso || 'tudo', palpite: E.palpite || null, cabem: rk.length, top: rk[0] ? rk[0].c.id : null });
   raiz.replaceChildren(
     h('div', { class: 'pagina-topo' },
       h('span', { class: 'guia-kicker' }, 'RADAR · ESTIMADO PARA O SEU COMPUTADOR'),
@@ -207,20 +221,23 @@ async function pRadarPublico(raiz) {
       LI_CALC_UI.avisoPalpite(E, () => { E.palpite = ''; LI_CALC_UI.salvarEstado(E); redesenhar(); })),
     usos,
     h('details', { class: 'dica-clean radar-regra' }, h('summary', {}, 'Como esta ordem é feita?'),
-      h('p', { class: 'sub' }, 'Só entram modelos que cabem na memória com uma compressão de boa qualidade (4 bits ou mais por peso). A ordem soma ', h('b', {}, 'capacidade'), ' (porte efetivo, qualidade da compressão e geração do modelo, 55%) e ',
-        h('b', {}, 'prioridade'), ' (lançamento recente, laboratório confiável, adoção, velocidade e folga, 45%). Modelos que cabem no limite, ficam lentos ou precisam da RAM do PC descem na lista. Tudo é ',
-        h('b', {}, 'estimado'), ': nenhuma nota de qualidade é medida no site. Para medir de verdade, use o app local.')),
+      h('ol', { class: 'regra-passos' },
+        h('li', {}, h('b', {}, 'Só entra o que cabe'), ' na memória, com compressão de boa qualidade (a partir de ~3 bits por peso).'),
+        h('li', {}, h('b', {}, 'A inteligência estimada vem primeiro: '), 'tamanho efetivo (num MoE, conta algo entre o total e os parâmetros ativos), qualidade da compressão e geração do modelo.'),
+        h('li', {}, h('b', {}, 'A velocidade só conta até ficar confortável de ler'), ' (~10 tokens/s). Acima disso não ganha ponto, então um modelo 10× mais rápido e menos capaz não passa na frente. Abaixo disso, desconta.'),
+        h('li', {}, 'Cabe no limite, precisa da RAM do PC ou é pouco adotado: desce um pouco.')),
+      h('p', { class: 'sub' }, 'Tudo aqui é ', h('b', {}, 'estimado'), '. Se ficar em dúvida entre dois, o duelo do app local roda os dois nas mesmas perguntas no seu PC e mostra qual se sai melhor.')),
     rk.length ? h('div', { class: 'radar-lista' }, visiveis.map((x, i) => cartaoRadarPublico(x, i, perfil, dados))) : h('div', { class: 'public-empty' }, h('h2', {}, 'Nada coube'), h('p', {}, 'Tente outro uso, menos contexto ou ligue "usar a RAM do PC" nos ajustes avançados da Calculadora.')),
     rk.length > f.mostrar ? h('div', { class: 'linha', style: 'justify-content:center;margin:18px 0' },
       h('button', { class: 'btn', onclick: () => { f.mostrar += POR_LOTE; redesenhar(); } }, `Mostrar mais ${Math.min(POR_LOTE, rk.length - f.mostrar)} (de ${rk.length - f.mostrar} restantes)`)) : null,
     fora.length ? h('details', { class: 'cartao radar-fora' }, h('summary', {}, `Não cabem no seu computador (${fora.length}) — e por quê`),
       h('p', { class: 'sub' }, `Mesmo na menor versão com boa qualidade, estes precisam de mais memória que os ${fmtN(fora[0].orcamento_gb, 1)} GB disponíveis para o modelo. Os primeiros são os que estão mais perto de caber.`),
       h('ul', { class: 'radar-fora-lista' }, fora.slice(0, 40).map(y => h('li', {}, h('b', {}, nomeAmigavelModelo(y.c.nome)), ` — precisa de ~${fmtN(y.precisa_gb, 1)} GB (${y.variante.quant})`))),
-      perfil.gpu && !perfil.unificada && !op.offload ? h('p', { class: 'sub' }, 'Dica: na Calculadora, em ajustes avançados, “usar a RAM do PC” faz alguns caberem — rodando bem mais devagar.') : null) : null,
+      perfil.gpu && !perfil.unificada && !op.offload ? h('p', { class: 'sub' }, 'Dica: na Calculadora, em ajustes avançados, “usar a RAM do PC” faz alguns caberem — rodando bem mais devagar.') : null,
+      h('button', { class: 'btn mini', onclick: () => { irPara('calculadora'); setTimeout(() => document.getElementById('calc-sec-upgrade')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 350); } }, 'Ver o que muda trocando a placa →')) : null,
     window.LI_PUBLIC_MODE ? h('div', { class: 'guia-callout radar-cta' }, h('b', {}, 'Quer saber qual é melhor de verdade no SEU computador?'),
       h('p', {}, 'O app local mede os modelos instalados com benchmarks públicos, faz duelos entre dois modelos e diz qual manter. Roda tudo no seu PC; nada é enviado.'),
-      h('a', { class: 'btn primario', href: LINK_DOWNLOAD }, 'Baixar o app local')) : null,
-    typeof blocoApoio === 'function' ? blocoApoio() : null);
+      h('a', { class: 'btn primario', href: LINK_DOWNLOAD, onclick: () => { if (typeof registrarEvento === 'function') registrarEvento('download', { origem: 'radar' }); } }, 'Baixar o app local')) : null);
 }
 
 function classeCorPrio(pr) {

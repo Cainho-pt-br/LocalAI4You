@@ -18,6 +18,7 @@ function _apoioOculto() { try { return sessionStorage.getItem(APOIO_SESSAO) === 
 function _apoioOcultar() { try { sessionStorage.setItem(APOIO_SESSAO, '1'); } catch (e) { /* navegação privada */ } }
 
 function abrirApoio() {
+  if (typeof registrarEvento === 'function') registrarEvento('apoio', {});
   const linhas = [
     h('li', {}, '⭐ ', h('a', { href: LINK_REPO, target: '_blank', rel: 'noopener' }, 'Dar uma estrela no GitHub'), ' — ajuda outras pessoas a encontrar o projeto.'),
     h('li', {}, '💬 ', h('a', { href: LINK_REPO + '/issues', target: '_blank', rel: 'noopener' }, 'Contar o que achou ou relatar um problema'), '.'),
@@ -35,11 +36,12 @@ function abrirApoio() {
 }
 
 function desenharApoio() {
-  const link = () => h('button', { type: 'button', class: 'apoio-link', onclick: abrirApoio, title: 'Como ajudar o projeto' }, '♥ Apoiar o projeto');
   const el = document.getElementById('apoio');
-  if (el) el.replaceChildren(link());
-  const main = document.querySelector('main');   // no celular a barra lateral vira barra de topo: o link vai para o pé da página
-  if (main && !main.querySelector('.rodape-apoio')) main.appendChild(h('footer', { class: 'rodape-apoio' }, link()));
+  if (el) el.replaceChildren(h('button', { type: 'button', class: 'apoio-link', onclick: abrirApoio, title: 'Como ajudar o projeto' }, '♥ Apoiar o projeto'));
+  // rodapé de todas as abas: apoio + aviso por e-mail (os dois discretos e voluntários)
+  const main = document.querySelector('main');
+  if (main && !main.querySelector('.rodape-global')) main.appendChild(h('footer', { class: 'rodape-global' },
+    blocoApoio(), typeof formLead === 'function' ? formLead('rodape') : null));
 }
 
 /* Bloco fixo e discreto para o fim de páginas longas (Radar). */
