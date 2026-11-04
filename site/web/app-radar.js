@@ -54,24 +54,25 @@ async function pRadar() {
         h('div',{class:'public-empty'},h('div',{class:'public-empty-icon'},'⌁'),h('h2',{},'Ainda falta configurar seu computador'),h('p',{},'A calculadora salva sua configuração neste navegador. Depois volte aqui para ver modelos estimados para sua máquina.'),h('button',{class:'btn primario',onclick:()=>irPara('calculadora')},'Configurar hardware'))); return;
     }
     const perfil=LI_CALC_UI.perfilDe(salvo,dados), reserva=dados.reserva_vram_gb??1.3;
-    const cabem=[];
-    for (const c of dados.candidatos||[]) {
-      let melhor=null;
-      for (const v of c.variantes||[]) {
-        const enc=Calc.avaliarEncaixe(v.bytes+(v.extra_bytes||0),c.arch,perfil,8192,'q8_0',reserva);
-        if (enc.nivel!=='nao_cabe'&&(!melhor||v.bytes<melhor.bytes)) melhor={...v,enc};
+    const ranked=new Map();
+    for (const papel of (dados.papeis||[]).filter(p=>!p.sem_nota)) {
+      const escolhas=Calc.escolher(dados,perfil,papel,{kv:'q8_0',ctx:null,comunidade:false,antigos:false,offload:false});
+      for (const [tipo,item] of [['Mais capaz',escolhas.parrudo],['Melhor equilíbrio',escolhas.equilibrado],['Leve e rápido',escolhas.leve],...(escolhas.alternativas||[]).map(x=>['Alternativa',x])]) {
+        if (!item) continue;
+        const id=item.c.id, prev=ranked.get(id), score=(item.cap?.valor||0)*100+(item.prio||0)+(tipo==='Melhor equilíbrio'?12:tipo==='Mais capaz'?8:0);
+        if (!prev||score>prev.score) ranked.set(id,{c:item.c,enc:item.enc,papel:papel.rotulo,tipo,score});
       }
-      if (melhor) cabem.push({c,v:melhor});
     }
-    cabem.sort((a,b)=>b.c.params_b-a.c.params_b);
-    raiz.replaceChildren(h('div',{class:'pagina-topo'},h('h1',{},'Radar estimado para '+perfil.nome),h('p',{class:'sub'},`${cabem.length} modelos do catálogo cabem com a configuração salva. Estimativa em Q8_0 e contexto de 8k; confirme no aplicativo local antes de baixar.`),h('button',{class:'btn mini',onclick:()=>irPara('calculadora')},'Alterar hardware')),
-      h('div',{class:'radar-estimado-lista'},cabem.slice(0,60).map(({c,v})=>h('article',{class:'radar-modelo'},
-        h('div',{class:'radar-modelo-topo'},h('div',{},h('span',{class:'chip'},'ESTIMADO'),h('h2',{},c.nome),h('p',{class:'sub'},`${c.params_b}B parâmetros${c.ativos_b?` · ${c.ativos_b}B ativos`:''} · ${c.origem==='hf'?'Hugging Face':'Ollama'}`)),h('div',{class:'radar-fit'},h('b',{},v.quant),h('span',{},`${fmtN(v.bytes/1e9,1)} GB`))),
-        h('p',{},c.descricao||'Descrição do modelo não disponível.'),
-        h('div',{class:'radar-tags'},(c.caps||[]).map(x=>h('span',{class:'chip neutro'},x)),c.licenca?h('span',{class:'chip neutro'},`Licença: ${c.licenca}`):null,c.ctx_max?h('span',{class:'chip neutro'},`Contexto declarado: ${fmtCtx(c.ctx_max)}`):null),
-        h('p',{class:'sub'},`Estimativa em Q8_0 e contexto de 8k para ${perfil.nome}. Confirme o hardware antes de baixar.`),
-        h('details',{},h('summary',{},`Ver ${c.variantes?.length||0} quantizações e tamanhos`),h('div',{class:'radar-variantes'},(c.variantes||[]).map(q=>h('div',{class:'radar-variante'},h('b',{},q.quant),` · ${fmtN(q.bytes/1e9,1)} GB · ${q.pull}`))),
-          h('div',{class:'radar-links'},c.repo?h('a',{href:`https://huggingface.co/${c.repo}`,target:'_blank',rel:'noopener'},'Página no Hugging Face ↗'):null,c.repo_gguf?h('a',{href:`https://huggingface.co/${c.repo_gguf}`,target:'_blank',rel:'noopener'},'GGUF no Hugging Face ↗'):null,c.familia?h('a',{href:`https://ollama.com/library/${c.familia}`,target:'_blank',rel:'noopener'},'Biblioteca Ollama ↗'):null)))))); return;
+    const top=[...ranked.values()].sort((a,b)=>b.score-a.score).slice(0,5);
+    const card=({c,enc,papel,tipo},i)=>{
+      const v=enc.variante, variants=c.variantes||[];
+      return h('article',{class:'radar-modelo'},h('div',{class:'radar-modelo-topo'},h('div',{},h('span',{class:'chip'},`ESCOLHA ${i+1} · ${tipo.toUpperCase()}`),h('h2',{},c.nome),h('p',{class:'sub'},`${c.params_b}B parâmetros${c.ativos_b?` · ${c.ativos_b}B ativos`:''} · ${papel}`)),h('div',{class:'radar-fit'},h('b',{},v.quant),h('span',{},`${fmtN(v.bytes/1e9,1)} GB`))),
+        h('p',{},c.descricao||'Descrição do modelo não disponível.'),h('div',{class:'radar-tags'},(c.caps||[]).map(x=>h('span',{class:'chip neutro'},x)),c.licenca?h('span',{class:'chip neutro'},`Licença: ${c.licenca}`):null,c.ctx_max?h('span',{class:'chip neutro'},`Contexto declarado: ${fmtCtx(c.ctx_max)}`):null),
+        h('p',{class:'sub'},`Estimativa para ${perfil.nome}: ${enc.encaixe?.nivel==='confortavel'?'cabe com folga':'cabe no limite'} · contexto de ${fmtCtx(enc.ctx||8192)}${enc.tps_est?` · ${fmtN(enc.tps_est[0],1)}–${fmtN(enc.tps_est[1],1)} tok/s estimados`:''}.`),
+        h('details',{},h('summary',{},`Ver todas as ${variants.length} quantizações e tamanhos`),h('div',{class:'radar-variantes'},variants.map(q=>h('div',{class:'radar-variante'},h('b',{},q.quant),` · ${fmtN(q.bytes/1e9,1)} GB · ${q.pull}`))),h('div',{class:'radar-links'},c.repo?h('a',{href:`https://huggingface.co/${c.repo}`,target:'_blank',rel:'noopener'},'Hugging Face ↗'):null,c.repo_gguf?h('a',{href:`https://huggingface.co/${c.repo_gguf}`,target:'_blank',rel:'noopener'},'GGUF ↗'):null,c.familia?h('a',{href:`https://ollama.com/library/${c.familia}`,target:'_blank',rel:'noopener'},'Ollama ↗'):null)));
+    };
+    raiz.replaceChildren(h('div',{class:'pagina-topo'},h('h1',{},'Os 5 melhores para '+perfil.nome),h('p',{class:'sub'},`${top.length} recomendações estimadas pelo motor de decisão do app: capacidade, encaixe e equilíbrio. Dados do catálogo ${dados.radar?.slice(0,10)||''}; notas de qualidade não são medidas no site.`),h('button',{class:'btn mini',onclick:()=>irPara('calculadora')},'Ajustar meu hardware')),
+      top.length?h('div',{class:'radar-estimado-lista'},top.map(card)):h('div',{class:'public-empty'},h('h2',{},'Não achei modelos que caibam com esses critérios'),h('p',{},'Tente aumentar a memória disponível ou reduzir o contexto na Calculadora.'))); return;
   }
   if (!S.mesa) return;
   const maquinas = (S.calc?.maquinas || []).map(x => x.id);
