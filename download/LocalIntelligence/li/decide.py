@@ -105,12 +105,25 @@ def _familia_versao(nome: str) -> Optional[Tuple[str, float]]:
     return m.group(1), float(m.group(2))
 
 
+_RE_EFETIVO = re.compile(r"(?:^|[\s:_-])e(\d+(?:\.\d+)?)b(?:$|[\s:_-])", re.I)
+
+
+def porte_efetivo(params: float, ativos: Optional[float], nome: str = "") -> float:
+    """Num MoE a "inteligência" fica entre o total e os ativos: média geométrica com 25% de folga, nunca acima do total
+    (35B-A3B ≈ 13B denso; 24B-A2B ≈ 9B). Modelos "E4B" contam perto do E (o arquivo traz embeddings por camada).
+    Mesma regra de web/calc.js → porteEfetivo."""
+    if ativos:
+        return min(params, 1.25 * math.sqrt(params * ativos))
+    e = _RE_EFETIVO.search(nome or "")
+    return min(params, 1.4 * float(e.group(1))) if e else params
+
+
 def prioridade_base(c: dict, papel: dict, instalados: Optional[List[dict]] = None) -> dict:
     """A parte da prioridade que NÃO depende da máquina: {escala, resto, razoes}."""
     razoes: List[str] = []
     pts = 0.0
     params, ativos = c["params_b"], c.get("ativos_b")
-    eff = (params * 0.70 + ativos * 0.30) if ativos else params
+    eff = porte_efetivo(params, ativos, c.get("nome", ""))
     escala = 30 * min(max(math.log(max(eff, 0.5)) / math.log(32), 0.0), 1.0)
     cap = f"{params:g}B" + (f" (MoE eficiente: {ativos:g}B ativos/token)" if ativos else "")
     razoes.append(f"Porte {cap}")

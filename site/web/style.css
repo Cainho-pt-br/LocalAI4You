@@ -805,3 +805,16 @@ dialog::backdrop { background: rgba(10, 12, 18, .55); backdrop-filter: blur(2px)
 /* bloco de apoio no fim do Radar */
 .apoio-bloco { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:26px; padding:14px 18px; border:1px dashed var(--line-strong); border-radius:var(--radius); background:var(--surface); font-size:.88rem; }
 .apoio-coracao { font-size:1.2rem; color:#e11d48; }
+
+/* medidores do Radar: inteligência e velocidade */
+.medidores { display:grid; gap:6px; }
+.medidor { display:grid; grid-template-columns: 88px minmax(0,1fr) auto; align-items:center; gap:10px; font-size:.8rem; }
+.medidor-rot { color:var(--muted); font-weight:650; }
+.medidor-trilho { height:8px; border-radius:99px; background:var(--surface-2); overflow:hidden; box-shadow: inset 0 0 0 1px var(--line); }
+.medidor-trilho i { display:block; height:100%; border-radius:inherit; }
+.m-intel .medidor-trilho i { background:linear-gradient(90deg,#6366f1,#a855f7,#ec4899); }
+.m-vel .medidor-trilho i { background:linear-gradient(90deg,#0ea5e9,#22c55e); }
+.m-vel.cheio .medidor-val::after { content:' ✓'; color:var(--ok); }
+.medidor-val { color:var(--text); font-weight:600; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.regra-passos { margin:8px 0; padding-left:20px; color:var(--muted); font-size:.88rem; } .regra-passos li { margin:5px 0; }
+@media (max-width:600px) { .medidor { grid-template-columns: 76px minmax(0,1fr); } .medidor-val { grid-column: 2; font-size:.76rem; } }

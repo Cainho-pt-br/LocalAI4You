@@ -13,7 +13,12 @@ from li import calc, scout  # noqa: E402
 
 
 def main() -> None:
-    snap = scout.varrer(forcar=True, ao_progredir=print, com_hf=True)
+    if "--sem-varrer" in sys.argv:          # só recalcula o catálogo a partir da última varredura local (regras novas, sem rede)
+        snap = scout.ultimo()
+        if not snap or snap.get("embutido"):
+            raise SystemExit("Não há varredura local em download/LocalIntelligence/estado/: rode sem --sem-varrer.")
+    else:
+        snap = scout.varrer(forcar=True, ao_progredir=print, com_hf=True)
     falhas = {fonte: status for fonte, status in snap.get("fontes", {}).items() if status is not True}
     if falhas or not snap.get("candidatos"):
         raise SystemExit(f"Catálogo não atualizado; fontes com falha: {falhas or 'sem candidatos'}")
@@ -35,6 +40,8 @@ def main() -> None:
     print(f"Catálogo atualizado: {len(dados['candidatos'])} candidatos; radar {dados['radar']}")
 
     # O mesmo snapshot vai no ZIP do app local: o Radar dele funciona antes da primeira varredura.
+    if "--sem-varrer" in sys.argv:
+        return
     inicial = scout.gravar_catalogo_inicial(snap)
     print(f"Catálogo inicial do app: {inicial.relative_to(ROOT)} ({inicial.stat().st_size // 1024} KB)")
 
