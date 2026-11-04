@@ -1,5 +1,5 @@
 # Estado de execução de cada máquina: resultados, sondas, vereditos, caches, logs.
-# Cada máquina mede o seu hardware; o que vale guardar vira nota em cerebro/ ou relatório em relatorios/.
+# Cada máquina mede o seu hardware; o que vale guardar vira relatório em relatorios/.
 estado/
 
 # Python

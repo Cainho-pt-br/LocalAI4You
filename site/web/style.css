@@ -706,3 +706,102 @@ dialog::backdrop { background: rgba(10, 12, 18, .55); backdrop-filter: blur(2px)
 .alvo select { width: 100%; }
 .banner-alvo { margin-bottom: 20px; padding: 12px 16px; border: 1px solid var(--info); background: var(--info-soft); color: var(--text); border-radius: 12px; }
 .banner-alvo .linha { justify-content: space-between; }
+
+/* ------------------------------------------------------------ Radar em lista: tudo que cabe, do mais ao menos indicado; os 5 primeiros com borda colorida */
+.palpite-hw { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin:12px 0 0; padding:10px 14px; border-radius:var(--radius-sm); background:var(--info-soft); border:1px solid color-mix(in srgb, var(--info) 30%, transparent); font-size:.88rem; }
+.palpite-hw.exemplo { background:var(--warn-soft); border-color:color-mix(in srgb, var(--warn) 35%, transparent); }
+.calc-card-hw .palpite-hw { margin:0 0 12px; }
+.usos { display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 12px; }
+.usos button { border:1px solid var(--line-strong); background:var(--surface); color:var(--text); padding:7px 13px; border-radius:99px; font-size:.86rem; font-weight:600; }
+.usos button:hover { border-color:var(--ink); }
+.usos button[aria-pressed="true"] { background:var(--ink); border-color:var(--ink); color:var(--on-ink); }
+.radar-regra { margin-bottom:16px; }
+.radar-lista { display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,420px),1fr)); gap:14px; align-items:start; }
+.radar-item { position:relative; display:flex; flex-direction:column; gap:10px; padding:16px 18px; border:1px solid var(--line-strong); border-radius:var(--radius); background:var(--surface); box-shadow:var(--shadow); min-width:0; }
+.radar-item h2 { font-size:1.08rem; margin-bottom:6px; }
+.radar-item-topo { display:flex; gap:12px; align-items:flex-start; }
+.radar-pos { flex:none; min-width:38px; height:30px; padding:0 8px; display:inline-grid; place-items:center; border-radius:99px; background:var(--surface-2); color:var(--muted); font-weight:750; font-size:.85rem; font-variant-numeric:tabular-nums; }
+.radar-porque { margin:0; color:var(--text); font-size:.9rem; line-height:1.55; }
+.radar-mais summary { cursor:pointer; color:var(--link); font-weight:600; font-size:.88rem; }
+.radar-mais[open] summary { margin-bottom:8px; }
+.radar-item .radar-fit { min-width:80px; }
+.radar-fora { margin-top:18px; }
+.radar-fora summary { cursor:pointer; font-weight:650; }
+.radar-fora-lista { columns:2 320px; margin:10px 0; padding-left:20px; color:var(--muted); font-size:.87rem; }
+.radar-fora-lista li { margin:3px 0; break-inside:avoid; }
+.radar-cta { margin-top:26px; }
+.descricao-modelo p { margin:0 0 6px; }
+.descricao-autor { font-size:.82rem; }
+.guia-detalhes { margin-top:28px; }
+.guia-detalhes > summary { cursor:pointer; font-weight:650; }
+.guia-detalhes h3 { margin:18px 0 6px; }
+/* Radar do painel local: os 5 primeiros da fila também ganham a moldura */
+@media (max-width:600px) { .radar-item { padding:14px; } .radar-item-topo { flex-wrap:wrap; } }
+
+/* ------------------------------------------------------------ apoio ao projeto (discreto) */
+.apoio { padding:0 6px; margin-top:auto; }
+.apoio + .status { margin-top:4px; }
+.rodape-apoio { display:none; margin:40px 0 0; text-align:center; }
+@media (max-width:880px) { .apoio { display:none; } .rodape-apoio { display:block; } }
+.apoio-link { background:none; border:0; padding:4px 0; color:var(--muted); font-size:.78rem; font-weight:600; }
+.apoio-link:hover { color:#e11d48; text-decoration:underline; }
+.apoio-link.forte { color:var(--link); padding:0; font-size:inherit; }
+.apoio-linha { position:fixed; left:calc(var(--lateral) + 24px); bottom:18px; z-index:40; display:flex; align-items:center; gap:6px; flex-wrap:wrap; max-width:min(92vw,640px);
+  padding:9px 10px 9px 16px; border:1px solid var(--line-strong); border-radius:99px; background:var(--surface); backdrop-filter:blur(10px); box-shadow:var(--shadow); font-size:.84rem; color:var(--muted); animation:surgir .2s ease-out; }
+.apoio-fechar { background:none; border:0; color:var(--muted); width:26px; height:26px; border-radius:50%; }
+.apoio-fechar:hover { background:var(--surface-2); color:var(--text); }
+.apoio-lista { padding-left:4px; list-style:none; } .apoio-lista li { margin:8px 0; }
+.apoio-dlg h3 { margin:16px 0 6px; }
+@media (max-width:880px) { .apoio-linha { left:12px; right:12px; max-width:none; border-radius:14px; bottom:84px; } }
+
+/* ------------------------------------------------------------ pódio: os 5 primeiros do Radar
+   #1 ouro (linha inteira, borda que gira devagar e um brilho que passa), #2 prata, #3 bronze, #4 esmeralda, #5 ametista.
+   Medalha com fita no lugar do número e uma faixa pendurada no canto. Sem animação para quem pede menos movimento. */
+@property --giro { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+:root { --fundo-cartao: #ffffff; }
+:root[data-theme="dark"] { --fundo-cartao: #10141e; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --fundo-cartao: #10141e; } }
+.radar-top-1 { --c1:#f59e0b; --c2:#fde68a; --c3:#b45309; --brilho:rgba(245,158,11,.38); }
+.radar-top-2 { --c1:#94a3b8; --c2:#f1f5f9; --c3:#475569; --brilho:rgba(100,116,139,.32); }
+.radar-top-3 { --c1:#ea580c; --c2:#fdba74; --c3:#7c2d12; --brilho:rgba(234,88,12,.30); }
+.radar-top-4 { --c1:#10b981; --c2:#a7f3d0; --c3:#047857; --brilho:rgba(16,185,129,.30); }
+.radar-top-5 { --c1:#8b5cf6; --c2:#ddd6fe; --c3:#6d28d9; --brilho:rgba(139,92,246,.30); }
+.radar-top { position:relative; isolation:isolate; border:2px solid transparent; --giro: 135deg;
+  background:
+    linear-gradient(165deg, color-mix(in srgb, var(--c1) 10%, var(--fundo-cartao)), var(--fundo-cartao) 42%) padding-box,
+    conic-gradient(from var(--giro), var(--c1), var(--c2), var(--c3), var(--c1), var(--c2), var(--c1)) border-box;
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--c2) 60%, transparent) inset, 0 18px 40px -18px var(--brilho), 0 4px 14px -8px var(--brilho);
+  transition: transform .2s ease, box-shadow .2s ease; }
+.radar-top:hover { transform: translateY(-2px); box-shadow: 0 1px 0 color-mix(in srgb, var(--c2) 60%, transparent) inset, 0 24px 48px -16px var(--brilho), 0 6px 18px -8px var(--brilho); }
+.radar-item.radar-top { padding-top:26px; }
+.radar-lista .radar-top-1 { grid-column: 1 / -1; }
+.radar-top-1 { animation: radar-giro 10s linear infinite; }
+.radar-top-1 h2 { font-size:1.28rem; }
+@keyframes radar-giro { to { --giro: 495deg; } }
+/* brilho que atravessa o #1 de tempos em tempos */
+.radar-top-1::before { content:''; position:absolute; inset:0; border-radius:inherit; z-index:-1; pointer-events:none;
+  background: linear-gradient(105deg, transparent 38%, rgba(255,255,255,.55) 50%, transparent 62%) no-repeat; background-size: 260% 100%; background-position: 140% 0;
+  animation: radar-brilho 7s ease-in-out 1.2s infinite; mix-blend-mode: soft-light; }
+@keyframes radar-brilho { 0%, 70% { background-position: 140% 0; } 100% { background-position: -40% 0; } }
+/* medalha: metal em degradê, reflexo e fita */
+.radar-top .radar-pos { position:relative; width:42px; min-width:42px; height:42px; padding:0; border-radius:50%; color:#fff; font-size:.95rem; font-weight:800;
+  text-shadow: 0 1px 2px rgba(0,0,0,.35);
+  background: radial-gradient(ellipse 72% 42% at 50% 16%, rgba(255,255,255,.62), transparent 72%), linear-gradient(150deg, var(--c2), var(--c1) 48%, var(--c3));
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.5), inset 0 0 0 4px color-mix(in srgb, var(--c3) 45%, transparent), inset 0 -3px 0 rgba(0,0,0,.16), 0 6px 14px -4px var(--brilho); }
+.radar-top .radar-pos::after { content:''; position:absolute; z-index:-1; left:50%; top:66%; width:26px; height:26px; transform:translateX(-50%);
+  background: linear-gradient(90deg, var(--c3) 0 50%, var(--c1) 50%); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%); }
+.radar-top-1 .radar-pos { width:48px; min-width:48px; height:48px; font-size:1.05rem; }
+/* faixa pendurada no canto */
+.radar-faixa { position:absolute; top:-2px; right:18px; z-index:1; padding:6px 12px 11px; color:#fff; font-size:.66rem; font-weight:800; letter-spacing:.09em; text-transform:uppercase; white-space:nowrap;
+  background: linear-gradient(180deg, var(--c1), var(--c3)); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%); text-shadow: 0 1px 1px rgba(0,0,0,.3);
+  filter: drop-shadow(0 3px 4px var(--brilho)); }
+.radar-top .radar-fit { margin-top:14px; }
+/* painel local: mesma linguagem nos cartões da fila */
+.radar-card.radar-top { padding-top:30px; overflow:visible; }
+.radar-card .radar-pos-local { position:absolute; top:-18px; left:16px; z-index:1; }
+@media (prefers-reduced-motion: reduce) { .radar-top-1, .radar-top-1::before { animation:none; } .radar-top, .radar-top:hover { transition:none; transform:none; } }
+@media (max-width:600px) { .radar-faixa { right:12px; font-size:.6rem; } .radar-top-1 h2 { font-size:1.12rem; } }
+
+/* bloco de apoio no fim do Radar */
+.apoio-bloco { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:26px; padding:14px 18px; border:1px dashed var(--line-strong); border-radius:var(--radius); background:var(--surface); font-size:.88rem; }
+.apoio-coracao { font-size:1.2rem; color:#e11d48; }

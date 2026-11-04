@@ -26,6 +26,9 @@ function h(tag, attrs, ...kids) {
 /* Máquina que o painel está controlando ('' = esta). Com uma máquina remota escolhida, toda chamada /api/... vai para o painel dela
    (o servidor local repassa em /api/m/<id>/...), exceto o que é sempre local: calculadora, parque, quantizações e a própria lista de máquinas. */
 const LI = { alvo: '' };
+// Endereços do projeto (um lugar só para trocar). O ZIP vem do GitHub Releases: só o app, sem o site.
+const LINK_REPO = 'https://github.com/Cainho-pt-br/LocalAISearch';
+const LINK_DOWNLOAD = LINK_REPO + '/releases/latest/download/LocalAISearch.zip';
 const ROTAS_LOCAIS = ['/api/calc/', '/api/maquinas', '/api/parque', '/api/m/', '/api/quants', '/api/radar/snapshot'];
 const caminhoAlvo = c => (!LI.alvo || !c.startsWith('/api/') || ROTAS_LOCAIS.some(p => c.startsWith(p))) ? c : '/api/m/' + encodeURIComponent(LI.alvo) + c.slice(4);
 async function api(caminho, corpo) {
@@ -84,7 +87,8 @@ function toast(msg, ms = 5000) {
   setTimeout(() => t.remove(), ms);
 }
 async function copiar(txt) {
-  try { await navigator.clipboard.writeText(txt); toast('Copiado: ' + (txt.length > 90 ? txt.slice(0, 90) + '…' : txt)); } catch (e) { toast('Não consegui copiar — selecione o texto.'); }
+  try { await navigator.clipboard.writeText(txt); toast('Copiado: ' + (txt.length > 90 ? txt.slice(0, 90) + '…' : txt)); } catch (e) { toast('Não consegui copiar — selecione o texto.'); return; }
+  if (typeof momentoDeValor === 'function' && /^ollama /.test(txt)) momentoDeValor('copiou');   // apoio.js (só no painel e no site)
 }
 const chip = (txt, cls = 'neutro', titulo) => h('span', { class: 'chip ' + cls, title: titulo }, txt);
 const CHIP_MEDIDO = () => chip('MEDIDO', 'medido', 'Rodou aqui, no protocolo v2, com intervalo de confiança');

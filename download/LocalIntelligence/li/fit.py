@@ -14,7 +14,7 @@ from .util import GB, GIB
 # bytes por elemento do cache de atenção
 KV_BYTES = {"f16": 2.0, "q8_0": 1.0625, "q4_0": 0.5625}
 
-# calibração (ver cerebro/fit-e-estimativas.md): overhead fixo do runtime CUDA + buffers de cálculo
+# calibração (medida com a sonda de contexto): overhead fixo do runtime CUDA + buffers de cálculo
 OVERHEAD_FIXO_GB = 0.15
 OVERHEAD_POR_CTX_GB = 0.000004    # buffers de cálculo crescem pouco com o contexto (calibrado em 5 modelos medidos)
 ESTADO_LINEAR_GB = 0.10           # estado fixo das camadas de atenção linear (Gated DeltaNet etc.)

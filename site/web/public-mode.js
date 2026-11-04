@@ -1,6 +1,6 @@
 /* Modo público: a calculadora usa o catálogo estático; chamadas que exigem PC/Ollama são bloqueadas. */
 window.LI_PUBLIC_MODE = true;
-if (!location.hash) location.hash = '#calculadora';
+if (!location.hash) location.hash = '#radar';
 window.api = async function (path) {
   if (path.startsWith('/api/calc/dados')) return window.LI_DADOS;
   if (path.startsWith('/api/maquinas')) return { remotas: [], parque: [] };

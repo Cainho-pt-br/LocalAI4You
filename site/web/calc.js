@@ -247,6 +247,8 @@
     if (c.origem === 'hf' && (c.pop || 0) < 4000) return false;
     const idPrio = papel.id === 'contexto' ? 'chat_pt' : papel.id;
     if (c.especializado && !(papel.id === 'visao' && c.especializado === 'ocr')) return false;
+    // Modelos de decisão (respondem sim/não, nota ou escolha numa passada) não conversam e não rodam no Ollama: nunca são recomendação.
+    if ((c.caps || []).includes('decision')) return false;
     if (!(c.papeis || []).includes(idPrio)) return false;
     if (c.origem === 'ollama' && (papel.exige || []).some(e => !(c.caps || []).includes(e))) return false;
     return true;
@@ -329,6 +331,67 @@
     return r;
   }
 
+  /* Ranking COMPLETO para o Radar: todos os modelos que cabem, do mais indicado ao menos indicado, em uma ou várias atividades.
+     Regra (mostrada ao usuário): 55% capacidade (porte efetivo × qualidade da quantização × geração, relativa ao mais capaz
+     que cabe) + 45% prioridade (recência, confiança do autor, adoção, velocidade e folga). Penaliza o que cabe no limite,
+     o que fica lento demais e o que precisa transbordar para a RAM. Em várias atividades, cada modelo vale pela melhor delas. */
+  function ranking(dados, maq, papeisIds, opcoes) {
+    const op = { ...PADRAO_OPCOES, ...(opcoes || {}) };
+    const gpu = !!(maq.gpu && maq.gpu.vram_gb);
+    const porId = new Map();
+    const porPapel = papeisIds.map(pid => (dados.papeis || []).find(p => p.id === pid)).filter(Boolean).map(papel => ({ papel, esc: escolher(dados, maq, papel, op) }));
+    // capacidade relativa ao mais capaz que cabe em QUALQUER das atividades: um 4B não vira "o mais capaz" só porque lidera a de tarefas rápidas
+    const capMax = Math.max(1e-9, ...porPapel.flatMap(x => x.esc.lista.map(e => e.cap.valor)));
+    for (const { papel, esc } of porPapel) {
+      const pid = papel.id;
+      const selo = new Map([[esc.parrudo, 'parrudo'], [esc.equilibrado, 'equilibrado'], [esc.leve, 'leve']].filter(([e]) => e).map(([e, s]) => [e.c.id, s]));
+      for (const e of esc.lista) {
+        const t = tpsMid(e), usavel = e.offload ? t >= 2 : gpu ? t >= 8 : t >= 2;
+        let nota = 55 * (e.cap.valor / capMax) + 0.45 * e.prio;
+        if (e.enc.encaixe.nivel === 'justo') nota *= 0.9;
+        if (!usavel) nota *= 0.3;                            // lento demais para usar: vai para o fim (continua visível, com aviso)
+        const devagar = usavel && t < (gpu ? 15 : 5);
+        if (devagar) nota *= 0.75;          // usável, mas arrastado para conversar: não deve abrir a lista
+        if (e.offload) nota *= 0.6;
+        nota = Math.round(nota * 10) / 10;
+        const atual = porId.get(e.c.id);
+        if (!atual) porId.set(e.c.id, { c: e.c, enc: e.enc, cap: e.cap, prio: e.prio, nota, papel: pid, selo: selo.get(e.c.id) || null, papeis: [pid], lento: !usavel, devagar, offload: e.offload });
+        else {
+          atual.papeis.push(pid);
+          if (nota > atual.nota) Object.assign(atual, { enc: e.enc, cap: e.cap, prio: e.prio, nota, papel: pid, selo: selo.get(e.c.id) || atual.selo, lento: !usavel, devagar, offload: e.offload });
+        }
+      }
+    }
+    return [...porId.values()].sort((a, b) => b.nota - a.nota || b.cap.valor - a.cap.valor);
+  }
+  /* Os que NÃO cabem (para ensinar o porquê): elegíveis para as atividades, mas nem a menor quantização cabe. Do mais perto de caber ao mais longe. */
+  function naoCabem(dados, maq, papeisIds, opcoes) {
+    const op = { ...PADRAO_OPCOES, ...(opcoes || {}) };
+    const cfg = { kv_cache: op.kv, reserva_vram_gb: ou(maq.reserva_vram_gb, 1.3) };
+    const orc = orcamentoBytes(maq, cfg.reserva_vram_gb);
+    const out = new Map();
+    for (const pid of papeisIds) {
+      const papel = (dados.papeis || []).find(p => p.id === pid);
+      if (!papel) continue;
+      for (const c of dados.candidatos) {
+        if (out.has(c.id) || !elegivel(c, papel, op)) continue;
+        const enc = encaixeCandidato(c, maq, papel, cfg, op.ctx || null);
+        if (!enc || enc.cabe) continue;
+        // só o que falta MEMÓRIA: a menor quantização com qualidade aceitável (≥ MIN_BPW bits por peso) não cabe.
+        // (Modelos que só existem em 1–2 bits ficam de fora por qualidade, não por tamanho.)
+        const aceitaveis = c.variantes.filter(v => v.bytes && bpw(v.bytes, c.params_b) >= K.MIN_BPW);
+        if (!aceitaveis.length) continue;
+        const menor = aceitaveis.reduce((m, v) => (v.bytes < m.bytes ? v : m));
+        let ctx = ctxPara(maq, papel, op.ctx || null);
+        if (c.ctx_max) ctx = Math.max(1024, Math.min(ctx, trunc(c.ctx_max)));
+        const precisa = vramTotal(menor.bytes + trunc(menor.extra_bytes || 0), c.arch, ctx, cfg.kv_cache);
+        if (precisa <= orc) continue;
+        out.set(c.id, { c, variante: menor, precisa_gb: r1(precisa / GB), orcamento_gb: r1(orc / GB), papel: pid });
+      }
+    }
+    return [...out.values()].sort((a, b) => a.precisa_gb - b.precisa_gb);
+  }
+
   // ---------------------------------------------------------------- perfis de hardware (formato do parque.json)
   function perfilGpu({ gpu, n = 1, ram_gb, mem, cpu, sistema }) {
     return { nome: (n > 1 ? n + '× ' : '') + gpu.nome, gpu: { nome: gpu.nome, vram_gb: gpu.vram_gb * n, bw_gbs: gpu.bw_gbs }, n_gpus: n,
@@ -341,7 +404,7 @@
   }
   function perfilCpu({ ram_gb, mem, cpu, sistema, max_modelo_gb }) {
     return { nome: `Só CPU · ${ram_gb} GB`, gpu: null, ram_gb, bw_gbs_min: mem.bw_min, bw_gbs_max: mem.bw_max, simd: cpu.simd,
-      reserva_so_gb: sistema.reserva_ram_gb, reserva_vram_gb: 0, max_modelo_gb: max_modelo_gb || null };
+      reserva_so_gb: sistema.reserva_ram_gb, max_modelo_gb: max_modelo_gb || null };   // sem reserva_vram_gb: um valor ali seria lido como “o usuário mudou a memória livre” e zeraria a reserva do sistema
   }
 
   function memBw(mem, canais) {
@@ -381,5 +444,5 @@
 
   return { K, configurar, GB, GIB, BPW_QUANT, camadasPorTipo, kvBytes, vramTotal, orcamentoBytes, ctxMaximo, avaliarEncaixe, bpw, faixaQualidade,
     simdDaMaquina, estimarTps, pesoAtivo, escolherVariante, ctxPara, encaixeCandidato, fatorVelocidade, prioridade, capacidade, kvGuia,
-    hibridoVariante, encaixeHibrido, elegivel, avaliar, escolher, perfilGpu, perfilUnificado, perfilCpu, memBw, classeTps, archGenerica, modeloLivre, mapaTamanhos };
+    hibridoVariante, encaixeHibrido, elegivel, avaliar, escolher, ranking, naoCabem, perfilGpu, perfilUnificado, perfilCpu, memBw, classeTps, archGenerica, modeloLivre, mapaTamanhos };
 });

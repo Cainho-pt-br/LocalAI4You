@@ -34,6 +34,10 @@ def main() -> None:
     temporario.replace(destino)
     print(f"Catálogo atualizado: {len(dados['candidatos'])} candidatos; radar {dados['radar']}")
 
+    # O mesmo snapshot vai no ZIP do app local: o Radar dele funciona antes da primeira varredura.
+    inicial = scout.gravar_catalogo_inicial(snap)
+    print(f"Catálogo inicial do app: {inicial.relative_to(ROOT)} ({inicial.stat().st_size // 1024} KB)")
+
 
 if __name__ == "__main__":
     main()

@@ -1,12 +1,12 @@
 'use strict';
-/* Página "Medir": diz o que vale rodar AGORA (com motivo e minutos), oferece a Arena de Duelo Direto (A × B) e o formulário completo. */
+/* Página "Medir": diz o que vale rodar AGORA (com motivo e minutos), oferece o duelo entre dois modelos (A × B) e o formulário completo. */
 
 const NIVEL_NOME = { minimo: 'Mínimo', rapido: 'Rápido', padrao: 'Padrão', profundo: 'Profundo' };
 const fmtMin = m => m >= 90 ? `~${fmtN(m / 60, 1)} h` : `~${m} min`;
 
 async function pMedir() {
   const raiz = $('#p-medir');
-  if (window.LI_PUBLIC_MODE) { const link='https://github.com/Cainho-pt-br/LocalAISearch/archive/refs/heads/main.zip'; raiz.replaceChildren(h('div',{class:'pagina-topo'},h('h1',{},'Medir modelos no seu computador'),h('p',{class:'sub'},'O site não inventa resultados nem mede a máquina de outra pessoa. Benchmarks só fazem sentido quando executados junto do modelo e do hardware que estão sendo avaliados.')),h('div',{class:'guia-grid'},h('article',{class:'guia-card'},h('span',{class:'guia-num'},'1'),h('h2',{},'Instale o Ollama'),h('p',{},'O aplicativo local usa o Ollama para carregar e conversar com os modelos.'),h('a',{href:'https://ollama.com/download',target:'_blank',rel:'noopener'},'Baixar Ollama ↗')),h('article',{class:'guia-card'},h('span',{class:'guia-num'},'2'),h('h2',{},'Baixe o painel'),h('p',{},'Extraia o ZIP, abra a pasta e siga o README. No Windows, inicie pelo arquivo 1_ABRIR_PAINEL.bat.'),h('a',{class:'btn primario',href:link},'Baixar Local AI Search')),h('article',{class:'guia-card'},h('span',{class:'guia-num'},'3'),h('h2',{},'Meça e compare'),h('p',{},'Use Medir para rodar o protocolo local. O app guarda resultados no seu PC e compara modelos nos mesmos testes.'))),h('div',{class:'guia-callout'},h('b',{},'O que significa uma medição?'),h('p',{},'MEDIDO significa que o modelo rodou no seu PC. ESTIMADO significa cálculo de encaixe/velocidade. PRIORIDADE só indica o que vale testar; não é uma nota.'))); return; }
+  if (window.LI_PUBLIC_MODE) { const link=LINK_DOWNLOAD; raiz.replaceChildren(h('div',{class:'pagina-topo'},h('h1',{},'Medir modelos no seu computador'),h('p',{class:'sub'},'O site não inventa resultados nem mede a máquina de outra pessoa. Benchmarks só fazem sentido quando executados junto do modelo e do hardware que estão sendo avaliados.')),h('div',{class:'guia-grid'},h('article',{class:'guia-card'},h('span',{class:'guia-num'},'1'),h('h2',{},'Instale o Ollama'),h('p',{},'O aplicativo local usa o Ollama para carregar e conversar com os modelos.'),h('a',{href:'https://ollama.com/download',target:'_blank',rel:'noopener'},'Baixar Ollama ↗')),h('article',{class:'guia-card'},h('span',{class:'guia-num'},'2'),h('h2',{},'Baixe o painel'),h('p',{},'Extraia o ZIP, abra a pasta e siga o README. No Windows, inicie pelo arquivo 1_ABRIR_PAINEL.bat.'),h('a',{class:'btn primario',href:link},'Baixar Local AI Search')),h('article',{class:'guia-card'},h('span',{class:'guia-num'},'3'),h('h2',{},'Meça e compare'),h('p',{},'Use Medir para rodar o protocolo local. O app guarda resultados no seu PC e compara modelos nos mesmos testes.'))),h('div',{class:'guia-callout'},h('b',{},'O que significa uma medição?'),h('p',{},'MEDIDO significa que o modelo rodou no seu PC. ESTIMADO significa cálculo de encaixe/velocidade. PRIORIDADE só indica o que vale testar; não é uma nota.'))); return; }
   if (!S.mesa) return;
   const topo = h('div', { class: 'pagina-topo' }, h('h1', {}, 'Medir e testar'), h('p', { class: 'sub' }, 'Os testes que transformam “parece bom” em nota com margem de erro. Aqui você pode rodar um Duelo Direto (A × B), executar o que o painel recomenda agora ou escolher os testes manualmente.'));
   raiz.replaceChildren(topo, h('div', { class: 'sub' }, 'Calculando o que vale medir…'));
@@ -38,7 +38,7 @@ async function pMedir() {
       h('div', { class: 'cartao empilha', style: 'gap:10px' },
         h('h3', {}, '📄 Relatório Completo'),
         h('p', { class: 'sub', style: 'margin:0;line-height:1.5' },
-          'Compila a esquadra atual, notas medidas com intervalo de confiança, desafiantes do radar, máquinas do parque e prontidão offline em um documento Markdown formatado.'),
+          'Compila os seus modelos, notas medidas com intervalo de confiança, desafiantes do radar, máquinas do parque e prontidão offline em um documento Markdown formatado.'),
         h('div', { class: 'dlg-acoes', style: 'justify-content:flex-start;margin-top:auto' },
           h('button', { class: 'btn primario', onclick: abrirRelatorioModal }, '👁️ Visualizar e exportar relatório'))),
       cartaoConfig(cfg)));

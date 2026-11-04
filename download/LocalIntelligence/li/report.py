@@ -32,7 +32,7 @@ def gerar_markdown(oll: Optional[Ollama]) -> str:
         g = boss.get("gpu") or {}
         L += ["## Hardware com GPU (boss)", "",
               f"- {boss.get('cpu')} · {boss.get('ram_gb')} GB RAM · {g.get('nome')} {g.get('vram_gb')} GiB (banda {g.get('bw_gbs')} GB/s)", ""]
-    L += ["## Esquadra por função (medido)", "", "| Função | Titular | Nota | tok/s | Memória | Contexto 100% GPU |", "|---|---|---:|---:|---:|---:|"]
+    L += ["## Melhor modelo por uso (medido)", "", "| Uso | Modelo atual | Nota | tok/s | Memória | Contexto 100% GPU |", "|---|---|---:|---:|---:|---:|"]
     por_id = {m["id"]: m for m in mesa["instalados"]}
     for p in papeis.PAPEIS:
         mid = mesa["titulares"].get(p["id"])

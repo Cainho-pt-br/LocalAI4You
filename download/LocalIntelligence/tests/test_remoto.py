@@ -15,6 +15,19 @@ sys.path.insert(0, str(RAIZ))
 
 from li import config, remoto  # noqa: E402
 
+
+# Os testes usam um parque de exemplo (a instalação pública vem com parque/parque.json vazio).
+PARQUE_EXEMPLO = Path(__file__).resolve().parent / "fixtures" / "parque_exemplo.json"
+_PARQUE_ORIGINAL = config.PARQUE_ARQ
+
+
+def setUpModule():
+    config.PARQUE_ARQ = PARQUE_EXEMPLO
+
+
+def tearDownModule():
+    config.PARQUE_ARQ = _PARQUE_ORIGINAL
+
 HOST = "raspberrypi.example.ts.net:10000"
 
 

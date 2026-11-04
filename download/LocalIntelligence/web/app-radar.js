@@ -45,10 +45,14 @@ async function abrirQuants(candId, papelId, maquinaId) {
 // ---------------------------------------------------------------- RADAR
 async function pRadar() {
   const raiz = $('#p-radar'), f = S.filtroRadar;
+  if (window.LI_PUBLIC_MODE) return pRadarPublico(raiz);
   if (!S.mesa) return;
-  const maquinas = (S.calc?.maquinas || []).map(x => x.id);
-  const ids = maquinas.length ? maquinas : ['boss', 'aspire5', 'raspberrypi', 'celeron', 'i3'];
-  const maqSel = h('select', {}, ids.map(id => h('option', { value: id, selected: id === f.maquina }, id)));
+  if (!S.calc) { try { await garantirCalc(); } catch (e) { /* radar ainda não rodou */ } }
+  const local = S.mesa.boss?.id || 'local';
+  const maquinas = (S.calc?.maquinas || []).map(x => ({ id: x.id, nome: x.nome || x.id }));
+  const maqLista = maquinas.length ? maquinas : [{ id: local, nome: S.mesa.boss?.nome || 'Este computador' }];
+  if (!maqLista.some(m => m.id === f.maquina)) f.maquina = maqLista.some(m => m.id === local) ? local : maqLista[0].id;
+  const maqSel = h('select', {}, maqLista.map(m => h('option', { value: m.id, selected: m.id === f.maquina }, m.id === local ? `${m.nome} (este computador)` : m.nome)));
   const papSel = h('select', {}, h('option', { value: '' }, 'Todas as funções'), S.mesa.papeis.map(p => h('option', { value: p.id, selected: p.id === f.papel }, p.rotulo)));
   const cCom = h('input', { type: 'checkbox', checked: f.comunidade }), cAnt = h('input', { type: 'checkbox', checked: f.antigos });
   const capSel = h('select', {}, [['', 'Qualquer'], ['vision', '👁 Visão (imagens)'], ['tools', '🛠 Ferramentas'], ['thinking', '🧠 Raciocínio'], ['audio', '🔊 Áudio']].map(([v, t]) => h('option', { value: v, selected: v === f.cap }, t)));
@@ -58,9 +62,11 @@ async function pRadar() {
   const rd = S.mesa.radar;
   const topo = [
     h('div', { class: 'pagina-topo' }, h('div', { class: 'linha topo' }, h('div', {}, h('h1', {}, 'Radar de modelos'), h('p', { class: 'sub' }, 'Varre a biblioteca do Ollama e os laboratórios no Hugging Face e calcula o que CABE em cada máquina.')),
-      h('div', { class: 'linha' }, rd.existe ? h('span', { class: 'sub' }, `Última varredura ${fmtIdade(rd.idade_dias)} · ${rd.total} candidatos`) : null,
+      h('div', { class: 'linha' }, rd.existe ? h('span', { class: 'sub' }, rd.embutido ? `Catálogo de ${fmtData(rd.criado)} · ${rd.total} candidatos` : `Última varredura ${fmtIdade(rd.idade_dias)} · ${rd.total} candidatos`) : null,
         h('button', { class: 'btn primario', onclick: () => varrer(true) }, rd.existe ? 'Varrer de novo' : 'Primeira varredura')))),
-    rd.existe ? null : h('div', { class: 'vazio' }, 'O radar ainda não rodou. Clique em “Primeira varredura” (leva ~30 segundos).'),
+    rd.existe ? null : h('div', { class: 'vazio' }, 'O radar ainda não rodou. Clique em “Primeira varredura” (leva alguns minutos).'),
+    rd.embutido ? h('div', { class: 'info-caixa', style: 'margin-bottom:14px' }, h('b', {}, 'Catálogo que veio com o app '), `(de ${fmtData(rd.criado)}). Já dá para escolher o que baixar. “Varrer de novo” busca o que saiu depois disso no Ollama e no Hugging Face.`) : null,
+    !(S.mesa.instalados || []).length && rd.existe ? h('div', { class: 'guia-callout' }, h('b', {}, 'Primeira vez? '), h('p', {}, 'Escolha um modelo da lista e clique em “Instalar” (ou copie o comando ollama pull). Com um modelo instalado, a aba Decidir mostra notas medidas, e “Testar” compara modelos no seu PC.')) : null,
     (S.mesa.ritmo || []).length ? h('details', { class: 'dica-clean', style: 'margin-bottom:18px' },
       h('summary', {}, '📈 Ritmo de lançamentos das famílias que você usa'),
       h('div', { style: 'margin-top:6px' },
@@ -69,7 +75,7 @@ async function pRadar() {
           ` · última há ${r.dias_desde_a_ultima} dias`,
           r.proxima_em_dias != null ? (r.proxima_em_dias > 0 ? ` → próxima em ~${r.proxima_em_dias} dias` : ' → janela aberta p/ lançamento') : '')),
         h('div', { class: 'sub', style: 'margin-top:6px;font-size:.76rem' }, 'Tendência estimada via datas reais de lançamento do Hugging Face.'))) : null,
-    h('div', { class: 'filtros' }, h('label', { class: 'campo' }, 'Para a máquina', maqSel), h('label', { class: 'campo' }, 'Função', papSel), h('label', { class: 'campo', title: 'O que o modelo DECLARA aceitar (o Ollama informa por tamanho: o gemma3 270M não enxerga imagens, o 4B sim)' }, 'Declara', capSel), h('label', { class: 'campo' }, 'Ordenar por', ordSel),
+    h('div', { class: 'filtros' }, maqLista.length > 1 ? h('label', { class: 'campo' }, 'Para a máquina', maqSel) : null, h('label', { class: 'campo' }, 'Função', papSel), h('label', { class: 'campo', title: 'O que o modelo DECLARA aceitar (o Ollama informa por tamanho: o gemma3 270M não enxerga imagens, o 4B sim)' }, 'Declara', capSel), h('label', { class: 'campo' }, 'Ordenar por', ordSel),
       h('label', { class: 'chk' }, cCom, 'incluir ajustes de comunidade'), h('label', { class: 'chk' }, cAnt, 'incluir modelos com mais de 9 meses'))];
   raiz.replaceChildren(...topo, h('div', { id: 'radar-lista' }, h('div', { class: 'sub' }, 'Carregando…')));
   garantirCalc().then(() => { /* só aquece o catálogo para abrir as quantizações sem espera */ }).catch(() => { });
@@ -79,13 +85,13 @@ async function pRadar() {
     S.radarInfo = info;
     const lista = $('#radar-lista');
     if (!lista) return;
-    const novos = info.primeira_varredura ? [] : (info.apareceram || []);
+    const novos = info.primeira_varredura || rd.embutido ? [] : (info.apareceram || []);
     const chaveNovos = (info.desde || '') + '|' + novos.map(x => x.id || x.nome).sort().join(',');
     let jaViuNovos = false;
     try { jaViuNovos = localStorage.getItem('li-radar-novos-vistos') === chaveNovos; } catch (x) {}
 
     let bannerNovos = null;
-    if (info.primeira_varredura) {
+    if (info.primeira_varredura && !rd.embutido) {
       bannerNovos = h('div', { class: 'info-caixa' }, 'Esta varredura é a linha de base. Da próxima vez, aqui aparece tudo que surgiu desde hoje.');
     } else if (novos.length && !jaViuNovos) {
       bannerNovos = h('div', { class: 'aviso-caixa', style: 'display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap' },
@@ -121,10 +127,102 @@ async function pRadar() {
       h('button', { class: 'btn mini', disabled: f.pagina >= paginas - 1, onclick: () => irPagina(f.pagina + 1) }, 'Próxima →')) : null;
     lista.replaceChildren(
       bannerNovos,
-      titulo(`Melhores opções para ${f.maquina}`, 'Cada cartão mostra a comparação direta com o seu Titular Atual naquela função para você saber na hora se vale a pena testar. Clique no nome para ver o mesmo modelo em outros tamanhos.'),
-      fatia.length ? [h('div', { class: 'radar-grid-3' }, fatia.map(cartaoCandidato)), nav()] : h('div', { class: 'vazio' }, 'Nenhum candidato cabe nessa máquina com esses filtros.'));
+      titulo(`Melhores opções para ${(maqLista.find(m => m.id === f.maquina) || {}).nome || f.maquina}`, 'Cada cartão mostra a comparação direta com o seu modelo atual naquele uso para você saber na hora se vale a pena testar. Clique no nome para ver o mesmo modelo em outros tamanhos.'),
+      fatia.length ? [h('div', { class: 'radar-grid-3' }, fatia.map((c, i) => cartaoCandidato(c, f.ordem === 'prioridade' ? f.pagina * POR_PAGINA + i : null))), nav(), typeof blocoApoio === 'function' ? blocoApoio() : null] : h('div', { class: 'vazio' }, 'Nenhum candidato cabe nessa máquina com esses filtros.'));
   } catch (e) { $('#radar-lista')?.replaceChildren(h('div', { class: 'aviso-caixa' }, e.message)); }
 }
+// ---------------------------------------------------------------- RADAR do site (e do painel sem Ollama): tudo que cabe, em ordem
+const USO_CURTO = { chat_pt: 'Conversa', codigo: 'Código', agente: 'Agentes', regras: 'Extrair dados e JSON', raciocinio: 'Raciocínio', rapido: 'Rápido e leve', visao: 'Imagens e documentos', contexto: 'Documentos longos' };
+const SELO_RADAR = { parrudo: ['🏆 O mais capaz que cabe', 'O modelo mais capaz que cabe com folga para esse uso'], equilibrado: ['⚖ Melhor equilíbrio', 'Bom porte sem ocupar toda a memória: sobra espaço para contexto'], leve: ['⚡ Leve e rápido', 'Pequeno e veloz: bom para tarefas simples e máquinas modestas'] };
+const POR_LOTE = 20;
+const FAIXA_TOP = ['★ Melhor aposta', '2º lugar', '3º lugar', 'Top 4', 'Top 5'];
+function lembrarUso() { try { return localStorage.getItem('li-radar-uso') || ''; } catch (e) { return ''; } }
+function guardarUso(u) { try { localStorage.setItem('li-radar-uso', u); } catch (e) { /* navegação privada */ } }
+
+/* Uma frase do porquê: encaixe, velocidade e para que serve. Tudo ESTIMADO a partir do tamanho do arquivo e do hardware. */
+function porqueDoModelo(x, perfil) {
+  const enc = x.enc, nivel = enc.encaixe?.nivel;
+  const partes = [x.offload ? `Só roda usando a RAM do PC (${enc.pct_gpu}% na placa): funciona, mas bem mais devagar`
+    : nivel === 'confortavel' ? `Cabe com folga (${fmtGB(enc.variante.bytes)} de ${fmtN(enc.encaixe.orcamento_gb, 1)} GB)`
+    : `Cabe no limite (${fmtGB(enc.variante.bytes)} de ${fmtN(enc.encaixe.orcamento_gb, 1)} GB): use contexto menor`];
+  if (enc.tps_est) { const cl = Calc.classeTps(enc.tps_est); partes.push(`~${fmtTps(enc.tps_est)} tokens/s (${cl[0]})`); }
+  partes.push('bom para ' + x.papeis.map(p => USO_CURTO[p] || p).join(', ').toLowerCase());
+  return partes.join(' · ') + '.';
+}
+
+function cartaoRadarPublico(x, pos, perfil, dados) {
+  const { c, enc } = x, v = enc.variante, top = pos < 5;
+  const selo = x.selo && SELO_RADAR[x.selo];
+  const abrirTudo = () => LI_CALC_UI.dialogoModelo({ c, maq: perfil, op: { kv: 'q8_0', ctx: null }, papelId: x.papel, instalados: [], rotuloMaquina: perfil.nome });
+  return h('article', { class: 'radar-item' + (top ? ' radar-top radar-top-' + (pos + 1) : ''), 'data-pos': pos + 1 },
+    top ? h('span', { class: 'radar-faixa' }, FAIXA_TOP[pos]) : null,
+    h('div', { class: 'radar-item-topo' },
+      h('span', { class: 'radar-pos', title: top ? 'Entre as 5 melhores apostas para o seu computador' : 'Posição na lista' }, top ? String(pos + 1) : '#' + (pos + 1)),
+      h('div', { class: 'grow quebra' },
+        h('h2', {}, nomeAmigavelModelo(c.nome)),
+        h('div', { class: 'chips' }, selo ? chip(selo[0], 'ok', selo[1]) : null, x.lento ? chip('⚠ lento demais aqui', 'warn', 'Deve gerar menos de 2 palavras por segundo neste hardware') : x.devagar ? chip('🐢 devagar', 'neutro', 'Funciona, mas a resposta sai devagar neste hardware') : null,
+          ...LI_CALC_UI.chipsCaps(c), c.confianca === 'comunidade' ? chip('comunidade', 'neutro', 'Ajuste de terceiros') : null)),
+      h('div', { class: 'radar-fit' }, h('b', {}, v.quant), h('span', {}, fmtGB(v.bytes)))),
+    h('p', { class: 'radar-porque' }, porqueDoModelo(x, perfil)),
+    cmd('ollama pull ' + v.pull),
+    h('details', { class: 'radar-mais' }, h('summary', {}, 'Mais sobre este modelo'),
+      LI_CALC_UI.blocoDescricao(c),
+      h('div', { class: 'linha', style: 'justify-content:flex-start;gap:8px;flex-wrap:wrap;margin-top:8px' },
+        h('button', { class: 'btn mini', onclick: abrirTudo }, `Todas as ${(c.variantes || []).length} versões e quanto contexto cabe`),
+        ...LI_CALC_UI.linksDoModelo(c).slice(0, 3).map(([t, u]) => linkExterno(u, t)).filter(Boolean))));
+}
+
+async function pRadarPublico(raiz) {
+  const f = S.filtroRadar;
+  let dados;
+  try { dados = await garantirCalc(); } catch (e) { raiz.replaceChildren(h('div', { class: 'aviso-caixa' }, e.message)); return; }
+  Calc.configurar(dados.constantes);
+  window.LI_DADOS_PAPEIS = dados.papeis || [];
+  const E = LI_CALC_UI.estadoInicial(dados);
+  const perfil = { ...LI_CALC_UI.perfilDe(E, dados), reserva_vram_gb: LI_CALC_UI.perfilDe(E, dados).reserva_vram_gb ?? dados.reserva_vram_gb ?? 1.3 };
+  const op = { kv: E.kv || 'q8_0', ctx: E.ctx || null, comunidade: !!E.comunidade, antigos: !!E.antigos, offload: !!E.offload };
+  const papeis = (dados.papeis || []).filter(p => !p.sem_nota);
+  if (f.uso === undefined) f.uso = lembrarUso();
+  if (f.uso && !papeis.some(p => p.id === f.uso)) f.uso = '';
+  const ids = f.uso ? [f.uso] : papeis.map(p => p.id);
+  const rk = Calc.ranking(dados, perfil, ids, op);
+  const fora = Calc.naoCabem(dados, perfil, ids, op);
+  f.mostrar = Math.max(POR_LOTE, f.mostrar || POR_LOTE);
+  const redesenhar = () => pRadarPublico(raiz);
+  const usos = h('div', { class: 'usos', role: 'group', 'aria-label': 'Para que você vai usar' },
+    [['', '✨', 'Tudo'], ...papeis.map(p => [p.id, p.icone, USO_CURTO[p.id] || p.rotulo])].map(([id, ic, t]) =>
+      h('button', { type: 'button', 'aria-pressed': String(f.uso === id), title: id ? (papeis.find(p => p.id === id)?.descricao || '') : 'Os melhores para qualquer uso', onclick: () => { f.uso = id; f.mostrar = POR_LOTE; guardarUso(id); redesenhar(); } }, ic + ' ' + t)));
+  const nomeUso = f.uso ? (USO_CURTO[f.uso] || f.uso).toLowerCase() : null;
+  const visiveis = rk.slice(0, f.mostrar);
+  raiz.replaceChildren(
+    h('div', { class: 'pagina-topo' },
+      h('span', { class: 'guia-kicker' }, 'RADAR · ESTIMADO PARA O SEU COMPUTADOR'),
+      h('h1', {}, 'O que rodar ' + (perfil.gpu ? 'na sua ' + perfil.nome : `no seu computador (sem placa de vídeo, ${fmtN(perfil.ram_gb, 0)} GB de RAM)`)),
+      h('p', { class: 'sub' }, rk.length
+        ? `${rk.length} modelos cabem no seu computador${nomeUso ? ' para ' + nomeUso : ''}, do mais indicado ao menos indicado. Os 5 primeiros, destacados, são as melhores apostas para começar: copie o comando e rode no terminal com o Ollama instalado.`
+        : 'Nenhum modelo do catálogo cabe com esses critérios.'),
+      h('div', { class: 'linha', style: 'justify-content:flex-start;gap:10px;flex-wrap:wrap' },
+        h('button', { class: 'btn mini', onclick: () => irPara('calculadora') }, 'Ajustar meu hardware'),
+        h('span', { class: 'sub' }, `Catálogo Ollama + Hugging Face de ${fmtData(dados.radar)}`)),
+      LI_CALC_UI.avisoPalpite(E, () => { E.palpite = ''; LI_CALC_UI.salvarEstado(E); redesenhar(); })),
+    usos,
+    h('details', { class: 'dica-clean radar-regra' }, h('summary', {}, 'Como esta ordem é feita?'),
+      h('p', { class: 'sub' }, 'Só entram modelos que cabem na memória com uma compressão de boa qualidade (4 bits ou mais por peso). A ordem soma ', h('b', {}, 'capacidade'), ' (porte efetivo, qualidade da compressão e geração do modelo, 55%) e ',
+        h('b', {}, 'prioridade'), ' (lançamento recente, laboratório confiável, adoção, velocidade e folga, 45%). Modelos que cabem no limite, ficam lentos ou precisam da RAM do PC descem na lista. Tudo é ',
+        h('b', {}, 'estimado'), ': nenhuma nota de qualidade é medida no site. Para medir de verdade, use o app local.')),
+    rk.length ? h('div', { class: 'radar-lista' }, visiveis.map((x, i) => cartaoRadarPublico(x, i, perfil, dados))) : h('div', { class: 'public-empty' }, h('h2', {}, 'Nada coube'), h('p', {}, 'Tente outro uso, menos contexto ou ligue "usar a RAM do PC" nos ajustes avançados da Calculadora.')),
+    rk.length > f.mostrar ? h('div', { class: 'linha', style: 'justify-content:center;margin:18px 0' },
+      h('button', { class: 'btn', onclick: () => { f.mostrar += POR_LOTE; redesenhar(); } }, `Mostrar mais ${Math.min(POR_LOTE, rk.length - f.mostrar)} (de ${rk.length - f.mostrar} restantes)`)) : null,
+    fora.length ? h('details', { class: 'cartao radar-fora' }, h('summary', {}, `Não cabem no seu computador (${fora.length}) — e por quê`),
+      h('p', { class: 'sub' }, `Mesmo na menor versão com boa qualidade, estes precisam de mais memória que os ${fmtN(fora[0].orcamento_gb, 1)} GB disponíveis para o modelo. Os primeiros são os que estão mais perto de caber.`),
+      h('ul', { class: 'radar-fora-lista' }, fora.slice(0, 40).map(y => h('li', {}, h('b', {}, nomeAmigavelModelo(y.c.nome)), ` — precisa de ~${fmtN(y.precisa_gb, 1)} GB (${y.variante.quant})`))),
+      perfil.gpu && !perfil.unificada && !op.offload ? h('p', { class: 'sub' }, 'Dica: na Calculadora, em ajustes avançados, “usar a RAM do PC” faz alguns caberem — rodando bem mais devagar.') : null) : null,
+    window.LI_PUBLIC_MODE ? h('div', { class: 'guia-callout radar-cta' }, h('b', {}, 'Quer saber qual é melhor de verdade no SEU computador?'),
+      h('p', {}, 'O app local mede os modelos instalados com benchmarks públicos, faz duelos entre dois modelos e diz qual manter. Roda tudo no seu PC; nada é enviado.'),
+      h('a', { class: 'btn primario', href: LINK_DOWNLOAD }, 'Baixar o app local')) : null,
+    typeof blocoApoio === 'function' ? blocoApoio() : null);
+}
+
 function classeCorPrio(pr) {
   if (pr >= 75) return 'prio-alta';
   if (pr >= 45) return 'prio-media';
@@ -157,10 +255,10 @@ function diagnosticoValeTestar(c) {
 
   if (c.instalado_como) {
     return {
-      selo: '✔ Já na sua esquadra',
+      selo: '✔ Já instalado',
       cor: 'ok',
       resumo: `Instalado como ${nomeAmigavelModelo(c.instalado_como)}. Veja outras quantizações se quiser mais velocidade ou menos VRAM.`,
-      titularTxt: nomeTit ? `Titular em ${pap?.rotulo || c.papel}: ${nomeTit}${notaTit != null ? ' (nota ' + fmtN(notaTit, 0) + ')' : ''}` : null
+      titularTxt: nomeTit ? `Atual em ${pap?.rotulo || c.papel}: ${nomeTit}${notaTit != null ? ' (nota ' + fmtN(notaTit, 0) + ')' : ''}` : null
     };
   }
 
@@ -176,32 +274,32 @@ function diagnosticoValeTestar(c) {
     selo = '🔥 Vale a pena testar';
     cor = 'ok';
     if (maisRapido && tpsTit) {
-      resumo = `Promete ~${fmtN(tpsCand / tpsTit, 1)}× mais velocidade que o titular atual com porte competitivo (${c.params_b}B).`;
+      resumo = `Promete ~${fmtN(tpsCand / tpsTit, 1)}× mais velocidade que o modelo atual com porte competitivo (${c.params_b}B).`;
     } else if (maisLeve) {
-      resumo = `Mais enxuto (${fmtGB(bytesCand)} vs ${fmtGB(bytesTit)}) e alta prioridade técnica para desafiar ${nomeTit || 'o titular'}.`;
+      resumo = `Mais enxuto (${fmtGB(bytesCand)} vs ${fmtGB(bytesTit)}) e alta prioridade técnica para desafiar ${nomeTit || 'o modelo atual'}.`;
     } else {
       resumo = `Forte candidato recente (${c.params_b}B) com potencial real de disputar liderança em ${pap?.rotulo || c.papel}.`;
     }
   } else if (maisRapido || maisLeve) {
     selo = '⚡ Alternativa mais leve/rápida';
     cor = 'estimado';
-    resumo = `Menor porte que ${nomeTit || 'o titular'}, mas útil se quiser economizar VRAM (${fmtGB(bytesCand)}) ou ganhar velocidade (~${fmtTps(c.encaixe.tps_est)} tok/s).`;
+    resumo = `Menor porte que ${nomeTit || 'o modelo atual'}, mas útil se quiser economizar VRAM (${fmtGB(bytesCand)}) ou ganhar velocidade (~${fmtTps(c.encaixe.tps_est)} tok/s).`;
   } else if (pr < 48) {
     selo = '💤 Provavelmente não compensa';
     cor = 'neutro';
     resumo = nomeTit
-      ? `Porte/velocidade abaixo do seu titular atual (${nomeTit}${tpsTit ? ', ' + fmtN(tpsTit, 0) + ' tok/s' : ''}).`
+      ? `Porte/velocidade abaixo do seu modelo atual (${nomeTit}${tpsTit ? ', ' + fmtN(tpsTit, 0) + ' tok/s' : ''}).`
       : `Prioridade baixa (${pr}/100) frente às melhores opções da fila.`;
   } else {
     selo = '🔎 Teste secundário';
     cor = 'neutro';
     resumo = nomeTit
-      ? `Competitivo no papel, mas ${nomeTit} já entrega barra alta (${notaTit != null ? 'nota ' + fmtN(notaTit, 0) : 'titular'}).`
+      ? `Competitivo no papel, mas ${nomeTit} já entrega barra alta (${notaTit != null ? 'nota ' + fmtN(notaTit, 0) : 'o modelo atual'}).`
       : `Candidato intermediário para ${pap?.rotulo || c.papel}.`;
   }
 
   const titularTxt = nomeTit
-    ? `Titular atual (${pap?.rotulo || c.papel}): ${nomeTit} · ${notaTit != null ? 'nota ' + fmtN(notaTit, 0) + ' · ' : ''}${tpsTit ? fmtN(tpsTit, 0) + ' tok/s · ' : ''}${fmtGB(bytesTit)}`
+    ? `Modelo atual (${pap?.rotulo || c.papel}): ${nomeTit} · ${notaTit != null ? 'nota ' + fmtN(notaTit, 0) + ' · ' : ''}${tpsTit ? fmtN(tpsTit, 0) + ' tok/s · ' : ''}${fmtGB(bytesTit)}`
     : null;
 
   return { selo, cor, resumo, titularTxt };
@@ -210,12 +308,12 @@ function diagnosticoValeTestar(c) {
 /* Instalar / Testar em todo cartão. O destino é a máquina CONTROLADA; se o cartão é de outra máquina do parque,
    o botão leva o controle para ela primeiro (só vale para máquina registrada: aba Parque → como registrar). */
 function maquinaDoCartao() { return S.filtroRadar.maquina; }
-function idDoAlvo() { return LI.alvo || S.mesa?.boss?.id || 'boss'; }
+function idDoAlvo() { return LI.alvo || S.mesa?.boss?.id || 'local'; }
 async function irParaMaquina(id) {
   if (id === idDoAlvo()) return true;
   const remota = (S.maquinas?.remotas || []).find(m => m.id === id);
-  if (id === (S.mesa?.boss?.id || 'boss') && !LI.alvo) return true;
-  if (!remota) { toast(`A máquina “${id}” ainda não está registrada para controle (ver cerebro/controle-remoto-do-parque.md).`, 9000); return false; }
+  if (id === (S.mesa?.boss?.id || 'local') && !LI.alvo) return true;
+  if (!remota) { toast(`A máquina “${id}” ainda não está registrada para controle remoto (aba Sistema → Parque).`, 9000); return false; }
   if (!remota.online) { toast(`A máquina “${id}” está desligada ou sem painel: ligue-a e tente de novo.`, 9000); return false; }
   await escolherAlvo(id); return true;
 }
@@ -224,7 +322,7 @@ function botoesDeAcao(c) {
   const rot = fora ? ` em ${maq}` : '';
   if (c.instalado_como) return [h('span', { class: 'chip ok', title: c.instalado_como }, '✔ instalado')];
   return [
-    h('button', { class: 'btn mini primario', title: 'Baixa o modelo e roda o benchmark contra o titular', onclick: async () => { if (await irParaMaquina(maq)) abrirTeste(c.id, c.papel); } }, 'Testar' + rot),
+    h('button', { class: 'btn mini primario', title: 'Baixa o modelo e roda o benchmark contra o modelo atual', onclick: async () => { if (await irParaMaquina(maq)) abrirTeste(c.id, c.papel); } }, 'Testar' + rot),
     h('button', { class: 'btn mini', title: 'Só baixa o modelo (sem medir)', onclick: async () => { if (await irParaMaquina(maq)) abrirInstalar(c.id, c.papel); } }, 'Instalar' + rot)];
 }
 
@@ -270,7 +368,7 @@ async function abrirFamilia(c) {
     h('div', { class: 'dlg-acoes' }, h('button', { class: 'btn', onclick: fecharDialogo }, 'Fechar'))));
 }
 
-function cartaoCandidato(c) {
+function cartaoCandidato(c, pos = null) {
   const v = c.encaixe.variante, e = c.encaixe.encaixe, pr = c.prioridade.pontos;
   const pap = papelPorId(c.papel);
   const tagInstalada = c.instalado_como ? c.instalado_como.split(':').pop() : null;
@@ -279,7 +377,9 @@ function cartaoCandidato(c) {
   const ehDispensado = dispensados.has(c.id) || dispensados.has(c.nome);
   const diag = diagnosticoValeTestar(c);
 
-  return h('div', { class: 'cartao empilha radar-card' + (c.novo ? ' radar-card-novo' : '') + (ehDispensado ? ' dispensado' : ''), style: 'gap:10px' },
+  const top = pos != null && pos < 5 && !ehDispensado;
+  return h('div', { class: 'cartao empilha radar-card' + (c.novo ? ' radar-card-novo' : '') + (ehDispensado ? ' dispensado' : '') + (top ? ' radar-top radar-top-' + (pos + 1) : ''), style: 'gap:10px' },
+    top ? h('span', { class: 'radar-pos radar-pos-local', title: 'Entre as 5 primeiras da fila de testes' }, String(pos + 1)) : null,
     h('div', { class: 'linha topo' },
       h('div', { class: 'quebra grow' },
         h('h3', { style: 'font-size:1.05rem;margin:0;display:flex;align-items:center;gap:6px;flex-wrap:wrap' },

@@ -1,25 +1,47 @@
-# LocalAISearch
+# Local AI Search
 
-Site estático com a interface e os efeitos visuais do painel Local Intelligence, além da calculadora pública de hardware. O catálogo no site é estimado e fica congelado na data da varredura indicada na tela.
+Descubra qual IA local roda bem no **seu** computador e use-a do jeito certo.
 
-## Publicar o site
+- **No site**: informe seu hardware (ou confirme o palpite do navegador) e veja todos os modelos que cabem, do mais indicado ao menos indicado, com o comando para baixar. Tudo é estimado a partir do tamanho real dos arquivos e da memória da sua máquina.
+- **No app baixado**: meça os modelos instalados com benchmarks públicos, faça duelos entre dois modelos e descubra qual manter. Roda no seu PC; nada é enviado.
 
-No Vercel, importe este repositório e configure `site` como **Root Directory**. Não há build nem variáveis de ambiente; o site serve os arquivos estáticos dessa pasta. A pasta `download/LocalIntelligence` contém o aplicativo para executar no computador.
+## Estrutura
 
-## Catálogo atualizado
+| Pasta | O que é |
+|---|---|
+| `download/LocalIntelligence/` | O app local (Python + Ollama). **Fonte única da interface** em `web/`. |
+| `site/` | O site estático publicado no Vercel. `site/web/` é uma cópia de `download/LocalIntelligence/web/` + `public-mode.js`. |
+| `site/dados.js` | Catálogo público, atualizado todo dia pelo GitHub Actions. |
+| `scripts/` | Atualização do catálogo e sincronização da interface. |
 
-O GitHub Actions executa o radar diariamente às 08:17 UTC e também pode ser iniciado manualmente em **Actions → Atualizar catálogo público → Run workflow**. Ele consulta as fontes em sequência conforme o radar do projeto, atualiza `site/dados.js` somente quando a varredura completa é válida e preserva o último catálogo bom em caso de falha. O fluxo não usa token do Hugging Face.
+## Desenvolver
 
-Para republicar automaticamente no Vercel quando o catálogo mudar, crie um Deploy Hook de produção no projeto Vercel e salve a URL como secret do repositório GitHub com o nome `VERCEL_DEPLOY_HOOK` (**Settings → Secrets and variables → Actions**). Sem esse secret, o catálogo é atualizado no GitHub, mas será necessário iniciar um deploy manual do Vercel.
+Edite a interface **só** em `download/LocalIntelligence/web/` e sincronize com o site:
 
-## Rodar localmente
+```bash
+python scripts/sincronizar-web.py
+```
 
-O painel completo precisa de Python 3.10+ e Ollama instalado. No Windows, extraia `download/LocalIntelligence`, instale/abra o Ollama, baixe um modelo e execute `1_ABRIR_PAINEL.bat`. Use `2_MEDIR_MODELOS.bat` para iniciar benchmarks. A detecção de hardware e as medições acontecem no PC; não são enviadas ao site.
+O comportamento que muda entre o site e o app fica no próprio código, atrás de `window.LI_PUBLIC_MODE`. O CI (`Verificar`) falha se `site/web` divergir da fonte.
 
-## Limites do site
+Testes do app (incluem a paridade dos cálculos JavaScript × Python; o Node.js é opcional):
 
-O site oferece a calculadora com dados públicos do catálogo. Benchmarks, leitura dos modelos instalados, radar dinâmico e ações do Ollama exigem o aplicativo local. Velocidades de CPU são estimadas.
+```bash
+cd download/LocalIntelligence && python -m unittest discover -s tests
+```
+
+## Publicar
+
+- **Site**: no Vercel, importe este repositório com `site` como **Root Directory**. Não há build.
+- **Catálogo**: o workflow *Atualizar catálogo público* roda às 08:17 UTC (ou manualmente em **Actions**). Ele atualiza `site/dados.js` e o catálogo que vai no ZIP do app (`download/LocalIntelligence/data/radar-inicial.json.gz`). Se a varredura falhar, o último catálogo bom é mantido. Para republicar no Vercel automaticamente, salve um Deploy Hook como secret `VERCEL_DEPLOY_HOOK`.
+- **App**: o workflow *Publicar app local* gera `LocalAISearch.zip` (só o app, sem o site) e o publica no release `app-latest`. O botão “Baixar o app local” do site aponta para `releases/latest/download/LocalAISearch.zip`. Ele roda quando o app muda, depois de cada atualização do catálogo, ou manualmente.
+
+## Apoiar o projeto
+
+O projeto é gratuito e de código aberto. Se ele te ajudou: deixe uma ⭐, [conte o que achou ou relate um problema](https://github.com/Cainho-pt-br/LocalAISearch/issues) e mostre para quem está começando com IA local.
+
+Para ativar doações no site e no app, preencha `APOIO` em `download/LocalIntelligence/web/apoio.js` (chave Pix e/ou link do GitHub Sponsors, Ko-fi, Apoia.se…) e rode `python scripts/sincronizar-web.py`. O apoio aparece sempre, sem atrapalhar: um link no rodapé da barra lateral, um bloco discreto no fim do Radar e uma linha compacta depois de cada momento útil (copiar um comando, terminar uma medição). A linha some sozinha em segundos e o ✕ a esconde até a próxima visita. Nada é rastreado.
 
 ## Dados e licença
 
-O código deste repositório é distribuído sob Apache-2.0 (`LICENSE`). O catálogo de hardware e os metadados dos modelos vêm das fontes originais indicadas no aplicativo. Os modelos e conjuntos de dados de terceiros mantêm suas próprias licenças; a licença do código não altera esses termos.
+O código é distribuído sob Apache-2.0 (`LICENSE`). O catálogo de hardware e os metadados dos modelos vêm das fontes originais indicadas no app. Modelos e conjuntos de dados de terceiros (MMLU-Pro, IFEval, BFCL, HumanEval, GSM8K e outros em `download/LocalIntelligence/data/`) mantêm suas próprias licenças; a licença do código não altera esses termos.

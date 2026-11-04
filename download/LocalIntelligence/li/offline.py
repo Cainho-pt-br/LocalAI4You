@@ -78,16 +78,16 @@ def estado(oll: Optional[ollama.Ollama], com_broker: bool = False) -> dict:
                   "detalhe": "Todas as funções cobertas." if not sem else "Sem modelo medido para: " + ", ".join(sem),
                   "acao": None if not sem else "Meça os modelos instalados (aba Laboratório) ou baixe um para cada função em aberto."})
     if not kit.get("configurado"):
-        itens.append({"id": "kit", "titulo": "Segunda cópia dos modelos titulares", "status": "falta",
+        itens.append({"id": "kit", "titulo": "Segunda cópia dos seus melhores modelos", "status": "falta",
                       "detalhe": "Nenhuma pasta de backup configurada.",
-                      "acao": "Defina a pasta do kit (ex.: um HD externo) e exporte os titulares."})
+                      "acao": "Defina a pasta do kit (ex.: um HD externo) e exporte os seus melhores modelos."})
     elif not kit.get("existe"):
-        itens.append({"id": "kit", "titulo": "Segunda cópia dos modelos titulares", "status": "atencao",
+        itens.append({"id": "kit", "titulo": "Segunda cópia dos seus melhores modelos", "status": "atencao",
                       "detalhe": f"A pasta {kit['destino']} não está acessível agora (HD desconectado?).", "acao": "Conecte o disco ou escolha outra pasta."})
     else:
         tit_ids = sorted({t for t in titulares.values() if t})
         defasados = [m for m in tit_ids if kit["modelos"].get(m) != "em dia"]
-        itens.append({"id": "kit", "titulo": "Segunda cópia dos modelos titulares",
+        itens.append({"id": "kit", "titulo": "Segunda cópia dos seus melhores modelos",
                       "status": "ok" if not defasados else "atencao",
                       "detalhe": f"Kit em {kit['destino']} · {kit['livre_gb']} GB livres." + ("" if not defasados else " Fora de dia: " + ", ".join(defasados)),
                       "acao": None if not defasados else "Exporte de novo para atualizar o kit."})
@@ -203,7 +203,7 @@ def _guia_restauracao(modelos: List[str]) -> str:
     lista = "\n".join(f"- `{m}`" for m in modelos)
     return f"""# Kit offline de modelos locais
 
-Gerado pelo Local Intelligence em {agora_iso()}. Modelos neste kit:
+Gerado pelo Local AI Search em {agora_iso()}. Modelos neste kit:
 
 {lista}
 

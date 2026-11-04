@@ -20,6 +20,8 @@ APOSENTADOS = ESTADO / "aposentados.json"
 CONFIG_ARQ = ESTADO / "config.json"
 PROGRESSO = ESTADO / "progresso.json"
 PARQUE_ARQ = RAIZ / "parque" / "parque.json"
+# Catálogo que acompanha o download (atualizado todo dia pelo GitHub Actions): o Radar funciona antes da primeira varredura.
+CATALOGO_INICIAL = RAIZ / "data" / "radar-inicial.json.gz"
 HARDWARE_ARQ = DADOS / "hardware.json"
 WEB = RAIZ / "web"
 RELATORIOS = RAIZ / "relatorios"

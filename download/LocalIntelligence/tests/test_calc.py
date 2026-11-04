@@ -28,7 +28,8 @@ ARCHS = {
     "generica": scout.arch_generica(30),
     "vazia": {},
 }
-MAQS = json.loads((RAIZ / "parque" / "parque.json").read_text("utf-8"))["maquinas"] + [
+# parque de exemplo dos testes (o parque.json público vem vazio)
+MAQS = json.loads((RAIZ / "tests" / "fixtures" / "parque_exemplo.json").read_text("utf-8"))["maquinas"] + [
     {"id": "g24", "gpu": {"vram_gb": 24, "bw_gbs": 1008}, "ram_gb": 64, "bw_gbs_min": 70, "bw_gbs_max": 90, "simd": ["avx", "avx2", "avx512"], "reserva_so_gb": 4},
     {"id": "g8", "gpu": {"vram_gb": 8, "bw_gbs": 288}, "ram_gb": 16, "bw_gbs_min": 40, "bw_gbs_max": 51, "simd": ["avx", "avx2"], "reserva_so_gb": 4},
     {"id": "mac", "gpu": {"vram_gb": 48, "bw_gbs": 546}, "ram_gb": 64, "bw_gbs_min": 546, "bw_gbs_max": 546, "simd": ["neon"], "reserva_so_gb": 0},
@@ -158,7 +159,8 @@ class TestJsSemRede(unittest.TestCase):
     @unittest.skipUnless(shutil.which("node"), "Node não instalado")
     def test_escolhas_por_atividade_em_tres_hardwares(self):
         """Fumaça do motor de escolhas com o catálogo sintético: 16 GB, 8 GB e só CPU devolvem coisas diferentes e sensatas."""
-        cands = [_cand_sint("grande:30b", 30.0), _cand_sint("medio:12b", 12.0), _cand_sint("pequeno:4b", 4.0), _cand_sint("mini:1b", 1.0)]
+        cands = [_cand_sint("grande:30b", 30.0), _cand_sint("medio:12b", 12.0), _cand_sint("pequeno:4b", 4.0), _cand_sint("mini:1b", 1.0),
+                 _cand_sint("decisor:9b", 9.0, caps=["decision", "tools"])]  # modelo de decisão: nunca pode ser recomendado
         for c in cands:
             c["papeis"] = ["chat_pt", "regras", "codigo", "agente", "rapido"]
         snap = {"criado": agora_iso(), "total": 4, "fontes": {}, "candidatos": cands}

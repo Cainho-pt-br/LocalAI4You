@@ -1,4 +1,4 @@
-"""Gera o texto de `cerebro/modelos-locais-do-parque.md` do CAIOSNET a partir dos dados (reproduzível)."""
+"""Gera uma nota Markdown com os modelos do parque a partir dos dados (reproduzível). Uso pessoal do autor; fica fora da ajuda."""
 from __future__ import annotations
 
 from datetime import datetime
@@ -33,8 +33,8 @@ def gerar(oll: Optional[Ollama]) -> str:
     if boss:
         g = boss.get("gpu") or {}
         L += [f"## 1. `boss` — {boss.get('cpu')} · {boss.get('ram_gb')} GB RAM · {g.get('nome')} {g.get('vram_gb')} GiB", "",
-              "### Esquadra instalada (medido)", "",
-              "| Função | Titular | Nota | tok/s | Memória | Contexto 100% GPU |", "|---|---|---:|---:|---:|---:|"]
+              "### Modelos instalados (medido)", "",
+              "| Uso | Modelo atual | Nota | tok/s | Memória | Contexto 100% GPU |", "|---|---|---:|---:|---:|---:|"]
         por_id = {m["id"]: m for m in mesa["instalados"]}
         for p in papeis.PAPEIS:
             mid = mesa["titulares"].get(p["id"])

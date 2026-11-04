@@ -1,4 +1,4 @@
-"""Aba "Medir": em vez de pedir ao Caio que escolha modelo, nível e modo às cegas, diz o que vale rodar AGORA e por quê.
+"""Aba "Medir": em vez de pedir à pessoa que escolha modelo, nível e modo às cegas, diz o que vale rodar AGORA e por quê.
 
 Cada passo sugerido traz o motivo, o custo estimado em minutos (a latência média por item, medida nas rodadas anteriores
 do próprio modelo) e os parâmetros prontos para o botão. O formulário manual continua existindo para quem quiser.
