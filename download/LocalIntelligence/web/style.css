@@ -113,8 +113,8 @@ select { text-overflow: ellipsis; }
 
 button.btn, a.btn { display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--text); padding: 7px 14px; border-radius: var(--radius-sm); font-weight: 600; font-size: .9rem; text-decoration: none; white-space: nowrap; transition: background .12s, border-color .12s; }
 button.btn:hover, a.btn:hover { background: var(--surface-2); text-decoration: none; }
-button.btn.primario { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
-button.btn.primario:hover { filter: brightness(1.12); background: var(--ink); }
+button.btn.primario, a.btn.primario { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+button.btn.primario:hover, a.btn.primario:hover { filter: brightness(1.12); background: var(--ink); }
 button.btn.perigo { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 45%, var(--line)); }
 button.btn.perigo:hover { background: var(--bad-soft); }
 button.btn.mini, a.btn.mini { padding: 3px 10px; font-size: .79rem; border-radius: 8px; }
@@ -888,3 +888,71 @@ details.painel-colapsavel > summary > div { flex:1; text-align:left; }
 details.painel-colapsavel > summary h3 { margin:0; }
 .upgrade-vel { display:flex; align-items:center; gap:6px; flex-wrap:wrap; font-size:.86rem; font-weight:650; color:var(--text); }
 details.painel-colapsavel > summary > h3 { flex:1; text-align:left; }
+
+/* ------------------------------------------------------------ medalhas (rankings medidos e prévias) */
+.medalha { display:inline-grid; place-items:center; flex:none; width:22px; height:22px; margin-right:6px; border-radius:50%; color:#fff; font-size:.72rem; font-weight:800; vertical-align:middle;
+  text-shadow:0 1px 1px rgba(0,0,0,.3); background:radial-gradient(ellipse 72% 42% at 50% 16%, rgba(255,255,255,.6), transparent 72%), linear-gradient(150deg, var(--c2), var(--c1) 48%, var(--c3));
+  box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.45), 0 3px 8px -3px var(--c1); }
+.medalha.m1 { --c1:#f59e0b; --c2:#fde68a; --c3:#b45309; } .medalha.m2 { --c1:#94a3b8; --c2:#f1f5f9; --c3:#475569; } .medalha.m3 { --c1:#ea580c; --c2:#fdba74; --c3:#7c2d12; }
+
+/* ------------------------------------------------------------ cards de guia com a linguagem do Radar */
+.guia-grid > .guia-card:nth-child(4n+1), .guia-tool-grid > .guia-tool:nth-child(4n+1) { --cor-g:#6366f1; }
+.guia-grid > .guia-card:nth-child(4n+2), .guia-tool-grid > .guia-tool:nth-child(4n+2) { --cor-g:#10b981; }
+.guia-grid > .guia-card:nth-child(4n+3), .guia-tool-grid > .guia-tool:nth-child(4n+3) { --cor-g:#f59e0b; }
+.guia-grid > .guia-card:nth-child(4n+4), .guia-tool-grid > .guia-tool:nth-child(4n+4) { --cor-g:#ec4899; }
+.guia-card, .guia-tool { background:linear-gradient(170deg, color-mix(in srgb, var(--cor-g, var(--ink)) 7%, var(--fundo-cartao)), var(--fundo-cartao) 40%); border-top:3px solid var(--cor-g, var(--line-strong));
+  transition: transform .18s ease, box-shadow .18s ease; }
+.guia-card:hover, .guia-tool:hover { transform:translateY(-2px); box-shadow:0 16px 36px -18px color-mix(in srgb, var(--cor-g, #000) 55%, transparent); }
+.guia-num { width:38px; height:38px; border-radius:12px; color:#fff; background:linear-gradient(135deg, var(--cor-g, #6366f1), color-mix(in srgb, var(--cor-g, #6366f1) 45%, #a855f7)); box-shadow:0 8px 18px -8px var(--cor-g, #6366f1); }
+.guia-card .chip { background:color-mix(in srgb, var(--cor-g, var(--ink)) 14%, transparent); color:var(--cor-g, var(--ink)); }
+.guia-tool ol { list-style:none; counter-reset:passo; padding-left:0; position:relative; }
+.guia-tool ol::before { content:''; position:absolute; left:12px; top:14px; bottom:14px; width:2px; background:color-mix(in srgb, var(--cor-g, var(--ink)) 25%, transparent); }
+.guia-tool ol li { counter-increment:passo; position:relative; padding-left:36px; }
+.guia-tool ol li::before { content:counter(passo); position:absolute; left:0; top:1px; width:26px; height:26px; border-radius:50%; display:grid; place-items:center; font-size:.75rem; font-weight:800; color:var(--cor-g, var(--ink)); background:var(--fundo-cartao); border:2px solid var(--cor-g, var(--ink)); }
+.guia-flow { background:linear-gradient(120deg, color-mix(in srgb,#6366f1 8%, var(--surface)), color-mix(in srgb,#ec4899 8%, var(--surface))); border:0; }
+.guia-flow span { box-shadow:var(--shadow); }
+.guia-callout { border-left:0; border-radius:var(--radius); background:linear-gradient(120deg, color-mix(in srgb,#6366f1 10%, var(--surface)), color-mix(in srgb,#0ea5e9 8%, var(--surface))); box-shadow:inset 4px 0 0 #6366f1; }
+.guia-passos { counter-reset:gp; list-style:none; padding:0; display:grid; gap:10px; }
+.guia-passos li { counter-increment:gp; display:flex; gap:12px; align-items:center; padding:12px 14px; border-radius:var(--radius-sm); background:var(--fundo-cartao); border:1px solid var(--line); }
+.guia-passos li::before { content:counter(gp); flex:none; width:28px; height:28px; border-radius:9px; display:grid; place-items:center; color:#fff; font-weight:800; font-size:.8rem; background:linear-gradient(135deg,#6366f1,#a855f7); }
+
+/* ------------------------------------------------------------ prévias do app (site) */
+.previa-topo h1 { max-width:24ch; font-size:2rem; letter-spacing:-.025em; }
+.previa-topo .sub { max-width:72ch; font-size:.98rem; }
+.previa-grade { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); gap:18px; align-items:start; margin:8px 0 28px; }
+.previa-exemplo { position:relative; padding:22px 20px 18px; border-radius:20px; border:2px solid transparent; isolation:isolate;
+  background: linear-gradient(var(--fundo-cartao), var(--fundo-cartao)) padding-box, linear-gradient(135deg,#6366f1,#a855f7,#ec4899,#f59e0b) border-box;
+  box-shadow:0 24px 50px -28px rgba(99,102,241,.55); }
+.previa-selo { position:absolute; top:-11px; left:18px; padding:3px 10px; border-radius:99px; font-size:.66rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#fff; background:linear-gradient(90deg,#6366f1,#a855f7); }
+.previa-linhas { display:grid; gap:10px; }
+.previa-linha { display:grid; grid-template-columns:auto minmax(0,1fr) minmax(80px,1.1fr) auto auto; gap:10px; align-items:center; font-size:.88rem; }
+.previa-uso { color:var(--muted); font-weight:650; white-space:nowrap; }
+.previa-pos { display:inline-grid; place-items:center; width:22px; height:22px; margin-right:6px; border-radius:50%; background:var(--surface-2); font-size:.7rem; font-weight:800; color:var(--muted); }
+.previa-barra { position:relative; height:8px; border-radius:99px; background:var(--surface-2); box-shadow:inset 0 0 0 1px var(--line); }
+.previa-barra .ic { position:absolute; top:0; bottom:0; border-radius:99px; background:color-mix(in srgb, #6366f1 30%, transparent); }
+.previa-barra b { position:absolute; top:-3px; width:3px; height:14px; border-radius:2px; }
+.previa-nota { font-weight:700; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.previa-aviso { margin-top:14px; padding:10px 12px; border-radius:12px; background:var(--surface-2); font-size:.86rem; color:var(--muted); }
+.previa-aviso b { color:var(--text); }
+.duelo-topo { display:flex; align-items:center; justify-content:center; gap:14px; margin-bottom:14px; font-weight:750; }
+.duelo-a { color:#6366f1; } .duelo-b { color:#ec4899; }
+.duelo-x { display:grid; place-items:center; width:32px; height:32px; border-radius:50%; color:#fff; background:linear-gradient(135deg,#6366f1,#ec4899); }
+.duelo-linha { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(90px,1fr) auto auto; gap:10px; align-items:center; font-size:.86rem; }
+.duelo-barras { display:grid; gap:3px; } .duelo-barras i { display:block; height:6px; border-radius:99px; }
+.duelo-barras .da { background:#6366f1; } .duelo-barras .db { background:#ec4899; }
+.previa-check { list-style:none; padding:0; margin:0; display:grid; gap:8px; }
+.previa-check li { display:flex; gap:10px; align-items:center; padding:10px 12px; border-radius:12px; background:var(--surface-2); font-size:.9rem; }
+.previa-check li::before { flex:none; display:grid; place-items:center; width:22px; height:22px; border-radius:50%; font-size:.75rem; font-weight:800; color:#fff; }
+.previa-check li.ok::before { content:'✓'; background:#16a34a; } .previa-check li.pendente::before { content:'!'; background:#d97706; }
+.previa-destaques { display:grid; gap:12px; }
+.previa-destaque { display:flex; gap:14px; align-items:flex-start; padding:16px; border-radius:var(--radius); background:var(--fundo-cartao); border:1px solid var(--line-strong); box-shadow:var(--shadow); }
+.previa-destaque h3 { margin:0 0 4px; } .previa-destaque p { margin:0; color:var(--muted); font-size:.88rem; line-height:1.55; }
+.previa-ic { flex:none; display:grid; place-items:center; width:40px; height:40px; border-radius:12px; font-size:1.15rem; color:#fff; background:linear-gradient(135deg, var(--cor-d), color-mix(in srgb, var(--cor-d) 45%, #a855f7)); }
+.previa-destaque.d1 { --cor-d:#6366f1; } .previa-destaque.d2 { --cor-d:#10b981; } .previa-destaque.d3 { --cor-d:#f59e0b; }
+.previa-passos { margin:0 0 26px; } .previa-passos h2 { margin-bottom:12px; }
+.passos-linha { counter-reset:pl; list-style:none; padding:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr)); gap:12px; }
+.passos-linha li { counter-increment:pl; position:relative; padding:16px 16px 16px 58px; border-radius:var(--radius); background:var(--fundo-cartao); border:1px solid var(--line-strong); font-size:.9rem; }
+.passos-linha li::before { content:counter(pl); position:absolute; left:16px; top:14px; width:30px; height:30px; border-radius:10px; display:grid; place-items:center; color:#fff; font-weight:800; background:linear-gradient(135deg,#6366f1,#a855f7); }
+.previa-cta { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; padding:20px 22px; border-radius:20px;
+  background:linear-gradient(120deg, color-mix(in srgb,#6366f1 14%, var(--surface)), color-mix(in srgb,#ec4899 12%, var(--surface))); border:1px solid var(--line-strong); }
+@media (max-width:900px) { .previa-grade { grid-template-columns:1fr; } .previa-linha { grid-template-columns:auto minmax(0,1fr) auto; } .previa-linha .previa-barra, .previa-linha > .sub { display:none; } .duelo-linha { grid-template-columns:minmax(0,1fr) auto auto; } .duelo-barras { display:none; } .previa-topo h1 { font-size:1.5rem; } }

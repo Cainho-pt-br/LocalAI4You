@@ -47,7 +47,7 @@ function alternarManterModelo(id) {
 
 function pDecidir() {
   const m = S.mesa, raiz = $('#p-decidir');
-  if (window.LI_PUBLIC_MODE) { raiz.replaceChildren(h('div',{class:'public-empty'},h('div',{class:'public-empty-icon'},'◈'),h('h1',{},'Decidir, com os seus dados'),h('p',{},'Esta área usa os modelos instalados e os benchmarks feitos no seu computador. O site não acessa seu Ollama nem inventa notas.'),h('a',{class:'btn primario',href:LINK_DOWNLOAD},'Baixar o app local'))); return; }
+  if (window.LI_PUBLIC_MODE) { paginaPrevia('decidir', raiz); return; }
   if (!m) { raiz.replaceChildren(h('div', { class: 'vazio' }, 'Carregando…')); return; }
   const pend = (m.vereditos || []).filter(v => v.pendente);
   const oculto = mancheteOculta(m);
@@ -391,7 +391,7 @@ function abrirPainelPapel(p, m) {
       h('h3', { style: 'margin-bottom:4px' }, `Ranking comparativo (${rank.length} modelos medidos)`),
       h('p', { class: 'sub', style: 'font-size:.8rem' }, 'Margem de erro (IC 90%). Barras que se sobrepõem indicam empate técnico.'),
       h('div', { class: 'empilha', style: 'gap:4px;margin-top:8px' },
-        rank.map(x => {
+        rank.map((x, i) => {
           const nomeL = nomeAmigavelModelo(x.modelo);
           const qL = tagQuantModelo(x.modelo);
           const ehDisp = dispensados.has(x.modelo);
@@ -406,7 +406,7 @@ function abrirPainelPapel(p, m) {
             chipVs = chip(txtV, corV);
           }
           return h('div', { class: 'rk' + (ehDisp ? ' modelo-dispensado' : ''), title: x.modelo },
-            h('div', { class: 'rk-nome' }, x.titular ? '👑 ' : '', h('b', {}, nomeL), qL ? [' ', h('small', { class: 'sub' }, qL)] : null, x.tps ? [' ', h('small', { class: 'sub', style: 'margin-left:4px' }, `· ${fmtN(x.tps, 0)} t/s`)] : null, ehDisp ? [' ', chip('dispensado', 'neutro')] : null, !x.atende ? chip('sem ' + (p.exige || []).join('/'), 'bad') : null),
+            h('div', { class: 'rk-nome' }, i < 3 ? h('span', { class: 'medalha m' + (i + 1), title: (i + 1) + 'º lugar nesta função' }, i + 1) : null, x.titular ? '👑 ' : '', h('b', {}, nomeL), qL ? [' ', h('small', { class: 'sub' }, qL)] : null, x.tps ? [' ', h('small', { class: 'sub', style: 'margin-left:4px' }, `· ${fmtN(x.tps, 0)} t/s`)] : null, ehDisp ? [' ', chip('dispensado', 'neutro')] : null, !x.atende ? chip('sem ' + (p.exige || []).join('/'), 'bad') : null),
             h('div', { class: 'minibarra', title: `nota ${x.nota}` + (x.ic ? ` (IC ${x.ic[0]}–${x.ic[1]})` : '') },
               x.ic ? h('i', { style: `left:${x.ic[0]}%;width:${Math.max(x.ic[1] - x.ic[0], 1)}%` }) : null,
               h('b', { style: `left:calc(${x.nota}% - 1px)` })),
@@ -1060,7 +1060,7 @@ async function iniciarDueloRapido(va, vb, papel = 'chat_pt', nivel = 'padrao') {
 
 async function pModelos() {
   const m = S.mesa, raiz = $('#p-modelos');
-  if (window.LI_PUBLIC_MODE) { raiz.replaceChildren(h('div',{class:'public-empty'},h('div',{class:'public-empty-icon'},'▣'),h('h1',{},'Seus modelos, no seu computador'),h('p',{},'A lista de modelos instalados e as notas medidas vêm do Ollama local. No site, escolha seu hardware no Radar para ver apenas estimativas.'),h('a',{class:'btn primario',href:LINK_DOWNLOAD},'Baixar o app local'))); return; }
+  if (window.LI_PUBLIC_MODE) { paginaPrevia('modelos', raiz); return; }
   if (!m) return;
   const papeisNota = m.papeis.filter(p => !p.sem_nota);
   const ordPlacar = S.ordPlacar || (S.ordPlacar = { col: 'indice', dir: -1 });
