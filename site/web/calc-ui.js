@@ -633,7 +633,7 @@ const LI_CALC_UI = (function () {
       h('p', { class: 'sub', style: 'max-width:70ch;margin-top:6px' }, 'Escolha sua placa de vídeo (ou Mac, ou só o processador) e veja que modelos de IA rodam nela, em qual quantização, com quanto contexto e a que velocidade — para cada tipo de uso. Funciona offline: nada sai do seu computador.'),
       h('div', { class: 'legenda', style: 'margin-top:8px' }, `Catálogo de ${dados.candidatos.length} modelos da varredura de ${fmtData(dados.radar)} · gerado em ${fmtData(dados.gerado)}`, dados.n_medidos ? chip(`${dados.n_medidos} com nota MEDIDA`, 'medido') : null))
       : h('div', { class: 'pagina-topo' },
-          h('div', { class: 'eyebrow-tech' }, 'LOCAL INTELLIGENCE // HARDWARE & MODEL ADVISOR'),
+          h('div', { class: 'eyebrow-tech' }, 'LOCAL AI SEARCH · CALCULADORA'),
           h('h1', {}, 'Calculadora de hardware'),
           h('p', { class: 'sub' }, 'Informe sua placa/memória nos cartões abaixo e veja instantaneamente o feed de modelos recomendados com base nos catálogos online do Ollama e Hugging Face.'));
     const linkAtual = () => { const e = { ...E, preset: '' }; return location.href.split('#')[0] + '#c=' + btoa(unescape(encodeURIComponent(JSON.stringify(e)))); };

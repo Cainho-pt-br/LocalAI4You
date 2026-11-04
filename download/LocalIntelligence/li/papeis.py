@@ -1,7 +1,7 @@
 """Funções (papéis) que um modelo local pode ter no dia a dia, e como a nota de cada uma é composta.
 
 É a camada que traduz "MMLU-PT 87,5%" em "serve para conversar em português?". Os pesos são
-decisão de projeto (ver cerebro/papeis-e-pesos.md) e podem ser mudados aqui sem refazer testes.
+decisão de projeto e podem ser mudados aqui sem refazer testes.
 """
 from __future__ import annotations
 

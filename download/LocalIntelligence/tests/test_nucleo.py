@@ -228,6 +228,44 @@ def _cand(nome, params, **kw):
     return base
 
 
+class TestCatalogoInicial(unittest.TestCase):
+    """O ZIP traz um catálogo: o Radar funciona antes da primeira varredura, e a varredura local sempre vence."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.ant = (config.SNAPSHOTS, config.CATALOGO_INICIAL)
+        config.SNAPSHOTS = Path(self.tmp.name) / "snapshots"
+        config.SNAPSHOTS.mkdir()
+        config.CATALOGO_INICIAL = Path(self.tmp.name) / "radar-inicial.json.gz"
+
+    def tearDown(self):
+        config.SNAPSHOTS, config.CATALOGO_INICIAL = self.ant
+        self.tmp.cleanup()
+
+    def test_usa_o_embutido_so_sem_varredura_local(self):
+        self.assertIsNone(scout.ultimo())                                       # sem nada: radar vazio, sem erro
+        snap = {"criado": "2026-01-01T00:00:00Z", "total": 1, "fontes": {"ollama": True}, "candidatos": [
+            {"id": "ollama:x:4b", "nome": "x 4B", "origem": "ollama", "caps": [], "lancamento": "2025-01-01T00:00:00Z", "dias": 3, "novo": True}]}
+        scout.gravar_catalogo_inicial(snap)
+        a = scout.gravar_catalogo_inicial(snap).read_bytes()
+        self.assertEqual(a, scout.gravar_catalogo_inicial(snap).read_bytes())  # determinístico: o workflow só commita mudança real
+        u = scout.ultimo()
+        self.assertTrue(u["embutido"])
+        self.assertGreater(u["candidatos"][0]["dias"], 300)                      # idade recalculada para hoje
+        self.assertFalse(u["candidatos"][0]["novo"])
+        self.assertTrue(decide._resumo_radar(u)["embutido"])
+        (config.SNAPSHOTS / "ultimo-completo.json").write_text(json.dumps({**snap, "criado": "2026-02-01T00:00:00Z"}), "utf-8")
+        self.assertFalse(scout.ultimo().get("embutido"))                        # varredura local vence
+
+    def test_o_zip_traz_um_catalogo_valido(self):
+        config.CATALOGO_INICIAL = self.ant[1]
+        if not config.CATALOGO_INICIAL.exists():
+            self.skipTest("catálogo inicial ainda não gerado")
+        u = scout.catalogo_inicial()
+        self.assertGreater(len(u["candidatos"]), 50)
+        self.assertTrue(all(c.get("variantes") or c.get("sem_gguf") for c in u["candidatos"]))   # sem arquivo baixável só se marcado
+
+
 class TestDecisao(unittest.TestCase):
     def setUp(self):
         self.snap = {"criado": "2026-10-01T00:00:00+00:00", "total": 4, "fontes": {}, "candidatos": [

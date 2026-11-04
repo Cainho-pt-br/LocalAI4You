@@ -50,9 +50,9 @@ async function pRadar() {
   if (!S.calc) { try { await garantirCalc(); } catch (e) { /* radar ainda não rodou */ } }
   const local = S.mesa.boss?.id || 'local';
   const maquinas = (S.calc?.maquinas || []).map(x => ({ id: x.id, nome: x.nome || x.id }));
-  const lista = maquinas.length ? maquinas : [{ id: local, nome: S.mesa.boss?.nome || 'Este computador' }];
-  if (!lista.some(m => m.id === f.maquina)) f.maquina = lista.some(m => m.id === local) ? local : lista[0].id;
-  const maqSel = h('select', {}, lista.map(m => h('option', { value: m.id, selected: m.id === f.maquina }, m.id === local ? `${m.nome} (este computador)` : m.nome)));
+  const maqLista = maquinas.length ? maquinas : [{ id: local, nome: S.mesa.boss?.nome || 'Este computador' }];
+  if (!maqLista.some(m => m.id === f.maquina)) f.maquina = maqLista.some(m => m.id === local) ? local : maqLista[0].id;
+  const maqSel = h('select', {}, maqLista.map(m => h('option', { value: m.id, selected: m.id === f.maquina }, m.id === local ? `${m.nome} (este computador)` : m.nome)));
   const papSel = h('select', {}, h('option', { value: '' }, 'Todas as funções'), S.mesa.papeis.map(p => h('option', { value: p.id, selected: p.id === f.papel }, p.rotulo)));
   const cCom = h('input', { type: 'checkbox', checked: f.comunidade }), cAnt = h('input', { type: 'checkbox', checked: f.antigos });
   const capSel = h('select', {}, [['', 'Qualquer'], ['vision', '👁 Visão (imagens)'], ['tools', '🛠 Ferramentas'], ['thinking', '🧠 Raciocínio'], ['audio', '🔊 Áudio']].map(([v, t]) => h('option', { value: v, selected: v === f.cap }, t)));
@@ -62,9 +62,11 @@ async function pRadar() {
   const rd = S.mesa.radar;
   const topo = [
     h('div', { class: 'pagina-topo' }, h('div', { class: 'linha topo' }, h('div', {}, h('h1', {}, 'Radar de modelos'), h('p', { class: 'sub' }, 'Varre a biblioteca do Ollama e os laboratórios no Hugging Face e calcula o que CABE em cada máquina.')),
-      h('div', { class: 'linha' }, rd.existe ? h('span', { class: 'sub' }, `Última varredura ${fmtIdade(rd.idade_dias)} · ${rd.total} candidatos`) : null,
+      h('div', { class: 'linha' }, rd.existe ? h('span', { class: 'sub' }, rd.embutido ? `Catálogo de ${fmtData(rd.criado)} · ${rd.total} candidatos` : `Última varredura ${fmtIdade(rd.idade_dias)} · ${rd.total} candidatos`) : null,
         h('button', { class: 'btn primario', onclick: () => varrer(true) }, rd.existe ? 'Varrer de novo' : 'Primeira varredura')))),
-    rd.existe ? null : h('div', { class: 'vazio' }, 'O radar ainda não rodou. Clique em “Primeira varredura” (leva ~30 segundos).'),
+    rd.existe ? null : h('div', { class: 'vazio' }, 'O radar ainda não rodou. Clique em “Primeira varredura” (leva alguns minutos).'),
+    rd.embutido ? h('div', { class: 'info-caixa', style: 'margin-bottom:14px' }, h('b', {}, 'Catálogo que veio com o app '), `(de ${fmtData(rd.criado)}). Já dá para escolher o que baixar. “Varrer de novo” busca o que saiu depois disso no Ollama e no Hugging Face.`) : null,
+    !(S.mesa.instalados || []).length && rd.existe ? h('div', { class: 'guia-callout' }, h('b', {}, 'Primeira vez? '), h('p', {}, 'Escolha um modelo da lista e clique em “Instalar” (ou copie o comando ollama pull). Com um modelo instalado, a aba Decidir mostra notas medidas, e “Testar” compara modelos no seu PC.')) : null,
     (S.mesa.ritmo || []).length ? h('details', { class: 'dica-clean', style: 'margin-bottom:18px' },
       h('summary', {}, '📈 Ritmo de lançamentos das famílias que você usa'),
       h('div', { style: 'margin-top:6px' },
@@ -73,7 +75,7 @@ async function pRadar() {
           ` · última há ${r.dias_desde_a_ultima} dias`,
           r.proxima_em_dias != null ? (r.proxima_em_dias > 0 ? ` → próxima em ~${r.proxima_em_dias} dias` : ' → janela aberta p/ lançamento') : '')),
         h('div', { class: 'sub', style: 'margin-top:6px;font-size:.76rem' }, 'Tendência estimada via datas reais de lançamento do Hugging Face.'))) : null,
-    h('div', { class: 'filtros' }, lista.length > 1 ? h('label', { class: 'campo' }, 'Para a máquina', maqSel) : null, h('label', { class: 'campo' }, 'Função', papSel), h('label', { class: 'campo', title: 'O que o modelo DECLARA aceitar (o Ollama informa por tamanho: o gemma3 270M não enxerga imagens, o 4B sim)' }, 'Declara', capSel), h('label', { class: 'campo' }, 'Ordenar por', ordSel),
+    h('div', { class: 'filtros' }, maqLista.length > 1 ? h('label', { class: 'campo' }, 'Para a máquina', maqSel) : null, h('label', { class: 'campo' }, 'Função', papSel), h('label', { class: 'campo', title: 'O que o modelo DECLARA aceitar (o Ollama informa por tamanho: o gemma3 270M não enxerga imagens, o 4B sim)' }, 'Declara', capSel), h('label', { class: 'campo' }, 'Ordenar por', ordSel),
       h('label', { class: 'chk' }, cCom, 'incluir ajustes de comunidade'), h('label', { class: 'chk' }, cAnt, 'incluir modelos com mais de 9 meses'))];
   raiz.replaceChildren(...topo, h('div', { id: 'radar-lista' }, h('div', { class: 'sub' }, 'Carregando…')));
   garantirCalc().then(() => { /* só aquece o catálogo para abrir as quantizações sem espera */ }).catch(() => { });
@@ -83,13 +85,13 @@ async function pRadar() {
     S.radarInfo = info;
     const lista = $('#radar-lista');
     if (!lista) return;
-    const novos = info.primeira_varredura ? [] : (info.apareceram || []);
+    const novos = info.primeira_varredura || rd.embutido ? [] : (info.apareceram || []);
     const chaveNovos = (info.desde || '') + '|' + novos.map(x => x.id || x.nome).sort().join(',');
     let jaViuNovos = false;
     try { jaViuNovos = localStorage.getItem('li-radar-novos-vistos') === chaveNovos; } catch (x) {}
 
     let bannerNovos = null;
-    if (info.primeira_varredura) {
+    if (info.primeira_varredura && !rd.embutido) {
       bannerNovos = h('div', { class: 'info-caixa' }, 'Esta varredura é a linha de base. Da próxima vez, aqui aparece tudo que surgiu desde hoje.');
     } else if (novos.length && !jaViuNovos) {
       bannerNovos = h('div', { class: 'aviso-caixa', style: 'display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap' },
@@ -125,7 +127,7 @@ async function pRadar() {
       h('button', { class: 'btn mini', disabled: f.pagina >= paginas - 1, onclick: () => irPagina(f.pagina + 1) }, 'Próxima →')) : null;
     lista.replaceChildren(
       bannerNovos,
-      titulo(`Melhores opções para ${(lista.find(m => m.id === f.maquina) || {}).nome || f.maquina}`, 'Cada cartão mostra a comparação direta com o seu Titular Atual naquela função para você saber na hora se vale a pena testar. Clique no nome para ver o mesmo modelo em outros tamanhos.'),
+      titulo(`Melhores opções para ${(maqLista.find(m => m.id === f.maquina) || {}).nome || f.maquina}`, 'Cada cartão mostra a comparação direta com o seu modelo atual naquele uso para você saber na hora se vale a pena testar. Clique no nome para ver o mesmo modelo em outros tamanhos.'),
       fatia.length ? [h('div', { class: 'radar-grid-3' }, fatia.map((c, i) => cartaoCandidato(c, f.ordem === 'prioridade' ? f.pagina * POR_PAGINA + i : null))), nav()] : h('div', { class: 'vazio' }, 'Nenhum candidato cabe nessa máquina com esses filtros.'));
   } catch (e) { $('#radar-lista')?.replaceChildren(h('div', { class: 'aviso-caixa' }, e.message)); }
 }
@@ -250,10 +252,10 @@ function diagnosticoValeTestar(c) {
 
   if (c.instalado_como) {
     return {
-      selo: '✔ Já na sua esquadra',
+      selo: '✔ Já instalado',
       cor: 'ok',
       resumo: `Instalado como ${nomeAmigavelModelo(c.instalado_como)}. Veja outras quantizações se quiser mais velocidade ou menos VRAM.`,
-      titularTxt: nomeTit ? `Titular em ${pap?.rotulo || c.papel}: ${nomeTit}${notaTit != null ? ' (nota ' + fmtN(notaTit, 0) + ')' : ''}` : null
+      titularTxt: nomeTit ? `Atual em ${pap?.rotulo || c.papel}: ${nomeTit}${notaTit != null ? ' (nota ' + fmtN(notaTit, 0) + ')' : ''}` : null
     };
   }
 
@@ -269,32 +271,32 @@ function diagnosticoValeTestar(c) {
     selo = '🔥 Vale a pena testar';
     cor = 'ok';
     if (maisRapido && tpsTit) {
-      resumo = `Promete ~${fmtN(tpsCand / tpsTit, 1)}× mais velocidade que o titular atual com porte competitivo (${c.params_b}B).`;
+      resumo = `Promete ~${fmtN(tpsCand / tpsTit, 1)}× mais velocidade que o modelo atual com porte competitivo (${c.params_b}B).`;
     } else if (maisLeve) {
-      resumo = `Mais enxuto (${fmtGB(bytesCand)} vs ${fmtGB(bytesTit)}) e alta prioridade técnica para desafiar ${nomeTit || 'o titular'}.`;
+      resumo = `Mais enxuto (${fmtGB(bytesCand)} vs ${fmtGB(bytesTit)}) e alta prioridade técnica para desafiar ${nomeTit || 'o modelo atual'}.`;
     } else {
       resumo = `Forte candidato recente (${c.params_b}B) com potencial real de disputar liderança em ${pap?.rotulo || c.papel}.`;
     }
   } else if (maisRapido || maisLeve) {
     selo = '⚡ Alternativa mais leve/rápida';
     cor = 'estimado';
-    resumo = `Menor porte que ${nomeTit || 'o titular'}, mas útil se quiser economizar VRAM (${fmtGB(bytesCand)}) ou ganhar velocidade (~${fmtTps(c.encaixe.tps_est)} tok/s).`;
+    resumo = `Menor porte que ${nomeTit || 'o modelo atual'}, mas útil se quiser economizar VRAM (${fmtGB(bytesCand)}) ou ganhar velocidade (~${fmtTps(c.encaixe.tps_est)} tok/s).`;
   } else if (pr < 48) {
     selo = '💤 Provavelmente não compensa';
     cor = 'neutro';
     resumo = nomeTit
-      ? `Porte/velocidade abaixo do seu titular atual (${nomeTit}${tpsTit ? ', ' + fmtN(tpsTit, 0) + ' tok/s' : ''}).`
+      ? `Porte/velocidade abaixo do seu modelo atual (${nomeTit}${tpsTit ? ', ' + fmtN(tpsTit, 0) + ' tok/s' : ''}).`
       : `Prioridade baixa (${pr}/100) frente às melhores opções da fila.`;
   } else {
     selo = '🔎 Teste secundário';
     cor = 'neutro';
     resumo = nomeTit
-      ? `Competitivo no papel, mas ${nomeTit} já entrega barra alta (${notaTit != null ? 'nota ' + fmtN(notaTit, 0) : 'titular'}).`
+      ? `Competitivo no papel, mas ${nomeTit} já entrega barra alta (${notaTit != null ? 'nota ' + fmtN(notaTit, 0) : 'o modelo atual'}).`
       : `Candidato intermediário para ${pap?.rotulo || c.papel}.`;
   }
 
   const titularTxt = nomeTit
-    ? `Titular atual (${pap?.rotulo || c.papel}): ${nomeTit} · ${notaTit != null ? 'nota ' + fmtN(notaTit, 0) + ' · ' : ''}${tpsTit ? fmtN(tpsTit, 0) + ' tok/s · ' : ''}${fmtGB(bytesTit)}`
+    ? `Modelo atual (${pap?.rotulo || c.papel}): ${nomeTit} · ${notaTit != null ? 'nota ' + fmtN(notaTit, 0) + ' · ' : ''}${tpsTit ? fmtN(tpsTit, 0) + ' tok/s · ' : ''}${fmtGB(bytesTit)}`
     : null;
 
   return { selo, cor, resumo, titularTxt };
@@ -317,7 +319,7 @@ function botoesDeAcao(c) {
   const rot = fora ? ` em ${maq}` : '';
   if (c.instalado_como) return [h('span', { class: 'chip ok', title: c.instalado_como }, '✔ instalado')];
   return [
-    h('button', { class: 'btn mini primario', title: 'Baixa o modelo e roda o benchmark contra o titular', onclick: async () => { if (await irParaMaquina(maq)) abrirTeste(c.id, c.papel); } }, 'Testar' + rot),
+    h('button', { class: 'btn mini primario', title: 'Baixa o modelo e roda o benchmark contra o modelo atual', onclick: async () => { if (await irParaMaquina(maq)) abrirTeste(c.id, c.papel); } }, 'Testar' + rot),
     h('button', { class: 'btn mini', title: 'Só baixa o modelo (sem medir)', onclick: async () => { if (await irParaMaquina(maq)) abrirInstalar(c.id, c.papel); } }, 'Instalar' + rot)];
 }
 

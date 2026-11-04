@@ -2,7 +2,7 @@
 /* Local Intelligence — painel. Sem dependências e sem rede externa: funciona offline.
    Estrutura: base.js (helpers) · calc.js (motor da calculadora) · calc-ui.js · app-*.js (uma página cada) · este arquivo (estado, tarefas, rotas). */
 
-const ABAS = [['decidir', 'Decidir', 'Decisão'], ['modelos', 'Meus modelos'], ['radar', 'Radar', 'Explorar & Arena'], ['calculadora', 'Calculadora'], ['medir', 'Medir'],
+const ABAS = [['decidir', 'Decidir', 'Decisão'], ['modelos', 'Meus modelos'], ['radar', 'Radar', 'Descobrir e testar'], ['calculadora', 'Calculadora'], ['medir', 'Medir'],
               ['parque', 'Parque', 'Sistema'], ['offline', 'Offline'], ['ajuda', 'Como ler'], ['guias', 'Guias de uso']];
 // No site, o menu começa pelo que funciona online; o que precisa do app baixado fica num grupo próprio.
 const ABAS_PUBLICO = [['radar', 'Radar', 'Descobrir'], ['calculadora', 'Calculadora'], ['guias', 'Guias de uso'], ['ajuda', 'Como ler'],
@@ -90,6 +90,7 @@ async function carregarJobs() {
 }
 async function aoTerminarJob(j) {
   if (j.estado === 'concluido') toast(`✅ ${j.titulo}: concluído`);
+  if (j.estado === 'concluido' && ['bench', 'desafio', 'duelo'].includes(j.tipo) && typeof momentoDeValor === 'function') momentoDeValor('medicao');
   else if (j.estado === 'erro') toast(`❌ ${j.titulo}: ${j.erro}`, 9000);
   else toast(`${j.titulo}: ${j.estado}`);
   await carregarMesa(); await carregarSaude();
@@ -198,8 +199,8 @@ function pAjuda() {
     h('details',{class:'dica-clean guia-detalhes'},h('summary',{},'Detalhes técnicos: notas, margem (±), quantização e glossário'),
     h('h3', {}, 'As três perguntas'),
     h('ol', {}, h('li', {}, h('b', {}, 'Cabe? '), 'O painel calcula, com o tamanho exato do arquivo e a arquitetura do modelo, se ele cabe na máquina e com quanto contexto. Nos seus modelos instalados isso é MEDIDO (aba Medir → Sonda de contexto).'),
-      h('li', {}, h('b', {}, 'É melhor do que o que eu já tenho? '), 'Só um teste responde. “Testar contra o titular” ou “Arena: Duelo Direto (A × B)” baixa, mede nos mesmos itens e compara. Se a diferença não passa do ruído, o veredito é “empate técnico” — e a decisão racional é manter o que já está instalado.'),
-      h('li', {}, h('b', {}, 'O que eu apago? '), 'O painel mostra quem não se justifica: pior que o titular, dominados por um menor e mais rápido, ou que só “lidera” por empate com um modelo bem menor (custo-benefício). “Aposentar” apaga, passa as funções a um herdeiro e guarda as notas em Meus modelos → Aposentados.')),
+      h('li', {}, h('b', {}, 'É melhor do que o que eu já tenho? '), 'Só um teste responde. “Testar contra o modelo atual” ou “Duelo (A × B)” baixa, mede nos mesmos itens e compara. Se a diferença não passa do ruído, o veredito é “empate técnico” — e a decisão racional é manter o que já está instalado.'),
+      h('li', {}, h('b', {}, 'O que eu apago? '), 'O painel mostra quem não se justifica: pior que o modelo atual, dominados por um menor e mais rápido, ou que só “lidera” por empate com um modelo bem menor (custo-benefício). “Aposentar” apaga, passa as funções a um herdeiro e guarda as notas em Meus modelos → Aposentados.')),
     h('h3', {}, 'Os três selos'),
     h('dl', {}, h('dt', {}, 'MEDIDO'), h('dd', {}, 'Rodou aqui, na sua GPU, no protocolo v2, com os mesmos itens para todos. Tem intervalo de confiança (±).'),
       h('dt', {}, 'ESTIMADO'), h('dd', {}, 'Conta de memória e velocidade usando o tamanho real dos arquivos e a configuração do modelo. Em máquinas sem GPU a velocidade vale ±2×.'),
@@ -213,7 +214,7 @@ function pAjuda() {
     h('h3', {}, 'Quando sair um modelo novo daqui a 2 meses'),
     h('ol', {}, h('li', {}, 'A vigia semanal (ou o botão “Varrer de novo” no Radar) detecta lançamentos dos laboratórios que você acompanha e mostra “NOVO” com a data.'),
       h('li', {}, 'O painel diz em quais máquinas ele cabe e em qual quantização — e você pode escolher outra no explorador de quantizações.'),
-      h('li', {}, 'Clique em “Testar contra o titular”: o mesmo protocolo mede o novato — e a comparação com o titular é imediata, sem refazer nada.'),
+      h('li', {}, 'Clique em “Testar contra o modelo atual”: o mesmo protocolo mede o novato — e a comparação com o modelo atual é imediata, sem refazer nada.'),
       h('li', {}, 'Promova só nas funções em que ele ganhou e aposente quem sobrou sem função. O histórico de trocas fica registrado.')),
     h('h3', {}, 'Glossário rápido'),
     h('dl', {}, h('dt', {}, 'Quantização (Q4_K_M, IQ3_S…)'), h('dd', {}, 'Compressão dos pesos. Q4 é o padrão: perda pequena com ~1/4 do tamanho. Abaixo de 3 bits por peso a qualidade cai de forma perceptível — prefira um modelo menor em Q4.'),
@@ -246,6 +247,8 @@ async function iniciar() {
   try { const a = sessionStorage.getItem('li-alvo') || ''; if (a && (S.maquinas.remotas || []).some(m => m.id === a)) { LI.alvo = a; S.filtroRadar.maquina = a; desenharAlvo(); desenharBannerAlvo(); } } catch (e) { /* ok */ }
   desenharAbas();
   await Promise.all([carregarSaude(), carregarMesa(), carregarJobs()]);
+  // Primeira vez (nenhum modelo instalado): começa pelo Radar, que mostra o que baixar; o Decidir só faz sentido com modelos.
+  if (!abaDoHash() && !window.LI_PUBLIC_MODE && S.mesa && !(S.mesa.instalados || []).length) S.aba = 'radar';
   desenharStatus();
   desenhar();
   setInterval(async () => { await carregarJobs(); if (S.aba === 'medir') desenharJobsMedir(); }, 2000);

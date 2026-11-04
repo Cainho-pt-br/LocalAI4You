@@ -211,7 +211,7 @@ def construir_itens(maximo: int = 18) -> List[dict]:
 
 # ------------------------------------------------------------------ teste "leve" de visão: o que um modelo pequeno (Moondream & cia.) realmente faz
 # Imagens simples, perguntas curtas em inglês (modelos pequenos são fracos em português), resposta de uma palavra ou número.
-# Uma categoria bate com o uso real do Caio: contar sementes numa bandeja escura quadriculada (o detector clássico do CAIOSNET faz isso).
+# Uma categoria vem de um uso real: contar sementes numa bandeja escura quadriculada.
 
 _CORES = {"red": (220, 40, 40), "green": (40, 170, 60), "blue": (40, 80, 220), "yellow": (240, 210, 30),
           "orange": (245, 140, 20), "purple": (140, 60, 180)}

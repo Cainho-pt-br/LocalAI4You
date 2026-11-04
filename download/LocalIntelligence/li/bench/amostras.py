@@ -217,7 +217,7 @@ def _ids_unicos(dado: dict) -> dict:
     return dado
 
 
-FOTOS = DADOS / "fotos-visao"   # fotos reais do Caio + gabarito.json (ver visao_gerador.itens_fotos)
+FOTOS = DADOS / "fotos-visao"   # fotos reais (opcionais) + gabarito.json (ver visao_gerador.itens_fotos)
 
 
 def itens_do_nivel(suite: str, nivel: str) -> List[dict]:

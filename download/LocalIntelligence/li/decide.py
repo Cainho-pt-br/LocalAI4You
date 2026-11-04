@@ -485,7 +485,7 @@ def dispensaveis(instalados: List[dict], ranking: Dict[str, List[dict]]) -> List
                 if ctx_s > ctx_m:
                     ganhos.append(f"mais contexto GPU ({ctx_s}k vs {ctx_m}k)")
                 resumo_curto = f"Substituído com vantagem por {sub_principal}" + (f": {', '.join(ganhos)}" if ganhos else "")
-            partes = ([resumo_curto] if resumo_curto else []) + ([f"inferior ao titular em {len(piores)} função(ões)"] if piores else []) + sorted(set(dominados))[:2]
+            partes = ([resumo_curto] if resumo_curto else []) + ([f"pior que o modelo atual em {len(piores)} uso(s)"] if piores else []) + sorted(set(dominados))[:2]
             out.append({
                 "modelo": m["id"],
                 "bytes": m["bytes"],
@@ -693,7 +693,7 @@ def _resumo_radar(snap: Optional[dict]) -> dict:
         return {"existe": False}
     n = scout.novidades(snap)
     return {"existe": True, "criado": snap["criado"], "total": snap["total"], "fontes": snap["fontes"],
-            "idade_dias": round(dias_desde(snap["criado"]) or 0, 1), "novidades": n}
+            "idade_dias": round(dias_desde(snap["criado"]) or 0, 1), "novidades": n, "embutido": bool(snap.get("embutido"))}
 
 
 def _acoes(inst, atuais, sug, desafiantes, vs, snap, ranking) -> List[dict]:
@@ -714,7 +714,7 @@ def _acoes(inst, atuais, sug, desafiantes, vs, snap, ranking) -> List[dict]:
     if top:
         acoes.append({"tipo": "testar", "prioridade": 2, "titulo": f"Vale testar {top['nome']} ({papeis.POR_ID[top['papel']]['rotulo']})",
                       "detalhe": f"Prioridade {top['prioridade']['pontos']}/100 · cabe com {top['encaixe']['variante']['quant']} ({fmt_gb(top['encaixe']['variante']['bytes'])}) · baixar só para testar",
-                      "botao": "Testar contra o titular", "dados": {"candidato": top["id"], "papel": top["papel"]}})
+                      "botao": "Testar contra o modelo atual", "dados": {"candidato": top["id"], "papel": top["papel"]}})
     disp = dispensaveis(inst, ranking)
     if disp:
         tot = sum(d["bytes"] for d in disp)
@@ -731,18 +731,18 @@ def _acoes(inst, atuais, sug, desafiantes, vs, snap, ranking) -> List[dict]:
 
 def _manchete(acoes: List[dict], inst: List[dict]) -> dict:
     if not inst:
-        return {"nivel": "aviso", "texto": "O Ollama está desligado ou sem modelos. Ligue-o para ver a esquadra."}
+        return {"nivel": "aviso", "texto": "O Ollama está desligado ou sem modelos. Abra o Ollama e baixe um modelo para começar (o Radar mostra quais cabem aqui)."}
     tipos = {a["tipo"] for a in acoes}
     if "decidir" in tipos:
         return {"nivel": "acao", "texto": "Você tem um teste concluído esperando decisão."}
     if "medir" in tipos:
         n = len(next(a for a in acoes if a["tipo"] == "medir")["dados"]["modelos"])
-        return {"nivel": "acao", "texto": f"Falta medir {n} modelo(s): sem isso a esquadra ainda não tem nota confiável."}
+        return {"nivel": "acao", "texto": f"Falta medir {n} modelo(s): sem isso os seus modelos ainda não têm nota confiável."}
     if "radar" in tipos:
         return {"nivel": "acao", "texto": "O radar de modelos precisa de uma varredura para saber o que existe hoje."}
     if "testar" in tipos:
-        return {"nivel": "info", "texto": "Esquadra medida e em dia — e há um desafiante que vale o teste."}
-    return {"nivel": "ok", "texto": "Tudo em dia: esquadra medida, radar recente e nenhum desafiante que valha o download agora."}
+        return {"nivel": "info", "texto": "Seus modelos estão medidos — e há um modelo novo que vale o teste."}
+    return {"nivel": "ok", "texto": "Tudo em dia: modelos medidos, radar recente e nenhum modelo novo que valha o download agora."}
 
 
 # ------------------------------------------------------------------ recomendações do parque inteiro

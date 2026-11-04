@@ -73,27 +73,27 @@ function pDecidir() {
 
   const comandoBar = h('div', { class: 'decidir-cmd-grid' },
     h('div', { class: 'decidir-kpi-card kpi-campeao', onclick: () => campeao && detalheModelo(campeao.id), style: 'cursor:pointer', title: 'Clique para inspecionar métricas completas do líder atual' },
-      h('div', { class: 'kpi-top' }, h('span', { class: 'kpi-tag' }, '👑 Líder Geral da Esquadra'), campeao?.indice_pratico ? chip(`⚡ Índice ${fmtN(campeao.indice_pratico.total, 1)}`, 'ok') : null),
+      h('div', { class: 'kpi-top' }, h('span', { class: 'kpi-tag' }, '👑 Melhor modelo no geral'), campeao?.indice_pratico ? chip(`⚡ Índice ${fmtN(campeao.indice_pratico.total, 1)}`, 'ok') : null),
       h('div', { class: 'kpi-main' }, campeao ? nomeAmigavelModelo(campeao.id) : '—'),
       h('div', { class: 'kpi-sub' }, campeao ? `${campeao.medido?.tps_mediana ? fmtN(campeao.medido.tps_mediana, 0) + ' tok/s · ' : ''}${fmtGB(campeao.bytes)} · ${fmtCtx(campeao.sonda?.ctx_max_gpu || campeao.ctx_por_kv?.q8_0?.ctx_max)} GPU` : 'Nenhum modelo medido')),
     h('div', { class: 'decidir-kpi-card kpi-liberar', onclick: () => {
       const el = document.getElementById('sec-substituir');
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, style: dispAtivos.length ? 'cursor:pointer' : '' },
-      h('div', { class: 'kpi-top' }, h('span', { class: 'kpi-tag' }, '🧹 Otimização & Espaço'), dispAtivos.length ? chip(`${dispAtivos.length} substituível(is)`, 'warn') : chip('Esquadra enxuta', 'ok')),
+      h('div', { class: 'kpi-top' }, h('span', { class: 'kpi-tag' }, '🧹 Otimização & Espaço'), dispAtivos.length ? chip(`${dispAtivos.length} substituível(is)`, 'warn') : chip('Sem sobras', 'ok')),
       h('div', { class: 'kpi-main' }, dispAtivos.length ? `Liberar ${fmtGB(espacoLiberavel)}` : '0 GB redundantes'),
       h('div', { class: 'kpi-sub' }, dispAtivos.length ? `Cobertos com vantagem por ${nomeAmigavelModelo(dispAtivos[0].substituto || campeao?.id)}` : (dispMantidos.length ? `${dispMantidos.length} modelo(s) mantido(s) por você` : 'Nenhum modelo superado no disco'))),
     h('div', { class: 'decidir-kpi-card kpi-desaf', onclick: () => topDesaf ? abrirTeste(topDesaf.id, topDesaf.papel) : irPara('radar'), style: 'cursor:pointer' },
       h('div', { class: 'kpi-top' }, h('span', { class: 'kpi-tag' }, '🔭 Desafiante no Radar'), topDesaf ? chip(`prio ${topDesaf.prioridade.pontos}/100`, 'prioridade') : chip('Em dia', 'neutro')),
       h('div', { class: 'kpi-main' }, topDesaf ? nomeAmigavelModelo(topDesaf.nome) : 'Explorar Radar'),
-      h('div', { class: 'kpi-sub' }, topDesaf ? `${topDesaf.encaixe?.variante?.quant || ''} · ${fmtGB(topDesaf.encaixe?.variante?.bytes || 0)} · Testar contra titular ▸` : 'Ver lançamentos dos últimos 9 meses ▸')),
+      h('div', { class: 'kpi-sub' }, topDesaf ? `${topDesaf.encaixe?.variante?.quant || ''} · ${fmtGB(topDesaf.encaixe?.variante?.bytes || 0)} · Testar contra o atual ▸` : 'Ver lançamentos dos últimos 9 meses ▸')),
     h('div', { class: 'decidir-kpi-card kpi-update' },
       h('div', { class: 'kpi-top' }, h('span', { class: 'kpi-tag' }, '🔄 Manutenção Contínua'), chip(`${inst.length} instalados`, 'neutro')),
       h('div', { class: 'kpi-main' }, 'Atualizar & Varrer'),
       h('div', { class: 'linha', style: 'justify-content:flex-start;gap:6px;margin-top:4px' },
         h('button', { class: 'btn mini primario', title: 'Executa ollama pull em todos os modelos instalados para buscar pesos atualizados', onclick: () => atualizarModelosInstalados() }, '↻ Atualizar atuais'),
         h('button', { class: 'btn mini', title: 'Varre Ollama e Hugging Face por novos modelos', onclick: () => varrer(true) }, '🔭 Varrer Radar'),
-        h('button', { class: 'btn mini fantasma', onclick: () => { irPara('modelos'); setTimeout(() => document.getElementById('sec-arena')?.scrollIntoView({ behavior: 'smooth' }), 80); } }, '⚔ Arena A×B'))));
+        h('button', { class: 'btn mini fantasma', onclick: () => { irPara('modelos'); setTimeout(() => document.getElementById('sec-arena')?.scrollIntoView({ behavior: 'smooth' }), 80); } }, '⚔ Duelo A×B'))));
 
   const acoesVisiveis = (m.acoes || []).filter(a => !(a.tipo === 'limpar' && !dispAtivos.length));
 
@@ -101,9 +101,9 @@ function pDecidir() {
     h('div', { class: 'pagina-topo' },
       h('div', { class: 'linha topo' },
         h('div', {},
-          h('div', { class: 'eyebrow-tech' }, 'LOCAL INTELLIGENCE // COMMAND CENTER'),
+          h('div', { class: 'eyebrow-tech' }, 'LOCAL AI SEARCH · SEUS MODELOS'),
           h('h1', {}, 'Decidir'),
-          h('p', { class: 'sub' }, 'Visão executiva da sua esquadra: quem lidera cada função, quem pode ser aposentado com ganho de velocidade e quem vale desafiar.')),
+          h('p', { class: 'sub' }, 'O resumo dos seus modelos: qual é o melhor para cada uso, qual pode ser apagado sem perda e qual modelo novo vale testar.')),
         oculto ? h('button', { class: 'btn mini', onclick: () => definirMancheteOculta(m, false) }, `Mostrar avisos (${acoesVisiveis.length})`) : null)),
     comandoBar,
     !oculto && acoesVisiveis.length ? h('div', { class: 'hero n-' + m.manchete.nivel, style: 'position:relative;margin-top:16px' },
@@ -120,15 +120,15 @@ function pDecidir() {
           h('button', { class: 'btn mini primario', onclick: () => { definirAlertaOculto(m.alerta, true); irPara('radar'); } }, 'Ver no radar'),
           h('button', { class: 'btn mini fantasma', onclick: () => definirAlertaOculto(m.alerta, true) }, '✕ Dispensar')))) : null,
     pend.length ? [titulo('Vereditos concluídos aguardando decisão', 'Compare os números medidos antes de promover ou descartar.'), h('div', { class: 'grade g2' }, pend.map(cartaoVeredito))] : null,
-    titulo('1. Esquadra Titular por Função (Duelo contra o Modelo Atual)', 'Clique em qualquer função para comparar com os números já conhecidos do titular atual ou testar um desafiante.',
-      h('button', { class: 'btn mini', onclick: () => { irPara('modelos'); setTimeout(() => document.getElementById('sec-arena')?.scrollIntoView({ behavior: 'smooth' }), 80); } }, '⚔ Ir para Arena Livre (A × B)')),
+    titulo('1. O melhor modelo para cada uso', 'Clique em um uso para ver as notas do modelo atual ou testar um modelo novo contra ele.',
+      h('button', { class: 'btn mini', onclick: () => { irPara('modelos'); setTimeout(() => document.getElementById('sec-arena')?.scrollIntoView({ behavior: 'smooth' }), 80); } }, '⚔ Fazer um duelo (A × B)')),
     h('div', { class: 'grade g3' }, m.papeis.map(p => cartaoPapel(p, m))),
     dispAtivos.length ? [
        h('div', { id: 'sec-substituir' }, titulo('2. Sugestões de Aposentadoria e Substituição', 'Modelos que empatam ou perdem em nota para outro já instalado, mas são mais lentos ou ocupam mais VRAM/disco.')),
       h('div', { class: 'grade g2' }, dispAtivos.map(d => cartaoSubstituicao(d, m, papeisNota)))
     ] : null,
     dispMantidos.length ? h('details', { class: 'dica-clean', style: 'margin-top:14px' },
-      h('summary', {}, `✓ Você escolheu manter ${dispMantidos.length} modelo(s) na esquadra (${dispMantidos.map(d => nomeAmigavelModelo(d.modelo)).join(', ')})`),
+      h('summary', {}, `✓ Você escolheu manter ${dispMantidos.length} modelo(s) que você quis guardar (${dispMantidos.map(d => nomeAmigavelModelo(d.modelo)).join(', ')})`),
       h('div', { class: 'linha', style: 'justify-content:flex-start;gap:8px;margin-top:8px;flex-wrap:wrap' },
         dispMantidos.map(d => h('div', { class: 'chip neutro', style: 'display:inline-flex;align-items:center;gap:6px;padding:4px 10px' },
           h('b', {}, nomeAmigavelModelo(d.modelo)),
@@ -138,7 +138,7 @@ function pDecidir() {
       h('summary', {}, 'Legenda dos selos de evidência (MEDIDO, ESTIMADO, PRIORIDADE) e Histórico de Trocas'),
       legendaSelos(),
       (m.historico || []).length ? h('div', { style: 'margin-top:12px;padding-top:10px;border-top:1px solid var(--line)' },
-        h('b', { style: 'font-size:.82rem;color:var(--text)' }, 'Últimas trocas de titular:'),
+        h('b', { style: 'font-size:.82rem;color:var(--text)' }, 'Últimas trocas de modelo:'),
         [...m.historico].reverse().slice(0, 8).map(x =>
           h('div', { class: 'sub', style: 'font-size:.8rem;margin-top:3px' }, `${x.quando.slice(0, 10)} · ${papelPorId(x.papel)?.rotulo || x.papel}: ${nomeAmigavelModelo(x.de) || '—'} → ${nomeAmigavelModelo(x.para)} (${x.motivo || ''})`))) : null));
 }
@@ -167,7 +167,7 @@ function cartaoSubstituicao(d, m, papeisNota) {
         h('button', {
           class: 'btn mini',
           title: 'Quero continuar com este modelo e ocultar esta sugestão de aposentadoria',
-          onclick: () => { alternarManterModelo(d.modelo); toast(`✔ ${nomeAnt} mantido na esquadra (sugestão ocultada).`); pDecidir(); }
+          onclick: () => { alternarManterModelo(d.modelo); toast(`✔ ${nomeAnt} mantido (sugestão ocultada).`); pDecidir(); }
         }, '✓ Manter modelo'),
         h('button', { class: 'btn perigo mini', onclick: () => confirmarAposentar(d) }, 'Aposentar…'))),
     modSub ? h('div', { class: 'sub-vs-box' },
@@ -177,7 +177,7 @@ function cartaoSubstituicao(d, m, papeisNota) {
         h('span', {}, `${mediaAnt != null ? fmtN(mediaAnt, 1) + ' pts' : '—'} · ${tpsAnt ? fmtN(tpsAnt, 0) + ' tok/s' : '—'} · ${fmtGB(d.bytes)}`)),
       h('div', { class: 'sub-vs-arrow' }, ratioVel && ratioVel >= 1.2 ? `⚡ ${fmtN(ratioVel, 1)}×` : '➔'),
       h('div', { class: 'sub-vs-col ok' },
-        h('small', {}, 'Substituto Superior na Esquadra'),
+        h('small', {}, 'Substituto melhor entre os seus'),
         h('b', {}, '👑 ' + nomeSub, qSub ? ` (${qSub})` : ''),
         h('span', {}, `${mediaSub != null ? fmtN(mediaSub, 1) + ' pts' : '—'} · ${tpsSub ? fmtN(tpsSub, 0) + ' tok/s' : '—'} · ${fmtGB(modSub.bytes)}`))) : null,
     h('p', { class: 'sub', style: 'font-size:.81rem;margin:6px 0 0;line-height:1.45' },
@@ -209,7 +209,7 @@ function cartaoPapel(p, m) {
 
   let notaEl = null;
   let subMetricas = 'Ainda não medido';
-  let badgeTitular = chip('Sem titular', 'neutro');
+  let badgeTitular = chip('Sem modelo', 'neutro');
 
   if (p.sem_nota) {
     const comVisao = m.instalados.filter(x => (x.caps || []).includes('vision'));
@@ -243,7 +243,7 @@ function cartaoPapel(p, m) {
       h('span', { class: 'txt-desaf' }, ehDesafDispensado ? '⚪ ' : '⚡ ', h('b', {}, nomeDesaf), ehDesafDispensado ? ' (dispensado)' : ''),
       chip(`prio ${desaf.prioridade.pontos}`, ehDesafDispensado ? 'neutro' : 'prioridade'));
   } else {
-    desafEl = h('div', { class: 'sub', style: 'font-size:.78rem;color:var(--muted)' }, '✓ Esquadra atualizada');
+    desafEl = h('div', { class: 'sub', style: 'font-size:.78rem;color:var(--muted)' }, '✓ Nada novo para testar');
   }
 
   return h('div', {
@@ -314,7 +314,7 @@ function abrirPainelPapel(p, m) {
     cartaoTitular = h('div', { class: 'cartao', style: 'border-left:4px solid var(--ok);display:flex;flex-direction:column;gap:8px' },
       h('div', { class: 'linha' },
         h('div', {},
-          h('span', { class: 'sub', style: 'font-size:.76rem;text-transform:uppercase;font-weight:700' }, 'Titular atual'),
+          h('span', { class: 'sub', style: 'font-size:.76rem;text-transform:uppercase;font-weight:700' }, 'Modelo atual'),
           h('h3', {}, '👑 ' + nomeLimpo, quantLimpa ? [' ', chip(quantLimpa, 'neutro')] : null)),
         CHIP_MEDIDO()),
       h('div', { class: 'nota ' + notaClasse(med.nota), style: 'margin:2px 0' },
@@ -337,7 +337,7 @@ function abrirPainelPapel(p, m) {
         h('button', { class: 'btn mini fantasma', onclick: () => iniciarBench([inst.id], 'padrao') }, 'Remedir')));
   } else if (inst) {
     cartaoTitular = h('div', { class: 'cartao' },
-      h('h3', {}, 'Titular: ' + nomeAmigavelModelo(inst.id)),
+      h('h3', {}, 'Modelo atual: ' + nomeAmigavelModelo(inst.id)),
       h('p', { class: 'sub' }, 'Instalado, sem medição neste protocolo.'),
       h('button', { class: 'btn mini primario', onclick: () => iniciarBench([inst.id], 'padrao') }, 'Medir agora'));
   } else {
@@ -365,7 +365,7 @@ function abrirPainelPapel(p, m) {
       h('p', { class: 'sub', style: 'font-size:.82rem;margin:2px 0' }, desaf.prioridade.razoes.slice(0, 2).join(' · ')),
       h('div', { class: 'linha', style: 'justify-content:space-between;margin-top:auto;padding-top:8px;gap:6px;flex-wrap:wrap' },
         h('div', { class: 'linha', style: 'gap:6px' },
-          h('button', { class: 'btn primario mini', onclick: () => abrirTeste(desaf.id, p.id) }, 'Testar contra titular'),
+          h('button', { class: 'btn primario mini', onclick: () => abrirTeste(desaf.id, p.id) }, 'Testar contra o atual'),
           h('button', { class: 'btn mini', onclick: () => abrirQuants(desaf.id, p.id, S.mesa?.boss?.id) }, 'Outras quants'),
           ...linksDoCandidato(desaf).slice(0, 1)),
         h('button', {
@@ -398,10 +398,10 @@ function abrirPainelPapel(p, m) {
           const titRow = rank.find(r => r.titular);
           let chipVs = null;
           if (x.vs_titular) {
-            let txtV = { superior: 'melhor que titular', inferior: 'pior', empate: 'empate técnico' }[x.vs_titular.veredito];
+            let txtV = { superior: 'melhor que o atual', inferior: 'pior', empate: 'empate técnico' }[x.vs_titular.veredito];
             let corV = { superior: 'ok', inferior: 'bad', empate: 'neutro' }[x.vs_titular.veredito];
             if (x.vs_titular.veredito === 'empate' && titRow && titRow.tps && x.tps && titRow.tps >= x.tps * 1.35) {
-              txtV = `empate em nota (titular é ${fmtN(titRow.tps / x.tps, 1)}× mais veloz)`;
+              txtV = `empate em nota (o atual é ${fmtN(titRow.tps / x.tps, 1)}× mais veloz)`;
             }
             chipVs = chip(txtV, corV);
           }
@@ -451,11 +451,11 @@ function cartaoVeredito(v) {
   const ehDuelo = v.tipo === 'duelo' || !!v.adversario || String(v.id || '').startsWith('duelo-');
   const rec = { promover: ['Vantagem clara', 'ok'], eficiencia: ['Vantagem por eficiência', 'ok'], descartar: ['Inferior', 'bad'], manter: ['Empate técnico', 'warn'] }[v.recomendacao] || ['—', 'neutro'];
   const nomeA = nomeAmigavelModelo(v.candidato?.id || v.candidato?.nome);
-  const nomeB = ehDuelo ? nomeAmigavelModelo(v.adversario?.id) : 'Esquadra Titular';
+  const nomeB = ehDuelo ? nomeAmigavelModelo(v.adversario?.id) : 'Modelos atuais';
   return h('div', { class: 'cartao' },
     h('div', { class: 'linha topo' },
       h('div', { class: 'quebra' },
-        h('span', { class: 'kpi-tag' }, ehDuelo ? '⚔ Resultado de Batalha A × B' : '🎯 Teste contra Titulares'),
+        h('span', { class: 'kpi-tag' }, ehDuelo ? '⚔ Resultado de Batalha A × B' : '🎯 Testar contra os atuais'),
         h('h3', { style: 'margin-top:2px' }, ehDuelo ? `${nomeA} × ${nomeB}` : v.candidato.nome)),
       chip(rec[0], rec[1])),
     h('p', { style: 'margin-top:8px;font-size:.9rem' }, (v.resumo || '').replaceAll(v.candidato?.id || '__none__', nomeA).replaceAll(v.adversario?.id || '__none__', nomeB)),
@@ -468,7 +468,7 @@ function abrirVeredito(v) {
   const idA = v.candidato?.id || v.candidato?.nome || 'Modelo A';
   const idB = v.adversario?.id || null;
   const nomeA = nomeAmigavelModelo(idA);
-  const nomeB = idB ? nomeAmigavelModelo(idB) : 'Titular da Função';
+  const nomeB = idB ? nomeAmigavelModelo(idB) : 'Modelo atual';
 
   const instA = (S.mesa?.instalados || []).find(x => x.id === idA);
   const instB = idB ? (S.mesa?.instalados || []).find(x => x.id === idB) : null;
@@ -485,14 +485,14 @@ function abrirVeredito(v) {
     const cor = { superior: 'ok', inferior: 'bad', empate: 'neutro' }[r.veredito];
     const txt = ehDuelo
       ? ({ superior: `${nomeA} venceu`, inferior: `${nomeB} venceu`, empate: 'empate técnico' }[r.veredito] + (r.veredito === 'empate' && r.eficiencia ? ` (${nomeA} mais veloz/leve)` : ''))
-      : ({ superior: 'melhor que titular', inferior: 'pior que titular', empate: 'empate técnico' }[r.veredito] + (r.eficiencia ? ' (mas menor/mais rápido)' : ''));
+      : ({ superior: 'melhor que o atual', inferior: 'pior que o atual', empate: 'empate técnico' }[r.veredito] + (r.eficiencia ? ' (mas menor/mais rápido)' : ''));
     const rotB = ehDuelo ? '' : h('span', { class: 'sub' }, ' (' + nomeAmigavelModelo(r.titular) + ')');
     return h('tr', {},
       h('td', {}, p?.icone + ' ' + (p?.rotulo || pid)),
       h('td', { class: 'num' }, h('b', {}, fmtN(r.nota_novo, 1))),
       h('td', { class: 'num' }, fmtN(r.nota_titular, 1), rotB),
       h('td', { class: 'num' }, (r.dif > 0 ? '+' : '') + fmtN(r.dif, 1), h('div', { class: 'sub' }, `IC ${fmtN(r.ic[0], 1)} a ${fmtN(r.ic[1], 1)}`)),
-      h('td', {}, chip(txt, cor), h('div', { class: 'sub' }, `só ${nomeA}: ${r.so_novo} · só ${ehDuelo ? nomeB : 'titular'}: ${r.so_titular}`)));
+      h('td', {}, chip(txt, cor), h('div', { class: 'sub' }, `só ${nomeA}: ${r.so_novo} · só ${ehDuelo ? nomeB : 'o atual'}: ${r.so_titular}`)));
   });
 
   const painelFisicoDuelo = ehDuelo ? h('div', { class: 'duelo-head-vs' },
@@ -516,20 +516,20 @@ function abrirVeredito(v) {
         bytesB ? h('span', {}, h('b', {}, fmtGB(bytesB))) : null))) : null;
 
   const venceu = Object.values(v.por_papel).some(r => r.veredito === 'superior' || (r.veredito === 'empate' && r.eficiencia));
-  const colsCab = ehDuelo ? ['Função', nomeA, nomeB, 'Diferença (A − B)', 'Resultado Pareado'] : ['Função', nomeA + ' (Novo)', 'Titular Atual', 'Diferença', 'Veredito'];
+  const colsCab = ehDuelo ? ['Função', nomeA, nomeB, 'Diferença (A − B)', 'Resultado Pareado'] : ['Função', nomeA + ' (Novo)', 'Modelo atual', 'Diferença', 'Veredito'];
 
   abrirDialogo(h('div', { class: 'dlg-in', style: 'max-width:860px' },
     h('div', { class: 'linha topo' },
       h('div', {},
         h('span', { class: 'eyebrow-tech' }, ehDuelo ? 'ARENA // BATALHA DIRETA A × B' : 'DESAFIO // CONTRA ESQUADRA TITULAR'),
-        h('h2', {}, ehDuelo ? `${nomeA} × ${nomeB}` : `${nomeA} contra os titulares atuais`)),
+        h('h2', {}, ehDuelo ? `${nomeA} × ${nomeB}` : `${nomeA} contra os modelos atuais`)),
       h('button', { class: 'btn mini fantasma', onclick: fecharDialogo }, '✕ Fechar')),
     painelFisicoDuelo,
     h('p', {}, (v.resumo || '').replaceAll(idA, nomeA).replaceAll(idB || '__none__', nomeB)),
     h('div', { class: 'tabela-wrap' }, h('table', {}, h('thead', {}, h('tr', {}, colsCab.map((t, i) => h('th', { class: i >= 1 && i <= 3 ? 'num' : '' }, t)))), h('tbody', {}, linhas))),
     h('div', { class: 'info-caixa' }, 'Critério estatístico: uma vitória só é declarada quando o Intervalo de Confiança (IC 90%) da diferença não cruza zero e supera 3 pontos. Quando há empate técnico em conhecimento, a velocidade (tok/s), o tamanho em GB e o teto de contexto na GPU definem o vencedor prático.'),
     v.pendente ? h('div', { class: 'dlg-acoes' },
-      h('button', { class: 'btn', onclick: () => resolver(v, 'manter') }, ehDuelo ? 'Concluir e arquivar batalha' : 'Manter titulares atuais (guardar resultado)'),
+      h('button', { class: 'btn', onclick: () => resolver(v, 'manter') }, ehDuelo ? 'Concluir e arquivar batalha' : 'Manter os modelos atuais (guardar resultado)'),
       venceu ? h('button', { class: 'btn primario', onclick: () => resolver(v, 'promover') }, ehDuelo ? `Promover ${nomeA} onde venceu` : 'Promover nas funções em que ganhou') : null,
       !ehDuelo ? h('button', { class: 'btn perigo', onclick: () => { if (confirm(`Apagar ${v.candidato.id} do disco (${fmtGB(v.candidato.bytes)})?`)) resolver(v, 'descartar', true); } }, 'Descartar e apagar') : null)
       : h('div', { class: 'sub' }, 'Veredito arquivado (' + (v.resolvido?.acao || 'concluído') + ')'),
@@ -585,7 +585,7 @@ async function varrer(forcar) {
   try { await api('/api/radar/varrer', { forcar }); toast('Varredura iniciada.'); await carregarJobs(); } catch (e) { toast(e.message, 8000); }
 }
 
-// ---------------------------------------------------------------- testar desafiante (com a quantização que o Caio escolher)
+// ---------------------------------------------------------------- testar desafiante (com a quantização que a pessoa escolher)
 async function abrirTeste(candId, papel, pull, maquinaId) {
   let pl;
   try { pl = await api(`/api/plano?candidato=${encodeURIComponent(candId)}&papel=${encodeURIComponent(papel || '')}` + (pull ? `&pull=${encodeURIComponent(pull)}` : '')); } catch (e) { toast(e.message, 9000); return; }
@@ -611,7 +611,7 @@ async function abrirTeste(candId, papel, pull, maquinaId) {
   ok.addEventListener('change', () => { ir.disabled = !ok.checked || !pl.cabe_no_disco; });
 
   abrirDialogo(h('div', { class: 'dlg-in' },
-    h('h2', {}, 'Testar ' + pl.candidato), h('p', { class: 'sub' }, 'O teste NÃO troca nada sozinho: no fim você vê a comparação com o titular e decide.'),
+    h('h2', {}, 'Testar ' + pl.candidato), h('p', { class: 'sub' }, 'O teste NÃO troca nada sozinho: no fim você vê a comparação com o modelo atual e decide.'),
     h('dl', { class: 'kv' },
       h('dt', {}, 'Download'), h('dd', {}, `${pl.tamanho} (${pl.quant}) via ${pl.origem}` + (pull ? ' — quantização escolhida por você' : '') + (pl.ja_instalado ? ' — já instalado, só mede' : '')),
       h('dt', {}, 'Comando'), h('dd', {}, h('code', {}, 'ollama pull ' + pl.pull)),
@@ -639,7 +639,7 @@ async function abrirInstalar(candId, papel, pull) {
   } }, 'Baixar');
   ok.addEventListener('change', () => { ir.disabled = !ok.checked || !pl.cabe_no_disco || pl.ja_instalado; });
   abrirDialogo(h('div', { class: 'dlg-in' },
-    h('h2', {}, 'Instalar ' + pl.candidato), h('p', { class: 'sub' }, 'Só baixa o modelo. Nada é medido nem trocado: quando quiser saber se ele é melhor, use “Testar contra o titular”.'),
+    h('h2', {}, 'Instalar ' + pl.candidato), h('p', { class: 'sub' }, 'Só baixa o modelo. Nada é medido nem trocado: quando quiser saber se ele é melhor, use “Testar contra o modelo atual”.'),
     h('dl', { class: 'kv' },
       h('dt', {}, 'Máquina'), h('dd', {}, nomeAlvo()),
       h('dt', {}, 'Download'), h('dd', {}, `${pl.tamanho} (${pl.quant}) via ${pl.origem}` + (pl.ja_instalado ? ' — já está instalado' : '')),
@@ -663,7 +663,7 @@ function confirmarAposentar(d) {
       const r = await api('/api/aposentar', { modelo: d.modelo, confirmo: true, herdeiros: d.herdeiros || {}, motivo: d.motivo || 'escolha manual' });
       await carregarMesa(); desenhar();
       abrirDialogo(h('div', { class: 'dlg-in' }, h('h2', {}, '✔ ' + d.modelo + ' aposentado'),
-        h('p', {}, `Liberou ${fmtGB(r.liberou_bytes)} do disco.` + (Object.keys(r.herdeiros || {}).length ? ' Funções que mudaram de titular: ' + Object.entries(r.herdeiros).map(([pid, mid]) => `${papelPorId(pid)?.rotulo} → ${mid}`).join('; ') + '.' : '')),
+        h('p', {}, `Liberou ${fmtGB(r.liberou_bytes)} do disco.` + (Object.keys(r.herdeiros || {}).length ? ' Usos que mudaram de modelo: ' + Object.entries(r.herdeiros).map(([pid, mid]) => `${papelPorId(pid)?.rotulo} → ${mid}`).join('; ') + '.' : '')),
         h('div', { class: 'info-caixa' }, 'As notas medidas ficam guardadas em ', h('b', {}, 'Meus modelos → Aposentados'), '. Se você baixar o mesmo arquivo de novo, elas voltam a valer sem medir outra vez.'),
         h('div', { class: 'dlg-acoes' }, h('button', { class: 'btn', onclick: () => { fecharDialogo(); irPara('modelos'); } }, 'Ver em Aposentados'), h('button', { class: 'btn primario', onclick: fecharDialogo }, 'Fechar'))));
     } catch (e) { bt.disabled = false; aviso.replaceChildren(h('div', { class: 'aviso-caixa' }, e.message)); }
@@ -672,9 +672,9 @@ function confirmarAposentar(d) {
   abrirDialogo(h('div', { class: 'dlg-in' }, h('h2', {}, `Aposentar ${d.modelo}?`),
     d.motivo ? h('p', {}, d.motivo) : null,
     h('dl', { class: 'kv' }, h('dt', {}, 'Libera'), h('dd', {}, d.liberaria || fmtGB(d.bytes)),
-      h('dt', {}, 'É titular de'), h('dd', {}, titDe.length ? titDe.join(', ') : 'nenhuma função'),
+      h('dt', {}, 'É o modelo atual de'), h('dd', {}, titDe.length ? titDe.join(', ') : 'nenhuma função'),
       herd.length ? [h('dt', {}, 'Quem assume'), h('dd', {}, herd.map(([pid, mid]) => `${papelPorId(pid)?.rotulo}: ${mid}`).join(' · '))] : null),
-    titDe.length && !herd.length ? h('div', { class: 'aviso-caixa' }, 'Sem herdeiro indicado: o painel volta a sugerir o titular pela melhor nota medida entre os que ficam.') : null,
+    titDe.length && !herd.length ? h('div', { class: 'aviso-caixa' }, 'Sem herdeiro indicado: o painel volta a sugerir o modelo atual pela melhor nota medida entre os que ficam.') : null,
     h('div', { class: 'info-caixa' }, 'Fica registrado (data, tamanho, motivo) e as notas medidas continuam guardadas. Para ter o modelo de volta é preciso baixar de novo — com internet. Se a sua preparação offline depende dele, exporte um kit antes (aba Offline).'),
     h('label', { class: 'chk' }, ok, ' Sei que isso apaga os arquivos do modelo do disco.'), aviso,
     h('div', { class: 'dlg-acoes' }, h('button', { class: 'btn', onclick: fecharDialogo }, 'Cancelar'), bt)));
@@ -1113,7 +1113,7 @@ async function pModelos() {
       h('td', {},
         h('b', { title: x.id }, nomeLimpo),
         disp && !ehMantido ? [' ', chip(nomeSub ? `coberto por ${nomeSub}` : 'pode sair', 'warn', disp.motivo)] : null,
-        disp && ehMantido ? [' ', chip('✓ mantido por você', 'ok', 'Você optou por continuar com este modelo na esquadra')] : null,
+        disp && ehMantido ? [' ', chip('✓ mantido por você', 'ok', 'Você optou por continuar com este modelo')] : null,
         h('div', { class: 'sub' }, `${quantLimpa || x.quant || ''} ${x.params ? '· ' + x.params : ''}`)),
       h('td', { class: 'num' }, fmtGB(x.bytes)),
       h('td', {}, h('div', { class: 'chips' }, (x.caps || []).filter(c => c !== 'completion').map(c => chip(c, 'neutro')))),
@@ -1162,7 +1162,7 @@ async function pModelos() {
 
   const heroStats = h('div', { class: 'meus-stats-grid' },
     h('div', { class: 'meus-stat-card' },
-      h('small', {}, 'Modelos na Esquadra'),
+      h('small', {}, 'Modelos instalados'),
       h('b', {}, `${m.instalados.length} instalados`)),
     h('div', { class: 'meus-stat-card' },
       h('small', {}, 'Espaço Ocupado'),
@@ -1171,7 +1171,7 @@ async function pModelos() {
       h('small', {}, 'Velocidade Máxima'),
       h('b', {}, maiorTps ? `${fmtN(maiorTps, 0)} tok/s` : '—')),
     h('div', { class: 'meus-stat-card' },
-      h('small', {}, 'Média Geral da Esquadra'),
+      h('small', {}, 'Média geral dos seus modelos'),
       h('b', {}, mediaEsquadra ? `${fmtN(mediaEsquadra, 1)} pts` : '—')),
     h('div', {
       class: 'meus-stat-card',
@@ -1224,14 +1224,14 @@ async function pModelos() {
 
   raiz.replaceChildren(
     h('div', { class: 'pagina-topo' },
-      h('div', { class: 'eyebrow-tech' }, 'LOCAL INTELLIGENCE // FLEET & ARENA'),
+      h('div', { class: 'eyebrow-tech' }, 'LOCAL AI SEARCH · PLACAR E DUELOS'),
       h('h1', {}, 'Meus modelos'),
-      h('p', { class: 'sub' }, 'Placar multicritério dos modelos instalados, Mapa de Equilíbrio (Sweet Spot) e Arena única de Batalha A × B.')),
+      h('p', { class: 'sub' }, 'Placar dos modelos instalados, mapa de equilíbrio entre nota e velocidade e duelo entre dois modelos (A × B).')),
     heroStats,
     blocoInstalados,
     titulo('Mapa de Equilíbrio & VRAM (Sweet Spot)', 'Simule o consumo físico real na GPU entre 4k e 1M e compare folgas e velocidades.'),
     painelSweetSpot(m, papeisNota),
-    h('div', { id: 'sec-arena' }, titulo('Arena Livre: Batalha A × B e Comparação com Números Conhecidos', 'Compare dois modelos escolhidos lado a lado — sem misturar com os titulares de outras funções.')),
+    h('div', { id: 'sec-arena' }, titulo('Duelo: compare dois modelos (A × B)', 'Compare dois modelos escolhidos lado a lado — sem misturar com os modelos de outros usos.')),
     comparador(m, papeisNota),
     blocoAposentados,
     h('div', { id: 'hist-v1' }));

@@ -1,5 +1,5 @@
 'use strict';
-/* Página "Medir": diz o que vale rodar AGORA (com motivo e minutos), oferece a Arena de Duelo Direto (A × B) e o formulário completo. */
+/* Página "Medir": diz o que vale rodar AGORA (com motivo e minutos), oferece o duelo entre dois modelos (A × B) e o formulário completo. */
 
 const NIVEL_NOME = { minimo: 'Mínimo', rapido: 'Rápido', padrao: 'Padrão', profundo: 'Profundo' };
 const fmtMin = m => m >= 90 ? `~${fmtN(m / 60, 1)} h` : `~${m} min`;
@@ -38,7 +38,7 @@ async function pMedir() {
       h('div', { class: 'cartao empilha', style: 'gap:10px' },
         h('h3', {}, '📄 Relatório Completo'),
         h('p', { class: 'sub', style: 'margin:0;line-height:1.5' },
-          'Compila a esquadra atual, notas medidas com intervalo de confiança, desafiantes do radar, máquinas do parque e prontidão offline em um documento Markdown formatado.'),
+          'Compila os seus modelos, notas medidas com intervalo de confiança, desafiantes do radar, máquinas do parque e prontidão offline em um documento Markdown formatado.'),
         h('div', { class: 'dlg-acoes', style: 'justify-content:flex-start;margin-top:auto' },
           h('button', { class: 'btn primario', onclick: abrirRelatorioModal }, '👁️ Visualizar e exportar relatório'))),
       cartaoConfig(cfg)));

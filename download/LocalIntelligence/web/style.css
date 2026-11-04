@@ -745,3 +745,19 @@ dialog::backdrop { background: rgba(10, 12, 18, .55); backdrop-filter: blur(2px)
 .radar-card.radar-top { position:relative; padding-top:18px; }
 .radar-card .radar-pos-local { position:absolute; top:-11px; left:14px; }
 @media (max-width:600px) { .radar-item { padding:14px; } .radar-item-topo { flex-wrap:wrap; } }
+
+/* ------------------------------------------------------------ apoio ao projeto (discreto) */
+.apoio { padding:0 6px; margin-top:auto; }
+.apoio + .status { margin-top:4px; }
+.rodape-apoio { display:none; margin:40px 0 0; text-align:center; }
+@media (max-width:880px) { .apoio { display:none; } .rodape-apoio { display:block; } }
+.apoio-link { background:none; border:0; padding:4px 0; color:var(--muted); font-size:.78rem; font-weight:600; }
+.apoio-link:hover { color:#e11d48; text-decoration:underline; }
+.apoio-link.forte { color:var(--link); padding:0; font-size:inherit; }
+.apoio-linha { position:fixed; left:calc(var(--lateral) + 24px); bottom:18px; z-index:40; display:flex; align-items:center; gap:6px; flex-wrap:wrap; max-width:min(92vw,640px);
+  padding:9px 10px 9px 16px; border:1px solid var(--line-strong); border-radius:99px; background:var(--surface); backdrop-filter:blur(10px); box-shadow:var(--shadow); font-size:.84rem; color:var(--muted); animation:surgir .2s ease-out; }
+.apoio-fechar { background:none; border:0; color:var(--muted); width:26px; height:26px; border-radius:50%; }
+.apoio-fechar:hover { background:var(--surface-2); color:var(--text); }
+.apoio-lista { padding-left:4px; list-style:none; } .apoio-lista li { margin:8px 0; }
+.apoio-dlg h3 { margin:16px 0 6px; }
+@media (max-width:880px) { .apoio-linha { left:12px; right:12px; max-width:none; border-radius:14px; bottom:84px; } }

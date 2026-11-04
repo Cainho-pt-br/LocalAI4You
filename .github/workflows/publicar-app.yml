@@ -1,0 +1,63 @@
+name: Publicar app local
+
+# Gera o ZIP só com o app (download/LocalIntelligence) e o publica no release "app-latest".
+# O site aponta para releases/latest/download/LocalAISearch.zip. Roda quando o app muda, quando o catálogo
+# diário termina (o push do bot não dispara workflows, por isso o workflow_run) ou manualmente.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "download/LocalIntelligence/**"
+      - ".github/workflows/publicar-app.yml"
+  workflow_run:
+    workflows: ["Atualizar catálogo público"]
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publicar-app
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Testes do app
+        working-directory: download/LocalIntelligence
+        run: python -m unittest discover -s tests
+      - name: Montar o ZIP
+        run: |
+          rm -rf dist && mkdir -p dist
+          cp -r download/LocalIntelligence dist/LocalAISearch
+          rm -rf dist/LocalAISearch/tests dist/LocalAISearch/estado dist/LocalAISearch/relatorios
+          find dist -name "__pycache__" -type d -prune -exec rm -rf {} +
+          # os .bat precisam de CRLF (garantido pelo .gitattributes no checkout)
+          file dist/LocalAISearch/*.bat
+          (cd dist && zip -qr -X LocalAISearch.zip LocalAISearch)
+          ls -l dist/LocalAISearch.zip
+      - name: Publicar no release app-latest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          data=$(date -u +%Y-%m-%d)
+          notas="App local do Local AI Search (Windows, Linux e macOS). Baixe LocalAISearch.zip, extraia e siga o README.md da pasta.
+
+          Atualizado em ${data} a partir do commit ${GITHUB_SHA::7}, com o catálogo de modelos do dia."
+          if ! gh release view app-latest >/dev/null 2>&1; then
+            gh release create app-latest --title "Local AI Search — app local" --notes "$notas" --latest
+          else
+            gh release edit app-latest --notes "$notas" --latest
+          fi
+          gh release upload app-latest dist/LocalAISearch.zip --clobber

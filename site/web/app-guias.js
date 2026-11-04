@@ -39,6 +39,6 @@ function pGuias() {
       h('article',{class:'guia-card'},h('h3',{},'O modelo está lento ou trava'),h('p',{},'Ele pode ser grande demais para sua RAM/VRAM ou o contexto pode estar alto. Tente um modelo menor e reduza o contexto.')),
       h('article',{class:'guia-card'},h('h3',{},'O agente não usa ferramentas'),h('p',{},'Nem todo modelo suporta chamadas de ferramenta confiáveis. Escolha um modelo de código/tool-use e teste primeiro numa tarefa pequena.'))
     ),
-    h('p',{class:'sub'},'Os nomes de menus mudam entre versões. As páginas oficiais acima mostram os passos atuais. O painel Local Intelligence mede localmente; não é necessário para usar essas ferramentas.')
+    h('p',{class:'sub'},'Os nomes de menus mudam entre versões. As páginas oficiais acima mostram os passos atuais. O app Local AI Search mede localmente; não é necessário para usar essas ferramentas.')
   );
 }

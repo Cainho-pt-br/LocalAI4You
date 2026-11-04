@@ -50,7 +50,7 @@ def cmd_status(a):
     from li import resultados, scout, parque
     from li.bench import sonda
     o = _ollama(False)
-    print(f"Local Intelligence {__version__} · protocolo {PROTOCOLO}")
+    print(f"Local AI Search {__version__} · protocolo {PROTOCOLO}")
     print(f"Ollama: {'no ar ' + str(o.versao()) if o.no_ar() else 'FORA DO AR'} ({o.url})")
     g = parque._nvidia()
     if g:
@@ -94,6 +94,8 @@ def cmd_bench(a):
         if s:
             print("   " + " · ".join(f"{k} {v['acc']}% (n={v['n']})" for k, v in s["suites"].items()))
             print("   " + " · ".join(f"{k}: {v['nota']}" for k, v in s["papeis"].items() if v.get("nota") is not None))
+    print("\nAs notas aparecem no painel (1_ABRIR_PAINEL.bat → Decidir).")
+    print("Se o Local AI Search te ajudou: ♥ https://github.com/Cainho-pt-br/LocalAISearch#apoiar-o-projeto")
 
 
 def cmd_sonda(a):
@@ -110,7 +112,7 @@ def cmd_sonda(a):
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(prog="python cli.py", description="Local Intelligence: decidir quais modelos locais baixar, manter ou trocar.")
+    ap = argparse.ArgumentParser(prog="python cli.py", description="Local AI Search: descobrir, medir e escolher modelos de IA locais para o seu computador.")
     sp = ap.add_subparsers(dest="cmd", required=True)
     sp.add_parser("status", help="estado do Ollama, GPU, modelos e radar").set_defaults(f=cmd_status)
     b = sp.add_parser("bench", help="roda o protocolo de benchmark nos modelos instalados")

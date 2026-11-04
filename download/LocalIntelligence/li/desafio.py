@@ -121,7 +121,7 @@ def _comparar_com_titulares(oll: Ollama, novo: dict, titulares: Dict[str, str], 
         tit_id = titulares.get(p["id"])
         tit = por_id.get(tit_id) if tit_id else None
         if not tit or tit["id"] == novo["id"]:
-            por_papel[p["id"]] = {"veredito": "sem_titular", "motivo": "não há titular medido nesta função"}
+            por_papel[p["id"]] = {"veredito": "sem_titular", "motivo": "não há modelo atual medido para este uso"}
             continue
         cmp = resultados.comparar((novo["id"], novo["digest"]), (tit["id"], tit["digest"]), p["id"])
         if not cmp or cmp["cobertura"] < 0.5:
@@ -142,7 +142,7 @@ def _comparar_com_titulares(oll: Ollama, novo: dict, titulares: Dict[str, str], 
     return por_papel
 
 
-def _texto_resumo(nome: str, por_papel: Dict[str, dict], ref_nome: str = "o titular") -> tuple:
+def _texto_resumo(nome: str, por_papel: Dict[str, dict], ref_nome: str = "o modelo atual") -> tuple:
     vence = [pid for pid, r in por_papel.items() if r.get("veredito") == "superior"]
     perde = [pid for pid, r in por_papel.items() if r.get("veredito") == "inferior"]
     emp_ef = [pid for pid, r in por_papel.items() if r.get("veredito") == "empate" and r.get("eficiencia")]
@@ -157,7 +157,7 @@ def _texto_resumo(nome: str, por_papel: Dict[str, dict], ref_nome: str = "o titu
         txt = f"{nome} empatou com {ref_nome} em: {rot(emp_ef)}, sendo menor ou mais rápido. Vantagem prática por eficiência."
     elif perde:
         rec = "descartar"
-        txt = f"{nome} perdeu para {ref_nome} em: {rot(perde)}." + (" Não compensa manter." if ref_nome == "o titular" else "")
+        txt = f"{nome} perdeu para {ref_nome} em: {rot(perde)}." + (" Não compensa manter." if ref_nome == "o modelo atual" else "")
     else:
         rec = "manter"
         txt = f"{nome} ficou em empate técnico com {ref_nome}. Sem diferença de conhecimento fora da margem de erro."

@@ -1,6 +1,7 @@
 """Comandos da CLI que dependem dos módulos maiores (radar, decisão, painel, offline…)."""
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 
@@ -262,7 +263,7 @@ def registrar(sp):
     r.add_argument("--sem-hf", action="store_true")
     r.set_defaults(f=cmd_radar)
     sp.add_parser("decidir", help="a mesa de decisão no terminal").set_defaults(f=cmd_decidir)
-    t = sp.add_parser("testar", help="baixa um desafiante, mede e compara com o titular")
+    t = sp.add_parser("testar", help="baixa um modelo novo, mede e compara com o modelo atual")
     t.add_argument("candidato", help="id do radar, ex.: ollama:qwen3.8:27b")
     t.add_argument("--papel")
     t.add_argument("--nivel", choices=["minimo", "rapido", "padrao", "profundo"], default="padrao")
@@ -311,6 +312,6 @@ def registrar(sp):
     mq.add_argument("--token")
     mq.add_argument("--url")
     mq.set_defaults(f=cmd_maquinas)
-    n = sp.add_parser("nota-parque", help="gera o texto de cerebro/modelos-locais-do-parque.md (CAIOSNET) a partir dos dados")
+    n = sp.add_parser("nota-parque", help=argparse.SUPPRESS)   # uso pessoal do autor: gera uma nota Markdown do parque
     n.add_argument("--destino")
     n.set_defaults(f=cmd_nota_parque)

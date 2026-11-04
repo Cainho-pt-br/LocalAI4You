@@ -480,10 +480,43 @@ def caps_declaradas(c: dict) -> List[str]:
 
 
 def ultimo() -> Optional[dict]:
-    snap = ler_json(config.SNAPSHOTS / "ultimo-completo.json")
+    snap = ler_json(config.SNAPSHOTS / "ultimo-completo.json") or catalogo_inicial()
     for c in (snap or {}).get("candidatos", []):
         c["caps"] = caps_declaradas(c)
     return snap
+
+
+def catalogo_inicial() -> Optional[dict]:
+    """O catálogo que veio no ZIP (snapshot completo, gzip). Vale só até a primeira varredura feita nesta máquina.
+    As idades são recalculadas para hoje: o arquivo pode ter semanas quando a pessoa baixa o app."""
+    import gzip
+    import json
+    try:
+        with gzip.open(config.CATALOGO_INICIAL, "rt", encoding="utf-8") as f:
+            snap = json.load(f)
+    except (OSError, ValueError):
+        return None
+    if not snap or not snap.get("candidatos"):
+        return None
+    snap["embutido"] = True
+    dias_novo = config.carregar().get("radar_dias_novo", 45)
+    for c in snap["candidatos"]:
+        if c.get("lancamento"):
+            c["dias"] = round(dias_desde(c["lancamento"]) or 0, 1)
+            c["novo"] = c["dias"] <= dias_novo and not c.get("data_aproximada")
+    return snap
+
+
+def gravar_catalogo_inicial(snap: dict, destino: Optional[Path] = None) -> Path:
+    """Grava o snapshot completo comprimido para acompanhar o download (usado pelo script do catálogo público)."""
+    import gzip
+    import json
+    destino = destino or config.CATALOGO_INICIAL
+    tmp = destino.with_suffix(".tmp")
+    with gzip.GzipFile(tmp, "wb", mtime=0) as f:     # mtime fixo: o arquivo só muda quando o conteúdo muda
+        f.write(json.dumps(snap, ensure_ascii=False, separators=(",", ":"), sort_keys=True).encode("utf-8"))
+    tmp.replace(destino)
+    return destino
 
 
 def snapshots_anteriores() -> List[Path]:
