@@ -20,7 +20,7 @@ FORA = {"tests", "estado", "relatorios", "__pycache__", ".gitignore", ".pytest_c
 
 
 def _ignorar(pasta, nomes):
-    ig = {n for n in nomes if n in FORA or n.endswith((".pyc", ".bat"))}
+    ig = {n for n in nomes if n in FORA or n.endswith((".pyc", ".bat", ".ps1"))}   # .bat/.ps1: atalhos de desenvolvimento
     if Path(pasta) == FONTE:
         ig |= {"README.md"}          # o README de quem baixa é o LEIA-ME.txt
     return ig
