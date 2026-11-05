@@ -10,6 +10,7 @@
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2317171c'/%3E%3Cpath d='M8 22V10l8 8 8-8v12' fill='none' stroke='white' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E">
 <script>
+  window.LI_PUBLIC_MODE = true;   // métricas anônimas do site (coleta.js)
   // links antigos (site/#radar, #calculadora…) continuam funcionando: vão direto para o app
   if (/^#[a-z]/.test(location.hash)) location.replace('app.html' + location.hash);
   try { const t = localStorage.getItem('li-tema'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
@@ -150,7 +151,7 @@
         <a class="btn primario" id="l-baixar" href="#" data-ev="download">Baixar o app (grátis)</a>
         <a class="btn" href="app.html#medir" data-ev="previa-medir">Ver como funciona</a>
       </div>
-      <p class="l-mini">Windows, macOS e Linux · requer Python 3.10+ e Ollama · roda 100% no seu PC.</p>
+      <p class="l-mini">Windows, macOS e Linux · o instalador cuida do Python e do Ollama · roda 100% no seu PC.</p>
     </div>
     <div class="l-duelo" aria-hidden="true">
       <div class="l-duelo-topo"><span class="a">Modelo A 12B</span><b>×</b><span class="b">Modelo B 9B</span></div>

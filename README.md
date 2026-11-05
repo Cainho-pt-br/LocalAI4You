@@ -40,7 +40,7 @@ cd download/LocalIntelligence && python -m unittest discover -s tests
 
 O banco fica no Supabase (organização **Local AI Search**, projeto **LocalAISearch**). As tabelas estão no schema `privado`, fora da API: o site e o app só chamam três funções de gravação (`registrar_evento`, `registrar_lead`, `enviar_benchmark`). A chave em `web/coleta.js` é publicável e não lê nada. As migrações estão em `supabase/migrations/`.
 
-- **Métricas (só no site)**: sem cookies e sem IP; respeitam *Do Not Track*/GPC; `localhost` e pré-visualizações do Vercel não entram nas visões. Use links com UTM nos conteúdos (`?utm_source=youtube&utm_campaign=video-rtx4060`).
+- **Métricas (só no site)**: sem cookies e sem IP; respeitam *Do Not Track*/GPC; `localhost` e as prévias do Vercel (`…-projects.vercel.app`) não entram nas visões; a produção (`localaisearch-site.vercel.app`) entra. Use links com UTM nos conteúdos (`?utm_source=youtube&utm_campaign=video-rtx4060`).
 - **E-mails**: só com consentimento explícito, guardado junto. Exporte em **Table Editor → privado.leads**.
 - **Benchmarks**: no app, aba Medir → *Compartilhar resultados com a comunidade*; a pessoa vê o JSON antes de enviar.
 

@@ -22,7 +22,7 @@ from urllib.parse import parse_qs, urlparse
 from . import PROTOCOLO, __version__, aposentados, calc, config, decide, desafio, lab, offline, papeis, parque, quants, remoto, report, resultados, scout
 from .bench import amostras, custo, runner, sonda, stats
 from .jobs import Gerente
-from .ollama import ErroOllama, Ollama, pasta_modelos
+from .ollama import ErroOllama, Ollama, instalado as ollama_instalado, pasta_modelos
 from .util import ERROS_PARALELO, ler_json, slug
 
 GERENTE = Gerente()
@@ -58,7 +58,7 @@ def r_saude(q):
     o = _oll()
     up = o.no_ar()
     g = parque._gpu_local()
-    return {"versao_painel": __version__, "protocolo": PROTOCOLO, "ollama": {"no_ar": up, "versao": o.versao() if up else None, "url": o.url},
+    return {"versao_painel": __version__, "protocolo": PROTOCOLO, "ollama": {"no_ar": up, "instalado": up or ollama_instalado(), "versao": o.versao() if up else None, "url": o.url},
             "gpu": g, "disco_modelos_livre_gb": parque.espaco_livre_gb(pasta_modelos()), "pasta_modelos": str(pasta_modelos()),
             "tarefa_pesada": GERENTE.bloqueio(),
             "avisos_internos": ERROS_PARALELO[-3:]}
@@ -583,7 +583,13 @@ GET_ROTAS.update({"/api/visao/comparar": lambda q: lab.visao_comparar(), "/api/b
 CONTROLE = {"/api/maquinas", "/api/maquinas/registrar", "/api/maquinas/remover", "/api/maquinas/sincronizar-radar"}   # só pelo loopback: o remoto não encadeia
 
 
-POST_ROTAS = {"/api/aposentar": p_remover, "/api/radar/varrer": p_varrer, "/api/bench": p_bench, "/api/sonda": p_sonda,
+def p_ollama_iniciar(corpo):
+    """Assistente de primeiros passos: liga o Ollama instalado (o mesmo que o painel faz ao precisar dele)."""
+    o = _exige_ollama()
+    return {"ok": True, "versao": o.versao()}
+
+
+POST_ROTAS = {"/api/ollama/iniciar": p_ollama_iniciar, "/api/aposentar": p_remover, "/api/radar/varrer": p_varrer, "/api/bench": p_bench, "/api/sonda": p_sonda,
               "/api/desafio": p_desafio, "/api/duelo": p_duelo, "/api/fixar-ctx": p_fixar_ctx,
               "/api/baixar": p_baixar, "/api/atualizar": p_atualizar, "/api/promover": p_promover, "/api/veredito": p_veredito, "/api/remover": p_remover,
               "/api/offline/exportar": p_exportar, "/api/offline/verificar": p_verificar, "/api/cancelar": p_cancelar,

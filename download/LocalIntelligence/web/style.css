@@ -973,3 +973,18 @@ details.painel-colapsavel > summary > h3 { flex:1; text-align:left; }
 /* cartão da comunidade (app) */
 .comunidade { border-top:3px solid #10b981; }
 .comunidade-previa { max-height:260px; overflow:auto; margin:8px 0 0; padding:10px 12px; border-radius:10px; background:var(--surface-2); font-size:.74rem; }
+
+/* ------------------------------------------------------------ primeiros passos (app baixado) */
+.pp { margin: 0 0 26px; padding: 20px 22px; border-radius: var(--radius); background: linear-gradient(120deg, color-mix(in srgb, var(--ink) 10%, var(--surface)), color-mix(in srgb, var(--prio) 8%, var(--surface))); border: 1px solid color-mix(in srgb, var(--ink) 25%, var(--line)); box-shadow: var(--shadow); }
+.pp-topo { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.pp-topo h2 { margin-top: 4px; }
+.pp-etapas { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.pp-etapas li { display: flex; gap: 12px; padding: 14px; border-radius: var(--radius-sm); background: var(--surface); border: 1px solid var(--line); }
+.pp-etapas li.atual { border-color: var(--ink); box-shadow: 0 6px 20px -8px color-mix(in srgb, var(--ink) 50%, transparent); }
+.pp-etapas li.depois { opacity: .62; }
+.pp-n { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: .85rem; background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); }
+.pp-etapas li.atual .pp-n { background: linear-gradient(135deg, var(--ink), var(--prio)); color: #fff; border: 0; }
+.pp-etapas li.feito .pp-n { background: var(--ok-soft); color: var(--ok); border-color: transparent; }
+.pp-corpo { min-width: 0; display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+.pp-corpo p { margin: 0 0 6px; }
+@media (max-width: 900px) { .pp-etapas { grid-template-columns: 1fr; } }

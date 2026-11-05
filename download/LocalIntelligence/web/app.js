@@ -236,6 +236,7 @@ function desenhar() {
   desenharAbas();
   for (const [id] of ABAS) $('#p-' + id).classList.toggle('on', id === S.aba);
   PAGINAS[S.aba]();
+  if (typeof desenharPrimeirosPassos === 'function') desenharPrimeirosPassos();
   if (typeof registrarEvento === 'function' && S._abaContada !== S.aba) { registrarEvento(S._abaContada ? 'aba' : 'pagina', { aba: S.aba }); S._abaContada = S.aba; }
 }
 function abaDoHash() {
@@ -253,7 +254,7 @@ async function iniciar() {
   desenharStatus();
   desenhar();
   setInterval(async () => { await carregarJobs(); if (S.aba === 'medir') desenharJobsMedir(); }, 2000);
-  setInterval(carregarSaude, 15000);
+  setInterval(async () => { const antes = S.saude?.ollama?.no_ar; await carregarSaude(); if (S.saude?.ollama?.no_ar !== antes && typeof desenharPrimeirosPassos === 'function') desenharPrimeirosPassos(); }, 15000);
   setInterval(carregarMaquinas, 30000);
 }
 window.addEventListener('hashchange', () => { const x = abaDoHash(); if (x && x !== S.aba) { S.aba = x; desenhar(); } });
