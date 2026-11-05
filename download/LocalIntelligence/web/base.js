@@ -28,9 +28,9 @@ function h(tag, attrs, ...kids) {
 const LI = { alvo: '' };
 // Endereços do projeto (um lugar só para trocar). O ZIP vem do GitHub Releases: só o app, sem o site.
 const LINK_REPO = 'https://github.com/Cainho-pt-br/LocalAISearch';
-// Windows baixa o instalador (Setup.exe, com Python embutido); macOS e Linux baixam o ZIP com o atalho de abrir.
+// Windows baixa o pacote com o Python oficial embutido e o "Instalar"; macOS e Linux, o ZIP com o atalho de abrir.
 const NO_WINDOWS = /Windows/i.test(navigator.userAgent || '');
-const LINK_DOWNLOAD = LINK_REPO + '/releases/latest/download/' + (NO_WINDOWS ? 'LocalAISearch-Setup.exe' : 'LocalAISearch.zip');
+const LINK_DOWNLOAD = LINK_REPO + '/releases/latest/download/' + (NO_WINDOWS ? 'LocalAISearch-Windows.zip' : 'LocalAISearch.zip');
 const ROTAS_LOCAIS = ['/api/calc/', '/api/maquinas', '/api/parque', '/api/m/', '/api/quants', '/api/radar/snapshot'];
 const caminhoAlvo = c => (!LI.alvo || !c.startsWith('/api/') || ROTAS_LOCAIS.some(p => c.startsWith(p))) ? c : '/api/m/' + encodeURIComponent(LI.alvo) + c.slice(4);
 async function api(caminho, corpo) {

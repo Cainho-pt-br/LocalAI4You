@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """Monta o que vai para o download, a partir de download/LocalIntelligence (a fonte do app).
 
-    python empacotar/montar.py            # gera dist/zip/LocalAISearch (macOS/Linux) e dist/windows (para o Inno Setup)
+    python empacotar/montar.py            # gera dist/zip/LocalAISearch (macOS/Linux) e dist/windows/LocalAISearch
+
+No Windows o CI ainda põe em app/python o Python embutido oficial (python.org): os atalhos chamam esse pythonw.exe,
+assinado pela Python Software Foundation, então não há executável desconhecido para o SmartScreen bloquear.
 
 Quem baixa vê só o necessário: um atalho para abrir, um LEIA-ME e a pasta app/. Ficam de fora os testes, os .bat de
 desenvolvimento, o .gitignore e qualquer estado local (estado/, relatorios/, __pycache__)."""
@@ -43,11 +46,13 @@ def montar() -> None:
         _executavel(p)
     for n in ("abrir-mac.command", "abrir-linux.sh"):
         _executavel(z / "app" / n)
-    w = DIST / "windows"
+    w = DIST / "windows" / "LocalAISearch"
     w.mkdir(parents=True)
     _app(w)
     for n in ("abrir-mac.command", "abrir-linux.sh"):
         (w / "app" / n).unlink()
+    shutil.copy(AQUI / "windows" / "desinstalar.bat", w / "app" / "desinstalar.bat")
+    shutil.copy(AQUI / "windows" / "instalar.bat", w / "Instalar Local AI Search.bat")
     shutil.copy(AQUI / "LEIA-ME.txt", w / "LEIA-ME.txt")
     print("Pronto:", z, "e", w)
 

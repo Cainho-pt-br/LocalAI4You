@@ -1,8 +1,9 @@
 name: Publicar app local
 
 # Gera o que vai para o download e publica no release "app-latest":
-#   • LocalAISearch-Setup.exe — instalador do Windows (Inno Setup), com Python embutido, atalho e "abrir agora".
-#   • LocalAISearch.zip       — macOS e Linux: atalho para abrir, LEIA-ME.txt e a pasta app/.
+#   • LocalAISearch-Windows.zip — "Instalar Local AI Search" + app/ com o Python embutido oficial; os atalhos chamam o
+#                                pythonw.exe assinado pela PSF (sem executável desconhecido para o SmartScreen).
+#   • LocalAISearch.zip         — macOS e Linux: atalho para abrir, LEIA-ME.txt e a pasta app/.
 # O site aponta para releases/latest/download/<arquivo>. Roda quando o app muda, quando o catálogo diário termina
 # (o push do bot não dispara workflows, por isso o workflow_run) ou manualmente.
 
@@ -29,7 +30,7 @@ env:
   PYTHON_EMBUTIDO: "3.12.10"
 
 jobs:
-  testar:
+  montar:
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -43,55 +44,28 @@ jobs:
       - name: Testes do app
         working-directory: download/LocalIntelligence
         run: python -m unittest discover -s tests
-      - name: Montar o ZIP (macOS e Linux)
+      - name: Montar os ZIPs
         run: |
           python empacotar/montar.py
           (cd dist/zip && zip -qr -X ../LocalAISearch.zip LocalAISearch)
-          unzip -l dist/LocalAISearch.zip | head -20
+          # Windows: Python embutido OFICIAL (pythonw.exe assinado pela PSF) dentro de app/python
+          v="$PYTHON_EMBUTIDO"
+          curl -fsSL -o py.zip "https://www.python.org/ftp/python/$v/python-$v-embed-amd64.zip"
+          unzip -q py.zip -d dist/windows/LocalAISearch/app/python
+          pth=$(ls dist/windows/LocalAISearch/app/python/python*._pth | head -1)
+          printf '..\r\n' >> "$pth"          # a pasta app (cli.py e li/) no sys.path do Python embutido
+          cat "$pth"
+          test -f dist/windows/LocalAISearch/app/python/pythonw.exe
+          file "dist/windows/LocalAISearch/Instalar Local AI Search.bat"   # precisa ser CRLF
+          (cd dist/windows && zip -qr -X ../LocalAISearch-Windows.zip LocalAISearch)
+          ls -l dist/*.zip
       - uses: actions/upload-artifact@v4
         with:
-          name: zip
-          path: dist/LocalAISearch.zip
-
-  windows:
-    needs: testar
-    runs-on: windows-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: main
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Montar a pasta do Windows (app + Python embutido)
-        shell: pwsh
-        run: |
-          python empacotar/montar.py
-          $v = $env:PYTHON_EMBUTIDO
-          Invoke-WebRequest "https://www.python.org/ftp/python/$v/python-$v-embed-amd64.zip" -OutFile py.zip
-          Expand-Archive py.zip -DestinationPath dist/windows/python
-          # No Python embutido o sys.path vem do arquivo ._pth: a pasta do app precisa estar lá.
-          $pth = Get-ChildItem dist/windows/python -Filter "python*._pth" | Select-Object -First 1
-          Add-Content $pth.FullName "..\app"
-          # teste de fumaça: o Python embutido importa o app e responde à ajuda
-          & dist/windows/python/python.exe dist/windows/app/cli.py --help | Select-Object -First 3
-          if ($LASTEXITCODE -ne 0) { throw "o Python embutido não conseguiu rodar o app" }
-      - name: Compilar o instalador (Inno Setup)
-        shell: pwsh
-        run: |
-          choco install innosetup --no-progress -y | Out-Null
-          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
-          & $iscc "/DVersao=$((Get-Date).ToString('yyyy.MM.dd'))" empacotar/windows/LocalAISearch.iss
-          if ($LASTEXITCODE -ne 0) { throw "ISCC falhou" }
-          Get-Item dist/LocalAISearch-Setup.exe
-      - uses: actions/upload-artifact@v4
-        with:
-          name: setup
-          path: dist/LocalAISearch-Setup.exe
+          name: zips
+          path: dist/*.zip
 
   publicar:
-    needs: [testar, windows]
+    needs: montar
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -108,7 +82,7 @@ jobs:
           data=$(date -u +%Y-%m-%d)
           notas="App local do Local AI Search.
 
-          • Windows: baixe LocalAISearch-Setup.exe e siga o instalador (ele cria o atalho e já abre o app).
+          • Windows: baixe LocalAISearch-Windows.zip, extraia e dê dois cliques em \"Instalar Local AI Search\" (cria o atalho e já abre o app).
           • macOS e Linux: baixe LocalAISearch.zip, extraia e dê dois cliques em \"Abrir Local AI Search\".
 
           Atualizado em ${data} a partir do commit ${GITHUB_SHA::7}, com o catálogo de modelos do dia."
@@ -117,4 +91,4 @@ jobs:
           else
             gh release edit app-latest --notes "$notas" --latest
           fi
-          gh release upload app-latest dist/LocalAISearch-Setup.exe dist/LocalAISearch.zip --clobber
+          gh release upload app-latest dist/LocalAISearch-Windows.zip dist/LocalAISearch.zip --clobber

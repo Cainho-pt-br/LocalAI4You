@@ -151,7 +151,7 @@ if (document.readyState === 'loading') {
 aplicarTema(temaAtual());
 
 async function fecharApp() {
-  if (!confirm('Fechar o Local AI Search? Para abrir de novo, use o atalho na Área de Trabalho.')) return;
+  if (!confirm('Fechar o Local AI Search? Para abrir de novo, use o atalho “Local AI Search”.')) return;
   try { await api('/api/encerrar', {}); } catch (e) { /* já fechou */ }
   document.body.replaceChildren(h('div', { class: 'app-fechado' }, h('h1', {}, 'Local AI Search fechado'), h('p', { class: 'sub' }, 'Pode fechar esta aba. Para abrir de novo, use o atalho “Local AI Search”.')));
 }
