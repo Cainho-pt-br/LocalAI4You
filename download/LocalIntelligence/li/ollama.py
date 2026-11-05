@@ -34,10 +34,16 @@ def _exe() -> Optional[str]:
     for c in (
         Path(os.environ.get("LOCALAPPDATA", "")) / "Programs" / "Ollama" / "ollama.exe",
         Path("/usr/local/bin/ollama"), Path("/usr/bin/ollama"),
+        Path("/Applications/Ollama.app/Contents/Resources/ollama"),
     ):
         if c.exists():
             return str(c)
     return None
+
+
+def instalado() -> bool:
+    """O executável do Ollama existe nesta máquina (mesmo que o servidor esteja desligado)."""
+    return _exe() is not None
 
 
 class Ollama:

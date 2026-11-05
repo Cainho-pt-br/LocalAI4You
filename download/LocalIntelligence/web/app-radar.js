@@ -66,7 +66,6 @@ async function pRadar() {
         h('button', { class: 'btn primario', onclick: () => varrer(true) }, rd.existe ? 'Varrer de novo' : 'Primeira varredura')))),
     rd.existe ? null : h('div', { class: 'vazio' }, 'O radar ainda não rodou. Clique em “Primeira varredura” (leva alguns minutos).'),
     rd.embutido ? h('div', { class: 'info-caixa', style: 'margin-bottom:14px' }, h('b', {}, 'Catálogo que veio com o app '), `(de ${fmtData(rd.criado)}). Já dá para escolher o que baixar. “Varrer de novo” busca o que saiu depois disso no Ollama e no Hugging Face.`) : null,
-    !(S.mesa.instalados || []).length && rd.existe ? h('div', { class: 'guia-callout' }, h('b', {}, 'Primeira vez? '), h('p', {}, 'Escolha um modelo da lista e clique em “Instalar” (ou copie o comando ollama pull). Com um modelo instalado, a aba Decidir mostra notas medidas, e “Testar” compara modelos no seu PC.')) : null,
     (S.mesa.ritmo || []).length ? h('details', { class: 'dica-clean', style: 'margin-bottom:18px' },
       h('summary', {}, '📈 Ritmo de lançamentos das famílias que você usa'),
       h('div', { style: 'margin-top:6px' },

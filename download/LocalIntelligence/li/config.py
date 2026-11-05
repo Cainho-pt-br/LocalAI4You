@@ -56,7 +56,6 @@ PADRAO = {
     "quantizadores_confiaveis": ["unsloth", "bartowski", "lmstudio-community", "ggml-org", "mradermacher"],
     "broker_url": "",
     "backup_modelos_dir": "",       # pasta do kit offline (ex.: D:\\kit-offline) — vazio = não configurado
-    "caiosnet_dir": "",
 }
 
 
