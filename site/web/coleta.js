@@ -4,17 +4,17 @@
      pessoa veio (só o domínio), UTM e o tipo de aparelho. Respeita "Do Not Track" e o GPC do navegador.
    • E-mail: só quando a pessoa escreve e clica, com o texto de consentimento guardado junto.
    • Benchmarks da comunidade: só no app, só quando a pessoa clica em "enviar", depois de ver exatamente o que sai.
-   A chave abaixo é PUBLICÁVEL (feita para ficar no navegador): ela só consegue chamar as três funções de gravação;
-   ninguém consegue ler os dados com ela. */
+   Tudo passa pelo intermediário do site (/api/coleta, função do Vercel): nenhuma chave fica no código público, e ele
+   só aceita as três funções de gravação. No site o caminho é relativo; o app local usa o endereço público do site. */
 const COLETA = {
-  url: 'https://nqnrnjzgcghjvyfglqxe.supabase.co',
-  chave: 'sb_publishable_gltPb2hc3CoVrUt2CMEyjA_OkEhhzW3',
+  url: /^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname) || location.protocol === 'file:'
+    ? 'https://localaisearch-site.vercel.app/api/coleta' : '/api/coleta',
 };
 const CONSENTIMENTO_LEAD = 'Aceito receber até 1 e-mail por mês do Local AI Search com modelos novos para o meu hardware. Posso sair quando quiser respondendo qualquer e-mail.';
 
 function _rpc(fn, corpo) {
-  if (!COLETA.url || !COLETA.chave) return Promise.reject(new Error('coleta desligada'));
-  return fetch(`${COLETA.url}/rest/v1/rpc/${fn}`, { method: 'POST', keepalive: true, headers: { apikey: COLETA.chave, 'Content-Type': 'application/json' }, body: JSON.stringify(corpo) })
+  if (!COLETA.url) return Promise.reject(new Error('coleta desligada'));
+  return fetch(COLETA.url, { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fn, dados: corpo }) })
     .then(async r => { if (!r.ok) { const d = await r.json().catch(() => ({})); throw new Error(d.message || ('HTTP ' + r.status)); } return r.status === 204 ? null : r.json(); });
 }
 

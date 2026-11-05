@@ -6,6 +6,16 @@ Os comandos importam seus módulos sob demanda: `status` e `radar` funcionam mes
 from __future__ import annotations
 
 import argparse
+import os
+import sys
+
+# pythonw.exe (atalho do Windows, sem janela) não tem console: sys.stdout/stderr vêm como None.
+if sys.stdout is None or sys.stderr is None:
+    _nulo = open(os.devnull, "w", encoding="utf-8")
+    sys.stdout = sys.stdout or _nulo
+    sys.stderr = sys.stderr or _nulo
+# Python embutido (Windows) não põe a pasta do script no sys.path sozinho.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from li import PROTOCOLO, __version__, config
 from li.util import fmt_gb

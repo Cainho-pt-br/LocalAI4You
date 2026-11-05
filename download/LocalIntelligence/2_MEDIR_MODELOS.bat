@@ -1,13 +1,10 @@
 @echo off
 title Local AI Search - Medir modelos
 cd /d "%~dp0"
-set "PY="
-where py >nul 2>nul && set "PY=py -3"
-if not defined PY where python >nul 2>nul && set "PY=python"
+call deploy\achar-python.bat
 if not defined PY (
   echo Python nao encontrado.
-  echo Instale o Python 3.10 ou mais recente: https://www.python.org/downloads/
-  echo No instalador, marque "Add Python to PATH". Depois abra este arquivo de novo.
+  echo Abra primeiro o 1_ABRIR_PAINEL.bat: ele instala o que falta.
   pause
   exit /b 1
 )

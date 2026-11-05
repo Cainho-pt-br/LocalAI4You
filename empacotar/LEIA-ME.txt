@@ -1,0 +1,28 @@
+LOCAL AI SEARCH
+Descubra qual IA local roda bem no seu computador, meça e compare modelos.
+Tudo roda no seu computador. Nada é enviado.
+
+COMO ABRIR
+  Windows: dê dois cliques em "Instalar Local AI Search". Ele cria o atalho
+           "Local AI Search" na Área de Trabalho e no menu Iniciar e já abre o app.
+           Depois disso, esta pasta baixada pode ser apagada.
+  Mac:     dê dois cliques em "Abrir Local AI Search (Mac).command".
+           Na primeira vez, se o Mac bloquear: botão direito no arquivo > Abrir.
+  Linux:   dê dois cliques (ou rode no terminal) "Abrir Local AI Search (Linux).sh".
+
+O painel abre no seu navegador. O quadro "Primeiros passos" mostra o que fazer:
+ligar o Ollama (programa gratuito que roda os modelos), instalar o primeiro modelo
+e comparar dois modelos num duelo.
+
+PRECISA DE
+  - Ollama (gratuito): https://ollama.com/download  (o painel ajuda a instalar)
+  - Mac e Linux: Python 3.10 ou mais recente (no Windows ele já vem incluído)
+
+PARA FECHAR
+  Clique em "Fechar o app" no canto de baixo da barra lateral do painel.
+
+AJUDA
+  https://github.com/Cainho-pt-br/LocalAISearch/issues
+
+A pasta "app" contém o programa. Não é preciso mexer nela.
+Para desinstalar no Windows: menu Iniciar > Local AI Search > Desinstalar.

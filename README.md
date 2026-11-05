@@ -34,13 +34,13 @@ cd download/LocalIntelligence && python -m unittest discover -s tests
 
 - **Site**: no Vercel, importe este repositório com `site` como **Root Directory**. Não há build.
 - **Catálogo**: o workflow *Atualizar catálogo público* roda às 08:17 UTC (ou manualmente em **Actions**). Ele atualiza `site/dados.js` e o catálogo que vai no ZIP do app (`download/LocalIntelligence/data/radar-inicial.json.gz`). Se a varredura falhar, o último catálogo bom é mantido. Para republicar no Vercel automaticamente, salve um Deploy Hook como secret `VERCEL_DEPLOY_HOOK`.
-- **App**: o workflow *Publicar app local* gera `LocalAISearch.zip` (só o app, sem o site) e o publica no release `app-latest`. O botão “Baixar o app local” do site aponta para `releases/latest/download/LocalAISearch.zip`. Ele roda quando o app muda, depois de cada atualização do catálogo, ou manualmente.
+- **App**: o workflow *Publicar app local* monta o download com `empacotar/montar.py` e publica no release `app-latest`: `LocalAISearch-Windows.zip` ("Instalar Local AI Search" + `app/` com o Python embutido oficial; os atalhos chamam o `pythonw.exe` assinado pela Python Software Foundation, então o SmartScreen não bloqueia e não abre janela preta) e `LocalAISearch.zip` (macOS/Linux: atalho de abrir, `LEIA-ME.txt` e `app/`). O site oferece o pacote certo para cada sistema. Ele roda quando o app muda, depois de cada atualização do catálogo, ou manualmente.
 
 ## Métricas, e-mails e benchmarks da comunidade
 
-O banco fica no Supabase (organização **Local AI Search**, projeto **LocalAISearch**). As tabelas estão no schema `privado`, fora da API: o site e o app só chamam três funções de gravação (`registrar_evento`, `registrar_lead`, `enviar_benchmark`). A chave em `web/coleta.js` é publicável e não lê nada. As migrações estão em `supabase/migrations/`.
+O banco fica no Supabase (organização **Local AI Search**, projeto **LocalAISearch**). As tabelas estão no schema `privado`, fora da API: o site e o app só chamam três funções de gravação (`registrar_evento`, `registrar_lead`, `enviar_benchmark`). Nenhuma chave fica no código: o site e o app chamam `/api/coleta` (função do Vercel em `site/api/coleta.js`), que guarda `SUPABASE_URL` e `SUPABASE_KEY` nas variáveis de ambiente do Vercel e só repassa essas três funções. As migrações estão em `supabase/migrations/`.
 
-- **Métricas (só no site)**: sem cookies e sem IP; respeitam *Do Not Track*/GPC; `localhost` e pré-visualizações do Vercel não entram nas visões. Use links com UTM nos conteúdos (`?utm_source=youtube&utm_campaign=video-rtx4060`).
+- **Métricas (só no site)**: sem cookies e sem IP; respeitam *Do Not Track*/GPC; `localhost` e as prévias do Vercel (`…-projects.vercel.app`) não entram nas visões; a produção (`localaisearch-site.vercel.app`) entra. Use links com UTM nos conteúdos (`?utm_source=youtube&utm_campaign=video-rtx4060`).
 - **E-mails**: só com consentimento explícito, guardado junto. Exporte em **Table Editor → privado.leads**.
 - **Benchmarks**: no app, aba Medir → *Compartilhar resultados com a comunidade*; a pessoa vê o JSON antes de enviar.
 

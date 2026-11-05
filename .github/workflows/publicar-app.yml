@@ -1,8 +1,11 @@
 name: Publicar app local
 
-# Gera o ZIP só com o app (download/LocalIntelligence) e o publica no release "app-latest".
-# O site aponta para releases/latest/download/LocalAISearch.zip. Roda quando o app muda, quando o catálogo
-# diário termina (o push do bot não dispara workflows, por isso o workflow_run) ou manualmente.
+# Gera o que vai para o download e publica no release "app-latest":
+#   • LocalAISearch-Windows.zip — "Instalar Local AI Search" + app/ com o Python embutido oficial; os atalhos chamam o
+#                                pythonw.exe assinado pela PSF (sem executável desconhecido para o SmartScreen).
+#   • LocalAISearch.zip         — macOS e Linux: atalho para abrir, LEIA-ME.txt e a pasta app/.
+# O site aponta para releases/latest/download/<arquivo>. Roda quando o app muda, quando o catálogo diário termina
+# (o push do bot não dispara workflows, por isso o workflow_run) ou manualmente.
 
 on:
   workflow_dispatch:
@@ -10,6 +13,7 @@ on:
     branches: [main]
     paths:
       - "download/LocalIntelligence/**"
+      - "empacotar/**"
       - ".github/workflows/publicar-app.yml"
   workflow_run:
     workflows: ["Atualizar catálogo público"]
@@ -22,11 +26,14 @@ concurrency:
   group: publicar-app
   cancel-in-progress: true
 
+env:
+  PYTHON_EMBUTIDO: "3.12.10"
+
 jobs:
-  publicar:
+  montar:
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -37,22 +44,46 @@ jobs:
       - name: Testes do app
         working-directory: download/LocalIntelligence
         run: python -m unittest discover -s tests
-      - name: Montar o ZIP
+      - name: Montar os ZIPs
         run: |
-          rm -rf dist && mkdir -p dist
-          cp -r download/LocalIntelligence dist/LocalAISearch
-          rm -rf dist/LocalAISearch/tests dist/LocalAISearch/estado dist/LocalAISearch/relatorios
-          find dist -name "__pycache__" -type d -prune -exec rm -rf {} +
-          # os .bat precisam de CRLF (garantido pelo .gitattributes no checkout)
-          file dist/LocalAISearch/*.bat
-          (cd dist && zip -qr -X LocalAISearch.zip LocalAISearch)
-          ls -l dist/LocalAISearch.zip
+          python empacotar/montar.py
+          (cd dist/zip && zip -qr -X ../LocalAISearch.zip LocalAISearch)
+          # Windows: Python embutido OFICIAL (pythonw.exe assinado pela PSF) dentro de app/python
+          v="$PYTHON_EMBUTIDO"
+          curl -fsSL -o py.zip "https://www.python.org/ftp/python/$v/python-$v-embed-amd64.zip"
+          unzip -q py.zip -d dist/windows/LocalAISearch/app/python
+          pth=$(ls dist/windows/LocalAISearch/app/python/python*._pth | head -1)
+          printf '..\r\n' >> "$pth"          # a pasta app (cli.py e li/) no sys.path do Python embutido
+          cat "$pth"
+          test -f dist/windows/LocalAISearch/app/python/pythonw.exe
+          file "dist/windows/LocalAISearch/Instalar Local AI Search.bat"   # precisa ser CRLF
+          (cd dist/windows && zip -qr -X ../LocalAISearch-Windows.zip LocalAISearch)
+          ls -l dist/*.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zips
+          path: dist/*.zip
+
+  publicar:
+    needs: montar
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
       - name: Publicar no release app-latest
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         run: |
+          ls -l dist
           data=$(date -u +%Y-%m-%d)
-          notas="App local do Local AI Search (Windows, Linux e macOS). Baixe LocalAISearch.zip, extraia e siga o README.md da pasta.
+          notas="App local do Local AI Search.
+
+          • Windows: baixe LocalAISearch-Windows.zip, extraia e dê dois cliques em \"Instalar Local AI Search\" (cria o atalho e já abre o app).
+          • macOS e Linux: baixe LocalAISearch.zip, extraia e dê dois cliques em \"Abrir Local AI Search\".
 
           Atualizado em ${data} a partir do commit ${GITHUB_SHA::7}, com o catálogo de modelos do dia."
           if ! gh release view app-latest >/dev/null 2>&1; then
@@ -60,4 +91,4 @@ jobs:
           else
             gh release edit app-latest --notes "$notas" --latest
           fi
-          gh release upload app-latest dist/LocalAISearch.zip --clobber
+          gh release upload app-latest dist/LocalAISearch-Windows.zip dist/LocalAISearch.zip --clobber

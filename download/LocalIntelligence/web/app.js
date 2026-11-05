@@ -150,6 +150,11 @@ if (document.readyState === 'loading') {
 }
 aplicarTema(temaAtual());
 
+async function fecharApp() {
+  if (!confirm('Fechar o Local AI Search? Para abrir de novo, use o atalho “Local AI Search”.')) return;
+  try { await api('/api/encerrar', {}); } catch (e) { /* já fechou */ }
+  document.body.replaceChildren(h('div', { class: 'app-fechado' }, h('h1', {}, 'Local AI Search fechado'), h('p', { class: 'sub' }, 'Pode fechar esta aba. Para abrir de novo, use o atalho “Local AI Search”.')));
+}
 function desenharStatus() {
   const s = S.saude;
   const el = $('#status');
@@ -161,7 +166,8 @@ function desenharStatus() {
     gpu ? h('span', { class: 'pill', title: gpu.nome }, h('i', { class: 'dot ok' }), `GPU: ${gpu.vram_livre_gb} de ${gpu.vram_gb} GB livres`) : null,
     kv ? h('span', { class: 'pill', title: `Medido: a memória cresceu ${kv.medido_gb} GB entre os contextos testados; ${kv.tipo} previa ${kv.previsto_gb[kv.tipo]} GB (via ${kv.modelo})` }, h('i', { class: 'dot ok' }), `cache ${kv.tipo} medido`) : null,
     h('span', { class: 'pill', title: 'Protocolo de benchmark' }, h('i', { class: 'dot' }), 'protocolo ' + s.protocolo),
-    s.avisos_internos?.length ? h('span', { class: 'pill', title: s.avisos_internos.join('\n') }, h('i', { class: 'dot warn' }), `${s.avisos_internos.length} aviso(s)`) : null);
+    s.avisos_internos?.length ? h('span', { class: 'pill', title: s.avisos_internos.join('\n') }, h('i', { class: 'dot warn' }), `${s.avisos_internos.length} aviso(s)`) : null,
+    LI.alvo ? null : h('button', { type: 'button', class: 'fechar-app', title: 'Encerra o Local AI Search neste computador (o Ollama continua)', onclick: fecharApp }, '⏻ Fechar o app'));
 }
 
 // ---------------------------------------------------------------- CALCULADORA (aba do painel; o motor e a interface vivem em calc.js / calc-ui.js)
@@ -236,6 +242,7 @@ function desenhar() {
   desenharAbas();
   for (const [id] of ABAS) $('#p-' + id).classList.toggle('on', id === S.aba);
   PAGINAS[S.aba]();
+  if (typeof desenharPrimeirosPassos === 'function') desenharPrimeirosPassos();
   if (typeof registrarEvento === 'function' && S._abaContada !== S.aba) { registrarEvento(S._abaContada ? 'aba' : 'pagina', { aba: S.aba }); S._abaContada = S.aba; }
 }
 function abaDoHash() {
@@ -253,7 +260,7 @@ async function iniciar() {
   desenharStatus();
   desenhar();
   setInterval(async () => { await carregarJobs(); if (S.aba === 'medir') desenharJobsMedir(); }, 2000);
-  setInterval(carregarSaude, 15000);
+  setInterval(async () => { const antes = S.saude?.ollama?.no_ar; await carregarSaude(); if (S.saude?.ollama?.no_ar !== antes && typeof desenharPrimeirosPassos === 'function') desenharPrimeirosPassos(); }, 15000);
   setInterval(carregarMaquinas, 30000);
 }
 window.addEventListener('hashchange', () => { const x = abaDoHash(); if (x && x !== S.aba) { S.aba = x; desenhar(); } });

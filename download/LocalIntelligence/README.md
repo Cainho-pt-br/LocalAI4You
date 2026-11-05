@@ -9,35 +9,27 @@ O app que roda no seu computador. O site mostra **estimativas**. Aqui você **me
 
 Tudo roda no seu computador. Nenhum resultado é enviado para lugar nenhum.
 
-## O que instalar (uma vez)
+## Começar
 
-1. **Python 3.10 ou mais recente**: [python.org/downloads](https://www.python.org/downloads/). No Windows, marque **“Add Python to PATH”** no instalador.
-2. **Ollama**: [ollama.com/download](https://ollama.com/download). Deixe-o aberto.
+**Windows:** extraia o ZIP numa pasta (por exemplo, `Documentos\LocalAISearch`) e dê dois cliques em **`1_ABRIR_PAINEL.bat`**.
+Se faltar o Python ou o Ollama, ele pergunta e instala sozinho (pelo `winget`, que já vem no Windows 10 e 11). Depois o painel abre no navegador.
 
-Não precisa instalar nada com `pip`.
+**macOS:** dê dois cliques em **`abrir-mac.command`** (na primeira vez, se o macOS bloquear: botão direito → Abrir).
+**Linux:** rode `./abrir-linux.sh` no terminal.
 
-## Começar (Windows)
+No painel, o quadro **Primeiros passos** guia o resto: ligar o Ollama, instalar o primeiro modelo pelo Radar e fazer o primeiro duelo.
 
-1. Extraia o ZIP numa pasta (por exemplo, `Documentos\LocalAISearch`).
-2. Dê dois cliques em **`1_ABRIR_PAINEL.bat`**. O painel abre no navegador em `http://127.0.0.1:8765`.
-3. Na aba **Radar**, escolha um modelo e clique em **Instalar** (ou copie o comando `ollama pull`).
-4. Com um modelo instalado, use **Medir** (ou `2_MEDIR_MODELOS.bat`) e depois **Decidir**.
+O que é usado (tudo gratuito): **Python 3.10+** e **Ollama** ([ollama.com](https://ollama.com/download)). Não precisa instalar nada com `pip`.
 
-`3_PROCURAR_MODELOS_NOVOS.bat` atualiza o catálogo e grava um relatório do que saiu de novo. Ele não baixa nada.
+`2_MEDIR_MODELOS.bat` mede os modelos instalados; `3_PROCURAR_MODELOS_NOVOS.bat` atualiza o catálogo e grava um relatório do que saiu de novo (não baixa nada).
 
-## Começar (macOS e Linux)
-
-```bash
-cd LocalAISearch
-python3 cli.py painel
-```
-
-Outros comandos: `python3 cli.py --help` (por exemplo, `bench`, `testar`, `radar`, `decidir`).
+Pelo terminal (qualquer sistema): `python3 cli.py painel`. Outros comandos: `python3 cli.py --help` (por exemplo, `bench`, `testar`, `radar`, `decidir`).
 
 ## Se algo der errado
 
-- **“Python não encontrado”**: reinstale o Python marcando “Add Python to PATH” e abra o `.bat` de novo.
-- **“Ollama desligado”**: abra o aplicativo do Ollama e recarregue a página.
+- **“Python não encontrado”** (Windows sem `winget`): instale pelo [python.org](https://www.python.org/downloads/) marcando “Add Python to PATH” e abra o `.bat` de novo.
+- **O Windows avisou “O Windows protegeu o computador”**: clique em *Mais informações* → *Executar assim mesmo*. Os arquivos `.bat` são texto puro: dá para abrir no Bloco de Notas e conferir o que fazem.
+- **“Ollama desligado”**: clique em *Ligar o Ollama* no quadro Primeiros passos (ou abra o aplicativo do Ollama).
 - **O modelo está lento**: ele provavelmente não cabe todo na placa de vídeo. Escolha um menor no Radar.
 - **Relatar um problema**: [github.com/Cainho-pt-br/LocalAISearch/issues](https://github.com/Cainho-pt-br/LocalAISearch/issues)
 

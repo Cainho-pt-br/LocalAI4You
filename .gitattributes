@@ -1,3 +1,5 @@
 # Atalhos do Windows precisam de CRLF (cmd.exe), inclusive no ZIP gerado no Linux pelo GitHub Actions.
 *.bat text eol=crlf
 *.ps1 text eol=crlf
+*.sh text eol=lf
+*.command text eol=lf
