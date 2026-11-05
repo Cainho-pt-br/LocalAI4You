@@ -1005,7 +1005,7 @@ function painelSweetSpot(m, papeisNota) {
       semGpuMapa && maqMapa.ram_gb ? h('div', { class: 'info-caixa', style: 'margin-bottom:8px' },
         h('b', {}, `${vramTotal} GB para modelo`), ` = RAM total ${maqMapa.ram_gb} GB − ${reservaMapa} GB reservados ao sistema e aos outros serviços da máquina` +
         (maqMapa.max_modelo_gb && maqMapa.max_modelo_gb < maqMapa.ram_gb - reservaMapa + 0.01 ? `, limitado ao teto de ${maqMapa.max_modelo_gb} GB por modelo (regra do parque contra swap). ` : '. ') +
-        'Os números da máquina ficam em parque/parque.json.') : null,
+        '') : null,
       h('div', { class: 'tabela-wrap' },
         h('table', { class: 'sw-matrix tabela-compacta' },
           h('thead', {}, h('tr', {},
@@ -1231,7 +1231,7 @@ async function pModelos() {
     blocoInstalados,
     titulo('Mapa de Equilíbrio & VRAM (Sweet Spot)', 'Simule o consumo físico real na GPU entre 4k e 1M e compare folgas e velocidades.'),
     painelSweetSpot(m, papeisNota),
-    h('div', { id: 'sec-arena' }, titulo('Duelo: compare dois modelos (A × B)', 'Compare dois modelos escolhidos lado a lado — sem misturar com os modelos de outros usos.')),
+    h('div', { id: 'sec-arena', class: 'secao-separada' }, titulo('Duelo: compare dois modelos (A × B)', 'Compare dois modelos escolhidos lado a lado — sem misturar com os modelos de outros usos.')),
     comparador(m, papeisNota),
     blocoAposentados,
     h('div', { id: 'hist-v1' }));
@@ -1367,7 +1367,10 @@ function comparador(m, papeisNota) {
               h('th', {}, 'Diagnóstico A × B (sem terceiros)'))),
             h('tbody', {}, linhasTab))));
     } catch (e) {
-      saida.replaceChildren(h('div', { class: 'aviso-caixa' }, e.message));
+      // Sem medição em comum (ou painel sem resposta): não é erro para quem usa, só falta duelar.
+      saida.replaceChildren(h('div', { class: 'info-caixa' }, h('b', {}, 'Ainda não duelado. '),
+        'Estes dois ainda não foram medidos nos mesmos itens. Clique em “⚔ Rodar Batalha” para medir os dois aqui no seu PC.',
+        /respondeu|HTTP 5/i.test(e.message) ? h('div', { class: 'sub', style: 'margin-top:6px' }, 'Se o painel acabou de abrir, aguarde alguns segundos e tente de novo.') : null));
     }
   }
 

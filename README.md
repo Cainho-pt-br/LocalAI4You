@@ -34,7 +34,7 @@ cd download/LocalIntelligence && python -m unittest discover -s tests
 
 - **Site**: no Vercel, importe este repositório com `site` como **Root Directory**. Não há build.
 - **Catálogo**: o workflow *Atualizar catálogo público* roda às 08:17 UTC (ou manualmente em **Actions**). Ele atualiza `site/dados.js` e o catálogo que vai no ZIP do app (`download/LocalIntelligence/data/radar-inicial.json.gz`). Se a varredura falhar, o último catálogo bom é mantido. Para republicar no Vercel automaticamente, salve um Deploy Hook como secret `VERCEL_DEPLOY_HOOK`.
-- **App**: o workflow *Publicar app local* gera `LocalAISearch.zip` (só o app, sem o site) e o publica no release `app-latest`. O botão “Baixar o app local” do site aponta para `releases/latest/download/LocalAISearch.zip`. Ele roda quando o app muda, depois de cada atualização do catálogo, ou manualmente.
+- **App**: o workflow *Publicar app local* monta o download com `empacotar/montar.py` e publica no release `app-latest`: `LocalAISearch-Setup.exe` (Windows, Inno Setup com Python embutido, atalho na Área de Trabalho) e `LocalAISearch.zip` (macOS/Linux: atalho de abrir, `LEIA-ME.txt` e a pasta `app/`). O site oferece o instalador para quem está no Windows e o ZIP para os demais. Ele roda quando o app muda, depois de cada atualização do catálogo, ou manualmente.
 
 ## Métricas, e-mails e benchmarks da comunidade
 

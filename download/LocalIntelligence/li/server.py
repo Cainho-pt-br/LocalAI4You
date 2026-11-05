@@ -580,7 +580,18 @@ def p_maq_sincronizar(b):
 
 
 GET_ROTAS.update({"/api/visao/comparar": lambda q: lab.visao_comparar(), "/api/bench/niveis": r_bench_niveis, "/api/maquinas": r_maquinas, "/api/radar/snapshot": r_radar_snapshot})
-CONTROLE = {"/api/maquinas", "/api/maquinas/registrar", "/api/maquinas/remover", "/api/maquinas/sincronizar-radar"}   # só pelo loopback: o remoto não encadeia
+CONTROLE = {"/api/encerrar", "/api/maquinas", "/api/maquinas/registrar", "/api/maquinas/remover", "/api/maquinas/sincronizar-radar"}   # só pelo loopback: o remoto não encadeia
+
+
+_SERVIDOR: Dict[str, Any] = {}
+
+
+def p_encerrar(corpo):
+    """Botão "Fechar o app": no Windows o painel roda sem janela, então é assim que se encerra."""
+    srv = _SERVIDOR.get("srv")
+    if srv:
+        threading.Timer(0.4, srv.shutdown).start()
+    return {"ok": True}
 
 
 def p_ollama_iniciar(corpo):
@@ -589,7 +600,7 @@ def p_ollama_iniciar(corpo):
     return {"ok": True, "versao": o.versao()}
 
 
-POST_ROTAS = {"/api/ollama/iniciar": p_ollama_iniciar, "/api/aposentar": p_remover, "/api/radar/varrer": p_varrer, "/api/bench": p_bench, "/api/sonda": p_sonda,
+POST_ROTAS = {"/api/encerrar": p_encerrar, "/api/ollama/iniciar": p_ollama_iniciar, "/api/aposentar": p_remover, "/api/radar/varrer": p_varrer, "/api/bench": p_bench, "/api/sonda": p_sonda,
               "/api/desafio": p_desafio, "/api/duelo": p_duelo, "/api/fixar-ctx": p_fixar_ctx,
               "/api/baixar": p_baixar, "/api/atualizar": p_atualizar, "/api/promover": p_promover, "/api/veredito": p_veredito, "/api/remover": p_remover,
               "/api/offline/exportar": p_exportar, "/api/offline/verificar": p_verificar, "/api/cancelar": p_cancelar,
@@ -736,6 +747,7 @@ def servir(porta: Optional[int] = None, abrir: bool = True, iniciar_ollama: bool
         if abrir:
             webbrowser.open(url)
         return
+    _SERVIDOR["srv"] = srv
     print(f"Painel em {url}  (Ctrl+C para encerrar)")
     if abrir:
         threading.Timer(0.8, lambda: webbrowser.open(url)).start()
