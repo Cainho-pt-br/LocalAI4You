@@ -1,6 +1,10 @@
 /* Dicionários da interface (pt → en, es). Gerado a partir das frases da tela; edite aqui para corrigir uma tradução.
    Cada linha: [português, inglês, espanhol]. {n} = um número, na mesma ordem. */
 window.LI_I18N_DADOS = [
+["Saiu uma versão nova do Local AI {n} You.", "A new version of Local AI {n} You is out.", "Salió una versión nueva de Local AI {n} You."],
+["Baixe e rode o instalador de novo: seus modelos, notas e configurações continuam.", "Download it and run the installer again: your models, scores and settings stay.", "Descárgala y ejecuta el instalador de nuevo: tus modelos, notas y configuración se mantienen."],
+["Baixar a nova versão", "Download the new version", "Descargar la nueva versión"],
+["Depois", "Later", "Después"],
 ["2º lugar", "2nd place", "2.º lugar"],
 ["3º lugar", "3rd place", "3.º lugar"],
 ["Top 4", "Top 4", "Top 4"],
