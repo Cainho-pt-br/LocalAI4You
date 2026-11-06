@@ -1,5 +1,5 @@
 @echo off
-title Local AI Search - Medir modelos
+title Local AI 4 You - Medir modelos
 cd /d "%~dp0"
 call deploy\achar-python.bat
 if not defined PY (

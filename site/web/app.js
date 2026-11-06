@@ -151,9 +151,9 @@ if (document.readyState === 'loading') {
 aplicarTema(temaAtual());
 
 async function fecharApp() {
-  if (!confirm('Fechar o Local AI Search? Para abrir de novo, use o atalho “Local AI Search”.')) return;
+  if (!confirm('Fechar o Local AI 4 You? Para abrir de novo, use o atalho “Local AI 4 You”.')) return;
   try { await api('/api/encerrar', {}); } catch (e) { /* já fechou */ }
-  document.body.replaceChildren(h('div', { class: 'app-fechado' }, h('h1', {}, 'Local AI Search fechado'), h('p', { class: 'sub' }, 'Pode fechar esta aba. Para abrir de novo, use o atalho “Local AI Search”.')));
+  document.body.replaceChildren(h('div', { class: 'app-fechado' }, h('h1', {}, 'Local AI 4 You fechado'), h('p', { class: 'sub' }, 'Pode fechar esta aba. Para abrir de novo, use o atalho “Local AI 4 You”.')));
 }
 function desenharStatus() {
   const s = S.saude;
@@ -167,7 +167,7 @@ function desenharStatus() {
     kv ? h('span', { class: 'pill', title: `Medido: a memória cresceu ${kv.medido_gb} GB entre os contextos testados; ${kv.tipo} previa ${kv.previsto_gb[kv.tipo]} GB (via ${kv.modelo})` }, h('i', { class: 'dot ok' }), `cache ${kv.tipo} medido`) : null,
     h('span', { class: 'pill', title: 'Protocolo de benchmark' }, h('i', { class: 'dot' }), 'protocolo ' + s.protocolo),
     s.avisos_internos?.length ? h('span', { class: 'pill', title: s.avisos_internos.join('\n') }, h('i', { class: 'dot warn' }), `${s.avisos_internos.length} aviso(s)`) : null,
-    LI.alvo ? null : h('button', { type: 'button', class: 'fechar-app', title: 'Encerra o Local AI Search neste computador (o Ollama continua)', onclick: fecharApp }, '⏻ Fechar o app'));
+    LI.alvo ? null : h('button', { type: 'button', class: 'fechar-app', title: 'Encerra o Local AI 4 You neste computador (o Ollama continua)', onclick: fecharApp }, '⏻ Fechar o app'));
 }
 
 // ---------------------------------------------------------------- CALCULADORA (aba do painel; o motor e a interface vivem em calc.js / calc-ui.js)

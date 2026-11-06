@@ -1,5 +1,5 @@
 #!/bin/bash
-# Abre o painel do Local AI Search (macOS e Linux). Confere o Python e o Ollama e oferece instalar o que faltar.
+# Abre o painel do Local AI 4 You (macOS e Linux). Confere o Python e o Ollama e oferece instalar o que faltar.
 cd "$(dirname "$0")" || exit 1
 PY=""
 for c in python3 python; do
