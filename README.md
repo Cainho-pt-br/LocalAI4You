@@ -47,6 +47,10 @@ O banco fica no Supabase (organização **Local AI 4 You**, projeto **LocalAISea
 
 Consultas prontas (SQL Editor): `select * from privado.v_diario;`, `v_origens` (de onde vêm e quem converte), `v_hardware` (placas mais configuradas), `v_modelos_copiados`, `v_abas`.
 
+## Idiomas
+
+Site e app em português, inglês e espanhol. O código continua escrito em português; `web/i18n.js` troca os textos da tela usando os dicionários de `web/i18n-dados.js` (frase exata, frase com números como `{n}` e regras para textos montados em partes). O idioma vem do navegador/sistema e pode ser trocado no seletor 🌐. Texto novo na interface: acrescente a linha `[português, inglês, espanhol]` em `i18n-dados.js`.
+
 ## Apoiar o projeto
 
 O projeto é gratuito e de código aberto. Se ele te ajudou: deixe uma ⭐, [conte o que achou ou relate um problema](https://github.com/Cainho-pt-br/LocalAISearch/issues) e mostre para quem está começando com IA local.

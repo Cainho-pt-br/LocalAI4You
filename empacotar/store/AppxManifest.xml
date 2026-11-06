@@ -19,6 +19,8 @@
   </Dependencies>
   <Resources>
     <Resource Language="pt-BR" />
+    <Resource Language="en-US" />
+    <Resource Language="es-ES" />
   </Resources>
   <Applications>
     <Application Id="LocalAISearch" Executable="python\pythonw.exe" uap10:Parameters="-m cli painel" EntryPoint="Windows.FullTrustApplication">

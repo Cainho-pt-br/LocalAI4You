@@ -26,7 +26,7 @@ Um guia de 3 passos: ligar o Ollama, instalar o primeiro modelo e fazer o primei
 PRIVADO
 Tudo roda no seu computador. Sem conta, sem cadastro. O app não envia nada sem você pedir.
 
-Gratuito e de código aberto.
+Gratuito e de código aberto. Disponível em português, inglês e espanhol.
 
 Requer o Ollama (gratuito, ollama.com) para baixar e rodar os modelos. Sem ele, o Radar e a Calculadora funcionam normalmente.
 
@@ -57,10 +57,10 @@ IA local, Ollama, LLM, modelos de IA, benchmark, placa de vídeo, inteligência 
 
 ## Capturas de tela (1920×1080, nesta ordem) e legendas
 
-1. `1-inicio.png` — Descubra em segundos qual IA roda bem no seu computador
-2. `2-radar.png` — Radar: todos os modelos que cabem, do melhor ao mais leve
-3. `3-calculadora.png` — Calculadora: memória, contexto e velocidade antes de baixar
-4. `4-primeiros-passos.png` — Primeiros passos guiados e duelos no seu próprio PC
+1. `pt/1-inicio.png` — Descubra em segundos qual IA roda bem no seu computador
+2. `pt/2-radar.png` — Radar: todos os modelos que cabem, do melhor ao mais leve
+3. `pt/3-calculadora.png` — Calculadora: memória, contexto e velocidade antes de baixar
+4. `pt/4-duelo.png` — Duelo: dois modelos, as mesmas perguntas, um vencedor (ou empate)
 
 ## Outros campos
 

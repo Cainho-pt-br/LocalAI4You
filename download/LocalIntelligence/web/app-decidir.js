@@ -1357,6 +1357,18 @@ function comparador(m, papeisNota) {
               tpsB ? h('span', {}, h('b', {}, fmtN(tpsB, 0)), ' tok/s') : null,
               ctxB ? h('span', {}, h('b', {}, fmtCtx(ctxB)), ' GPU') : null,
               h('span', {}, h('b', {}, fmtGB(instB.bytes)))))),
+        // gráfico: uma linha por função, barra de A e de B lado a lado (a tabela abaixo traz os números e o IC)
+        h('div', { class: 'duelo-grafico' },
+          h('div', { class: 'duelo-legenda' }, h('span', { class: 'duelo-a' }, 'A · ' + nomeA), h('span', { class: 'duelo-b' }, 'B · ' + nomeB)),
+          Object.entries(porPapel).map(([pid, d]) => {
+            const pap = papelPorId(pid);
+            const ganhador = d.veredito === 'superior' ? 'A vence' : d.veredito === 'inferior' ? 'B vence' : 'empate';
+            return h('div', { class: 'duelo-linha' },
+              h('span', { class: 'sub' }, `${pap?.icone || ''} ${pap?.rotulo || pid}`),
+              h('span', { class: 'duelo-barras' }, h('i', { class: 'da', style: `width:${Math.max(2, Math.min(100, d.a))}%` }), h('i', { class: 'db', style: `width:${Math.max(2, Math.min(100, d.b))}%` })),
+              h('span', { class: 'previa-nota' }, `${fmtN(d.a, 0)} × ${fmtN(d.b, 0)}`),
+              chip(ganhador, d.veredito === 'superior' ? 'ok' : d.veredito === 'inferior' ? 'estimado' : 'neutro'));
+          })),
         h('div', { class: 'tabela-wrap' },
           h('table', { class: 'tabela-compacta' },
             h('thead', {}, h('tr', {},
