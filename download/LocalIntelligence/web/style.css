@@ -797,7 +797,7 @@ dialog::backdrop { background: rgba(10, 12, 18, .55); backdrop-filter: blur(2px)
   filter: drop-shadow(0 3px 4px var(--brilho)); }
 .radar-top .radar-fit { margin-top:14px; }
 /* painel local: mesma linguagem nos cartões da fila */
-.radar-card.radar-top { padding-top:30px; overflow:visible; }
+.cartao.radar-card.radar-top { padding-top:46px !important; overflow:visible; }   /* espaço para a medalha e a fita não cobrirem o nome */
 .radar-card .radar-pos-local { position:absolute; top:-18px; left:16px; z-index:1; }
 @media (prefers-reduced-motion: reduce) { .radar-top-1, .radar-top-1::before { animation:none; } .radar-top, .radar-top:hover { transition:none; transform:none; } }
 @media (max-width:600px) { .radar-faixa { right:12px; font-size:.6rem; } .radar-top-1 h2 { font-size:1.12rem; } }

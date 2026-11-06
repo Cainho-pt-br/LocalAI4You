@@ -101,7 +101,7 @@ function pDecidir() {
     h('div', { class: 'pagina-topo' },
       h('div', { class: 'linha topo' },
         h('div', {},
-          h('div', { class: 'eyebrow-tech' }, 'LOCAL AI SEARCH · SEUS MODELOS'),
+          h('div', { class: 'eyebrow-tech' }, 'LOCAL AI 4 YOU · SEUS MODELOS'),
           h('h1', {}, 'Decidir'),
           h('p', { class: 'sub' }, 'O resumo dos seus modelos: qual é o melhor para cada uso, qual pode ser apagado sem perda e qual modelo novo vale testar.')),
         oculto ? h('button', { class: 'btn mini', onclick: () => definirMancheteOculta(m, false) }, `Mostrar avisos (${acoesVisiveis.length})`) : null)),
@@ -1224,7 +1224,7 @@ async function pModelos() {
 
   raiz.replaceChildren(
     h('div', { class: 'pagina-topo' },
-      h('div', { class: 'eyebrow-tech' }, 'LOCAL AI SEARCH · PLACAR E DUELOS'),
+      h('div', { class: 'eyebrow-tech' }, 'LOCAL AI 4 YOU · PLACAR E DUELOS'),
       h('h1', {}, 'Meus modelos'),
       h('p', { class: 'sub' }, 'Placar dos modelos instalados, mapa de equilíbrio entre nota e velocidade e duelo entre dois modelos (A × B).')),
     heroStats,
