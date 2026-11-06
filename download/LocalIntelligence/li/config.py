@@ -7,7 +7,21 @@ from pathlib import Path
 from .util import gravar_json, ler_json
 
 RAIZ = Path(__file__).resolve().parent.parent
-ESTADO = RAIZ / "estado"
+
+
+def _pasta_gravavel() -> Path:
+    """Onde ficam estado/ e relatorios/. Normalmente ao lado do app; se a pasta do app for só leitura (app da Microsoft
+    Store, instalado em WindowsApps) ou LI_DADOS estiver definida, numa pasta do usuário."""
+    if os.environ.get("LI_DADOS"):
+        return Path(os.environ["LI_DADOS"])
+    if os.access(RAIZ, os.W_OK) and "WindowsApps" not in RAIZ.parts:
+        return RAIZ
+    base = os.environ.get("LOCALAPPDATA") or os.path.join(Path.home(), ".local", "share")
+    return Path(base) / "LocalAISearch"
+
+
+GRAVAVEL = _pasta_gravavel()
+ESTADO = GRAVAVEL / "estado"
 DADOS = RAIZ / "data"
 AMOSTRAS = DADOS / "amostras"
 CACHE = ESTADO / "cache"
@@ -24,7 +38,7 @@ PARQUE_ARQ = RAIZ / "parque" / "parque.json"
 CATALOGO_INICIAL = RAIZ / "data" / "radar-inicial.json.gz"
 HARDWARE_ARQ = DADOS / "hardware.json"
 WEB = RAIZ / "web"
-RELATORIOS = RAIZ / "relatorios"
+RELATORIOS = GRAVAVEL / "relatorios"
 
 PADRAO = {
     # Ollama: OLLAMA_HOST do sistema pode ser 0.0.0.0 (escuta) — para CONECTAR usamos loopback.

@@ -1,0 +1,79 @@
+name: Pacote da Microsoft Store
+
+# Gera LocalAISearch.msix para enviar no Partner Center (a Store assina o pacote; aqui ele sai sem assinatura).
+# Precisa das variáveis do repositório (Settings → Secrets and variables → Actions → Variables), copiadas da página
+# "Identidade do produto" no Partner Center:
+#   STORE_IDENTITY_NAME   (Package/Identity/Name, ex.: 12345NomeDoPublicador.LocalAISearch)
+#   STORE_PUBLISHER       (Package/Identity/Publisher, ex.: CN=ABCD1234-...)
+#   STORE_PUBLISHER_NAME  (Package/Properties/PublisherDisplayName)
+# Roda manualmente (Actions → Pacote da Microsoft Store → Run workflow); o .msix fica nos artefatos da execução.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHON_EMBUTIDO: "3.12.10"
+
+jobs:
+  msix:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Conferir as variáveis da Store
+        shell: pwsh
+        run: |
+          foreach ($v in 'STORE_IDENTITY_NAME','STORE_PUBLISHER','STORE_PUBLISHER_NAME') {
+            if (-not [Environment]::GetEnvironmentVariable($v)) { throw "Falta a variável $v (veja o topo deste workflow)." }
+          }
+        env:
+          STORE_IDENTITY_NAME: ${{ vars.STORE_IDENTITY_NAME }}
+          STORE_PUBLISHER: ${{ vars.STORE_PUBLISHER }}
+          STORE_PUBLISHER_NAME: ${{ vars.STORE_PUBLISHER_NAME }}
+      - name: Montar o conteúdo do pacote
+        shell: pwsh
+        env:
+          STORE_IDENTITY_NAME: ${{ vars.STORE_IDENTITY_NAME }}
+          STORE_PUBLISHER: ${{ vars.STORE_PUBLISHER }}
+          STORE_PUBLISHER_NAME: ${{ vars.STORE_PUBLISHER_NAME }}
+        run: |
+          python empacotar/montar.py
+          $raiz = "dist/msix"
+          New-Item -ItemType Directory -Force $raiz | Out-Null
+          Copy-Item -Recurse dist/windows/LocalAISearch/app/* $raiz
+          Remove-Item "$raiz/desinstalar.bat" -ErrorAction SilentlyContinue
+          $v = $env:PYTHON_EMBUTIDO
+          Invoke-WebRequest "https://www.python.org/ftp/python/$v/python-$v-embed-amd64.zip" -OutFile py.zip
+          Expand-Archive py.zip -DestinationPath "$raiz/python"
+          $pth = Get-ChildItem "$raiz/python" -Filter "python*._pth" | Select-Object -First 1
+          Add-Content $pth.FullName ".."
+          Copy-Item -Recurse empacotar/store/Assets "$raiz/Assets"
+          $versao = "1.$env:GITHUB_RUN_NUMBER.0.0"
+          (Get-Content empacotar/store/AppxManifest.xml -Raw) `
+            -replace 'IDENTIDADE_NOME', $env:STORE_IDENTITY_NAME `
+            -replace 'IDENTIDADE_PUBLISHER', [Security.SecurityElement]::Escape($env:STORE_PUBLISHER) `
+            -replace 'NOME_PUBLICADOR', [Security.SecurityElement]::Escape($env:STORE_PUBLISHER_NAME) `
+            -replace 'VERSAO', $versao | Set-Content -Encoding utf8 "$raiz/AppxManifest.xml"
+          # teste de fumaça: o Python embutido acha o app como módulo (é assim que o atalho da Store o abre)
+          Push-Location "$raiz/python"; & ./python.exe -m cli --help | Select-Object -First 2; $ok = $LASTEXITCODE; Pop-Location
+          if ($ok -ne 0) { throw "python -m cli falhou dentro do pacote" }
+          Get-ChildItem "$raiz/python" -Recurse -Filter "__pycache__" | Remove-Item -Recurse -Force
+          Get-ChildItem $raiz -Recurse -Directory -Filter "__pycache__" | Remove-Item -Recurse -Force
+      - name: Gerar o .msix
+        shell: pwsh
+        run: |
+          $makeappx = Get-ChildItem "${env:ProgramFiles(x86)}\Windows Kits\10\bin" -Recurse -Filter makeappx.exe |
+            Where-Object { $_.FullName -match '\\x64\\' } | Sort-Object FullName -Descending | Select-Object -First 1
+          & $makeappx.FullName pack /d dist/msix /p dist/LocalAISearch.msix /o
+          if ($LASTEXITCODE -ne 0) { throw "makeappx falhou" }
+          Get-Item dist/LocalAISearch.msix
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LocalAISearch-msix
+          path: dist/LocalAISearch.msix
