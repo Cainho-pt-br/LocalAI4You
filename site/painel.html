@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Painel interno</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#14161f;--muted:#646b7d;--line:#e3e6ef;--acc:#6d4aff}
+@media (prefers-color-scheme:dark){:root{--bg:#0d0f16;--card:#161925;--ink:#eef0f6;--muted:#9aa1b4;--line:#262a3a;--acc:#9b85ff}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:24px 16px 60px}h1{margin:0 0 4px}h2{font-size:1.05rem;margin:28px 0 10px}
+.sub{color:var(--muted);font-size:.88rem}.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:18px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}.kpi b{display:block;font-size:1.7rem;font-variant-numeric:tabular-nums}
+.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.caixa{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.88rem}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:600}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}form{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+input,button{font:inherit;padding:9px 12px;border-radius:9px;border:1px solid var(--line);background:var(--card);color:var(--ink)}button{background:var(--acc);color:#fff;border:0;cursor:pointer}
+.vazio{color:var(--muted);font-style:italic}
+</style>
+</head>
+<body><main>
+<h1>Painel interno</h1>
+<div class="sub">Só números somados dos últimos 30 dias (site) e de todos os envios da comunidade. Nada individual.</div>
+<form id="f"><input id="s" type="password" placeholder="Senha do painel" autocomplete="current-password" required><button>Abrir</button><span id="st" class="sub"></span></form>
+<div id="out"></div>
+</main>
+<script>
+const $ = s => document.querySelector(s), esc = v => String(v ?? '—').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function tabela(titulo, linhas, cols) {
+  const corpo = linhas.length ? '<table><tr>' + cols.map(c => `<th class="${c[2]||''}">${c[1]}</th>`).join('') + '</tr>' +
+    linhas.map(l => '<tr>' + cols.map(c => `<td class="${c[2]||''}">${esc(l[c[0]])}</td>`).join('') + '</tr>').join('') + '</table>'
+    : '<div class="vazio">Ainda sem dados.</div>';
+  return `<div class="caixa"><h2 style="margin-top:0">${titulo}</h2>${corpo}</div>`;
+}
+async function abrir(senha) {
+  $('#st').textContent = 'Carregando…';
+  const r = await fetch('/api/coleta', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fn: 'painel_resumo', dados: { p_senha: senha } }) });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) { $('#st').textContent = d.message || 'Erro ' + r.status; return; }
+  try { sessionStorage.setItem('li-painel', senha); } catch (e) {}
+  $('#f').style.display = 'none';
+  const t = d.totais, k = (n, l) => `<div class="kpi"><span class="sub">${l}</span><b>${n}</b></div>`;
+  $('#out').innerHTML =
+    `<div class="kpis">${k(t.visitas_7d,'Visitas, 7 dias')}${k(t.visitas_30d,'Visitas, 30 dias')}${k(t.downloads_30d,'Downloads, 30 dias')}${k(t.comandos_30d,'Comandos copiados, 30 dias')}${k(t.cliques_loja_30d,'Cliques em lojas, 30 dias')}${k(t.benchmarks,'Resultados da comunidade')}${k(t.maquinas,'Máquinas diferentes')}</div>` +
+    '<h2>Site</h2><div class="grade">' +
+    tabela('Por dia', d.diario, [['dia','Dia'],['visitas','Visitas','n'],['downloads','Downloads','n'],['comandos','Comandos','n']]) +
+    tabela('De onde vêm', d.origens, [['origem','Origem'],['visitas','Visitas','n'],['baixaram','Baixaram','n']]) +
+    tabela('Hardware escolhido no site', d.hardware_site, [['hardware','Hardware'],['visitas','Visitas','n']]) +
+    tabela('Modelos mais copiados', d.modelos_copiados, [['modelo','Modelo'],['copias','Cópias','n']]) +
+    '</div><h2>Comunidade (resultados enviados pelo app)</h2><div class="grade">' +
+    tabela('Placas', d.placas_comunidade, [['placa','Placa'],['envios','Envios','n'],['modelos','Modelos','n']]) +
+    tabela('Modelo × placa', d.modelos_comunidade, [['modelo','Modelo'],['placa','Placa'],['envios','Envios','n'],['nota_media','Nota média','n'],['tps_medio','tok/s','n']]) +
+    `</div><p class="sub">Atualizado em ${new Date(d.gerado).toLocaleString('pt-BR')}.</p>`;
+}
+$('#f').onsubmit = e => { e.preventDefault(); abrir($('#s').value); };
+try { const s = sessionStorage.getItem('li-painel'); if (s) abrir(s); } catch (e) {}
+</script>
+</body></html>
