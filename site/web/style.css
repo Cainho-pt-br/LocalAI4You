@@ -797,7 +797,7 @@ dialog::backdrop { background: rgba(10, 12, 18, .55); backdrop-filter: blur(2px)
   filter: drop-shadow(0 3px 4px var(--brilho)); }
 .radar-top .radar-fit { margin-top:14px; }
 /* painel local: mesma linguagem nos cartões da fila */
-.radar-card.radar-top { padding-top:30px; overflow:visible; }
+.cartao.radar-card.radar-top { padding-top:46px !important; overflow:visible; }   /* espaço para a medalha e a fita não cobrirem o nome */
 .radar-card .radar-pos-local { position:absolute; top:-18px; left:16px; z-index:1; }
 @media (prefers-reduced-motion: reduce) { .radar-top-1, .radar-top-1::before { animation:none; } .radar-top, .radar-top:hover { transition:none; transform:none; } }
 @media (max-width:600px) { .radar-faixa { right:12px; font-size:.6rem; } .radar-top-1 h2 { font-size:1.12rem; } }
@@ -992,3 +992,13 @@ details.painel-colapsavel > summary > h3 { flex:1; text-align:left; }
 .fechar-app { margin-top: 6px; align-self: flex-start; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 99px; padding: 4px 10px; font-size: .76rem; }
 .fechar-app:hover { color: var(--text); border-color: var(--line-strong); }
 .app-fechado { min-height: 100vh; display: grid; place-content: center; text-align: center; gap: 8px; padding: 24px; }
+
+/* seletor de idioma */
+.seletor-idioma { background: var(--surface-2); color: var(--text); border: 1px solid var(--line); border-radius: 99px; padding: 5px 10px; font-size: .78rem; font-weight: 600; cursor: pointer; max-width: 100%; }
+.seletor-idioma:hover { border-color: var(--line-strong); }
+.lateral-head .idioma { margin-top: -4px; }
+/* gráfico do duelo (app) */
+.duelo-grafico { display:grid; gap:10px; margin:4px 0 16px; padding:16px 18px; border-radius:var(--radius); background:var(--surface); border:1px solid var(--line); }
+.duelo-grafico .duelo-barras i { height:9px; }
+.duelo-legenda { display:flex; gap:18px; flex-wrap:wrap; font-weight:700; font-size:.86rem; margin-bottom:4px; }
+.duelo-legenda span::before { content:''; display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; background:currentColor; vertical-align:-1px; }

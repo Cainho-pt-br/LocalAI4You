@@ -101,7 +101,7 @@ function pDecidir() {
     h('div', { class: 'pagina-topo' },
       h('div', { class: 'linha topo' },
         h('div', {},
-          h('div', { class: 'eyebrow-tech' }, 'LOCAL AI SEARCH · SEUS MODELOS'),
+          h('div', { class: 'eyebrow-tech' }, 'LOCAL AI 4 YOU · SEUS MODELOS'),
           h('h1', {}, 'Decidir'),
           h('p', { class: 'sub' }, 'O resumo dos seus modelos: qual é o melhor para cada uso, qual pode ser apagado sem perda e qual modelo novo vale testar.')),
         oculto ? h('button', { class: 'btn mini', onclick: () => definirMancheteOculta(m, false) }, `Mostrar avisos (${acoesVisiveis.length})`) : null)),
@@ -1224,7 +1224,7 @@ async function pModelos() {
 
   raiz.replaceChildren(
     h('div', { class: 'pagina-topo' },
-      h('div', { class: 'eyebrow-tech' }, 'LOCAL AI SEARCH · PLACAR E DUELOS'),
+      h('div', { class: 'eyebrow-tech' }, 'LOCAL AI 4 YOU · PLACAR E DUELOS'),
       h('h1', {}, 'Meus modelos'),
       h('p', { class: 'sub' }, 'Placar dos modelos instalados, mapa de equilíbrio entre nota e velocidade e duelo entre dois modelos (A × B).')),
     heroStats,
@@ -1357,6 +1357,18 @@ function comparador(m, papeisNota) {
               tpsB ? h('span', {}, h('b', {}, fmtN(tpsB, 0)), ' tok/s') : null,
               ctxB ? h('span', {}, h('b', {}, fmtCtx(ctxB)), ' GPU') : null,
               h('span', {}, h('b', {}, fmtGB(instB.bytes)))))),
+        // gráfico: uma linha por função, barra de A e de B lado a lado (a tabela abaixo traz os números e o IC)
+        h('div', { class: 'duelo-grafico' },
+          h('div', { class: 'duelo-legenda' }, h('span', { class: 'duelo-a' }, 'A · ' + nomeA), h('span', { class: 'duelo-b' }, 'B · ' + nomeB)),
+          Object.entries(porPapel).map(([pid, d]) => {
+            const pap = papelPorId(pid);
+            const ganhador = d.veredito === 'superior' ? 'A vence' : d.veredito === 'inferior' ? 'B vence' : 'empate';
+            return h('div', { class: 'duelo-linha' },
+              h('span', { class: 'sub' }, `${pap?.icone || ''} ${pap?.rotulo || pid}`),
+              h('span', { class: 'duelo-barras' }, h('i', { class: 'da', style: `width:${Math.max(2, Math.min(100, d.a))}%` }), h('i', { class: 'db', style: `width:${Math.max(2, Math.min(100, d.b))}%` })),
+              h('span', { class: 'previa-nota' }, `${fmtN(d.a, 0)} × ${fmtN(d.b, 0)}`),
+              chip(ganhador, d.veredito === 'superior' ? 'ok' : d.veredito === 'inferior' ? 'estimado' : 'neutro'));
+          })),
         h('div', { class: 'tabela-wrap' },
           h('table', { class: 'tabela-compacta' },
             h('thead', {}, h('tr', {},
