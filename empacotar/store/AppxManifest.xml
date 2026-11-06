@@ -9,7 +9,7 @@
          IgnorableNamespaces="uap uap10 rescap">
   <Identity Name="IDENTIDADE_NOME" Publisher="IDENTIDADE_PUBLISHER" Version="VERSAO" ProcessorArchitecture="x64" />
   <Properties>
-    <DisplayName>Local AI Search</DisplayName>
+    <DisplayName>Local AI 4 You</DisplayName>
     <PublisherDisplayName>NOME_PUBLICADOR</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
     <Description>Descubra qual IA local roda bem no seu computador, meça e compare modelos do Ollama.</Description>
@@ -22,7 +22,7 @@
   </Resources>
   <Applications>
     <Application Id="LocalAISearch" Executable="python\pythonw.exe" uap10:Parameters="-m cli painel" EntryPoint="Windows.FullTrustApplication">
-      <uap:VisualElements DisplayName="Local AI Search" Description="Descubra e meça IA local no seu computador"
+      <uap:VisualElements DisplayName="Local AI 4 You" Description="Descubra e meça IA local no seu computador"
                           BackgroundColor="transparent" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\Square71x71Logo.png" Square310x310Logo="Assets\Square310x310Logo.png" />
       </uap:VisualElements>
