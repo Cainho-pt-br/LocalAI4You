@@ -1,6 +1,6 @@
 @echo off
 chcp 65001 >nul
-title Local AI Search
+title Local AI 4 You
 cd /d "%~dp0"
 call deploy\achar-python.bat
 

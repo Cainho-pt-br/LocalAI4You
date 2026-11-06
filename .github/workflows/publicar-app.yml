@@ -1,7 +1,7 @@
 name: Publicar app local
 
 # Gera o que vai para o download e publica no release "app-latest":
-#   • LocalAISearch-Windows.zip — "Instalar Local AI Search" + app/ com o Python embutido oficial; os atalhos chamam o
+#   • LocalAISearch-Windows.zip — "Instalar Local AI 4 You" + app/ com o Python embutido oficial; os atalhos chamam o
 #                                pythonw.exe assinado pela PSF (sem executável desconhecido para o SmartScreen).
 #   • LocalAISearch.zip         — macOS e Linux: atalho para abrir, LEIA-ME.txt e a pasta app/.
 # O site aponta para releases/latest/download/<arquivo>. Roda quando o app muda, quando o catálogo diário termina
@@ -56,7 +56,7 @@ jobs:
           printf '..\r\n' >> "$pth"          # a pasta app (cli.py e li/) no sys.path do Python embutido
           cat "$pth"
           test -f dist/windows/LocalAISearch/app/python/pythonw.exe
-          file "dist/windows/LocalAISearch/Instalar Local AI Search.bat"   # precisa ser CRLF
+          file "dist/windows/LocalAISearch/Instalar Local AI 4 You.bat"   # precisa ser CRLF
           (cd dist/windows && zip -qr -X ../LocalAISearch-Windows.zip LocalAISearch)
           ls -l dist/*.zip
       - uses: actions/upload-artifact@v4
@@ -80,14 +80,14 @@ jobs:
         run: |
           ls -l dist
           data=$(date -u +%Y-%m-%d)
-          notas="App local do Local AI Search.
+          notas="App local do Local AI 4 You.
 
-          • Windows: baixe LocalAISearch-Windows.zip, extraia e dê dois cliques em \"Instalar Local AI Search\" (cria o atalho e já abre o app).
-          • macOS e Linux: baixe LocalAISearch.zip, extraia e dê dois cliques em \"Abrir Local AI Search\".
+          • Windows: baixe LocalAISearch-Windows.zip, extraia e dê dois cliques em \"Instalar Local AI 4 You\" (cria o atalho e já abre o app).
+          • macOS e Linux: baixe LocalAISearch.zip, extraia e dê dois cliques em \"Abrir Local AI 4 You\".
 
           Atualizado em ${data} a partir do commit ${GITHUB_SHA::7}, com o catálogo de modelos do dia."
           if ! gh release view app-latest >/dev/null 2>&1; then
-            gh release create app-latest --title "Local AI Search — app local" --notes "$notas" --latest
+            gh release create app-latest --title "Local AI 4 You — app local" --notes "$notas" --latest
           else
             gh release edit app-latest --notes "$notas" --latest
           fi

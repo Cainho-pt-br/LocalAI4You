@@ -38,7 +38,7 @@ async function api(caminho, corpo) {
   const opts = corpo === undefined ? {} : { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-LI': '1' }, body: JSON.stringify(corpo) };
   let r;
   try { r = await fetch(caminho, opts); }
-  catch (e) { throw new Error(window.LI_PUBLIC_MODE ? 'Sem conexão. Confira a internet e tente de novo.' : 'O painel não respondeu. Confira se a janela do Local AI Search continua aberta.'); }
+  catch (e) { throw new Error(window.LI_PUBLIC_MODE ? 'Sem conexão. Confira a internet e tente de novo.' : 'O painel não respondeu. Confira se a janela do Local AI 4 You continua aberta.'); }
   let d = {};
   try { d = await r.json(); } catch (e) { /* corpo vazio */ }
   if (!r.ok) throw new Error(d.erro || ('HTTP ' + r.status));

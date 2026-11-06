@@ -40,7 +40,7 @@ def montar() -> None:
     z.mkdir(parents=True)
     _app(z)
     shutil.copy(AQUI / "LEIA-ME.txt", z / "LEIA-ME.txt")
-    for nome, alvo in (("Abrir Local AI Search (Mac).command", "abrir-mac.command"), ("Abrir Local AI Search (Linux).sh", "abrir-linux.sh")):
+    for nome, alvo in (("Abrir Local AI 4 You (Mac).command", "abrir-mac.command"), ("Abrir Local AI 4 You (Linux).sh", "abrir-linux.sh")):
         p = z / nome
         p.write_text('#!/bin/bash\ncd "$(dirname "$0")/app" || exit 1\nexec bash "./%s"\n' % alvo, newline="\n")
         _executavel(p)
@@ -52,7 +52,7 @@ def montar() -> None:
     for n in ("abrir-mac.command", "abrir-linux.sh"):
         (w / "app" / n).unlink()
     shutil.copy(AQUI / "windows" / "desinstalar.bat", w / "app" / "desinstalar.bat")
-    shutil.copy(AQUI / "windows" / "instalar.bat", w / "Instalar Local AI Search.bat")
+    shutil.copy(AQUI / "windows" / "instalar.bat", w / "Instalar Local AI 4 You.bat")
     shutil.copy(AQUI / "LEIA-ME.txt", w / "LEIA-ME.txt")
     print("Pronto:", z, "e", w)
 
