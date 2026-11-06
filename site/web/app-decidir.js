@@ -1377,7 +1377,9 @@ function comparador(m, papeisNota) {
               h('th', { class: 'num' }, nomeB),
               h('th', { class: 'num' }, 'Diferença (A − B)'),
               h('th', {}, 'Diagnóstico A × B (sem terceiros)'))),
-            h('tbody', {}, linhasTab))));
+            h('tbody', {}, linhasTab))),
+        // depois do duelo é a hora em que o resultado mais interessa: convite discreto para compartilhar
+        typeof cartaoComunidade === 'function' ? cartaoComunidade() : null);
     } catch (e) {
       // Sem medição em comum (ou painel sem resposta): não é erro para quem usa, só falta duelar.
       saida.replaceChildren(h('div', { class: 'info-caixa' }, h('b', {}, 'Ainda não duelado. '),
