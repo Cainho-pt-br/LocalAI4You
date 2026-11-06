@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Pacote da Microsoft Store. IDENTIDADE_NOME, IDENTIDADE_PUBLISHER, NOME_PUBLICADOR e VERSAO são preenchidos pelo
+     workflow "Pacote da Microsoft Store" a partir das variáveis do repositório (valores da página Identidade do
+     produto no Partner Center). O app é o Python embutido oficial rodando o painel: pythonw.exe -m cli painel. -->
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+         xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+         xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
+         xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+         IgnorableNamespaces="uap uap10 rescap">
+  <Identity Name="IDENTIDADE_NOME" Publisher="IDENTIDADE_PUBLISHER" Version="VERSAO" ProcessorArchitecture="x64" />
+  <Properties>
+    <DisplayName>Local AI 4 You</DisplayName>
+    <PublisherDisplayName>NOME_PUBLICADOR</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+    <Description>Descubra qual IA local roda bem no seu computador, meça e compare modelos do Ollama.</Description>
+  </Properties>
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+  <Resources>
+    <Resource Language="pt-BR" />
+  </Resources>
+  <Applications>
+    <Application Id="LocalAISearch" Executable="python\pythonw.exe" uap10:Parameters="-m cli painel" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements DisplayName="Local AI 4 You" Description="Descubra e meça IA local no seu computador"
+                          BackgroundColor="transparent" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\Square71x71Logo.png" Square310x310Logo="Assets\Square310x310Logo.png" />
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>

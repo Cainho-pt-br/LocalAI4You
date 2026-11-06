@@ -1,5 +1,5 @@
 @echo off
-title Local AI Search - Procurar modelos novos
+title Local AI 4 You - Procurar modelos novos
 cd /d "%~dp0"
 call deploy\achar-python.bat
 if not defined PY (

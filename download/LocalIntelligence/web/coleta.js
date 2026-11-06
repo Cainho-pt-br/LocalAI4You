@@ -1,5 +1,5 @@
 'use strict';
-/* Coleta voluntária e anônima (Supabase do projeto Local AI Search).
+/* Coleta voluntária e anônima (Supabase do projeto Local AI 4 You).
    • Métricas de uso: SÓ no site. Sem cookies e sem IP: um id aleatório por aba (some ao fechar), a aba vista, de onde a
      pessoa veio (só o domínio), UTM e o tipo de aparelho. Respeita "Do Not Track" e o GPC do navegador.
    • E-mail: só quando a pessoa escreve e clica, com o texto de consentimento guardado junto.
@@ -10,7 +10,7 @@ const COLETA = {
   url: /^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname) || location.protocol === 'file:'
     ? 'https://localaisearch-site.vercel.app/api/coleta' : '/api/coleta',
 };
-const CONSENTIMENTO_LEAD = 'Aceito receber até 1 e-mail por mês do Local AI Search com modelos novos para o meu hardware. Posso sair quando quiser respondendo qualquer e-mail.';
+const CONSENTIMENTO_LEAD = 'Aceito receber até 1 e-mail por mês do Local AI 4 You com modelos novos para o meu hardware. Posso sair quando quiser respondendo qualquer e-mail.';
 
 function _rpc(fn, corpo) {
   if (!COLETA.url) return Promise.reject(new Error('coleta desligada'));

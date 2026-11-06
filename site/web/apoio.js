@@ -28,7 +28,7 @@ function abrirApoio() {
   if (APOIO.pix) doar.push(h('div', { class: 'cmd' }, h('code', {}, 'Pix: ' + APOIO.pix), h('button', { class: 'btn mini', onclick: () => navigator.clipboard.writeText(APOIO.pix).then(() => toast('Chave Pix copiada. Obrigado!'), () => toast('Não consegui copiar — selecione o texto.')) }, 'Copiar chave')));
   if (APOIO.link) doar.push(h('a', { class: 'btn primario', href: APOIO.link, target: '_blank', rel: 'noopener' }, APOIO.linkRotulo));
   abrirDialogo(h('div', { class: 'dlg-in apoio-dlg' },
-    h('h2', {}, '♥ Apoiar o Local AI Search'),
+    h('h2', {}, '♥ Apoiar o Local AI 4 You'),
     h('p', { class: 'sub' }, 'O projeto é gratuito, de código aberto e feito no tempo livre. Se ele te poupou tempo, qualquer uma destas ajuda:'),
     h('ul', { class: 'apoio-lista' }, linhas),
     doar.length ? [h('h3', {}, '☕ Doação (opcional)'), h('p', { class: 'sub' }, 'Ajuda a pagar o tempo de manutenção e os testes em hardware novo. Qualquer valor é bem-vindo.'), ...doar] : null,
@@ -48,7 +48,7 @@ function desenharApoio() {
 function blocoApoio() {
   return h('aside', { class: 'apoio-bloco' },
     h('span', { class: 'apoio-coracao', 'aria-hidden': 'true' }, '♥'),
-    h('div', { class: 'grow' }, h('b', {}, 'O Local AI Search é gratuito e de código aberto.'),
+    h('div', { class: 'grow' }, h('b', {}, 'O Local AI 4 You é gratuito e de código aberto.'),
       h('span', { class: 'sub' }, ' Se ele te ajudou a escolher, dá para apoiar com uma estrela, um comentário ou uma doação.')),
     h('button', { type: 'button', class: 'btn mini', onclick: abrirApoio }, 'Como apoiar'));
 }

@@ -203,7 +203,7 @@ def _guia_restauracao(modelos: List[str]) -> str:
     lista = "\n".join(f"- `{m}`" for m in modelos)
     return f"""# Kit offline de modelos locais
 
-Gerado pelo Local AI Search em {agora_iso()}. Modelos neste kit:
+Gerado pelo Local AI 4 You em {agora_iso()}. Modelos neste kit:
 
 {lista}
 

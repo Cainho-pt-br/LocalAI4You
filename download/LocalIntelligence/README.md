@@ -1,4 +1,4 @@
-# Local AI Search — app local
+# Local AI 4 You — app local
 
 O app que roda no seu computador. O site mostra **estimativas**. Aqui você **mede de verdade**:
 
@@ -39,4 +39,4 @@ Comandos para controlar outras máquinas pela rede (`token`, `painel-remoto`, `m
 
 ## Apoiar o projeto
 
-O Local AI Search é gratuito e de código aberto. Se ele te ajudou, dê uma estrela no [GitHub](https://github.com/Cainho-pt-br/LocalAISearch), conte o que achou ou mostre para quem está começando. No painel, o link **♥ Apoiar o projeto** fica no rodapé da barra lateral.
+O Local AI 4 You é gratuito e de código aberto. Se ele te ajudou, dê uma estrela no [GitHub](https://github.com/Cainho-pt-br/LocalAISearch), conte o que achou ou mostre para quem está começando. No painel, o link **♥ Apoiar o projeto** fica no rodapé da barra lateral.

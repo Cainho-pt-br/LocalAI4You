@@ -85,7 +85,7 @@ function paginaPrevia(id, raiz) {
     P.passos ? h('div', { class: 'previa-passos' },
       h('h2', {}, 'Como começar'),
       h('ol', { class: 'passos-linha' },
-        h('li', {}, h('b', {}, 'Baixe e abra o instalador'), h('span', { class: 'sub' }, '. Extraia o ZIP e dê dois cliques em “Instalar Local AI Search” (Windows) ou “Abrir Local AI Search” (Mac e Linux). No Windows já vem tudo, até o Python.')),
+        h('li', {}, h('b', {}, 'Baixe e abra o instalador'), h('span', { class: 'sub' }, '. Extraia o ZIP e dê dois cliques em “Instalar Local AI 4 You” (Windows) ou “Abrir Local AI 4 You” (Mac e Linux). No Windows já vem tudo, até o Python.')),
         h('li', {}, h('b', {}, 'Siga os primeiros passos'), h('span', { class: 'sub' }, ': o app abre no navegador e mostra o que falta, como instalar o Ollama (gratuito).')),
         h('li', {}, h('b', {}, 'Instale dois candidatos pelo Radar'), h('span', { class: 'sub' }, ' e clique em Duelo. O resultado fica salvo no seu PC.')))) : null,
     h('div', { class: 'previa-cta' },
