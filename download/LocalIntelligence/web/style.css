@@ -1002,3 +1002,33 @@ details.painel-colapsavel > summary > h3 { flex:1; text-align:left; }
 .duelo-grafico .duelo-barras i { height:9px; }
 .duelo-legenda { display:flex; gap:18px; flex-wrap:wrap; font-weight:700; font-size:.86rem; margin-bottom:4px; }
 .duelo-legenda span::before { content:''; display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; background:currentColor; vertical-align:-1px; }
+
+/* ------------------------------------------------------------ uso da tela larga: conteúdo centralizado e mais largo */
+main { max-width: 1480px; margin-inline: auto; }
+.guia-tool-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); }
+@media (min-width: 1500px) { .guia-tool-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } .guia-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.palpite-extra { display: block; margin-top: 4px; color: var(--muted); }
+
+/* ------------------------------------------------------------ menu lateral: logo de radar e vidro translúcido */
+aside.lateral {
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  backdrop-filter: blur(16px) saturate(1.3); -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  border-right: 1px solid color-mix(in srgb, var(--line-strong) 60%, transparent);
+  box-shadow: inset -1px 0 0 rgba(255,255,255,.03);
+}
+.marca { display: flex; align-items: center; gap: 11px; color: var(--text); text-decoration: none; padding: 6px; margin: -6px; border-radius: 14px; transition: background .2s; }
+a.marca:hover { background: color-mix(in srgb, var(--surface-2) 70%, transparent); text-decoration: none; }
+.marca-logo { flex: none; width: 40px; height: 40px; border-radius: 12px; box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--prio) 70%, transparent); transition: transform .25s ease; }
+a.marca:hover .marca-logo { transform: rotate(-6deg) scale(1.05); }
+.marca-logo svg { width: 100%; height: 100%; display: block; border-radius: 12px; }
+.marca-txt { display: flex; flex-direction: column; line-height: 1.2; font-weight: 750; font-size: 1.04rem; letter-spacing: -.01em; }
+.marca-txt small { margin-top: 3px; }
+.lateral-head { gap: 14px; }
+.lateral-head .tema-toggle, .lateral-head .seletor-idioma { background: color-mix(in srgb, var(--surface-2) 70%, transparent); }
+nav.abas button { position: relative; transition: background .15s, color .15s, padding .15s; }
+nav.abas button:hover { background: color-mix(in srgb, var(--surface-2) 75%, transparent); padding-left: 13px; }
+nav.abas button[aria-selected="true"] { background: linear-gradient(90deg, color-mix(in srgb, var(--ink) 22%, transparent), color-mix(in srgb, var(--prio) 8%, transparent)); color: var(--text); }
+nav.abas button[aria-selected="true"]::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; border-radius: 3px; background: linear-gradient(180deg, var(--ink), var(--prio)); }
+nav.abas .grupo { color: color-mix(in srgb, var(--muted) 85%, transparent); }
+.aviso-atualizacao { display:flex; align-items:center; gap:10px 14px; flex-wrap:wrap; margin:0 0 18px; padding:12px 16px; border-radius:var(--radius-sm); border:1px solid color-mix(in srgb, var(--ok) 45%, transparent); background:color-mix(in srgb, var(--ok) 12%, var(--surface)); }
+.aviso-atualizacao span { flex:1 1 320px; }

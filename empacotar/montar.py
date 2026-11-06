@@ -26,8 +26,33 @@ def _ignorar(pasta, nomes):
     return ig
 
 
+def _versao() -> str:
+    """Commit e data do download, para o app saber se há versão nova (compara com o release app-latest)."""
+    import datetime
+    import os
+    import subprocess
+    commit = (os.environ.get("GITHUB_SHA") or "")[:7]
+    if not commit:
+        try:
+            commit = subprocess.run(["git", "rev-parse", "--short=7", "HEAD"], cwd=RAIZ, capture_output=True, text=True).stdout.strip()
+        except OSError:
+            commit = ""
+    return f"{commit or 'dev'} {datetime.date.today().isoformat()} {_impressao()}\n"
+
+
+def _impressao() -> str:
+    """Impressão digital só do PROGRAMA (li/, web/, cli.py): muda quando o app muda, não quando só o catálogo diário muda."""
+    import hashlib
+    h = hashlib.sha256()
+    for p in sorted([FONTE / "cli.py", *(FONTE / "li").rglob("*.py"), *(FONTE / "web").rglob("*")]):
+        if p.is_file() and "__pycache__" not in p.parts:
+            h.update(p.relative_to(FONTE).as_posix().encode()); h.update(p.read_bytes())
+    return h.hexdigest()[:10]
+
+
 def _app(destino: Path) -> None:
     shutil.copytree(FONTE, destino / "app", ignore=_ignorar)
+    (destino / "app" / "VERSAO.txt").write_text(_versao(), encoding="utf-8")
 
 
 def _executavel(p: Path) -> None:

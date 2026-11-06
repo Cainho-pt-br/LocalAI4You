@@ -1,6 +1,17 @@
 /* Dicionários da interface (pt → en, es). Gerado a partir das frases da tela; edite aqui para corrigir uma tradução.
    Cada linha: [português, inglês, espanhol]. {n} = um número, na mesma ordem. */
 window.LI_I18N_DADOS = [
+["Saiu uma versão nova do Local AI {n} You.", "A new version of Local AI {n} You is out.", "Salió una versión nueva de Local AI {n} You."],
+["Baixe e rode o instalador de novo: seus modelos, notas e configurações continuam.", "Download it and run the installer again: your models, scores and settings stay.", "Descárgala y ejecuta el instalador de nuevo: tus modelos, notas y configuración se mantienen."],
+["Baixar a nova versão", "Download the new version", "Descargar la nueva versión"],
+["Depois", "Later", "Después"],
+["2º lugar", "2nd place", "2.º lugar"],
+["3º lugar", "3rd place", "3.º lugar"],
+["Top 4", "Top 4", "Top 4"],
+["★ Melhor aposta", "★ Best bet", "★ Mejor apuesta"],
+["PRIMEIRA VEZ? COMECE AQUI", "FIRST TIME? START HERE", "¿PRIMERA VEZ? EMPIEZA AQUÍ"],
+["Se não funcionar", "If it doesn't work", "Si no funciona"],
+["Notebook com placa NVIDIA ou AMD? O navegador às vezes mostra só a integrada: escolha a sua em “Placa de vídeo”.", "Laptop with an NVIDIA or AMD card? The browser sometimes only shows the integrated one: pick yours under “Graphics card”.", "¿Notebook con tarjeta NVIDIA o AMD? A veces el navegador solo muestra la integrada: elige la tuya en “Tarjeta gráfica”."],
 ["Filtrar: {n}, laptop, 16gb, radeon…", "Filter: {n}, laptop, 16gb, radeon…", "Filtrar: {n}, laptop, 16gb, radeon…"],
 ["hoje", "today", "hoy"],
 ["ontem", "yesterday", "ayer"],
@@ -924,6 +935,7 @@ window.LI_I18N_DADOS = [
 ];
 /* Regras por trecho (expressão regular em português → substituição), para textos montados em partes. */
 window.LI_I18N_REGRAS = [
+
 ["^([\\d.,]+) GB de VRAM$", "$1 GB of VRAM", "$1 GB de VRAM"],
 ["^([\\d.,]+) GB a (.+) \\(só se você permitir\\)$", "$1 GB at $2 (only if you allow it)", "$1 GB a $2 (solo si lo permites)"],
 ["^(muito rápido|fluido|usável|lento — só em lote) · MoE rodam bem mais rápido$", "$1 · MoE models run much faster", "$1 · los MoE corren mucho más rápido"],

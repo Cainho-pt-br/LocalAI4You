@@ -54,11 +54,22 @@ class Erro(Exception):
 
 # ------------------------------------------------------------------ rotas GET
 
+def _build() -> Dict[str, Any]:
+    """Qual versão do download é esta (VERSAO.txt, gravado pelo empacotamento) e se veio da Microsoft Store (atualiza sozinha)."""
+    try:
+        linhas = (config.RAIZ / "VERSAO.txt").read_text("utf-8").split()
+    except OSError:
+        linhas = []
+    return {"commit": linhas[0] if linhas else None, "data": linhas[1] if len(linhas) > 1 else None,
+            "impressao": linhas[2] if len(linhas) > 2 else None,
+            "loja": "WindowsApps" in config.RAIZ.parts}
+
+
 def r_saude(q):
     o = _oll()
     up = o.no_ar()
     g = parque._gpu_local()
-    return {"versao_painel": __version__, "protocolo": PROTOCOLO, "ollama": {"no_ar": up, "instalado": up or ollama_instalado(), "versao": o.versao() if up else None, "url": o.url},
+    return {"versao_painel": __version__, "build": _build(), "protocolo": PROTOCOLO, "ollama": {"no_ar": up, "instalado": up or ollama_instalado(), "versao": o.versao() if up else None, "url": o.url},
             "gpu": g, "disco_modelos_livre_gb": parque.espaco_livre_gb(pasta_modelos()), "pasta_modelos": str(pasta_modelos()),
             "tarefa_pesada": GERENTE.bloqueio(),
             "avisos_internos": ERROS_PARALELO[-3:]}
@@ -641,7 +652,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(corpo)))
         self.send_header("Cache-Control", "no-store")
         self.send_header("X-Content-Type-Options", "nosniff")
-        self.send_header("Content-Security-Policy", "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'none'")
+        self.send_header("Content-Security-Policy", "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://localaisearch-site.vercel.app https://api.github.com; frame-ancestors 'none'")
         self.end_headers()
         self.wfile.write(corpo)
 
