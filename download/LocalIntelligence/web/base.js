@@ -27,7 +27,7 @@ function h(tag, attrs, ...kids) {
    (o servidor local repassa em /api/m/<id>/...), exceto o que é sempre local: calculadora, parque, quantizações e a própria lista de máquinas. */
 const LI = { alvo: '' };
 // Endereços do projeto (um lugar só para trocar). O ZIP vem do GitHub Releases: só o app, sem o site.
-const LINK_REPO = 'https://github.com/Cainho-pt-br/LocalAISearch';
+const LINK_REPO = 'https://github.com/Cainho-pt-br/LocalAI4You';
 // Windows baixa o pacote com o Python oficial embutido e o "Instalar"; macOS e Linux, o ZIP com o atalho de abrir.
 const NO_WINDOWS = /Windows/i.test(navigator.userAgent || '');
 const LINK_DOWNLOAD = LINK_REPO + '/releases/latest/download/' + (NO_WINDOWS ? 'LocalAI4You-Windows.zip' : 'LocalAI4You.zip');

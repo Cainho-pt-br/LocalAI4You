@@ -31,7 +31,7 @@ Pelo terminal (qualquer sistema): `python3 cli.py painel`. Outros comandos: `pyt
 - **O Windows avisou “O Windows protegeu o computador”**: clique em *Mais informações* → *Executar assim mesmo*. Os arquivos `.bat` são texto puro: dá para abrir no Bloco de Notas e conferir o que fazem.
 - **“Ollama desligado”**: clique em *Ligar o Ollama* no quadro Primeiros passos (ou abra o aplicativo do Ollama).
 - **O modelo está lento**: ele provavelmente não cabe todo na placa de vídeo. Escolha um menor no Radar.
-- **Relatar um problema**: [github.com/Cainho-pt-br/LocalAISearch/issues](https://github.com/Cainho-pt-br/LocalAISearch/issues)
+- **Relatar um problema**: [github.com/Cainho-pt-br/LocalAI4You/issues](https://github.com/Cainho-pt-br/LocalAI4You/issues)
 
 ## Recursos avançados
 
@@ -39,4 +39,4 @@ Comandos para controlar outras máquinas pela rede (`token`, `painel-remoto`, `m
 
 ## Apoiar o projeto
 
-O Local AI 4 You é gratuito e de código aberto. Se ele te ajudou, dê uma estrela no [GitHub](https://github.com/Cainho-pt-br/LocalAISearch), conte o que achou ou mostre para quem está começando. No painel, o link **♥ Apoiar o projeto** fica no rodapé da barra lateral.
+O Local AI 4 You é gratuito e de código aberto. Se ele te ajudou, dê uma estrela no [GitHub](https://github.com/Cainho-pt-br/LocalAI4You), conte o que achou ou mostre para quem está começando. No painel, o link **♥ Apoiar o projeto** fica no rodapé da barra lateral.

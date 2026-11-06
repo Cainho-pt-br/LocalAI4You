@@ -65,9 +65,9 @@ IA local, Ollama, LLM, modelos de IA, benchmark, placa de vídeo, inteligência 
 ## Outros campos
 
 - Categoria: Ferramentas de desenvolvedor (subcategoria: Outras ferramentas de desenvolvedor) — alternativa: Produtividade
-- Site: https://localaisearch-site.vercel.app
-- Contato de suporte: https://github.com/Cainho-pt-br/LocalAISearch/issues
-- Política de privacidade: https://localaisearch-site.vercel.app/privacidade.html
+- Site: https://localai4you.vercel.app
+- Contato de suporte: https://github.com/Cainho-pt-br/LocalAI4You/issues
+- Política de privacidade: https://localai4you.vercel.app/privacidade.html
 - Direitos autorais: © 2026 Cainho Labs. Código sob licença Apache-2.0.
 - Requisitos adicionais: Ollama (gratuito) para baixar e rodar modelos. Recomendado: 16 GB de RAM ou placa de vídeo com 8 GB ou mais.
 

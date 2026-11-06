@@ -64,8 +64,8 @@ local AI, Ollama, LLM, AI models, benchmark, graphics card, GPU
 
 ## Other fields
 
-- Website: https://localaisearch-site.vercel.app
-- Support: https://github.com/Cainho-pt-br/LocalAISearch/issues
-- Privacy policy: https://localaisearch-site.vercel.app/privacidade.html
+- Website: https://localai4you.vercel.app
+- Support: https://github.com/Cainho-pt-br/LocalAI4You/issues
+- Privacy policy: https://localai4you.vercel.app/privacidade.html
 - Copyright: © 2026 Cainho Labs. Code under the Apache-2.0 license.
 - Additional requirements: Ollama (free) to download and run models. Recommended: 16 GB of RAM or a graphics card with 8 GB or more.
