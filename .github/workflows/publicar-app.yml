@@ -1,9 +1,9 @@
 name: Publicar app local
 
 # Gera o que vai para o download e publica no release "app-latest":
-#   • LocalAISearch-Windows.zip — "Instalar Local AI 4 You" + app/ com o Python embutido oficial; os atalhos chamam o
+#   • LocalAI4You-Windows.zip — "Instalar Local AI 4 You" + app/ com o Python embutido oficial; os atalhos chamam o
 #                                pythonw.exe assinado pela PSF (sem executável desconhecido para o SmartScreen).
-#   • LocalAISearch.zip         — macOS e Linux: atalho para abrir, LEIA-ME.txt e a pasta app/.
+#   • LocalAI4You.zip         — macOS e Linux: atalho para abrir, LEIA-ME.txt e a pasta app/.
 # O site aponta para releases/latest/download/<arquivo>. Roda quando o app muda, quando o catálogo diário termina
 # (o push do bot não dispara workflows, por isso o workflow_run) ou manualmente.
 
@@ -47,17 +47,17 @@ jobs:
       - name: Montar os ZIPs
         run: |
           python empacotar/montar.py
-          (cd dist/zip && zip -qr -X ../LocalAISearch.zip LocalAISearch)
+          (cd dist/zip && zip -qr -X ../LocalAI4You.zip LocalAI4You)
           # Windows: Python embutido OFICIAL (pythonw.exe assinado pela PSF) dentro de app/python
           v="$PYTHON_EMBUTIDO"
           curl -fsSL -o py.zip "https://www.python.org/ftp/python/$v/python-$v-embed-amd64.zip"
-          unzip -q py.zip -d dist/windows/LocalAISearch/app/python
-          pth=$(ls dist/windows/LocalAISearch/app/python/python*._pth | head -1)
+          unzip -q py.zip -d dist/windows/LocalAI4You/app/python
+          pth=$(ls dist/windows/LocalAI4You/app/python/python*._pth | head -1)
           printf '..\r\n' >> "$pth"          # a pasta app (cli.py e li/) no sys.path do Python embutido
           cat "$pth"
-          test -f dist/windows/LocalAISearch/app/python/pythonw.exe
-          file "dist/windows/LocalAISearch/Instalar Local AI 4 You.bat"   # precisa ser CRLF
-          (cd dist/windows && zip -qr -X ../LocalAISearch-Windows.zip LocalAISearch)
+          test -f dist/windows/LocalAI4You/app/python/pythonw.exe
+          file "dist/windows/LocalAI4You/Instalar Local AI 4 You.bat"   # precisa ser CRLF
+          (cd dist/windows && zip -qr -X ../LocalAI4You-Windows.zip LocalAI4You)
           ls -l dist/*.zip
       - uses: actions/upload-artifact@v4
         with:
@@ -80,11 +80,11 @@ jobs:
         run: |
           ls -l dist
           data=$(date -u +%Y-%m-%d)
-          impressao=$(unzip -p dist/LocalAISearch.zip LocalAISearch/app/VERSAO.txt | awk '{print $3}')
+          impressao=$(unzip -p dist/LocalAI4You.zip LocalAI4You/app/VERSAO.txt | awk '{print $3}')
           notas="App local do Local AI 4 You.
 
-          • Windows: baixe LocalAISearch-Windows.zip, extraia e dê dois cliques em \"Instalar Local AI 4 You\" (cria o atalho e já abre o app).
-          • macOS e Linux: baixe LocalAISearch.zip, extraia e dê dois cliques em \"Abrir Local AI 4 You\".
+          • Windows: baixe LocalAI4You-Windows.zip, extraia e dê dois cliques em \"Instalar Local AI 4 You\" (cria o atalho e já abre o app).
+          • macOS e Linux: baixe LocalAI4You.zip, extraia e dê dois cliques em \"Abrir Local AI 4 You\".
 
           Atualizado em ${data} a partir do commit ${GITHUB_SHA::7}, com o catálogo de modelos do dia.
 
@@ -94,4 +94,7 @@ jobs:
           else
             gh release edit app-latest --notes "$notas" --latest
           fi
+          gh release upload app-latest dist/LocalAI4You-Windows.zip dist/LocalAI4You.zip --clobber
+          # nomes antigos: apps já instalados ainda apontam para eles
+          cp dist/LocalAI4You-Windows.zip dist/LocalAISearch-Windows.zip && cp dist/LocalAI4You.zip dist/LocalAISearch.zip
           gh release upload app-latest dist/LocalAISearch-Windows.zip dist/LocalAISearch.zip --clobber
