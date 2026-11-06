@@ -197,3 +197,11 @@ body.landing::before {
   .l-duelo-linha { grid-template-columns: 100px minmax(0, 1fr) 64px; }
   .l-ctas .btn { flex: 1 1 100%; text-align: center; }
 }
+@media (max-width: 680px) {
+  .l-topo { gap: 8px; padding-left: 12px; padding-right: 12px; }
+  .l-topo-acoes { gap: 6px; }
+  .l-topo .seletor-idioma { max-width: 84px; padding: 5px 6px; font-size: .72rem; }
+  .l-marca { font-size: .92rem; gap: 7px; }
+  .l-topo .btn.primario { padding: 7px 10px; font-size: .8rem; }
+}
+@media (max-width: 380px) { .l-marca span + * , .l-marca { white-space: nowrap; } .l-tema { display: none; } }
