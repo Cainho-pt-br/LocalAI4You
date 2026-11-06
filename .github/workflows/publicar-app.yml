@@ -35,10 +35,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: main
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - name: Testes do app
@@ -59,7 +59,7 @@ jobs:
           file "dist/windows/LocalAI4You/Instalar Local AI 4 You.bat"   # precisa ser CRLF
           (cd dist/windows && zip -qr -X ../LocalAI4You-Windows.zip LocalAI4You)
           ls -l dist/*.zip
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: zips
           path: dist/*.zip
@@ -69,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         with:
           path: dist
           merge-multiple: true
@@ -92,7 +92,7 @@ jobs:
           if ! gh release view app-latest >/dev/null 2>&1; then
             gh release create app-latest --title "Local AI 4 You — app local" --notes "$notas" --latest
           else
-            gh release edit app-latest --notes "$notas" --latest
+            gh release edit app-latest --title "Local AI 4 You — app local" --notes "$notas" --latest
           fi
           gh release upload app-latest dist/LocalAI4You-Windows.zip dist/LocalAI4You.zip --clobber
           # nomes antigos: apps já instalados ainda apontam para eles

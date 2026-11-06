@@ -22,8 +22,8 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - name: Conferir as variáveis da Store
@@ -73,7 +73,7 @@ jobs:
           & $makeappx.FullName pack /d dist/msix /p dist/LocalAI4You.msix /o
           if ($LASTEXITCODE -ne 0) { throw "makeappx falhou" }
           Get-Item dist/LocalAI4You.msix
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: LocalAI4You-msix
           path: dist/LocalAI4You.msix
