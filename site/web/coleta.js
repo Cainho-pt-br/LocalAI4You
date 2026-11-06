@@ -114,7 +114,29 @@ function cartaoComunidade() {
       h('details', {}, h('summary', {}, 'Ver exatamente o que será enviado'), prev),
       h('div', { class: 'linha', style: 'justify-content:flex-start;gap:10px;flex-wrap:wrap' }, botao, status));
   }
+  corpo.append(blocoNaComunidade());
   return h('div', { class: 'cartao comunidade' },
     h('div', { class: 'linha', style: 'justify-content:flex-start;gap:12px' }, h('span', { class: 'previa-ic', style: '--cor-d:#10b981' }, '🤝'), h('div', {}, h('h3', {}, 'Compartilhar resultados com a comunidade'), h('div', { class: 'sub' }, 'Opcional, anônimo e só quando você clicar.'))),
     corpo);
+}
+
+/* O que volta para quem participa: tamanho da comunidade e, para a placa desta máquina, a média de cada modelo medido
+   nela por outras pessoas. Só médias; sem internet, o bloco simplesmente não aparece. */
+function blocoNaComunidade() {
+  const el = h('div', { class: 'comunidade-retorno' });
+  const b = typeof S !== 'undefined' && S.mesa ? S.mesa.boss : null;
+  const gpu = b ? (b.gpu ? b.gpu.nome : 'cpu') : null;
+  _rpc('comunidade_resumo', { p_gpu: gpu }).then(d => {
+    if (!d || !d.envios) { el.replaceChildren(h('p', { class: 'sub' }, 'Seja um dos primeiros: ainda há poucos resultados na comunidade.')); return; }
+    const nome = b && b.gpu ? b.gpu.nome : 'computadores sem placa de vídeo';
+    el.replaceChildren(
+      h('p', { class: 'sub' }, h('b', {}, `${d.envios} resultado(s) de ${d.maquinas} máquina(s)`), ' já foram compartilhados.'),
+      d.na_placa && d.na_placa.length
+        ? h('div', {}, h('div', { class: 'sub', style: 'margin-bottom:4px' }, 'Medido por outras pessoas com ', h('b', {}, nome), ':'),
+            h('table', { class: 'tabela-compacta' },
+              h('thead', {}, h('tr', {}, h('th', {}, 'Modelo'), h('th', { class: 'num' }, 'Nota'), h('th', { class: 'num' }, 'tok/s'), h('th', { class: 'num' }, 'Envios'))),
+              h('tbody', {}, d.na_placa.map(x => h('tr', {}, h('td', {}, x.modelo), h('td', { class: 'num' }, x.nota ?? '—'), h('td', { class: 'num' }, x.tps ?? '—'), h('td', { class: 'num' }, String(x.envios)))))))
+        : h('p', { class: 'sub' }, 'Ninguém com ', h('b', {}, nome), ' enviou ainda. O seu seria o primeiro.'));
+  }).catch(() => {});
+  return el;
 }

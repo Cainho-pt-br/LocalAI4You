@@ -1,6 +1,15 @@
 /* Dicionários da interface (pt → en, es). Gerado a partir das frases da tela; edite aqui para corrigir uma tradução.
    Cada linha: [português, inglês, espanhol]. {n} = um número, na mesma ordem. */
 window.LI_I18N_DADOS = [
+["Nota", "Score", "Nota"],
+["Envios", "Submissions", "Envíos"],
+["Seja um dos primeiros: ainda há poucos resultados na comunidade.", "Be one of the first: there are still few results in the community.", "Sé de los primeros: todavía hay pocos resultados en la comunidad."],
+["{n} resultado(s) de {n} máquina(s)", "{n} result(s) from {n} machine(s)", "{n} resultado(s) de {n} máquina(s)"],
+["já foram compartilhados.", "shared so far.", "compartidos hasta ahora."],
+["Medido por outras pessoas com", "Measured by other people with", "Medido por otras personas con"],
+["Ninguém com", "Nobody with", "Nadie con"],
+["enviou ainda. O seu seria o primeiro.", "has sent results yet. Yours would be the first.", "ha enviado resultados todavía. El tuyo sería el primero."],
+["computadores sem placa de vídeo", "computers without a graphics card", "computadoras sin tarjeta gráfica"],
 ["Saiu uma versão nova do Local AI {n} You.", "A new version of Local AI {n} You is out.", "Salió una versión nueva de Local AI {n} You."],
 ["Baixe e rode o instalador de novo: seus modelos, notas e configurações continuam.", "Download it and run the installer again: your models, scores and settings stay.", "Descárgala y ejecuta el instalador de nuevo: tus modelos, notas y configuración se mantienen."],
 ["Baixar a nova versão", "Download the new version", "Descargar la nueva versión"],
