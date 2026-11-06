@@ -1,9 +1,9 @@
 name: Pacote da Microsoft Store
 
-# Gera LocalAISearch.msix para enviar no Partner Center (a Store assina o pacote; aqui ele sai sem assinatura).
+# Gera LocalAI4You.msix para enviar no Partner Center (a Store assina o pacote; aqui ele sai sem assinatura).
 # Precisa das variáveis do repositório (Settings → Secrets and variables → Actions → Variables), copiadas da página
 # "Identidade do produto" no Partner Center:
-#   STORE_IDENTITY_NAME   (Package/Identity/Name, ex.: 12345NomeDoPublicador.LocalAISearch)
+#   STORE_IDENTITY_NAME   (Package/Identity/Name, ex.: 12345NomeDoPublicador.LocalAI4You)
 #   STORE_PUBLISHER       (Package/Identity/Publisher, ex.: CN=ABCD1234-...)
 #   STORE_PUBLISHER_NAME  (Package/Properties/PublisherDisplayName)
 # Roda manualmente (Actions → Pacote da Microsoft Store → Run workflow); o .msix fica nos artefatos da execução.
@@ -46,7 +46,7 @@ jobs:
           python empacotar/montar.py
           $raiz = "dist/msix"
           New-Item -ItemType Directory -Force $raiz | Out-Null
-          Copy-Item -Recurse dist/windows/LocalAISearch/app/* $raiz
+          Copy-Item -Recurse dist/windows/LocalAI4You/app/* $raiz
           Remove-Item "$raiz/desinstalar.bat" -ErrorAction SilentlyContinue
           $v = $env:PYTHON_EMBUTIDO
           Invoke-WebRequest "https://www.python.org/ftp/python/$v/python-$v-embed-amd64.zip" -OutFile py.zip
@@ -70,10 +70,10 @@ jobs:
         run: |
           $makeappx = Get-ChildItem "${env:ProgramFiles(x86)}\Windows Kits\10\bin" -Recurse -Filter makeappx.exe |
             Where-Object { $_.FullName -match '\\x64\\' } | Sort-Object FullName -Descending | Select-Object -First 1
-          & $makeappx.FullName pack /d dist/msix /p dist/LocalAISearch.msix /o
+          & $makeappx.FullName pack /d dist/msix /p dist/LocalAI4You.msix /o
           if ($LASTEXITCODE -ne 0) { throw "makeappx falhou" }
-          Get-Item dist/LocalAISearch.msix
+          Get-Item dist/LocalAI4You.msix
       - uses: actions/upload-artifact@v4
         with:
-          name: LocalAISearch-msix
-          path: dist/LocalAISearch.msix
+          name: LocalAI4You-msix
+          path: dist/LocalAI4You.msix

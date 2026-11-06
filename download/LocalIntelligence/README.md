@@ -11,7 +11,7 @@ Tudo roda no seu computador. Nenhum resultado é enviado para lugar nenhum.
 
 ## Começar
 
-**Windows:** extraia o ZIP numa pasta (por exemplo, `Documentos\LocalAISearch`) e dê dois cliques em **`1_ABRIR_PAINEL.bat`**.
+**Windows:** extraia o ZIP numa pasta (por exemplo, `Documentos\LocalAI4You`) e dê dois cliques em **`1_ABRIR_PAINEL.bat`**.
 Se faltar o Python ou o Ollama, ele pergunta e instala sozinho (pelo `winget`, que já vem no Windows 10 e 11). Depois o painel abre no navegador.
 
 **macOS:** dê dois cliques em **`abrir-mac.command`** (na primeira vez, se o macOS bloquear: botão direito → Abrir).

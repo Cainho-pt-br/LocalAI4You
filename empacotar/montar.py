@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Monta o que vai para o download, a partir de download/LocalIntelligence (a fonte do app).
 
-    python empacotar/montar.py            # gera dist/zip/LocalAISearch (macOS/Linux) e dist/windows/LocalAISearch
+    python empacotar/montar.py            # gera dist/zip/LocalAI4You (macOS/Linux) e dist/windows/LocalAI4You
 
 No Windows o CI ainda põe em app/python o Python embutido oficial (python.org): os atalhos chamam esse pythonw.exe,
 assinado pela Python Software Foundation, então não há executável desconhecido para o SmartScreen bloquear.
@@ -61,7 +61,7 @@ def _executavel(p: Path) -> None:
 
 def montar() -> None:
     shutil.rmtree(DIST, ignore_errors=True)
-    z = DIST / "zip" / "LocalAISearch"
+    z = DIST / "zip" / "LocalAI4You"
     z.mkdir(parents=True)
     _app(z)
     shutil.copy(AQUI / "LEIA-ME.txt", z / "LEIA-ME.txt")
@@ -71,7 +71,7 @@ def montar() -> None:
         _executavel(p)
     for n in ("abrir-mac.command", "abrir-linux.sh"):
         _executavel(z / "app" / n)
-    w = DIST / "windows" / "LocalAISearch"
+    w = DIST / "windows" / "LocalAI4You"
     w.mkdir(parents=True)
     _app(w)
     for n in ("abrir-mac.command", "abrir-linux.sh"):
