@@ -80,12 +80,15 @@ jobs:
         run: |
           ls -l dist
           data=$(date -u +%Y-%m-%d)
+          impressao=$(unzip -p dist/LocalAISearch.zip LocalAISearch/app/VERSAO.txt | awk '{print $3}')
           notas="App local do Local AI 4 You.
 
           • Windows: baixe LocalAISearch-Windows.zip, extraia e dê dois cliques em \"Instalar Local AI 4 You\" (cria o atalho e já abre o app).
           • macOS e Linux: baixe LocalAISearch.zip, extraia e dê dois cliques em \"Abrir Local AI 4 You\".
 
-          Atualizado em ${data} a partir do commit ${GITHUB_SHA::7}, com o catálogo de modelos do dia."
+          Atualizado em ${data} a partir do commit ${GITHUB_SHA::7}, com o catálogo de modelos do dia.
+
+          Versão do app: ${impressao}"
           if ! gh release view app-latest >/dev/null 2>&1; then
             gh release create app-latest --title "Local AI 4 You — app local" --notes "$notas" --latest
           else

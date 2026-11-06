@@ -484,23 +484,31 @@ const LI_CALC_UI = (function () {
      placa de vídeo (WebGL), mas não a VRAM nem a RAM real: por isso é um palpite que a pessoa confirma. Nada sai do navegador. */
   function palpiteHardware(hw) {
     if (typeof document === 'undefined' || typeof navigator === 'undefined') return null;
-    let r = '';
-    try {
-      const gl = document.createElement('canvas').getContext('webgl');
-      const ext = gl && gl.getExtension('WEBGL_debug_renderer_info');
-      r = String(gl ? gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER) : '');
-    } catch (x) { /* sem WebGL */ }
+    // Notebooks com duas placas: o navegador costuma informar a integrada (Intel/AMD). Pedir um contexto de "alto
+    // desempenho" faz Chrome/Edge no Windows responderem com a placa dedicada; então perguntamos dos dois jeitos.
+    const nomes = [];
+    for (const pref of ['high-performance', 'default']) {
+      try {
+        const gl = document.createElement('canvas').getContext('webgl', { powerPreference: pref });
+        const ext = gl && gl.getExtension('WEBGL_debug_renderer_info');
+        const r = String(gl ? gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER) : '');
+        if (r && !nomes.includes(r)) nomes.push(r);
+        const perda = gl && gl.getExtension('WEBGL_lose_context'); if (perda) perda.loseContext();
+      } catch (x) { /* sem WebGL */ }
+    }
     const norm = s => ' ' + String(s).toLowerCase().replace(/\((tm|r)\)/g, ' ').replace(/[^a-z0-9]+/g, ' ').trim() + ' ';
-    const R = norm(r);
-    const maior = lst => lst.filter(x => x.n.trim() && R.includes(x.n)).sort((a, b) => b.n.length - a.n.length)[0];
+    const Rs = nomes.map(norm), R = Rs.join(' ');
+    const maior = lst => lst.filter(x => x.n.trim() && Rs.some(r => r.includes(x.n))).sort((a, b) => b.n.length - a.n.length)[0];
     const apple = maior(hw.unificadas.filter(c => c.fab === 'Apple').map(c => ({ c, n: norm(c.nome.replace(/\(.*\)/, '')) })));
     if (apple) return { modo: 'unificada', chipId: apple.c.id, chipRam: apple.c.ram_opcoes[0], palpite: apple.c.nome };
+    // placa dedicada reconhecida em qualquer uma das respostas: ela vence a integrada
     const g = maior(hw.gpus.map(g => ({ g, n: norm(g.nome.replace(/\b\d+ ?GB\b/i, '')) })));
     if (g) return { modo: 'gpu', gpuId: g.g.id, palpite: g.g.nome };
     const plat = String((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '');
     if (/mac/i.test(plat) && / apple /.test(R)) return { modo: 'unificada', chipId: 'm4', chipRam: 16, palpite: 'um Mac com chip Apple (modelo não identificado)' };
     const mem = Number(navigator.deviceMemory) || 0;     // Chrome arredonda e limita a 8: serve só de pista
-    if (/ (intel|uhd|iris|llvmpipe|swiftshader|microsoft basic) /.test(R)) return { modo: 'cpu', ramGb: mem && mem < 8 ? mem : 16, palpite: 'um computador sem placa de vídeo dedicada' };
+    if (/ (intel|uhd|iris|radeon graphics|vega|llvmpipe|swiftshader|microsoft basic) /.test(R))
+      return { modo: 'cpu', ramGb: mem && mem < 8 ? mem : 16, palpite: 'um computador sem placa de vídeo dedicada', integrada: true };
     return null;
   }
   /* Estado da calculadora: padrão + o que a pessoa salvou + (na primeira visita) o palpite do navegador. É gravado logo,
@@ -527,7 +535,8 @@ const LI_CALC_UI = (function () {
     const ex = E.palpite === 'exemplo';
     return h('div', { class: 'palpite-hw' + (ex ? ' exemplo' : '') },
       h('span', {}, ex ? h('b', {}, 'PC de exemplo. ') : [h('b', {}, 'Palpite: '), `parece ${E.palpite}. `],
-        ex ? 'Não deu para reconhecer seu computador pelo navegador; escolha o seu abaixo.' : 'O navegador não informa a memória: confira a memória e ajuste se precisar.'),
+        ex ? 'Não deu para reconhecer seu computador pelo navegador; escolha o seu abaixo.' : 'O navegador não informa a memória: confira a memória e ajuste se precisar.',
+        E.integrada ? h('span', { class: 'palpite-extra' }, ' Notebook com placa NVIDIA ou AMD? O navegador às vezes mostra só a integrada: escolha a sua em “Placa de vídeo”.') : null),
       ex ? null : h('button', { class: 'btn mini', onclick: aoConfirmar }, 'Está certo'));
   }
 

@@ -344,14 +344,17 @@
   /* Ranking COMPLETO para o Radar: todos os modelos que cabem, do mais indicado ao menos indicado.
      Regra (explicada ao usuário): primeiro a INTELIGÊNCIA ESTIMADA (porte efetivo × qualidade da compressão × geração,
      relativa ao mais capaz que cabe); a velocidade só conta até ficar confortável para ler (~10 tokens/s; 30 no uso
-     "rápido"): acima disso não vale ponto, abaixo disso desconta. Ser 10× mais rápido e mais burro não sobe na lista.
+     "rápido"): acima disso não vale ponto, abaixo disso desconta, e muito abaixo de ~6 tokens/s desconta forte. Ser 10× mais rápido e mais burro não sobe na lista.
      Pequenos ajustes: cabe no limite (−10%), precisa da RAM do PC (−25%) e maturidade (recência, autor, adoção: ±15%).
      Em várias atividades, cada modelo vale pela melhor delas. */
   const VEL_CONFORTO = { padrao: 10, rapido: 30 };
   function notaRadar(e, capMax, pid) {
     const t = tpsMid(e), alvo = VEL_CONFORTO[pid] || VEL_CONFORTO.padrao;
     const intel = Math.pow(e.cap.valor / capMax, 0.7);
-    const vel = t >= alvo ? 1 : Math.pow(Math.max(t, 0.1) / alvo, 0.8);   // 5 tok/s ≈ −43%, 3 tok/s ≈ −62%
+    // Até 60% do confortável o desconto é suave; abaixo disso (≈ 6 tok/s, ler já cansa) cai rápido, para um modelo
+    // grande que responde a 2–4 tok/s não ficar à frente de um menor que conversa bem. 8 tok/s ≈ −16%, 5 ≈ −52%, 3 ≈ −79%.
+    const lim = alvo * 0.6, tt = Math.max(t, 0.1);
+    const vel = tt >= alvo ? 1 : tt >= lim ? Math.pow(tt / alvo, 0.8) : Math.pow(lim / alvo, 0.8) * Math.pow(tt / lim, 1.8);
     const encaixe = e.offload ? 0.75 : e.enc.encaixe.nivel === 'justo' ? 0.9 : 1;
     const maturidade = 0.85 + 0.15 * Math.min(Math.max(e.prio, 0), 100) / 100;
     return { nota: Math.round(1000 * intel * vel * encaixe * maturidade) / 10, t, alvo, intel, vel };

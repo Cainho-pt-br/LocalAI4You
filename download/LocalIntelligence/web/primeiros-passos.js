@@ -51,3 +51,24 @@ function desenharPrimeirosPassos() {
       h('span', { class: 'pp-n' }, e.feito ? '✓' : String(i + 1)),
       h('div', { class: 'pp-corpo' }, h('b', {}, e.titulo), h('p', { class: 'sub' }, e.texto), i === atual || (e.acao && !e.feito) ? e.acao : null))))));
 }
+
+/* Aviso de versão nova (só no app baixado pelo site; a Microsoft Store atualiza sozinha). Compara a impressão digital
+   do programa com a do release app-latest no GitHub; o catálogo diário não conta como versão nova. */
+async function verificarAtualizacao() {
+  const b = S.saude?.build;
+  if (window.LI_PUBLIC_MODE || !b || b.loja || !b.impressao) return;
+  try { if (sessionStorage.getItem('li-atualizacao-vista') === '1') return; } catch (e) { /* ok */ }
+  let notas = '';
+  try {
+    const r = await fetch('https://api.github.com/repos/Cainho-pt-br/LocalAISearch/releases/tags/app-latest', { cache: 'no-store' });
+    if (!r.ok) return;
+    notas = (await r.json()).body || '';
+  } catch (e) { return; }   // sem internet: tudo bem
+  const m = /Versão do app: ([0-9a-f]{6,})/.exec(notas);
+  if (!m || m[1] === b.impressao) return;
+  const el = document.getElementById('primeiros-passos'); if (!el) return;
+  el.parentNode.insertBefore(h('div', { class: 'aviso-atualizacao' },
+    h('span', {}, '✨ ', h('b', {}, 'Saiu uma versão nova do Local AI 4 You. '), 'Baixe e rode o instalador de novo: seus modelos, notas e configurações continuam.'),
+    h('a', { class: 'btn primario mini', href: typeof LINK_DOWNLOAD === 'string' ? LINK_DOWNLOAD : '#', target: '_blank', rel: 'noopener' }, 'Baixar a nova versão'),
+    h('button', { type: 'button', class: 'btn mini', onclick: ev => { try { sessionStorage.setItem('li-atualizacao-vista', '1'); } catch (e) { /* ok */ } ev.target.closest('.aviso-atualizacao').remove(); } }, 'Depois')), el);
+}
