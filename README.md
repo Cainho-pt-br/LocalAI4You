@@ -41,7 +41,7 @@ cd download/LocalIntelligence && python -m unittest discover -s tests
 
 O banco fica no Supabase (organização **Local AI 4 You**, projeto **LocalAISearch**). As tabelas estão no schema `privado`, fora da API: o site e o app só chamam três funções de gravação (`registrar_evento`, `registrar_lead`, `enviar_benchmark`). Nenhuma chave fica no código: o site e o app chamam `/api/coleta` (função do Vercel em `site/api/coleta.js`), que guarda `SUPABASE_URL` e `SUPABASE_KEY` nas variáveis de ambiente do Vercel e só repassa essas três funções. As migrações estão em `supabase/migrations/`.
 
-- **Métricas (só no site)**: sem cookies e sem IP; respeitam *Do Not Track*/GPC; `localhost` e as prévias do Vercel (`…-projects.vercel.app`) não entram nas visões; a produção (`localaisearch-site.vercel.app`) entra. Use links com UTM nos conteúdos (`?utm_source=youtube&utm_campaign=video-rtx4060`).
+- **Métricas (só no site)**: sem cookies e sem IP; respeitam *Do Not Track*/GPC; `localhost` e as prévias do Vercel (`…-projects.vercel.app`) não entram nas visões; a produção (`localai4you.vercel.app`) entra. Use links com UTM nos conteúdos (`?utm_source=youtube&utm_campaign=video-rtx4060`).
 - **E-mails**: só com consentimento explícito, guardado junto. Exporte em **Table Editor → privado.leads**.
 - **Benchmarks**: no app, aba Medir → *Compartilhar resultados com a comunidade*; a pessoa vê o JSON antes de enviar.
 
@@ -53,7 +53,7 @@ Site e app em português, inglês e espanhol. O código continua escrito em port
 
 ## Apoiar o projeto
 
-O projeto é gratuito e de código aberto. Se ele te ajudou: deixe uma ⭐, [conte o que achou ou relate um problema](https://github.com/Cainho-pt-br/LocalAISearch/issues) e mostre para quem está começando com IA local.
+O projeto é gratuito e de código aberto. Se ele te ajudou: deixe uma ⭐, [conte o que achou ou relate um problema](https://github.com/Cainho-pt-br/LocalAI4You/issues) e mostre para quem está começando com IA local.
 
 Para ativar doações no site e no app, preencha `APOIO` em `download/LocalIntelligence/web/apoio.js` (chave Pix e/ou link do GitHub Sponsors, Ko-fi, Apoia.se…) e rode `python scripts/sincronizar-web.py`. O apoio aparece sempre, sem atrapalhar: um link no rodapé da barra lateral, um bloco discreto no fim do Radar e uma linha compacta depois de cada momento útil (copiar um comando, terminar uma medição). A linha some sozinha em segundos e o ✕ a esconde até a próxima visita. Nada é rastreado.
 
