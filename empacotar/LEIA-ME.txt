@@ -22,7 +22,7 @@ PARA FECHAR
   Clique em "Fechar o app" no canto de baixo da barra lateral do painel.
 
 AJUDA
-  https://github.com/Cainho-pt-br/LocalAISearch/issues
+  https://github.com/Cainho-pt-br/LocalAI4You/issues
 
 A pasta "app" contém o programa. Não é preciso mexer nela.
 Para desinstalar no Windows: menu Iniciar > Local AI 4 You > Desinstalar.

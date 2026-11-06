@@ -1,7 +1,7 @@
 // Intermediário da coleta (função do Vercel). O site e o app chamam /api/coleta; a chave do Supabase fica só no
 // servidor, nas variáveis de ambiente do Vercel (SUPABASE_URL e SUPABASE_KEY), nunca no código público.
-// Só repassa as três funções de gravação; o banco continua validando tudo (o papel anônimo só insere).
-const PERMITIDAS = new Set(['registrar_evento', 'registrar_lead', 'enviar_benchmark']);
+// Só repassa as duas funções de gravação; o banco continua validando tudo (o papel anônimo só insere).
+const PERMITIDAS = new Set(['registrar_evento', 'enviar_benchmark']);
 const LIMITE_BYTES = 64 * 1024;
 
 module.exports = async (req, res) => {

@@ -60,7 +60,7 @@ async function verificarAtualizacao() {
   try { if (sessionStorage.getItem('li-atualizacao-vista') === '1') return; } catch (e) { /* ok */ }
   let notas = '';
   try {
-    const r = await fetch('https://api.github.com/repos/Cainho-pt-br/LocalAISearch/releases/tags/app-latest', { cache: 'no-store' });
+    const r = await fetch('https://api.github.com/repos/Cainho-pt-br/LocalAI4You/releases/tags/app-latest', { cache: 'no-store' });
     if (!r.ok) return;
     notas = (await r.json()).body || '';
   } catch (e) { return; }   // sem internet: tudo bem

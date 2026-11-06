@@ -105,7 +105,7 @@ def cmd_bench(a):
             print("   " + " · ".join(f"{k} {v['acc']}% (n={v['n']})" for k, v in s["suites"].items()))
             print("   " + " · ".join(f"{k}: {v['nota']}" for k, v in s["papeis"].items() if v.get("nota") is not None))
     print("\nAs notas aparecem no painel (1_ABRIR_PAINEL.bat → Decidir).")
-    print("Se o Local AI 4 You te ajudou: ♥ https://github.com/Cainho-pt-br/LocalAISearch#apoiar-o-projeto")
+    print("Se o Local AI 4 You te ajudou: ♥ https://github.com/Cainho-pt-br/LocalAI4You#apoiar-o-projeto")
 
 
 def cmd_sonda(a):

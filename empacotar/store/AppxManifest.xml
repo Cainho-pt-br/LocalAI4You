@@ -23,7 +23,7 @@
     <Resource Language="es-ES" />
   </Resources>
   <Applications>
-    <Application Id="LocalAISearch" Executable="python\pythonw.exe" uap10:Parameters="-m cli painel" EntryPoint="Windows.FullTrustApplication">
+    <Application Id="LocalAI4You" Executable="python\pythonw.exe" uap10:Parameters="-m cli painel" EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements DisplayName="Local AI 4 You" Description="Descubra e meça IA local no seu computador"
                           BackgroundColor="transparent" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\Square71x71Logo.png" Square310x310Logo="Assets\Square310x310Logo.png" />
