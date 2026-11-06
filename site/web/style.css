@@ -1002,3 +1002,9 @@ details.painel-colapsavel > summary > h3 { flex:1; text-align:left; }
 .duelo-grafico .duelo-barras i { height:9px; }
 .duelo-legenda { display:flex; gap:18px; flex-wrap:wrap; font-weight:700; font-size:.86rem; margin-bottom:4px; }
 .duelo-legenda span::before { content:''; display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; background:currentColor; vertical-align:-1px; }
+
+/* ------------------------------------------------------------ uso da tela larga: conteúdo centralizado e mais largo */
+main { max-width: 1480px; margin-inline: auto; }
+.guia-tool-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); }
+@media (min-width: 1500px) { .guia-tool-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } .guia-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.palpite-extra { display: block; margin-top: 4px; color: var(--muted); }

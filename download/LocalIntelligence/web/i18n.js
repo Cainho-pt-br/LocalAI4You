@@ -61,7 +61,7 @@
   const ATTRS = ['placeholder', 'title', 'aria-label'];
   function noTexto(n) {
     const pe = n.parentElement;
-    if (!pe || pe.closest('script,style,code,pre,.cmd,[data-sem-traducao]')) return;
+    if (!pe || pe.closest('script,style,code,pre,[data-sem-traducao]')) return;
     const v = n.nodeValue;
     if (FEITO.get(n) === v) return;
     const nv = traduzir(v);
