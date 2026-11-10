@@ -30,7 +30,10 @@ const LI = { alvo: '' };
 const LINK_REPO = 'https://github.com/Cainho-pt-br/LocalAI4You';
 // Windows baixa o pacote com o Python oficial embutido e o "Instalar"; macOS e Linux, o ZIP com o atalho de abrir.
 const NO_WINDOWS = /Windows/i.test(navigator.userAgent || '');
-const LINK_DOWNLOAD = LINK_REPO + '/releases/latest/download/' + (NO_WINDOWS ? 'LocalAI4You-Windows.zip' : 'LocalAI4You.zip');
+const LINK_STORE = 'https://apps.microsoft.com/detail/9MWFSJPFFMJW';
+const LINK_ZIP = LINK_REPO + '/releases/latest/download/' + (NO_WINDOWS ? 'LocalAI4You-Windows.zip' : 'LocalAI4You.zip');
+// No Windows o caminho principal é a Microsoft Store (sem aviso do SmartScreen); o ZIP fica como alternativa.
+const LINK_DOWNLOAD = NO_WINDOWS ? LINK_STORE : LINK_ZIP;
 const ROTAS_LOCAIS = ['/api/calc/', '/api/maquinas', '/api/parque', '/api/m/', '/api/quants', '/api/radar/snapshot'];
 const caminhoAlvo = c => (!LI.alvo || !c.startsWith('/api/') || ROTAS_LOCAIS.some(p => c.startsWith(p))) ? c : '/api/m/' + encodeURIComponent(LI.alvo) + c.slice(4);
 async function api(caminho, corpo) {
