@@ -16,6 +16,8 @@
 
   /* links e eventos */
   if (typeof LINK_DOWNLOAD === 'string') $('#l-baixar').href = LINK_DOWNLOAD;
+  if (typeof LINK_ZIP === 'string') $('#l-zip').href = LINK_ZIP;
+  if (typeof NO_WINDOWS !== 'undefined' && !NO_WINDOWS) { const a = $('#l-alt-win'); if (a) a.textContent = 'Baixe o ZIP, extraia e dê dois cliques em “Abrir Local AI 4 You” (Mac e Linux).'; }
   if (typeof LINK_REPO === 'string') $('#l-github').href = LINK_REPO;
   if (typeof abrirApoio === 'function') $('#l-apoio').addEventListener('click', e => { e.preventDefault(); abrirApoio(); });
   document.addEventListener('click', e => {

@@ -69,6 +69,6 @@ async function verificarAtualizacao() {
   const el = document.getElementById('primeiros-passos'); if (!el) return;
   el.parentNode.insertBefore(h('div', { class: 'aviso-atualizacao' },
     h('span', {}, '✨ ', h('b', {}, 'Saiu uma versão nova do Local AI 4 You. '), 'Baixe e rode o instalador de novo: seus modelos, notas e configurações continuam.'),
-    h('a', { class: 'btn primario mini', href: typeof LINK_DOWNLOAD === 'string' ? LINK_DOWNLOAD : '#', target: '_blank', rel: 'noopener' }, 'Baixar a nova versão'),
+    h('a', { class: 'btn primario mini', href: typeof LINK_ZIP === 'string' ? LINK_ZIP : '#', target: '_blank', rel: 'noopener' }, 'Baixar a nova versão'),
     h('button', { type: 'button', class: 'btn mini', onclick: ev => { try { sessionStorage.setItem('li-atualizacao-vista', '1'); } catch (e) { /* ok */ } ev.target.closest('.aviso-atualizacao').remove(); } }, 'Depois')), el);
 }
