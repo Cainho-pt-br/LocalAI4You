@@ -7,9 +7,9 @@
      até o fim da visita. Nada é rastreado nem enviado.
    Para ativar doações, preencha APOIO abaixo (chave Pix e/ou um link como GitHub Sponsors, Ko-fi ou Apoia.se). */
 const APOIO = {
-  pix: '',          // ex.: 'seu-email@exemplo.com' ou chave aleatória
-  link: '',         // ex.: 'https://github.com/sponsors/SEU-USUARIO'
-  linkRotulo: 'Doar pelo navegador',
+  pix: '636ca1e2-6635-4ca0-8e6e-0f7d4873bf6c',   // chave Pix aleatória
+  link: 'https://nubank.com.br/cobrar/4orxp/6af4d048-69bc-49ec-bb90-8b75f637dfde',   // pedido de Pix com QR code (Nubank)
+  linkRotulo: 'Doar via Pix (QR code)',
 };
 const APOIO_SESSAO = 'li-apoio-oculto';   // ✕ esconde só nesta visita
 const APOIO_SEGUNDOS = 7;

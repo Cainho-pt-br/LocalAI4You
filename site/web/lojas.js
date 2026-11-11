@@ -9,6 +9,9 @@
 const LOJAS_CONFIG = {
   amazonTag: 'localai4you20-20',
   awin: { awinId: '', lojas: { kabum: '', pichau: '' } },
+  // Mercado Livre: links curtos de afiliado (meli.la) são POR PRODUTO. Cada item liga um texto de busca (expressão
+  // regular, sem diferenciar maiúsculas) ao link do produto; sem correspondência, o botão continua sendo uma busca comum.
+  mercadolivre: [],   // ex.: { busca: /5060 ti/i, url: 'https://meli.la/xxxx' }
 };
 
 const _slug = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -18,16 +21,17 @@ function _awin(loja, url) {
 }
 function lojasComAfiliado() {
   const a = LOJAS_CONFIG.awin;
-  return !!(LOJAS_CONFIG.amazonTag || (a.awinId && Object.values(a.lojas).some(Boolean)));
+  return !!(LOJAS_CONFIG.amazonTag || LOJAS_CONFIG.mercadolivre.length || (a.awinId && Object.values(a.lojas).some(Boolean)));
 }
 /* Lojas para um produto (texto de busca, ex.: "RTX 5060 Ti 16GB"). */
 function lojasPara(busca) {
   const q = encodeURIComponent(busca);
+  const ml = LOJAS_CONFIG.mercadolivre.find(x => x.busca.test(busca));
   return [
     ['Amazon', `https://www.amazon.com.br/s?k=${q}` + (LOJAS_CONFIG.amazonTag ? `&tag=${encodeURIComponent(LOJAS_CONFIG.amazonTag)}` : ''), !!LOJAS_CONFIG.amazonTag],
     ['KaBuM', _awin('kabum', `https://www.kabum.com.br/busca/${_slug(busca)}`), !!(LOJAS_CONFIG.awin.awinId && LOJAS_CONFIG.awin.lojas.kabum)],
     ['Pichau', _awin('pichau', `https://www.pichau.com.br/search?q=${q}`), !!(LOJAS_CONFIG.awin.awinId && LOJAS_CONFIG.awin.lojas.pichau)],
-    ['Mercado Livre', `https://lista.mercadolivre.com.br/${_slug(busca)}`, false],
+    ['Mercado Livre', ml ? ml.url : `https://lista.mercadolivre.com.br/${_slug(busca)}`, !!ml],
   ];
 }
 /* Botões de loja; `contexto` vai para as métricas (qual placa, de onde veio o clique). */
