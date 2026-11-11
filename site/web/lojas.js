@@ -11,7 +11,14 @@ const LOJAS_CONFIG = {
   awin: { awinId: '', lojas: { kabum: '', pichau: '' } },
   // Mercado Livre: links curtos de afiliado (meli.la) são POR PRODUTO. Cada item liga um texto de busca (expressão
   // regular, sem diferenciar maiúsculas) ao link do produto; sem correspondência, o botão continua sendo uma busca comum.
-  mercadolivre: [],   // ex.: { busca: /5060 ti/i, url: 'https://meli.la/xxxx' }
+  // A memória (VRAM) é o que importa aqui: só liga o link quando a versão do produto bate com a da placa sugerida.
+  mercadolivre: [
+    { busca: /7600 XT/i, url: 'https://meli.la/2fJCp94' },                 // Pcyes RX 7600 XT 16GB
+    { busca: /9050/i, url: 'https://meli.la/17ySqfT' },                     // Gigabyte RX 9050 Gaming OC 8GB
+    { busca: /5060 Ti 8\s?GB/i, url: 'https://meli.la/1Tp8jFR' },          // Gainward RTX 5060 Ti 8GB
+    { busca: /5060(?! Ti)/i, url: 'https://meli.la/2bewuNP' },              // MSI RTX 5060 8GB Shadow 2X OC
+    { busca: /5070(?! Ti| Laptop)/i, url: 'https://meli.la/2SwxwKK' },      // Zotac RTX 5070 12GB
+  ],
 };
 
 const _slug = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
