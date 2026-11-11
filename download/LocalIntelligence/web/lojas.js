@@ -1,13 +1,13 @@
 'use strict';
 /* Links de loja para upgrade de hardware (afiliados). Sem nenhum código preenchido, são só buscas comuns nas lojas.
    Para ganhar comissão, cadastre-se e preencha:
-   • amazonTag: Amazon Associados Brasil (associados.amazon.com.br) → o "ID de rastreamento", ex.: 'localaisearch-20'.
+   • amazonTag: Amazon Associados Brasil (associados.amazon.com.br) → o "ID de rastreamento", ex.: 'localai4you20-20'.
    • awin: KaBuM, Pichau e outras lojas brasileiras usam a rede Awin (awin.com). Depois de aprovado em cada loja,
      preencha seu ID de afiliado (awinId) e o código de cada loja (awinmid).
    Quando houver algum código, a página mostra o aviso de que os links podem render comissão (exigência das lojas e
    questão de honestidade). Cliques são contados nas métricas anônimas do site, quando ativas. */
 const LOJAS_CONFIG = {
-  amazonTag: '',
+  amazonTag: 'localai4you20-20',
   awin: { awinId: '', lojas: { kabum: '', pichau: '' } },
 };
 
