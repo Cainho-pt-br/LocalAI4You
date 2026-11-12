@@ -34,12 +34,13 @@ function lojasComAfiliado() {
 function lojasPara(busca) {
   const q = encodeURIComponent(busca);
   const ml = LOJAS_CONFIG.mercadolivre.find(x => x.busca.test(busca));
+  // KaBuM e Pichau só aparecem quando há código de afiliado delas (sem comissão, o botão só ocuparia espaço).
   return [
     ['Amazon', `https://www.amazon.com.br/s?k=${q}` + (LOJAS_CONFIG.amazonTag ? `&tag=${encodeURIComponent(LOJAS_CONFIG.amazonTag)}` : ''), !!LOJAS_CONFIG.amazonTag],
-    ['KaBuM', _awin('kabum', `https://www.kabum.com.br/busca/${_slug(busca)}`), !!(LOJAS_CONFIG.awin.awinId && LOJAS_CONFIG.awin.lojas.kabum)],
-    ['Pichau', _awin('pichau', `https://www.pichau.com.br/search?q=${q}`), !!(LOJAS_CONFIG.awin.awinId && LOJAS_CONFIG.awin.lojas.pichau)],
+    ['KaBuM', _awin('kabum', `https://www.kabum.com.br/busca/${_slug(busca)}`), !!(LOJAS_CONFIG.awin.awinId && LOJAS_CONFIG.awin.lojas.kabum), true],
+    ['Pichau', _awin('pichau', `https://www.pichau.com.br/search?q=${q}`), !!(LOJAS_CONFIG.awin.awinId && LOJAS_CONFIG.awin.lojas.pichau), true],
     ['Mercado Livre', ml ? ml.url : `https://lista.mercadolivre.com.br/${_slug(busca)}`, !!ml],
-  ];
+  ].filter(l => !l[3] || l[2]);
 }
 /* Botões de loja; `contexto` vai para as métricas (qual placa, de onde veio o clique). */
 function botoesLoja(busca, contexto = {}) {
