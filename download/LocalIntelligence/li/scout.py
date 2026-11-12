@@ -466,7 +466,9 @@ def caps_declaradas(c: dict) -> List[str]:
     """No Ollama a lista de capacidades é da FAMÍLIA (gemma3 inteiro = 'vision'), mas só os tamanhos com entrada de imagem
     (gemma3:4b+) enxergam. A entrada declarada por tamanho (`entradas`) manda; 'audio' idem."""
     caps = list(c.get("caps") or [])
-    if c.get("origem") == "hf" and "decision" not in caps and ({"decision-model", "decision"} & set(c.get("tags_hf") or []) or c.get("pipeline") == "feature-extraction"):
+    # IBM Granite Switch: o Ollama o carrega como modelo de decisão (adaptadores LoRA escolhidos por token), não de conversa
+    switch = bool(re.search(r"granite[-_ ]?switch", str(c.get("id") or c.get("repo") or ""), re.I))
+    if "decision" not in caps and (switch or (c.get("origem") == "hf" and ({"decision-model", "decision"} & set(c.get("tags_hf") or []) or c.get("pipeline") == "feature-extraction"))):
         caps.append("decision")   # d1-omni & cia.: respondem perguntas tipadas sem gerar texto; NÃO são modelos de conversa
     if c.get("origem") != "ollama" or not c.get("entradas"):
         return caps
