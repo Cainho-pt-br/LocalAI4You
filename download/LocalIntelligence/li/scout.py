@@ -366,6 +366,11 @@ def varrer(forcar: bool = False, limite_familias: int = 110, ao_progredir: Optio
     for h in cands_h:
         o = _casar(h, cands_o)
         if o:
+            # Vários repositórios de laboratório podem ter o mesmo nome de família e tamanho (ex.: Qwen/Qwen3.8-27B e
+            # tencent/Qwen3.8-27B-DSpine-b16). O que vale é o mais baixado, que é o original; antes o último da lista
+            # vencia e o derivado tomava o lugar (e as quantizações menores, que são do original, não eram achadas).
+            if o.get("repo") and (o.get("baixas") or 0) >= (h.get("baixas") or 0):
+                continue
             o["repo"] = h["repo"]
             if h.get("lancamento"):
                 o["lancamento"], o["data_aproximada"] = h["lancamento"], False
