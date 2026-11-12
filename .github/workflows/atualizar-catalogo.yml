@@ -18,6 +18,9 @@ jobs:
         with:
           python-version: "3.12"
       - name: Atualizar catálogo usando o radar do projeto
+        env:
+          # opcional: token gratuito do Hugging Face (Settings → Access Tokens, só leitura) evita o limite por IP
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: python scripts/atualizar-catalogo-publico.py
       - name: Salvar catálogo novo
         id: commit

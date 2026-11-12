@@ -408,6 +408,19 @@ def varrer(forcar: bool = False, limite_familias: int = 110, ao_progredir: Optio
     prog("Hugging Face: buscando quantizações menores (GGUF) para os modelos grandes…")
     mapa_paralelo(gguf_extra, cands_o, workers=5)
 
+    # Segunda passada, mais devagar: se a primeira foi limitada pelo Hugging Face (429 e timeouts), os modelos grandes
+    # que ficaram sem repositório-base ou sem quantizações menores ganham outra chance antes de entrar no catálogo.
+    def sem_gguf(o: dict) -> bool:
+        return o["params_b"] >= 12 and not any(v.get("fonte") == "hf" for v in o["variantes"])
+    pend = [o for o in cands_o if sem_gguf(o)]
+    if pend:
+        prog(f"Hugging Face: segunda tentativa para {len(pend)} modelos grandes sem quantizações extras…")
+        def de_novo(o: dict) -> None:
+            achar_base(o)
+            gguf_extra(o)
+        mapa_paralelo(de_novo, pend, workers=2)
+        prog(f"Hugging Face: {len(pend) - sum(1 for o in pend if sem_gguf(o))} recuperados; {sum(1 for o in pend if sem_gguf(o))} seguem sem GGUF extra (normal para modelos antigos).")
+
     # só vale buscar GGUF dos HF-only que cabem em alguma configuração conhecida (≤ params_max_b parâmetros totais)
     teto_b = float(config.carregar().get("params_max_b", 130))
     prog(f"Hugging Face: procurando GGUF de {len(so_hf)} lançamentos que o Ollama ainda não tem…")
