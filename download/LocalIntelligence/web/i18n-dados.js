@@ -948,11 +948,33 @@ window.LI_I18N_DADOS = [
 ["Seguir regras (IFEval)", "Following rules (IFEval)", "Seguir reglas (IFEval)"],
 ["Inteligência primeiro", "Intelligence first", "Inteligencia primero"],
 ["Quanto custa?", "How much does it cost?", "¿Cuánto cuesta?"],
-["✉", "✉", "✉"]
+["✉", "✉", "✉"],
+["Qual é o seu computador?", "Which computer is yours?", "¿Cuál es tu computadora?"],
+["Sem placa · {n} GB", "No GPU · {n} GB", "Sin gráfica · {n} GB"],
+["Outra placa ou chip…", "Another card or chip…", "Otra tarjeta o chip…"],
+["Outra placa ou chip", "Another card or chip", "Otra tarjeta o chip"],
+["Memória unificada (Mac e outros)", "Unified memory (Mac and others)", "Memoria unificada (Mac y otros)"],
+["Ajustes detalhados (Calculadora)…", "Detailed settings (Calculator)…", "Ajustes detallados (Calculadora)…"],
+["Toque no seu computador acima.", "Tap your computer above.", "Toca tu computadora arriba."],
+["Não é este? Toque no seu acima.", "Not this one? Tap yours above.", "¿No es esta? Toca la tuya arriba."],
+["PC de exemplo.", "Example PC.", "PC de ejemplo."],
+["🔗 Compartilhar", "🔗 Share", "🔗 Compartir"],
+["Quem abrir o link vê esta mesma lista, para este mesmo computador", "Whoever opens the link sees this same list, for this same computer", "Quien abra el enlace verá esta misma lista, para esta misma computadora"],
+["Link copiado. Quem abrir vê esta mesma lista, para este mesmo computador.", "Link copied. Whoever opens it sees this same list, for this same computer.", "Enlace copiado. Quien lo abra verá esta misma lista, para esta misma computadora."],
+["Veja quais IAs rodam bem neste computador:", "See which AI models run well on this computer:", "Mira qué IA corre bien en esta computadora:"],
+["Modo Escuro", "Dark mode", "Modo oscuro"],
+["Modo Claro", "Light mode", "Modo claro"],
+["Veja por placa de vídeo", "Browse by graphics card", "Ver por tarjeta gráfica"],
+["Por placa", "By graphics card", "Por tarjeta"],
+["Acompanhe o projeto", "Follow the project", "Sigue el proyecto"],
+["📣 Acompanhar o projeto:", "📣 Follow the project:", "📣 Seguir el proyecto:"],
+["Sem placa de vídeo", "No graphics card", "Sin tarjeta gráfica"],
+["Memória", "Memory", "Memoria"]
 ];
 /* Regras por trecho (expressão regular em português → substituição), para textos montados em partes. */
 window.LI_I18N_REGRAS = [
 
+["^parece (.+)\\.$", "looks like $1.", "parece $1."],
 ["^([\\d.,]+) GB de VRAM$", "$1 GB of VRAM", "$1 GB de VRAM"],
 ["^([\\d.,]+) GB a (.+) \\(só se você permitir\\)$", "$1 GB at $2 (only if you allow it)", "$1 GB a $2 (solo si lo permites)"],
 ["^(muito rápido|fluido|usável|lento — só em lote) · MoE rodam bem mais rápido$", "$1 · MoE models run much faster", "$1 · los MoE corren mucho más rápido"],

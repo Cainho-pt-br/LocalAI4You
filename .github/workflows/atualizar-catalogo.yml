@@ -22,6 +22,10 @@ jobs:
           # opcional: token gratuito do Hugging Face (Settings → Access Tokens, só leitura) evita o limite por IP
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: python scripts/atualizar-catalogo-publico.py
+      - name: Refazer as páginas por placa com o catálogo novo
+        # Se falhar, o catálogo é publicado assim mesmo e as páginas ficam como estavam (o passo aparece com aviso).
+        continue-on-error: true
+        run: node scripts/gerar-paginas.js
       - name: Salvar catálogo novo
         id: commit
         run: |
@@ -32,11 +36,19 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add site/dados.js download/LocalIntelligence/data/radar-inicial.json.gz
+          git add -A site/placa site/en site/es site/sitemap.xml
           git commit -m "Atualiza catálogo público de modelos"
           # A varredura leva ~10 min; se a main andou nesse tempo (merge de PR), traz as novidades por baixo do commit
-          # do catálogo e tenta de novo. Num conflito, vale o catálogo recém-gerado (os dois arquivos são só saída do radar).
+          # do catálogo e tenta de novo. Num conflito, vale o que acabou de ser gerado (catálogo e páginas por placa são só saída).
           for tentativa in 1 2 3 4; do
-            git pull --rebase -X theirs origin "${GITHUB_REF_NAME}" && git push && break
+            if git pull --rebase -X theirs origin "${GITHUB_REF_NAME}"; then
+              # se a main trouxe um molde novo das páginas por placa, refaz com o que vale agora (não mistura os dois)
+              if node scripts/gerar-paginas.js; then
+                git add -A site/placa site/en site/es site/sitemap.xml
+                git diff --cached --quiet || git commit -m "Atualiza páginas por placa"
+              fi
+              git push && break
+            fi
             git rebase --abort 2>/dev/null || true
             echo "push recusado (tentativa $tentativa), tentando de novo"
             sleep $((tentativa * 5))

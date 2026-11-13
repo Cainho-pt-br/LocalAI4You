@@ -12,6 +12,7 @@ Descubra qual IA local roda bem no **seu** computador e use-a do jeito certo.
 | `download/LocalIntelligence/` | O app local (Python + Ollama). **Fonte única da interface** em `web/`. |
 | `site/` | O site estático publicado no Vercel: `index.html` é a página inicial (`landing.css`/`landing.js`, só do site) e `app.html` é o app. `site/web/` é uma cópia de `download/LocalIntelligence/web/` + `public-mode.js`. |
 | `site/dados.js` | Catálogo público, atualizado todo dia pelo GitHub Actions. |
+| `site/placa/`, `site/en/gpu/`, `site/es/gpu/` | Páginas estáticas "o que roda em cada placa", **geradas** por `scripts/gerar-paginas.js` (não edite à mão). |
 | `scripts/` | Atualização do catálogo e sincronização da interface. |
 
 ## Desenvolver
@@ -30,24 +31,27 @@ Testes do app (incluem a paridade dos cálculos JavaScript × Python; o Node.js 
 cd download/LocalIntelligence && python -m unittest discover -s tests
 ```
 
+## Links com o hardware e páginas por placa
+
+- `app.html?gpu=rtx-4060` (ou `?chip=m2&ram=16`, `?ram=16` para PC sem placa) abre o Radar já nesse computador. O botão **Compartilhar** do Radar gera esse link.
+- `node scripts/gerar-paginas.js` refaz as páginas por placa e o `sitemap.xml` com o mesmo motor do Radar (`web/calc.js`). Roda sozinho todo dia, junto com o catálogo. O molde está no próprio script; o visual, em `site/placa.css`.
+- Canais do projeto (YouTube, Discord…): preencha `CANAIS` em `download/LocalIntelligence/web/base.js`; os vazios não aparecem.
+
 ## Publicar
 
 - **Site**: no Vercel, importe este repositório com `site` como **Root Directory**. Não há build.
 - **Catálogo**: o workflow *Atualizar catálogo público* roda às 08:17 UTC (ou manualmente em **Actions**). Ele atualiza `site/dados.js` e o catálogo que vai no ZIP do app (`download/LocalIntelligence/data/radar-inicial.json.gz`). Se a varredura falhar, o último catálogo bom é mantido. Para republicar no Vercel automaticamente, salve um Deploy Hook como secret `VERCEL_DEPLOY_HOOK`.
 - **App**: o workflow *Publicar app local* monta o download com `empacotar/montar.py` e publica no release `app-latest`: `LocalAI4You-Windows.zip` ("Instalar Local AI 4 You" + `app/` com o Python embutido oficial; os atalhos chamam o `pythonw.exe` assinado pela Python Software Foundation, então o SmartScreen não bloqueia e não abre janela preta) e `LocalAI4You.zip` (macOS/Linux: atalho de abrir, `LEIA-ME.txt` e `app/`). O site oferece o pacote certo para cada sistema.
 - **Microsoft Store**: o workflow manual *Pacote da Microsoft Store* gera `LocalAI4You.msix` (Python embutido + app, manifesto em `empacotar/store/`) para enviar no Partner Center. Precisa das variáveis do repositório `STORE_IDENTITY_NAME`, `STORE_PUBLISHER` e `STORE_PUBLISHER_NAME`. Instalado pela Store, o app guarda os dados em `%LOCALAPPDATA%\LocalAISearch` (`LI_DADOS` também muda o local). Política de privacidade: `site/privacidade.html`. Ele roda quando o app muda, depois de cada atualização do catálogo, ou manualmente.
-  - **Atualizar na Store:** rode de novo o workflow *Pacote da Microsoft Store*. A versão do pacote sobe sozinha (`1.<número da execução>.0.0`, sempre maior que a anterior, como a Store exige). Depois, no Partner Center, abra o app → *Iniciar novo envio* → *Pacotes* → envie o novo `.msix` → escreva o "O que há de novo" → enviar. Quem instalou pela Store recebe a atualização sozinho. Link público: https://apps.microsoft.com/detail/9MWFSJPFFMJW
-  - **Divulgação:** links com `utm_source` para o painel separar os canais estão em `docs/divulgacao.md`.
 
-## Métricas, e-mails e benchmarks da comunidade
+## Métricas e benchmarks da comunidade
 
-O banco fica no Supabase (organização **Local AI 4 You**, projeto **LocalAISearch**). As tabelas estão no schema `privado`, fora da API: o site e o app só chamam três funções de gravação (`registrar_evento`, `registrar_lead`, `enviar_benchmark`). Nenhuma chave fica no código: o site e o app chamam `/api/coleta` (função do Vercel em `site/api/coleta.js`), que guarda `SUPABASE_URL` e `SUPABASE_KEY` nas variáveis de ambiente do Vercel e só repassa essas três funções. As migrações estão em `supabase/migrations/`.
+O site e o app nunca falam direto com o banco: chamam `/api/coleta` (função do Vercel em `site/api/coleta.js`), que guarda as credenciais nas variáveis de ambiente e só repassa funções de gravação. Nenhuma chave fica no código. As migrações estão em `supabase/migrations/`.
 
-- **Métricas (só no site)**: sem cookies e sem IP; respeitam *Do Not Track*/GPC; `localhost` e as prévias do Vercel (`…-projects.vercel.app`) não entram nas visões; a produção (`localai4you.vercel.app`) entra. Use links com UTM nos conteúdos (`?utm_source=youtube&utm_campaign=video-rtx4060`).
-- **E-mails**: só com consentimento explícito, guardado junto. Exporte em **Table Editor → privado.leads**.
+- **Métricas (só no site)**: sem cookies e sem IP; respeitam *Do Not Track*/GPC; `localhost` e as prévias do Vercel não contam.
 - **Benchmarks**: no app, aba Medir → *Compartilhar resultados com a comunidade*; a pessoa vê o JSON antes de enviar.
 
-Consultas prontas (SQL Editor): `select * from privado.v_diario;`, `v_origens` (de onde vêm e quem converte), `v_hardware` (placas mais configuradas), `v_modelos_copiados`, `v_abas`.
+Detalhes do que é coletado: `site/privacidade.html`.
 
 ## Idiomas
 

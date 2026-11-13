@@ -22,9 +22,15 @@
   if (typeof abrirApoio === 'function') $('#l-apoio').addEventListener('click', e => { e.preventDefault(); abrirApoio(); });
   document.addEventListener('click', e => {
     const a = e.target.closest('[data-ev]');
-    if (a) ev(a.dataset.ev === 'download' ? 'download' : 'cta', { origem: 'inicio-' + a.dataset.ev });
+    if (a) a.dataset.ev === 'download' ? ev('download', { origem: 'inicio-download' }) : ev('uso', { acao: 'cta', origem: 'inicio-' + a.dataset.ev });   // o banco só aceita tipos conhecidos: 'cta' era recusado
   });
   ev('pagina', { aba: 'inicio' });
+
+  /* páginas por placa (uma por idioma) e canais do projeto */
+  const hub = { pt: 'placa/', en: 'en/gpu/', es: 'es/gpu/' }[window.LI_IDIOMA] || 'placa/';
+  document.querySelectorAll('[data-hub]').forEach(a => { a.href = hub; });
+  const canais = typeof linksCanais === 'function' ? linksCanais('inicio') : [];
+  if (canais.length) $('#l-canais').append(...canais);
 
   /* revelar seções ao rolar */
   const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('visto'); io.unobserve(x.target); } }), { threshold: 0.12 }) : null;
@@ -54,18 +60,18 @@
   const gpu = id => hw.gpus.find(g => g.id === id);
   const chip = id => hw.unificadas.find(u => u.id === id);
   const EXEMPLOS = [
-    ['Só CPU · 16 GB', () => Calc.perfilCpu({ ram_gb: 16, mem: memPerfil, cpu, sistema: sis })],
-    ['RTX 3060 12 GB', () => gpu('rtx-3060-12') && Calc.perfilGpu({ gpu: gpu('rtx-3060-12'), n: 1, ram_gb: 32, mem: memPerfil, cpu, sistema: sis })],
-    ['RTX 4060 8 GB', () => gpu('rtx-4060') && Calc.perfilGpu({ gpu: gpu('rtx-4060'), n: 1, ram_gb: 32, mem: memPerfil, cpu, sistema: sis })],
-    ['RTX 4090 24 GB', () => gpu('rtx-4090') && Calc.perfilGpu({ gpu: gpu('rtx-4090'), n: 1, ram_gb: 64, mem: memPerfil, cpu, sistema: sis })],
-    ['Mac M2 · 16 GB', () => chip('m2') && Calc.perfilUnificado({ chip: chip('m2'), ram_gb: 16, cpu: null, sistema: mac })],
+    ['Só CPU · 16 GB', () => Calc.perfilCpu({ ram_gb: 16, mem: memPerfil, cpu, sistema: sis }), 'ram=16'],
+    ['RTX 3060 12 GB', () => gpu('rtx-3060-12') && Calc.perfilGpu({ gpu: gpu('rtx-3060-12'), n: 1, ram_gb: 32, mem: memPerfil, cpu, sistema: sis }), 'gpu=rtx-3060-12'],
+    ['RTX 4060 8 GB', () => gpu('rtx-4060') && Calc.perfilGpu({ gpu: gpu('rtx-4060'), n: 1, ram_gb: 32, mem: memPerfil, cpu, sistema: sis }), 'gpu=rtx-4060'],
+    ['RTX 4090 24 GB', () => gpu('rtx-4090') && Calc.perfilGpu({ gpu: gpu('rtx-4090'), n: 1, ram_gb: 64, mem: memPerfil, cpu, sistema: sis }), 'gpu=rtx-4090'],
+    ['Mac M2 · 16 GB', () => chip('m2') && Calc.perfilUnificado({ chip: chip('m2'), ram_gb: 16, cpu: null, sistema: mac }), 'chip=m2&ram=16'],
   ];
-  let atual = 2;
+  let atual = 2, tocou = false;
   const chips = $('#demo-chips');
   EXEMPLOS.forEach(([rot], i) => {
     const b = document.createElement('button');
     b.type = 'button'; b.textContent = rot;
-    b.addEventListener('click', () => { atual = i; desenhar(); ev('cta', { origem: 'inicio-demo-chip', perfil: rot }); });
+    b.addEventListener('click', () => { atual = i; tocou = true; desenhar(); ev('uso', { acao: 'cta', origem: 'inicio-demo-chip', perfil: rot }); });
     chips.appendChild(b);
   });
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -74,6 +80,8 @@
 
   function desenhar() {
     [...chips.children].forEach((b, i) => b.setAttribute('aria-pressed', String(i === atual)));
+    // quem escolheu um computador na prévia continua nele ao abrir o Radar; quem não tocou em nada vê o próprio (palpite)
+    $('#demo-mais').href = tocou ? `app.html?${EXEMPLOS[atual][2]}#radar` : 'app.html#radar';
     const lista = $('#demo-lista');
     let rk = [];
     try {

@@ -126,11 +126,14 @@ function temaAtual() {
   } catch (x) {}
   return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
+function rotuloTema(bt, t) {
+  bt.replaceChildren(h('span', { 'aria-hidden': 'true' }, t === 'dark' ? '🌙' : '☀'), h('span', { class: 'tema-txt' }, t === 'dark' ? 'Modo Escuro' : 'Modo Claro'));
+}
 function aplicarTema(t) {
   document.documentElement.setAttribute('data-theme', t);
   try { localStorage.setItem('li-tema', t); } catch (x) {}
   const bt = $('#btn-tema');
-  if (bt) bt.textContent = t === 'dark' ? '🌙 Modo Escuro' : '☀ Modo Claro';
+  if (bt) rotuloTema(bt, t);
 }
 function alternarTema() {
   const prox = temaAtual() === 'dark' ? 'light' : 'dark';
@@ -140,7 +143,7 @@ function inicializarTema() {
   const bt = $('#btn-tema');
   if (bt) {
     bt.onclick = alternarTema;
-    bt.textContent = temaAtual() === 'dark' ? '🌙 Modo Escuro' : '☀ Modo Claro';
+    rotuloTema(bt, temaAtual());
   }
 }
 if (document.readyState === 'loading') {
