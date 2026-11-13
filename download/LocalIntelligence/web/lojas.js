@@ -17,7 +17,7 @@ const LOJAS_CONFIG = {
     { busca: /9050/i, marca: 'Gigabyte', url: 'https://meli.la/17ySqfT' },                     // Gigabyte RX 9050 Gaming OC 8GB
     { busca: /5060 Ti 8\s?GB/i, marca: 'Gainward', url: 'https://meli.la/1Tp8jFR' },          // Gainward RTX 5060 Ti 8GB
     { busca: /5060(?! Ti)/i, marca: 'MSI', url: 'https://meli.la/2bewuNP' },                  // MSI RTX 5060 8GB Shadow 2X OC
-    { busca: /5060(?! Ti)/i, marca: 'Zotac', url: 'https://meli.la/1cWdy7S' },              // Zotac RTX 5060 Twin Edge 8GB              // MSI RTX 5060 8GB Shadow 2X OC
+    { busca: /5060(?! Ti)/i, marca: 'Zotac', url: 'https://meli.la/1cWdy7S' },              // Zotac RTX 5060 Twin Edge 8GB
     { busca: /5070(?! Ti| Laptop)/i, marca: 'Zotac', url: 'https://meli.la/2SwxwKK' },      // Zotac RTX 5070 12GB
   ],
 };
