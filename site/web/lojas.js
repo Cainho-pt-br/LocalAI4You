@@ -13,11 +13,12 @@ const LOJAS_CONFIG = {
   // regular, sem diferenciar maiúsculas) ao link do produto; sem correspondência, o botão continua sendo uma busca comum.
   // A memória (VRAM) é o que importa aqui: só liga o link quando a versão do produto bate com a da placa sugerida.
   mercadolivre: [
-    { busca: /7600 XT/i, url: 'https://meli.la/2fJCp94' },                 // Pcyes RX 7600 XT 16GB
-    { busca: /9050/i, url: 'https://meli.la/17ySqfT' },                     // Gigabyte RX 9050 Gaming OC 8GB
-    { busca: /5060 Ti 8\s?GB/i, url: 'https://meli.la/1Tp8jFR' },          // Gainward RTX 5060 Ti 8GB
-    { busca: /5060(?! Ti)/i, url: 'https://meli.la/2bewuNP' },              // MSI RTX 5060 8GB Shadow 2X OC
-    { busca: /5070(?! Ti| Laptop)/i, url: 'https://meli.la/2SwxwKK' },      // Zotac RTX 5070 12GB
+    { busca: /7600 XT/i, marca: 'Pcyes', url: 'https://meli.la/2fJCp94' },                 // Pcyes RX 7600 XT 16GB
+    { busca: /9050/i, marca: 'Gigabyte', url: 'https://meli.la/17ySqfT' },                     // Gigabyte RX 9050 Gaming OC 8GB
+    { busca: /5060 Ti 8\s?GB/i, marca: 'Gainward', url: 'https://meli.la/1Tp8jFR' },          // Gainward RTX 5060 Ti 8GB
+    { busca: /5060(?! Ti)/i, marca: 'MSI', url: 'https://meli.la/2bewuNP' },                  // MSI RTX 5060 8GB Shadow 2X OC
+    { busca: /5060(?! Ti)/i, marca: 'Zotac', url: 'https://meli.la/1cWdy7S' },              // Zotac RTX 5060 Twin Edge 8GB
+    { busca: /5070(?! Ti| Laptop)/i, marca: 'Zotac', url: 'https://meli.la/2SwxwKK' },      // Zotac RTX 5070 12GB
   ],
 };
 
@@ -33,13 +34,14 @@ function lojasComAfiliado() {
 /* Lojas para um produto (texto de busca, ex.: "RTX 5060 Ti 16GB"). */
 function lojasPara(busca) {
   const q = encodeURIComponent(busca);
-  const ml = LOJAS_CONFIG.mercadolivre.find(x => x.busca.test(busca));
+  const mls = LOJAS_CONFIG.mercadolivre.filter(x => x.busca.test(busca));   // mais de um produto da mesma placa: um botão por marca
   // KaBuM e Pichau só aparecem quando há código de afiliado delas (sem comissão, o botão só ocuparia espaço).
   return [
     ['Amazon', `https://www.amazon.com.br/s?k=${q}` + (LOJAS_CONFIG.amazonTag ? `&tag=${encodeURIComponent(LOJAS_CONFIG.amazonTag)}` : ''), !!LOJAS_CONFIG.amazonTag],
     ['KaBuM', _awin('kabum', `https://www.kabum.com.br/busca/${_slug(busca)}`), !!(LOJAS_CONFIG.awin.awinId && LOJAS_CONFIG.awin.lojas.kabum), true],
     ['Pichau', _awin('pichau', `https://www.pichau.com.br/search?q=${q}`), !!(LOJAS_CONFIG.awin.awinId && LOJAS_CONFIG.awin.lojas.pichau), true],
-    ['Mercado Livre', ml ? ml.url : `https://lista.mercadolivre.com.br/${_slug(busca)}`, !!ml],
+    ...(mls.length ? mls.map(m => [mls.length > 1 ? 'Mercado Livre · ' + m.marca : 'Mercado Livre', m.url, true])
+      : [['Mercado Livre', `https://lista.mercadolivre.com.br/${_slug(busca)}`, false]]),
   ].filter(l => !l[3] || l[2]);
 }
 /* Botões de loja; `contexto` vai para as métricas (qual placa, de onde veio o clique). */
