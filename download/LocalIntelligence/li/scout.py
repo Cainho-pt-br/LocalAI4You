@@ -379,17 +379,35 @@ def varrer(forcar: bool = False, limite_familias: int = 110, ao_progredir: Optio
         else:
             so_hf.append(h)
     # Ollama sem par no HF ainda: procura o repositório-base (data real, licença, config.json)
-    def achar_base(o: dict) -> None:
-        if o.get("repo") or o["params_b"] < 0.5:
-            return
-        it = hf.buscar_base(o["familia"], o["tamanho"], chave_familia, tamanho_de_nome_hf, config.carregar().get("labs_observados", []))
-        if it:
-            o["repo"] = it["id"]
-            det = hf.detalhe(it["id"], forcar)
-            if it.get("createdAt"):
-                o["lancamento"], o["data_aproximada"] = it["createdAt"], False
-            o["baixas"], o["curtidas"] = it.get("downloads"), it.get("likes")
+    def _ligar_repo(o: dict, repo: str, det: Optional[dict], criado: Optional[str], baixas, curtidas) -> None:
+        o["repo"] = repo
+        if criado:
+            o["lancamento"], o["data_aproximada"] = criado, False
+        o["baixas"], o["curtidas"] = baixas, curtidas
+        if det:
             o["licenca"] = hf.licenca(det)
+
+    def achar_base(o: dict) -> None:
+        if o["params_b"] < 0.5:
+            return
+        # 1) apelido manual (nomes que a busca não acha: deepseek-r1 → DeepSeek-R1-Distill-Qwen…)
+        apelido = (config.carregar().get("apelidos_hf") or {}).get(f"{o['familia']}:{o['tamanho']}")
+        if apelido:
+            det = hf.detalhe(apelido, forcar)
+            if det:
+                _ligar_repo(o, apelido, det, det.get("createdAt"), det.get("downloads"), det.get("likes"))
+                return
+        # 2) busca pelo repositório-base. Mesmo com um repositório já ligado (por ter o mesmo nome de família), confere:
+        # se o ligado é de OUTRO autor que o original achado (ex.: Cactus-Compute/gemma-4-26B-A4B-it em vez de
+        # google/gemma-4-26B-A4B-it), o original vence; é nele que estão as quantizações menores.
+        atual = o.get("repo")
+        it = hf.buscar_base(o["familia"], o["tamanho"], chave_familia, tamanho_de_nome_hf, config.carregar().get("labs_observados", []))
+        if atual and (not it or it["id"].split("/")[0].lower() == atual.split("/")[0].lower()):
+            return
+        if it and it["id"] != atual:
+            _ligar_repo(o, it["id"], hf.detalhe(it["id"], forcar), it.get("createdAt"), it.get("downloads"), it.get("likes"))
+            if atual:
+                prog(f"  repositório corrigido em {o['id']}: {atual} → {it['id']}")
     prog(f"Hugging Face: casando {sum(1 for o in cands_o if not o.get('repo'))} famílias do Ollama com o repositório-base…")
     mapa_paralelo(achar_base, cands_o, workers=6)
 
@@ -425,6 +443,23 @@ def varrer(forcar: bool = False, limite_familias: int = 110, ao_progredir: Optio
             gguf_extra(o)
         mapa_paralelo(de_novo, pend, workers=2)
         prog(f"Hugging Face: {len(pend) - sum(1 for o in pend if sem_gguf(o))} recuperados; {sum(1 for o in pend if sem_gguf(o))} seguem sem GGUF extra (normal para modelos antigos).")
+
+    # Se a busca falhou hoje (limite de taxa do Hugging Face) mas o catálogo anterior tinha as quantizações menores deste
+    # modelo, mantém as de ontem: melhor um dado de um dia do que o modelo perder quantizações de uma varredura para outra.
+    anterior = {c["id"]: c for c in (catalogo_inicial() or {}).get("candidatos", [])}
+    herdados = 0
+    for o in cands_o:
+        if not sem_gguf(o):
+            continue
+        ant = anterior.get(o["id"])
+        extras = [v for v in (ant or {}).get("variantes", []) if v.get("fonte") == "hf"]
+        if extras:
+            ja = {v["quant"].upper() for v in o["variantes"]}
+            o["variantes"].extend(v for v in extras if v["quant"].upper() not in ja)
+            o["variantes"].sort(key=lambda v: v["bytes"])
+            herdados += 1
+    if herdados:
+        prog(f"Hugging Face: {herdados} modelos mantiveram as quantizações do catálogo anterior (a busca de hoje falhou para eles).")
 
     # só vale buscar GGUF dos HF-only que cabem em alguma configuração conhecida (≤ params_max_b parâmetros totais)
     teto_b = float(config.carregar().get("params_max_b", 130))
