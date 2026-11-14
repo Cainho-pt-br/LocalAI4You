@@ -22,6 +22,8 @@ jobs:
           node-version: "20"
       - name: Site igual ao app (fonte única em download/LocalIntelligence/web)
         run: python scripts/sincronizar-web.py --verificar
+      - name: Páginas por placa (o gerador monta todas sem erro)
+        run: node scripts/gerar-paginas.js --verificar
       - name: Testes do app (inclui paridade JS × Python)
         working-directory: download/LocalIntelligence
         run: python -m unittest discover -s tests

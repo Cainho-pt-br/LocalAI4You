@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Best local LLMs with no graphics card and 8 GB of RAM | Local AI 4 You</title>
+<meta name="description" content="More than 20 local AI models fit on a PC with no graphics card and 8 GB of RAM. The top pick is WeVisOne-VL-4B (~14 tokens/s). See the best ones by use, with the Ollama command ready to copy.">
+<link rel="canonical" href="https://localai4you.vercel.app/en/gpu/cpu-8gb.html">
+<link rel="alternate" hreflang="pt-BR" href="https://localai4you.vercel.app/placa/cpu-8gb.html">
+<link rel="alternate" hreflang="en" href="https://localai4you.vercel.app/en/gpu/cpu-8gb.html">
+<link rel="alternate" hreflang="es" href="https://localai4you.vercel.app/es/gpu/cpu-8gb.html">
+<link rel="alternate" hreflang="x-default" href="https://localai4you.vercel.app/en/gpu/cpu-8gb.html">
+<meta property="og:title" content="Best local LLMs with no graphics card and 8 GB of RAM">
+<meta property="og:description" content="More than 20 local AI models fit on a PC with no graphics card and 8 GB of RAM. The top pick is WeVisOne-VL-4B (~14 tokens/s). See the best ones by use, with the Ollama command ready to copy.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://localai4you.vercel.app/en/gpu/cpu-8gb.html">
+<meta property="og:image" content="https://localai4you.vercel.app/og-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Local AI 4 You">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/web/logo.svg" type="image/svg+xml">
+<script>
+  window.LI_PUBLIC_MODE = true;
+  try { const t = localStorage.getItem('li-tema'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
+<link rel="stylesheet" href="/web/style.css">
+<link rel="stylesheet" href="/landing.css">
+<link rel="stylesheet" href="/placa.css">
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://localai4you.vercel.app/"},{"@type":"ListItem","position":2,"name":"All graphics cards","item":"https://localai4you.vercel.app/en/gpu/"},{"@type":"ListItem","position":3,"name":"PC with no graphics card and 8 GB of RAM","item":"https://localai4you.vercel.app/en/gpu/cpu-8gb.html"}]},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the best AI model for a PC with no graphics card and 8 GB of RAM?","acceptedAnswer":{"@type":"Answer","text":"Today it is WeVisOne-VL-4B (Q4_K_S), which should generate about 14 tokens per second. For coding, the top pick is nemotron-3-nano 4B."}},{"@type":"Question","name":"Do I need internet or a subscription?","acceptedAnswer":{"@type":"Answer","text":"Only internet to download. After that the model runs on your computer with Ollama, a free program: no subscription, and your conversations are not sent anywhere."}},{"@type":"Question","name":"How do I install it?","acceptedAnswer":{"@type":"Answer","text":"Install Ollama, open the terminal and paste the command shown next to the model. The download starts and, when it finishes, you can start chatting."}}]}]</script>
+</head>
+<body class="landing pg-placa" data-hw="cpu-8gb" data-idioma="en" data-copiado="Copied ✓">
+<header class="l-topo">
+  <a class="l-marca" href="/"><img class="pg-logo" src="/web/logo.svg" alt="" width="30" height="30"> Local AI 4 You</a>
+  <nav class="l-nav" aria-label="Home">
+    <a href="/app.html#radar">Radar</a>
+    <a href="/app.html#calculadora">Calculator</a>
+    <a href="/en/gpu/">All graphics cards</a>
+  </nav>
+  <div class="l-topo-acoes pg-idiomas"><a href="/placa/cpu-8gb.html" hreflang="pt-BR">Português</a> · <b aria-current="true">English</b> · <a href="/es/gpu/cpu-8gb.html" hreflang="es">Español</a></div>
+</header>
+<main class="l-main pg-main">
+  <nav class="pg-trilha" aria-label="breadcrumb"><a href="/">Home</a> › <a href="/en/gpu/">All graphics cards</a> › <span>PC with no graphics card and 8 GB of RAM</span></nav>
+  <section class="pg-cab">
+    <span class="l-kicker-s">LOCAL AI · ESTIMATED FOR THIS HARDWARE</span>
+    <h1>Which AI models run with no graphics card and 8 GB of RAM?</h1>
+    <p class="l-lead"><b>More than 20 AI models</b> (LLMs) fit on a PC with no graphics card and 8 GB of RAM and run on your own computer, free and offline. The top pick today is <b>WeVisOne-VL-4B</b> (Q4_K_S, 2.6 GB), which should generate about <b>14 tokens per second</b>.</p>
+    <ul class="pg-fatos"><li>8 GB of RAM</li><li>4.3 GB free for the model on Windows</li><li>runs on the processor: slower than on a graphics card</li></ul>
+    <div class="l-ctas">
+      <a class="btn primario l-btn-grande" href="/app.html?ram=8#radar" data-ev="radar">See the full list for my computer →</a>
+      <a class="btn l-btn-grande" href="/app.html?ram=8#calculadora" data-ev="upgrade">Simulate an upgrade</a>
+    </div>
+  </section>
+  <section>
+    <h2>The 10 best models for a PC with no graphics card and 8 GB of RAM</h2>
+    <p class="sub">From most to least recommended. Copy the command and run it in the terminal, with Ollama installed.</p>
+    <ol class="pg-lista">
+    <li class="pg-item pg-top">
+      <span class="pg-pos">1</span>
+      <div class="pg-info">
+        <h3>WeVisOne-VL-4B</h3>
+        <p class="pg-meta"><b>Q4_K_S</b> · 2.6 GB · ~9.3–19 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: images and documents.</p>
+        <div class="cmd"><code>ollama pull hf.co/mradermacher/WeVisOne-VL-4B-GGUF:Q4_K_S</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/mradermacher/WeVisOne-VL-4B-GGUF:Q4_K_S">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item pg-top">
+      <span class="pg-pos">2</span>
+      <div class="pg-info">
+        <h3>nemotron-3-nano 4B</h3>
+        <p class="pg-meta"><b>Q4_K_M</b> · 2.8 GB · ~8.7–18 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, fast and light.</p>
+        <div class="cmd"><code>ollama pull nemotron-3-nano:4b-q4_K_M</code><button class="btn mini" type="button" data-copiar="ollama pull nemotron-3-nano:4b-q4_K_M">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item pg-top">
+      <span class="pg-pos">3</span>
+      <div class="pg-info">
+        <h3>qwen3.5 4B</h3>
+        <p class="pg-meta"><b>Q4_K_M</b> · 3.3 GB · ~7.4–15 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, fast and light, images and documents.</p>
+        <div class="cmd"><code>ollama pull qwen3.5:4b-q4_K_M</code><button class="btn mini" type="button" data-copiar="ollama pull qwen3.5:4b-q4_K_M">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">4</span>
+      <div class="pg-info">
+        <h3>Ling-3.0-tiny</h3>
+        <p class="pg-meta"><b>Q3_K_S</b> · 3.6 GB · ~25–51 tok/s · barely fits: use a smaller context</p>
+        <p class="pg-usos">Good for: chat, data extraction and json.</p>
+        <div class="cmd"><code>ollama pull hf.co/bartowski/Ling-3.0-tiny-GGUF:Q3_K_S</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/bartowski/Ling-3.0-tiny-GGUF:Q3_K_S">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">5</span>
+      <div class="pg-info">
+        <h3>LFM2.5-VL-3B</h3>
+        <p class="pg-meta"><b>Q5_K_M</b> · 1.9 GB · ~13–26 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: images and documents.</p>
+        <div class="cmd"><code>ollama pull hf.co/LiquidAI/LFM2.5-VL-3B-GGUF:Q5_K_M</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/LiquidAI/LFM2.5-VL-3B-GGUF:Q5_K_M">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">6</span>
+      <div class="pg-info">
+        <h3>granite-4.1-3b</h3>
+        <p class="pg-meta"><b>Q4_K_M</b> · 2.1 GB · ~12–24 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, data extraction and json, fast and light.</p>
+        <div class="cmd"><code>ollama pull hf.co/ibm-granite/granite-4.1-3b-GGUF:Q4_K_M</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/ibm-granite/granite-4.1-3b-GGUF:Q4_K_M">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">7</span>
+      <div class="pg-info">
+        <h3>LFM2.5-2.6B</h3>
+        <p class="pg-meta"><b>Q4_K_M</b> · 1.7 GB · ~15–30 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, data extraction and json, fast and light, long documents.</p>
+        <div class="cmd"><code>ollama pull hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">8</span>
+      <div class="pg-info">
+        <h3>MiniCPM5-2B</h3>
+        <p class="pg-meta"><b>Q4_K_S</b> · 1.5 GB · ~16–33 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, data extraction and json, fast and light.</p>
+        <div class="cmd"><code>ollama pull hf.co/bartowski/MiniCPM5-2B-GGUF:Q4_K_S</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/bartowski/MiniCPM5-2B-GGUF:Q4_K_S">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">9</span>
+      <div class="pg-info">
+        <h3>gemma-4-E2B</h3>
+        <p class="pg-meta"><b>Q3_K_M</b> · 3.2 GB · ~7.6–16 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, data extraction and json.</p>
+        <div class="cmd"><code>ollama pull hf.co/mradermacher/gemma-4-E2B-i1-GGUF:Q3_K_M</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/mradermacher/gemma-4-E2B-i1-GGUF:Q3_K_M">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">10</span>
+      <div class="pg-info">
+        <h3>WeVisOne-VL-2B</h3>
+        <p class="pg-meta"><b>Q5_K_M</b> · 1.5 GB · ~17–34 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: images and documents.</p>
+        <div class="cmd"><code>ollama pull hf.co/mradermacher/WeVisOne-VL-2B-GGUF:Q5_K_M</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/mradermacher/WeVisOne-VL-2B-GGUF:Q5_K_M">Copy</button></div>
+      </div>
+    </li>
+    </ol>
+    <a class="btn primario" href="/app.html?ram=8#radar" data-ev="radar-lista">See the full list for my computer →</a>
+  </section>
+  <section>
+    <h2>The best pick for each use</h2>
+    <div class="tabela-wrap"><table class="pg-tabela">
+      <thead><tr><th>Use</th><th>Model</th><th>Version</th><th>Speed</th></tr></thead>
+      <tbody>
+        <tr><td>💬 Chat</td><td><b>nemotron-3-nano 4B</b></td><td>Q4_K_M · 2.8 GB</td><td>~8.7–18 tok/s</td></tr>
+        <tr><td>👨‍💻 Coding</td><td><b>nemotron-3-nano 4B</b></td><td>Q4_K_M · 2.8 GB</td><td>~8.7–18 tok/s</td></tr>
+        <tr><td>🛠️ Agents</td><td><b>nemotron-3-nano 4B</b></td><td>Q4_K_M · 2.8 GB</td><td>~8.7–18 tok/s</td></tr>
+        <tr><td>📋 Data extraction and JSON</td><td><b>nemotron-3-nano 4B</b></td><td>Q4_K_M · 2.8 GB</td><td>~8.7–18 tok/s</td></tr>
+        <tr><td>🧠 Reasoning</td><td><b>nemotron-3-nano 4B</b></td><td>Q4_K_M · 2.8 GB</td><td>~8.7–18 tok/s</td></tr>
+        <tr><td>⚡ Fast and light</td><td><b>MiniCPM5-2B</b></td><td>Q4_K_S · 1.5 GB</td><td>~16–33 tok/s</td></tr>
+        <tr><td>👁️ Images and documents</td><td><b>WeVisOne-VL-4B</b></td><td>Q4_K_S · 2.6 GB</td><td>~9.3–19 tok/s</td></tr>
+        <tr><td>📚 Long documents</td><td><b>LFM2.5-2.6B</b></td><td>Q4_K_M · 1.7 GB</td><td>~15–30 tok/s</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <section>
+    <h2>What does not fit yet</h2>
+    <p class="sub">These come closest: even in their smallest good-quality version, they need more than the 4.3 GB available.</p>
+    <ul class="pg-fora">
+      <li><b>NVIDIA-Nemotron-3.5-Bolt-E4B-BF16</b> — needs ~4.8 GB (UD-IQ2_M)</li>
+      <li><b>gemma4 E2B</b> — needs ~5.0 GB (padrão)</li>
+      <li><b>lfm2.5 8B-A1B</b> — needs ~5.5 GB (Q4_K_M)</li>
+      <li><b>MiMo-V2.6-Distill-Qwen-9B</b> — needs ~5.5 GB (IQ3_XXS)</li>
+      <li><b>gemma4 E4B</b> — needs ~6.9 GB (padrão)</li>
+    </ul>
+  </section>
+  <section>
+    <h2>What changes with more memory?</h2>
+    <p class="sub">Bigger models tend to be smarter. Compare with these cards:</p>
+    <div class="pg-chips"><a class="pg-chip" href="/en/gpu/rtx-3060-12.html">RTX 3060 12 GB</a><a class="pg-chip" href="/en/gpu/rtx-5060-ti-16.html">RTX 5060 Ti 16 GB</a><a class="pg-chip" href="/en/gpu/rtx-4090.html">RTX 4090 24 GB</a><a class="pg-chip" href="/en/gpu/rtx-5090.html">RTX 5090 32 GB</a></div>
+  </section>
+
+  <section>
+    <h2>How this list is built</h2>
+    <p>Only models that fit in memory at good compression quality make the list. The order favors the estimated intelligence of the model; speed counts until it is comfortable to read (about 10 tokens per second). Everything here is <b>estimated</b> from real file sizes, for Windows. To measure for real on your own computer, the free app runs duels between your installed models.</p>
+  </section>
+  <section class="l-faq pg-faq">
+    <h2>Common questions</h2>
+    <details open><summary>What is the best AI model for a PC with no graphics card and 8 GB of RAM?</summary><p>Today it is WeVisOne-VL-4B (Q4_K_S), which should generate about 14 tokens per second. For coding, the top pick is nemotron-3-nano 4B.</p></details>
+    <details open><summary>Do I need internet or a subscription?</summary><p>Only internet to download. After that the model runs on your computer with Ollama, a free program: no subscription, and your conversations are not sent anywhere.</p></details>
+    <details open><summary>How do I install it?</summary><p>Install Ollama, open the terminal and paste the command shown next to the model. The download starts and, when it finishes, you can start chatting.</p></details>
+  </section>
+  <section>
+    <h2>Other computers</h2>
+    <div class="pg-chips"><a class="pg-chip" href="/en/gpu/cpu-16gb.html">PC with no graphics card and 16 GB of RAM</a><a class="pg-chip" href="/en/gpu/cpu-32gb.html">PC with no graphics card and 32 GB of RAM</a><a class="pg-chip" href="/en/gpu/cpu-64gb.html">PC with no graphics card and 64 GB of RAM</a></div>
+  </section>
+</main>
+<footer class="l-rodape">
+  <div><b>Local AI 4 You</b> · free and open source (Apache-2.0)</div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/app.html#radar">Radar</a>
+    <a href="/en/gpu/">All graphics cards</a>
+    <a href="https://github.com/Cainho-pt-br/LocalAI4You" target="_blank" rel="noopener">GitHub ↗</a>
+    <a href="/privacidade.html">Privacy</a>
+  </nav>
+</footer>
+<script src="/web/base.js"></script>
+<script src="/web/coleta.js"></script>
+<script src="/placa.js"></script>
+</body>
+</html>

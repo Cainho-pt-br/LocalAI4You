@@ -24,6 +24,8 @@ function abrirApoio() {
     h('li', {}, '💬 ', h('a', { href: LINK_REPO + '/issues', target: '_blank', rel: 'noopener' }, 'Contar o que achou ou relatar um problema'), '.'),
     h('li', {}, '🔗 Mostrar para quem está começando com IA local.'),
   ];
+  const canais = typeof linksCanais === 'function' ? linksCanais('apoio') : [];
+  if (canais.length) linhas.push(h('li', {}, '📣 Acompanhar o projeto:', ' ', canais.flatMap((a, i) => i ? [' · ', a] : [a])));
   const doar = [];
   if (APOIO.pix) doar.push(h('div', { class: 'cmd' }, h('code', {}, 'Pix: ' + APOIO.pix), h('button', { class: 'btn mini', onclick: () => navigator.clipboard.writeText(APOIO.pix).then(() => toast('Chave Pix copiada. Obrigado!'), () => toast('Não consegui copiar — selecione o texto.')) }, 'Copiar chave')));
   if (APOIO.link) doar.push(h('a', { class: 'btn primario', href: APOIO.link, target: '_blank', rel: 'noopener' }, APOIO.linkRotulo));

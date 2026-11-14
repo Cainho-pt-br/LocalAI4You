@@ -511,6 +511,87 @@ const LI_CALC_UI = (function () {
       return { modo: 'cpu', ramGb: mem && mem < 8 ? mem : 16, palpite: 'um computador sem placa de vídeo dedicada', integrada: true };
     return null;
   }
+  /* Link com o hardware já escolhido (só no site): app.html?gpu=rtx-4060 · ?chip=m2&ram=16 · ?ram=16 (sem placa de vídeo).
+     É assim que um vídeo, uma página de placa ou um amigo mandam a pessoa direto para o resultado. Vale uma vez: aplica,
+     grava e sai do endereço, para que uma troca feita depois na Calculadora não seja desfeita ao recarregar a página. */
+  function hardwareDoLink(hw) {
+    if (!window.LI_PUBLIC_MODE || typeof URLSearchParams === 'undefined') return null;
+    let q; try { q = new URLSearchParams(location.search); } catch (x) { return null; }
+    if (!q.has('gpu') && !q.has('chip') && !q.has('ram')) return null;
+    const gpu = q.get('gpu'), ram = Number(q.get('ram')) || 0;
+    const chip = hw.unificadas.find(c => c.id === q.get('chip'));
+    let e = null;
+    if (gpu && hw.gpus.some(g => g.id === gpu)) e = { modo: 'gpu', gpuId: gpu, nGpus: Math.max(1, Math.min(8, Math.round(Number(q.get('n')) || 1))), ...(ram >= 2 && ram <= 2048 ? { ramGb: ram } : {}) };
+    else if (chip) e = { modo: 'unificada', chipId: chip.id, chipRam: chip.ram_opcoes.includes(ram) ? ram : chip.ram_opcoes[0] };
+    else if (!gpu && !q.has('chip') && ram >= 2 && ram <= 2048) e = { modo: 'cpu', ramGb: ram };
+    for (const k of ['gpu', 'chip', 'ram', 'n']) q.delete(k);
+    try { history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : '') + location.hash); } catch (x) { /* ok */ }
+    return e && { ...e, preset: '', palpite: '', integrada: false };
+  }
+  /* O endereço que reabre o Radar com este mesmo hardware (nulo quando não dá para descrever: perfil do app ou placa personalizada). */
+  function linkDoHardware(E, base) {
+    if (E.preset) return null;
+    const q = E.modo === 'unificada' ? (E.chipId === 'custom' ? null : `chip=${E.chipId}&ram=${num(E.chipRam, 16)}`)
+      : E.modo === 'cpu' ? `ram=${num(E.ramGb, 8)}`
+      : E.gpuId === 'custom' ? null : `gpu=${E.gpuId}` + (Number(E.nGpus) > 1 ? `&n=${Number(E.nGpus)}` : '');
+    return q && (base || location.origin + location.pathname) + '?' + q + '#radar';
+  }
+
+  /* Escolha rápida do computador, no topo do Radar do site: as placas mais comuns a um toque e todas as outras numa
+     lista. No celular a pessoa quase nunca está no PC que quer consultar, então o palpite do navegador não serve:
+     ela precisa trocar de hardware sem sair da tela do resultado. */
+  const ATALHOS_HW = [['cpu', 16], ['gpu', 'gtx-1650'], ['gpu', 'rtx-3050-8'], ['gpu', 'rtx-3060-12'], ['gpu', 'rtx-4060'], ['gpu', 'rtx-5060-ti-16'], ['gpu', 'rtx-4070'], ['gpu', 'rtx-4090'], ['chip', 'm2', 16]];
+  const T = s => (typeof window !== 'undefined' && window.LI_T ? window.LI_T(s) : s);
+  const nomeCurtoGpu = g => g.nome.replace(/^GeForce\s+/i, '').replace(/\s\d+\s?GB\b/i, '') + ` · ${fmtN(g.vram_gb, 0)} GB`;
+  function seletorRapido(E, dados, aoMudar, aoDetalhar, extra) {
+    const hw = dados.hardware;
+    const aplicar = (tipo, id, ram) => {
+      if (tipo === 'cpu') Object.assign(E, { modo: 'cpu', ramGb: Number(id) });
+      else if (tipo === 'chip') { const c = hw.unificadas.find(x => x.id === id); if (!c) return; Object.assign(E, { modo: 'unificada', chipId: c.id, chipRam: c.ram_opcoes.includes(ram) ? ram : c.ram_opcoes[0] }); }
+      else { if (!hw.gpus.some(g => g.id === id)) return; Object.assign(E, { modo: 'gpu', gpuId: id, nGpus: 1 }); }
+      Object.assign(E, { preset: '', palpite: '', integrada: false });
+      guardar(E); aoMudar();
+    };
+    const rotulo = (tipo, id, ram) => {
+      if (tipo === 'cpu') return `Sem placa · ${fmtN(id, 0)} GB`;
+      if (tipo === 'chip') { const c = hw.unificadas.find(x => x.id === id); return c ? `${c.nome.replace(/^Apple\s+/, 'Mac ')} · ${fmtN(ram, 0)} GB` : null; }
+      const g = hw.gpus.find(x => x.id === id); return g ? nomeCurtoGpu(g) : null;
+    };
+    const atual = E.preset ? null : E.modo === 'cpu' ? ['cpu', num(E.ramGb, 8)] : E.modo === 'unificada' ? (E.chipId === 'custom' ? null : ['chip', E.chipId, num(E.chipRam, 16)])
+      : (E.gpuId === 'custom' || Number(E.nGpus) > 1 ? null : ['gpu', E.gpuId]);
+    const igual = (a, b) => !!a && !!b && a[0] === b[0] && String(a[1]) === String(b[1]) && (a[0] !== 'chip' || Number(a[2]) === Number(b[2]));
+    const itens = ATALHOS_HW.filter(a => rotulo(...a));
+    if (atual && rotulo(...atual) && !itens.some(a => igual(a, atual))) itens.unshift(atual);   // o seu, quando não é um dos atalhos
+    const chips = itens.map(a => h('button', { type: 'button', 'aria-pressed': String(igual(a, atual)), onclick: () => aplicar(...a) }, rotulo(...a)));
+    const grupos = new Map();
+    for (const g of hw.gpus) { const k = grupoGpu(g); (grupos.get(k) || grupos.set(k, []).get(k)).push(g); }
+    const outra = h('select', { class: 'hw-outra', 'aria-label': 'Outra placa ou chip', onchange: ev => {
+        const v = ev.target.value; ev.target.value = '';
+        if (v === 'calc') { if (aoDetalhar) aoDetalhar(); return; }
+        const [tipo, id] = v.split(':'); aplicar(tipo, id);
+      } },
+      h('option', { value: '' }, 'Outra placa ou chip…'),
+      h('optgroup', { label: T('Sem placa de vídeo') }, [8, 16, 32, 64].map(r => h('option', { value: 'cpu:' + r }, `${r} GB de RAM`))),
+      [...grupos].map(([k, lst]) => h('optgroup', { label: k }, lst.map(g => h('option', { value: 'gpu:' + g.id }, `${g.nome.replace(/\s\d+\s?GB\b/i, '')} — ${fmtN(g.vram_gb, 0)} GB`)))),
+      h('optgroup', { label: T('Memória unificada (Mac e outros)') }, hw.unificadas.map(c => h('option', { value: 'chip:' + c.id }, c.nome))),
+      aoDetalhar ? h('option', { value: 'calc' }, 'Ajustes detalhados (Calculadora)…') : null);
+    // memória: só onde ela define o que cabe (sem placa de vídeo e memória unificada)
+    const chipAtual = E.modo === 'unificada' ? hw.unificadas.find(c => c.id === E.chipId) : null;
+    const rams = E.preset ? null : E.modo === 'cpu' ? [...new Set([4, 8, 16, 32, 64, 128, num(E.ramGb, 8)])].sort((a, b) => a - b) : chipAtual ? chipAtual.ram_opcoes : null;
+    const ramAtual = E.modo === 'cpu' ? num(E.ramGb, 8) : num(E.chipRam, 16);
+    const mem = rams && rams.length > 1 ? h('label', { class: 'hw-mem' }, 'Memória', h('select', { onchange: ev => { if (E.modo === 'cpu') E.ramGb = Number(ev.target.value); else E.chipRam = Number(ev.target.value); E.palpite = ''; guardar(E); aoMudar(); } },
+      rams.map(r => h('option', { value: r, selected: r === ramAtual }, `${r} GB`)))) : null;
+    const palpite = E.palpite && !E.preset ? h('p', { class: 'hw-palpite' },
+      E.palpite === 'exemplo' ? [h('b', {}, 'PC de exemplo. '), 'Toque no seu computador acima.']
+        : [h('b', {}, 'Palpite: '), `parece ${E.palpite}.`, ' ', 'Não é este? Toque no seu acima.']) : null;
+    const linha = h('div', { class: 'hw-chips', role: 'group', 'aria-label': 'Qual é o seu computador?' }, chips, outra);
+    // no celular a linha desliza para o lado: a placa escolhida começa à vista (sem rolar a página)
+    setTimeout(() => { const b = linha.querySelector('[aria-pressed="true"]'); if (b && linha.scrollWidth > linha.clientWidth) linha.scrollLeft = Math.max(0, b.offsetLeft - linha.offsetLeft - 14); }, 0);
+    return h('div', { class: 'hw-rapido' + (E.palpite && !E.preset ? ' com-palpite' : '') },
+      h('div', { class: 'hw-rapido-topo' }, h('span', { class: 'hw-rapido-rot' }, 'Qual é o seu computador?'), extra || null),
+      linha, mem, palpite);
+  }
+
   /* Estado da calculadora: padrão + o que a pessoa salvou + (na primeira visita) o palpite do navegador. É gravado logo,
      para o Radar e a Calculadora mostrarem SEMPRE o mesmo computador. */
   function estadoInicial(dados, opts = {}) {
@@ -522,7 +603,9 @@ const LI_CALC_UI = (function () {
     const link = opts.solo && /[#&]c=/.test(location.hash);
     if (opts.solo) { try { const m = /[#&]c=([^&]+)/.exec(location.hash); if (m) Object.assign(E, JSON.parse(decodeURIComponent(escape(atob(m[1])))), { preset: '', palpite: '' }); } catch (x) { /* link inválido: segue com o padrão */ } }
     if (!salvo.modo && !E.preset && dados.esta_maquina && !link) E.preset = dados.esta_maquina;
-    if (!salvo.modo && !E.preset && !link) Object.assign(E, palpiteHardware(hw) || { palpite: 'exemplo' });
+    const doLink = hardwareDoLink(hw);
+    if (doLink) Object.assign(E, doLink);
+    if (!salvo.modo && !E.preset && !link && !doLink) Object.assign(E, palpiteHardware(hw) || { palpite: 'exemplo' });
     if (E.preset && !(dados.maquinas || []).some(m => m.id === E.preset)) E.preset = '';
     if (!hw.cpus.some(c => c.id === E.cpuId)) { E.cpuId = cpu0.id; E.memId = cpu0.mem; E.canais = cpu0.canais; E.memTocada = false; }
     if (!hw.memorias_ram.some(m => m.id === E.memId)) E.memId = cpu0.mem;
@@ -733,5 +816,5 @@ const LI_CALC_UI = (function () {
   }
   /* Deixa a calculadora já apontada para uma máquina do parque (usado pelo botão "Abrir na calculadora"). */
   function definirPreset(id, semGpu) { const e = lembrar(); e.modo = semGpu ? 'cpu' : 'gpu'; e.preset = id; guardar(e); }
-  return { montar, estadoInicial, salvarEstado: guardar, avisoPalpite, descricaoPt, blocoDescricao, chipsCaps, dialogoModelo, avaliarVariante, gruposDeVariantes, linksDoModelo, comandosDe, perfilDe, definirPreset };
+  return { montar, estadoInicial, salvarEstado: guardar, avisoPalpite, seletorRapido, linkDoHardware, descricaoPt, blocoDescricao, chipsCaps, dialogoModelo, avaliarVariante, gruposDeVariantes, linksDoModelo, comandosDe, perfilDe, definirPreset };
 })();

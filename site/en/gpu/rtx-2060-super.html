@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Best local LLMs for the RTX 2060 Super 8 GB: what actually runs | Local AI 4 You</title>
+<meta name="description" content="More than 30 local AI models fit on the RTX 2060 Super 8 GB. The top pick is MiMo-V2.6-Distill-Qwen-9B (~70 tokens/s). See the best ones by use, with the Ollama command ready to copy.">
+<link rel="canonical" href="https://localai4you.vercel.app/en/gpu/rtx-2060-super.html">
+<link rel="alternate" hreflang="pt-BR" href="https://localai4you.vercel.app/placa/rtx-2060-super.html">
+<link rel="alternate" hreflang="en" href="https://localai4you.vercel.app/en/gpu/rtx-2060-super.html">
+<link rel="alternate" hreflang="es" href="https://localai4you.vercel.app/es/gpu/rtx-2060-super.html">
+<link rel="alternate" hreflang="x-default" href="https://localai4you.vercel.app/en/gpu/rtx-2060-super.html">
+<meta property="og:title" content="Best local LLMs for the RTX 2060 Super 8 GB: what actually runs">
+<meta property="og:description" content="More than 30 local AI models fit on the RTX 2060 Super 8 GB. The top pick is MiMo-V2.6-Distill-Qwen-9B (~70 tokens/s). See the best ones by use, with the Ollama command ready to copy.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://localai4you.vercel.app/en/gpu/rtx-2060-super.html">
+<meta property="og:image" content="https://localai4you.vercel.app/og-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Local AI 4 You">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/web/logo.svg" type="image/svg+xml">
+<script>
+  window.LI_PUBLIC_MODE = true;
+  try { const t = localStorage.getItem('li-tema'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
+<link rel="stylesheet" href="/web/style.css">
+<link rel="stylesheet" href="/landing.css">
+<link rel="stylesheet" href="/placa.css">
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://localai4you.vercel.app/"},{"@type":"ListItem","position":2,"name":"All graphics cards","item":"https://localai4you.vercel.app/en/gpu/"},{"@type":"ListItem","position":3,"name":"RTX 2060 Super 8 GB","item":"https://localai4you.vercel.app/en/gpu/rtx-2060-super.html"}]},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the best AI model for the RTX 2060 Super 8 GB?","acceptedAnswer":{"@type":"Answer","text":"Today it is MiMo-V2.6-Distill-Qwen-9B (IQ3_M), which should generate about 70 tokens per second. For coding, the top pick is ornith-1.5 9B."}},{"@type":"Question","name":"Do I need internet or a subscription?","acceptedAnswer":{"@type":"Answer","text":"Only internet to download. After that the model runs on your computer with Ollama, a free program: no subscription, and your conversations are not sent anywhere."}},{"@type":"Question","name":"How do I install it?","acceptedAnswer":{"@type":"Answer","text":"Install Ollama, open the terminal and paste the command shown next to the model. The download starts and, when it finishes, you can start chatting."}}]}]</script>
+</head>
+<body class="landing pg-placa" data-hw="rtx-2060-super" data-idioma="en" data-copiado="Copied ✓">
+<header class="l-topo">
+  <a class="l-marca" href="/"><img class="pg-logo" src="/web/logo.svg" alt="" width="30" height="30"> Local AI 4 You</a>
+  <nav class="l-nav" aria-label="Home">
+    <a href="/app.html#radar">Radar</a>
+    <a href="/app.html#calculadora">Calculator</a>
+    <a href="/en/gpu/">All graphics cards</a>
+  </nav>
+  <div class="l-topo-acoes pg-idiomas"><a href="/placa/rtx-2060-super.html" hreflang="pt-BR">Português</a> · <b aria-current="true">English</b> · <a href="/es/gpu/rtx-2060-super.html" hreflang="es">Español</a></div>
+</header>
+<main class="l-main pg-main">
+  <nav class="pg-trilha" aria-label="breadcrumb"><a href="/">Home</a> › <a href="/en/gpu/">All graphics cards</a> › <span>RTX 2060 Super 8 GB</span></nav>
+  <section class="pg-cab">
+    <span class="l-kicker-s">LOCAL AI · ESTIMATED FOR THIS HARDWARE</span>
+    <h1>Which AI models run on the RTX 2060 Super 8 GB?</h1>
+    <p class="l-lead"><b>More than 30 AI models</b> (LLMs) fit on the RTX 2060 Super 8 GB and run on your own computer, free and offline. The top pick today is <b>MiMo-V2.6-Distill-Qwen-9B</b> (IQ3_M, 4.8 GB), which should generate about <b>70 tokens per second</b>.</p>
+    <ul class="pg-fatos"><li>8 GB of video memory (VRAM)</li><li>7.2 GB free for the model on Windows</li><li>448 GB/s memory bandwidth</li></ul>
+    <div class="l-ctas">
+      <a class="btn primario l-btn-grande" href="/app.html?gpu=rtx-2060-super#radar" data-ev="radar">See the full list for my computer →</a>
+      <a class="btn l-btn-grande" href="/app.html?gpu=rtx-2060-super#calculadora" data-ev="upgrade">Simulate an upgrade</a>
+    </div>
+  </section>
+  <section>
+    <h2>The 10 best models for the RTX 2060 Super 8 GB</h2>
+    <p class="sub">From most to least recommended. Copy the command and run it in the terminal, with Ollama installed.</p>
+    <ol class="pg-lista">
+    <li class="pg-item pg-top">
+      <span class="pg-pos">1</span>
+      <div class="pg-info">
+        <h3>MiMo-V2.6-Distill-Qwen-9B</h3>
+        <p class="pg-meta"><b>IQ3_M</b> · 4.8 GB · ~54–87 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, data extraction and json, images and documents.</p>
+        <div class="cmd"><code>ollama pull hf.co/bartowski/MiMo-V2.6-Distill-Qwen-9B-GGUF:IQ3_M</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/bartowski/MiMo-V2.6-Distill-Qwen-9B-GGUF:IQ3_M">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item pg-top">
+      <span class="pg-pos">2</span>
+      <div class="pg-info">
+        <h3>ornith-1.5 9B</h3>
+        <p class="pg-meta"><b>Q4_K_M</b> · 6.6 GB · ~40–64 tok/s · barely fits: use a smaller context</p>
+        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, images and documents.</p>
+        <div class="cmd"><code>ollama pull ornith-1.5:9b</code><button class="btn mini" type="button" data-copiar="ollama pull ornith-1.5:9b">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item pg-top">
+      <span class="pg-pos">3</span>
+      <div class="pg-info">
+        <h3>mimo-v2.6 9B</h3>
+        <p class="pg-meta"><b>Q4_K_M</b> · 6.6 GB · ~40–64 tok/s · barely fits: use a smaller context</p>
+        <p class="pg-usos">Good for: coding, agents, images and documents.</p>
+        <div class="cmd"><code>ollama pull mimo-v2.6:9b-q4_K_M</code><button class="btn mini" type="button" data-copiar="ollama pull mimo-v2.6:9b-q4_K_M">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">4</span>
+      <div class="pg-info">
+        <h3>qwen3.5 9B</h3>
+        <p class="pg-meta"><b>Q4_K_M</b> · 6.6 GB · ~40–64 tok/s · barely fits: use a smaller context</p>
+        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, images and documents.</p>
+        <div class="cmd"><code>ollama pull qwen3.5:9b-q4_K_M</code><button class="btn mini" type="button" data-copiar="ollama pull qwen3.5:9b-q4_K_M">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">5</span>
+      <div class="pg-info">
+        <h3>NVIDIA-Nemotron-3.5-Bolt-E4B-BF16</h3>
+        <p class="pg-meta"><b>UD-Q4_K_XL</b> · 5.1 GB · ~52–83 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, data extraction and json, images and documents.</p>
+        <div class="cmd"><code>ollama pull hf.co/unsloth/NVIDIA-Nemotron-3.5-Bolt-E4B-GGUF:UD-Q4_K_XL</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/unsloth/NVIDIA-Nemotron-3.5-Bolt-E4B-GGUF:UD-Q4_K_XL">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">6</span>
+      <div class="pg-info">
+        <h3>WeVisOne-VL-4B</h3>
+        <p class="pg-meta"><b>Q6_K</b> · 3.6 GB · ~72–116 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: images and documents.</p>
+        <div class="cmd"><code>ollama pull hf.co/mradermacher/WeVisOne-VL-4B-GGUF:Q6_K</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/mradermacher/WeVisOne-VL-4B-GGUF:Q6_K">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">7</span>
+      <div class="pg-info">
+        <h3>gemma4 E4B</h3>
+        <p class="pg-meta"><b>padrão</b> · 6.1 GB · ~43–69 tok/s · barely fits: use a smaller context</p>
+        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, images and documents.</p>
+        <div class="cmd"><code>ollama pull gemma4:e4b-it-qat</code><button class="btn mini" type="button" data-copiar="ollama pull gemma4:e4b-it-qat">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">8</span>
+      <div class="pg-info">
+        <h3>nemotron-3-nano 4B</h3>
+        <p class="pg-meta"><b>Q4_K_M</b> · 2.9 GB · ~90–145 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, fast and light.</p>
+        <div class="cmd"><code>ollama pull nemotron-3-nano:4b</code><button class="btn mini" type="button" data-copiar="ollama pull nemotron-3-nano:4b">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">9</span>
+      <div class="pg-info">
+        <h3>Ling-3.0-tiny</h3>
+        <p class="pg-meta"><b>Q4_0</b> · 4.6 GB · ~167–267 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, data extraction and json.</p>
+        <div class="cmd"><code>ollama pull hf.co/bartowski/Ling-3.0-tiny-GGUF:Q4_0</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/bartowski/Ling-3.0-tiny-GGUF:Q4_0">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">10</span>
+      <div class="pg-info">
+        <h3>qwen3.5 4B</h3>
+        <p class="pg-meta"><b>Q4_K_M</b> · 3.3 GB · ~79–127 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, fast and light, images and documents, long documents.</p>
+        <div class="cmd"><code>ollama pull qwen3.5:4b-q4_K_M</code><button class="btn mini" type="button" data-copiar="ollama pull qwen3.5:4b-q4_K_M">Copy</button></div>
+      </div>
+    </li>
+    </ol>
+    <a class="btn primario" href="/app.html?gpu=rtx-2060-super#radar" data-ev="radar-lista">See the full list for my computer →</a>
+  </section>
+  <section>
+    <h2>The best pick for each use</h2>
+    <div class="tabela-wrap"><table class="pg-tabela">
+      <thead><tr><th>Use</th><th>Model</th><th>Version</th><th>Speed</th></tr></thead>
+      <tbody>
+        <tr><td>💬 Chat</td><td><b>MiMo-V2.6-Distill-Qwen-9B</b></td><td>IQ3_M · 4.8 GB</td><td>~54–87 tok/s</td></tr>
+        <tr><td>👨‍💻 Coding</td><td><b>ornith-1.5 9B</b></td><td>Q4_K_M · 6.6 GB</td><td>~40–64 tok/s</td></tr>
+        <tr><td>🛠️ Agents</td><td><b>ornith-1.5 9B</b></td><td>Q4_K_M · 6.6 GB</td><td>~40–64 tok/s</td></tr>
+        <tr><td>📋 Data extraction and JSON</td><td><b>MiMo-V2.6-Distill-Qwen-9B</b></td><td>IQ4_XS · 5.2 GB</td><td>~50–80 tok/s</td></tr>
+        <tr><td>🧠 Reasoning</td><td><b>ornith-1.5 9B</b></td><td>Q4_K_M · 6.6 GB</td><td>~40–64 tok/s</td></tr>
+        <tr><td>⚡ Fast and light</td><td><b>nemotron-3-nano 4B</b></td><td>Q4_K_M · 2.9 GB</td><td>~90–145 tok/s</td></tr>
+        <tr><td>👁️ Images and documents</td><td><b>MiMo-V2.6-Distill-Qwen-9B</b></td><td>IQ4_XS · 5.2 GB</td><td>~50–80 tok/s</td></tr>
+        <tr><td>📚 Long documents</td><td><b>qwen3.5 4B</b></td><td>Q4_K_M · 3.3 GB</td><td>~79–127 tok/s</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <section>
+    <h2>What does not fit yet</h2>
+    <p class="sub">These come closest: even in their smallest good-quality version, they need more than the 7.2 GB available.</p>
+    <ul class="pg-fora">
+      <li><b>gemma4 12B</b> — needs ~7.7 GB (padrão)</li>
+      <li><b>gemma3n E2B</b> — needs ~8.2 GB (Q8_0)</li>
+      <li><b>nemotron-3.5-bolt E4B</b> — needs ~9.3 GB (Q4_K_M)</li>
+      <li><b>gemma3n E4B</b> — needs ~10.9 GB (Q8_0)</li>
+      <li><b>lfm2.5 24B-A2B</b> — needs ~11.4 GB (UD-Q3_K_XL)</li>
+    </ul>
+  </section>
+  <section>
+    <h2>What changes with more memory?</h2>
+    <p class="sub">Bigger models tend to be smarter. Compare with these cards:</p>
+    <div class="pg-chips"><a class="pg-chip" href="/en/gpu/rtx-3060-12.html">RTX 3060 12 GB</a><a class="pg-chip" href="/en/gpu/rtx-5060-ti-16.html">RTX 5060 Ti 16 GB</a><a class="pg-chip" href="/en/gpu/rtx-4090.html">RTX 4090 24 GB</a><a class="pg-chip" href="/en/gpu/rtx-5090.html">RTX 5090 32 GB</a></div>
+  </section>
+
+  <section>
+    <h2>How this list is built</h2>
+    <p>Only models that fit in memory at good compression quality make the list. The order favors the estimated intelligence of the model; speed counts until it is comfortable to read (about 10 tokens per second). Everything here is <b>estimated</b> from real file sizes, for Windows, 32 GB of RAM and a single card. To measure for real on your own computer, the free app runs duels between your installed models.</p>
+  </section>
+  <section class="l-faq pg-faq">
+    <h2>Common questions</h2>
+    <details open><summary>What is the best AI model for the RTX 2060 Super 8 GB?</summary><p>Today it is MiMo-V2.6-Distill-Qwen-9B (IQ3_M), which should generate about 70 tokens per second. For coding, the top pick is ornith-1.5 9B.</p></details>
+    <details open><summary>Do I need internet or a subscription?</summary><p>Only internet to download. After that the model runs on your computer with Ollama, a free program: no subscription, and your conversations are not sent anywhere.</p></details>
+    <details open><summary>How do I install it?</summary><p>Install Ollama, open the terminal and paste the command shown next to the model. The download starts and, when it finishes, you can start chatting.</p></details>
+  </section>
+  <section>
+    <h2>Other computers</h2>
+    <div class="pg-chips"><a class="pg-chip" href="/en/gpu/rtx-2080-super.html">RTX 2080 Super 8 GB</a><a class="pg-chip" href="/en/gpu/rtx-2080.html">RTX 2080 8 GB</a><a class="pg-chip" href="/en/gpu/rtx-2070.html">RTX 2070 8 GB</a><a class="pg-chip" href="/en/gpu/gtx-1080.html">GTX 1080 8 GB</a><a class="pg-chip" href="/en/gpu/gtx-1070-ti.html">GTX 1070 Ti 8 GB</a><a class="pg-chip" href="/en/gpu/gtx-1070.html">GTX 1070 8 GB</a><a class="pg-chip" href="/en/gpu/rtx-5060-ti-8.html">RTX 5060 Ti 8 GB</a><a class="pg-chip" href="/en/gpu/rtx-5060.html">RTX 5060 8 GB</a></div>
+  </section>
+</main>
+<footer class="l-rodape">
+  <div><b>Local AI 4 You</b> · free and open source (Apache-2.0)</div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/app.html#radar">Radar</a>
+    <a href="/en/gpu/">All graphics cards</a>
+    <a href="https://github.com/Cainho-pt-br/LocalAI4You" target="_blank" rel="noopener">GitHub ↗</a>
+    <a href="/privacidade.html">Privacy</a>
+  </nav>
+</footer>
+<script src="/web/base.js"></script>
+<script src="/web/coleta.js"></script>
+<script src="/placa.js"></script>
+</body>
+</html>
