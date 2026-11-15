@@ -969,7 +969,8 @@ window.LI_I18N_DADOS = [
 ["Acompanhe o projeto", "Follow the project", "Sigue el proyecto"],
 ["📣 Acompanhar o projeto:", "📣 Follow the project:", "📣 Seguir el proyecto:"],
 ["Sem placa de vídeo", "No graphics card", "Sin tarjeta gráfica"],
-["Memória", "Memory", "Memoria"]
+["Memória", "Memory", "Memoria"],
+["♥ Apoiar pelo GitHub Sponsors", "♥ Support on GitHub Sponsors", "♥ Apoyar en GitHub Sponsors"]
 ];
 /* Regras por trecho (expressão regular em português → substituição), para textos montados em partes. */
 window.LI_I18N_REGRAS = [
