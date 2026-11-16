@@ -1,6 +1,11 @@
 /* Dicionários da interface (pt → en, es). Gerado a partir das frases da tela; edite aqui para corrigir uma tradução.
    Cada linha: [português, inglês, espanhol]. {n} = um número, na mesma ordem. */
 window.LI_I18N_DADOS = [
+["Aponte a câmera do app do seu banco ou copie o código. Você escolhe o valor.", "Point your bank app's camera at it or copy the code. You choose the amount.", "Apunta la cámara de la app de tu banco o copia el código. Tú eliges el valor."],
+["Copiar Pix copia e cola", "Copy Pix copy-and-paste code", "Copiar código Pix copia y pega"],
+["Ou use a chave aleatória:", "Or use the random key:", "O usa la clave aleatoria:"],
+["Pix copia e cola copiado. Obrigado!", "Pix code copied. Thank you!", "Código Pix copiado. ¡Gracias!"],
+["Não consegui copiar. Use o QR code.", "Could not copy. Use the QR code.", "No pude copiar. Usa el código QR."],
 ["→ marque", "→ check", "→ marca"],
 ["No Windows, o botão abre a", "On Windows, the button opens the", "En Windows, el botón abre la"],
 ["Microsoft Store", "Microsoft Store", "Microsoft Store"],
