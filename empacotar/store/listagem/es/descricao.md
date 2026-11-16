@@ -36,7 +36,7 @@ Descubre qué modelos de IA local funcionan bien en tu PC, del más inteligente 
 
 ## Novedades de esta versión
 
-Primera versión en Microsoft Store.
+Selector rápido de tu computadora en el Radar, enlace para compartir el resultado, mejor diseño en el celular y correcciones.
 
 ## Características del producto
 
