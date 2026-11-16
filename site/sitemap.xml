@@ -31,7 +31,9 @@
   <url><loc>https://localai4you.vercel.app/placa/rtx-3070.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/rtx-3060-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/rtx-3060-12.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/placa/rtx-3060-8.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/rtx-3050-8.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/placa/rtx-3050-6.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/rtx-2080-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/rtx-2070-super.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/rtx-2060-12.html</loc></url>
@@ -39,6 +41,7 @@
   <url><loc>https://localai4you.vercel.app/placa/gtx-1080-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/gtx-1660-super.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/gtx-1650.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/placa/gtx-1650-super.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/rtx-a4000.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/rtx-a5000.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/rtx-a6000.html</loc></url>
@@ -93,6 +96,7 @@
   <url><loc>https://localai4you.vercel.app/placa/gtx-1070-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/gtx-1070.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/gtx-1060-6.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/placa/gtx-1060-3.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/gtx-1050-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/gtx-1660-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/gtx-1660.html</loc></url>
@@ -109,6 +113,10 @@
   <url><loc>https://localai4you.vercel.app/placa/rx-6700.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/rx-6600-xt.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/rx-6600.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/placa/rx-6650-xt.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/placa/rx-6500-xt.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/placa/rx-5600-xt.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/placa/rx-5500-xt-8.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/rx-5700-xt.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/rx-580.html</loc></url>
   <url><loc>https://localai4you.vercel.app/placa/rx-7900m.html</loc></url>
@@ -212,7 +220,9 @@
   <url><loc>https://localai4you.vercel.app/en/gpu/rtx-3070.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/rtx-3060-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/rtx-3060-12.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/en/gpu/rtx-3060-8.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/rtx-3050-8.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/en/gpu/rtx-3050-6.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/rtx-2080-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/rtx-2070-super.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/rtx-2060-12.html</loc></url>
@@ -220,6 +230,7 @@
   <url><loc>https://localai4you.vercel.app/en/gpu/gtx-1080-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/gtx-1660-super.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/gtx-1650.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/en/gpu/gtx-1650-super.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/rtx-a4000.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/rtx-a5000.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/rtx-a6000.html</loc></url>
@@ -274,6 +285,7 @@
   <url><loc>https://localai4you.vercel.app/en/gpu/gtx-1070-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/gtx-1070.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/gtx-1060-6.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/en/gpu/gtx-1060-3.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/gtx-1050-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/gtx-1660-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/gtx-1660.html</loc></url>
@@ -290,6 +302,10 @@
   <url><loc>https://localai4you.vercel.app/en/gpu/rx-6700.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/rx-6600-xt.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/rx-6600.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/en/gpu/rx-6650-xt.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/en/gpu/rx-6500-xt.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/en/gpu/rx-5600-xt.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/en/gpu/rx-5500-xt-8.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/rx-5700-xt.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/rx-580.html</loc></url>
   <url><loc>https://localai4you.vercel.app/en/gpu/rx-7900m.html</loc></url>
@@ -393,7 +409,9 @@
   <url><loc>https://localai4you.vercel.app/es/gpu/rtx-3070.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/rtx-3060-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/rtx-3060-12.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/es/gpu/rtx-3060-8.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/rtx-3050-8.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/es/gpu/rtx-3050-6.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/rtx-2080-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/rtx-2070-super.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/rtx-2060-12.html</loc></url>
@@ -401,6 +419,7 @@
   <url><loc>https://localai4you.vercel.app/es/gpu/gtx-1080-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/gtx-1660-super.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/gtx-1650.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/es/gpu/gtx-1650-super.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/rtx-a4000.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/rtx-a5000.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/rtx-a6000.html</loc></url>
@@ -455,6 +474,7 @@
   <url><loc>https://localai4you.vercel.app/es/gpu/gtx-1070-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/gtx-1070.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/gtx-1060-6.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/es/gpu/gtx-1060-3.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/gtx-1050-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/gtx-1660-ti.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/gtx-1660.html</loc></url>
@@ -471,6 +491,10 @@
   <url><loc>https://localai4you.vercel.app/es/gpu/rx-6700.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/rx-6600-xt.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/rx-6600.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/es/gpu/rx-6650-xt.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/es/gpu/rx-6500-xt.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/es/gpu/rx-5600-xt.html</loc></url>
+  <url><loc>https://localai4you.vercel.app/es/gpu/rx-5500-xt-8.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/rx-5700-xt.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/rx-580.html</loc></url>
   <url><loc>https://localai4you.vercel.app/es/gpu/rx-7900m.html</loc></url>

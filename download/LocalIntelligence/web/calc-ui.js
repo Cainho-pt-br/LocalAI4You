@@ -503,7 +503,12 @@ const LI_CALC_UI = (function () {
     if (apple) return { modo: 'unificada', chipId: apple.c.id, chipRam: apple.c.ram_opcoes[0], palpite: apple.c.nome };
     // placa dedicada reconhecida em qualquer uma das respostas: ela vence a integrada
     const g = maior(hw.gpus.map(g => ({ g, n: norm(g.nome.replace(/\b\d+ ?GB\b/i, '')) })));
-    if (g) return { modo: 'gpu', gpuId: g.g.id, palpite: g.g.nome };
+    if (g) {
+      // o navegador não diz a memória: se a mesma placa existe com mais de uma (RTX 3060 de 12 e de 8 GB), a pessoa confere
+      const irmas = hw.gpus.filter(o => o.id !== g.g.id && norm(o.nome.replace(/\b\d+ ?GB\b/i, '')) === g.n);
+      const memorias = [g.g.vram_gb, ...irmas.map(o => o.vram_gb)];
+      return { modo: 'gpu', gpuId: g.g.id, palpite: g.g.nome, ...(irmas.length && irmas.length <= 2 ? { memorias } : {}) };
+    }
     const plat = String((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '');
     if (/mac/i.test(plat) && / apple /.test(R)) return { modo: 'unificada', chipId: 'm4', chipRam: 16, palpite: 'um Mac com chip Apple (modelo não identificado)' };
     const mem = Number(navigator.deviceMemory) || 0;     // Chrome arredonda e limita a 8: serve só de pista
@@ -583,7 +588,7 @@ const LI_CALC_UI = (function () {
       rams.map(r => h('option', { value: r, selected: r === ramAtual }, `${r} GB`)))) : null;
     const palpite = E.palpite && !E.preset ? h('p', { class: 'hw-palpite' },
       E.palpite === 'exemplo' ? [h('b', {}, 'PC de exemplo. '), 'Toque no seu computador acima.']
-        : [h('b', {}, 'Palpite: '), `parece ${E.palpite}.`, ' ', 'Não é este? Toque no seu acima.']) : null;
+        : [h('b', {}, 'Palpite: '), `parece ${E.palpite}.`, ' ', E.memorias ? `Esta placa existe com ${E.memorias.join(' / ')} GB de memória: confira a sua.` : 'Não é este? Toque no seu acima.']) : null;
     const linha = h('div', { class: 'hw-chips', role: 'group', 'aria-label': 'Qual é o seu computador?' }, chips, outra);
     // no celular a linha desliza para o lado: a placa escolhida começa à vista (sem rolar a página)
     setTimeout(() => { const b = linha.querySelector('[aria-pressed="true"]'); if (b && linha.scrollWidth > linha.clientWidth) linha.scrollLeft = Math.max(0, b.offsetLeft - linha.offsetLeft - 14); }, 0);
@@ -619,7 +624,8 @@ const LI_CALC_UI = (function () {
     return h('div', { class: 'palpite-hw' + (ex ? ' exemplo' : '') },
       h('span', {}, ex ? h('b', {}, 'PC de exemplo. ') : [h('b', {}, 'Palpite: '), `parece ${E.palpite}. `],
         ex ? 'Não deu para reconhecer seu computador pelo navegador; escolha o seu abaixo.' : 'O navegador não informa a memória: confira a memória e ajuste se precisar.',
-        E.integrada ? h('span', { class: 'palpite-extra' }, ' Notebook com placa NVIDIA ou AMD? O navegador às vezes mostra só a integrada: escolha a sua em “Placa de vídeo”.') : null),
+        E.integrada ? h('span', { class: 'palpite-extra' }, ' Notebook com placa NVIDIA ou AMD? O navegador às vezes mostra só a integrada: escolha a sua em “Placa de vídeo”.') : null,
+        E.memorias ? h('span', { class: 'palpite-extra' }, ` Esta placa existe com ${E.memorias.join(' / ')} GB de memória: confira a sua.`) : null),
       ex ? null : h('button', { class: 'btn mini', onclick: aoConfirmar }, 'Está certo'));
   }
 
