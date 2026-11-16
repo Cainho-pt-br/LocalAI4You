@@ -31,6 +31,14 @@ Testes do app (incluem a paridade dos cálculos JavaScript × Python; o Node.js 
 cd download/LocalIntelligence && python -m unittest discover -s tests
 ```
 
+## Dados entre versões
+
+As notas medidas, vereditos e modelos aposentados ficam em `estado/`, fora do pacote, então atualizar não apaga nada. O ZIP guarda ao lado do app (`…\Programs\Local AI 4 You\app\estado`) e a Microsoft Store numa pasta própria (`%LOCALAPPDATA%\LocalAISearch\estado`). Ao abrir, o app traz sozinho os dados de uma instalação anterior (uma vez, sem apagar nem sobrescrever); `python cli.py importar-dados [pasta-estado]` faz o mesmo à mão.
+
+## Janela do app
+
+O painel abre numa janela própria (Edge ou Chrome em modo aplicativo, sem abas nem barra de endereço) e encerra ao fechá-la, a menos que haja uma tarefa pesada rodando. Sem Edge nem Chrome, abre no navegador padrão. `LI_JANELA=0` ou `"janela_app": false` em `estado/config.json` desliga.
+
 ## Links com o hardware e páginas por placa
 
 - `app.html?gpu=rtx-4060` (ou `?chip=m2&ram=16`, `?ram=16` para PC sem placa) abre o Radar já nesse computador. O botão **Compartilhar** do Radar gera esse link.

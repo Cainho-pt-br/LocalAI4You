@@ -181,6 +181,12 @@ def cmd_migrar(a):
     print(f"Histórico v1 resumido: {len(out)} modelos → estado/historico_v1.json")
 
 
+def cmd_importar_dados(a):
+    from . import migracao
+    r = migracao.importar_dados_antigos(Path(a.pasta) if a.pasta else None, forcar=True)
+    print(f"Importado de {r['origem']}: {', '.join(r['arquivos'])} ({r['resultados_novos']} resultados novos)" if r else "Não achei dados de outra instalação para importar.")
+
+
 def cmd_calculadora(a):
     """Exporta a calculadora de hardware como UM arquivo HTML (dados da última varredura embutidos): abre offline em qualquer navegador."""
     from datetime import date
@@ -285,6 +291,9 @@ def registrar(sp):
     mg = sp.add_parser("migrar", help="resume o state.json antigo (protocolo v1) como histórico")
     mg.add_argument("arquivo", nargs="?", default=str(config.RAIZ / "legado" / "state.json"))
     mg.set_defaults(f=cmd_migrar)
+    im = sp.add_parser("importar-dados", help="traz notas, vereditos e aposentados de uma instalação anterior (pasta estado/)")
+    im.add_argument("pasta", nargs="?", help="a pasta estado/ da instalação antiga (padrão: procura nos lugares conhecidos)")
+    im.set_defaults(f=cmd_importar_dados)
     ca = sp.add_parser("calculadora", help="exporta a calculadora de hardware como um arquivo HTML único para compartilhar")
     ca.add_argument("--saida", help="caminho do .html (padrão: relatorios/calculadora-de-hardware-AAAA-MM-DD.html)")
     ca.add_argument("--com-parque", action="store_true", help="inclui as máquinas do parque como perfis prontos (padrão: não, para compartilhar)")
