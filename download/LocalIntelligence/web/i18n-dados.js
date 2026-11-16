@@ -975,7 +975,9 @@ window.LI_I18N_DADOS = [
 ["📣 Acompanhar o projeto:", "📣 Follow the project:", "📣 Seguir el proyecto:"],
 ["Sem placa de vídeo", "No graphics card", "Sin tarjeta gráfica"],
 ["Memória", "Memory", "Memoria"],
-["♥ Apoiar pelo GitHub Sponsors", "♥ Support on GitHub Sponsors", "♥ Apoyar en GitHub Sponsors"]
+["♥ Apoiar pelo GitHub Sponsors", "♥ Support on GitHub Sponsors", "♥ Apoyar en GitHub Sponsors"],
+["Esta placa existe com {n} / {n} GB de memória: confira a sua.", "This card comes with {n} / {n} GB of memory: check yours.", "Esta tarjeta existe con {n} / {n} GB de memoria: revisa la tuya."],
+["Esta placa existe com {n} / {n} / {n} GB de memória: confira a sua.", "This card comes with {n} / {n} / {n} GB of memory: check yours.", "Esta tarjeta existe con {n} / {n} / {n} GB de memoria: revisa la tuya."]
 ];
 /* Regras por trecho (expressão regular em português → substituição), para textos montados em partes. */
 window.LI_I18N_REGRAS = [
