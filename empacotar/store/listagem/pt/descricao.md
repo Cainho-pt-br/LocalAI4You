@@ -36,7 +36,7 @@ Descubra quais modelos de IA local rodam bem no seu PC, do mais inteligente ao m
 
 ## Novidades desta versão
 
-Primeira versão na Microsoft Store.
+Escolha rápida do seu computador no Radar, link para compartilhar o resultado, interface melhor no celular e correções.
 
 ## Recursos do produto (até 20, 200 caracteres cada)
 
