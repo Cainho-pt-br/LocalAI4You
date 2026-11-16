@@ -10,6 +10,7 @@ const APOIO = {
   pix: '636ca1e2-6635-4ca0-8e6e-0f7d4873bf6c',   // chave Pix aleatória
   link: 'https://nubank.com.br/cobrar/4orxp/6af4d048-69bc-49ec-bb90-8b75f637dfde',   // pedido de Pix com QR code (Nubank)
   linkRotulo: 'Doar via Pix (QR code)',
+  sponsors: 'https://github.com/sponsors/Cainho-pt-br',   // GitHub Sponsors (apoio mensal ou único)
 };
 const APOIO_SESSAO = 'li-apoio-oculto';   // ✕ esconde só nesta visita
 const APOIO_SEGUNDOS = 7;
@@ -28,6 +29,7 @@ function abrirApoio() {
   if (canais.length) linhas.push(h('li', {}, '📣 Acompanhar o projeto:', ' ', canais.flatMap((a, i) => i ? [' · ', a] : [a])));
   const doar = [];
   if (APOIO.pix) doar.push(h('div', { class: 'cmd' }, h('code', {}, 'Pix: ' + APOIO.pix), h('button', { class: 'btn mini', onclick: () => navigator.clipboard.writeText(APOIO.pix).then(() => toast('Chave Pix copiada. Obrigado!'), () => toast('Não consegui copiar — selecione o texto.')) }, 'Copiar chave')));
+  if (APOIO.sponsors) doar.push(h('a', { class: 'btn primario', href: APOIO.sponsors, target: '_blank', rel: 'noopener' }, '♥ Apoiar pelo GitHub Sponsors'));
   if (APOIO.link) doar.push(h('a', { class: 'btn primario', href: APOIO.link, target: '_blank', rel: 'noopener' }, APOIO.linkRotulo));
   abrirDialogo(h('div', { class: 'dlg-in apoio-dlg' },
     h('h2', {}, '♥ Apoiar o Local AI 4 You'),
