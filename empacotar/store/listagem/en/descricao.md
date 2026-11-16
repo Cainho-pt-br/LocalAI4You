@@ -36,7 +36,7 @@ See which local AI models run well on your PC, from the smartest to the lightest
 
 ## What's new in this version
 
-First release on the Microsoft Store.
+Quick computer picker in the Radar, a link to share your result, a better phone layout and fixes.
 
 ## Product features
 

@@ -181,17 +181,6 @@ def cmd_migrar(a):
     print(f"Histórico v1 resumido: {len(out)} modelos → estado/historico_v1.json")
 
 
-def cmd_nota_parque(a):
-    from . import nota_parque
-    o = _o(False)
-    texto = nota_parque.gerar(o if o.no_ar() else None)
-    if a.destino:
-        Path(a.destino).write_text(texto, encoding="utf-8")
-        print("Nota gravada em", a.destino)
-    else:
-        print(texto)
-
-
 def cmd_calculadora(a):
     """Exporta a calculadora de hardware como UM arquivo HTML (dados da última varredura embutidos): abre offline em qualquer navegador."""
     from datetime import date
@@ -312,6 +301,3 @@ def registrar(sp):
     mq.add_argument("--token")
     mq.add_argument("--url")
     mq.set_defaults(f=cmd_maquinas)
-    n = sp.add_parser("nota-parque", help=argparse.SUPPRESS)   # uso pessoal do autor: gera uma nota Markdown do parque
-    n.add_argument("--destino")
-    n.set_defaults(f=cmd_nota_parque)

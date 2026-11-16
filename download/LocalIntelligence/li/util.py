@@ -10,6 +10,7 @@ import tempfile
 import threading
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
@@ -131,6 +132,11 @@ class ErroHTTP(Exception):
 
 def http_bytes(url: str, timeout: float = 25, headers: Optional[dict] = None, tentativas: int = 3) -> bytes:
     h = {"User-Agent": UA}
+    # Token opcional do Hugging Face (variável HF_TOKEN): sem ele, o limite por IP dos servidores compartilhados do GitHub
+    # derruba parte das buscas e modelos novos ficam sem as quantizações menores.
+    tok = os.environ.get("HF_TOKEN")
+    if tok and urllib.parse.urlparse(url).hostname in ("huggingface.co", "hf.co"):
+        h["Authorization"] = "Bearer " + tok
     if headers:
         h.update(headers)
     ultimo: Optional[Exception] = None

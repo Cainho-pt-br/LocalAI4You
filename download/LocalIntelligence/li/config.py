@@ -67,6 +67,26 @@ PADRAO = {
         "CohereLabs", "allenai", "tencent", "baidu", "ServiceNow-AI", "stepfun-ai", "XiaomiMiMo",
         "openbmb", "LGAI-EXAONE", "Cactus-Compute", "apple", "tiiuae", "swiss-ai", "arcee-ai", "ByteDance-Seed", "inclusionAI", "internlm",
     ],
+    # Famílias do Ollama cujo nome não bate com o do repositório original no Hugging Face (a busca por nome não acha).
+    # Chave "familia:tamanho" → repositório-base. Ligação manual, conferida na mão: dá a data real, a licença, a arquitetura
+    # (cálculo exato do KV cache) e abre a busca das quantizações menores (GGUF).
+    "apelidos_hf": {
+        "deepseek-r1:14b": "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B",
+        "deepseek-r1:32b": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+        "deepseek-r1:70b": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+        "phi4:14b": "microsoft/phi-4",
+        "phi4-reasoning:14b": "microsoft/Phi-4-reasoning",
+        "phi3:14b": "microsoft/Phi-3-medium-4k-instruct",
+        "mistral-nemo:12b": "mistralai/Mistral-Nemo-Instruct-2407",
+        "mistral-small:22b": "mistralai/Mistral-Small-Instruct-2409",
+        "devstral-small-2:24b": "mistralai/Devstral-Small-2-24B-Instruct-2512",
+        "llama3:70b": "meta-llama/Meta-Llama-3-70B-Instruct",
+        "llama4:17b": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+        "olmo2:13b": "allenai/OLMo-2-1124-13B-Instruct",
+        "cogito:14b": "deepcogito/cogito-v1-preview-qwen-14B",
+        "cogito:32b": "deepcogito/cogito-v1-preview-qwen-32B",
+        "cogito:70b": "deepcogito/cogito-v1-preview-llama-70B",
+    },
     "quantizadores_confiaveis": ["unsloth", "bartowski", "lmstudio-community", "ggml-org", "mradermacher"],
     "broker_url": "",
     "backup_modelos_dir": "",       # pasta do kit offline (ex.: D:\\kit-offline) — vazio = não configurado

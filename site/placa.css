@@ -1,0 +1,44 @@
+/* Páginas "o que roda em cada placa" (geradas por scripts/gerar-paginas.js). Usa os tokens de web/style.css e o topo
+   e o rodapé de landing.css; aqui fica só o que é próprio destas páginas. */
+.pg-logo { border-radius: 9px; display: block; }
+.pg-idiomas { font-size: .82rem; color: var(--muted); gap: 4px; }
+.pg-idiomas b { color: var(--text); }
+.pg-main { max-width: 920px; padding-bottom: 40px; }
+.pg-main > section { padding: 44px 0 0; }
+.pg-main h2 { font-size: 1.35rem; letter-spacing: -.015em; margin-bottom: 6px; }
+.pg-main section > p { max-width: 68ch; line-height: 1.65; }
+.pg-main section > .sub { margin: 0 0 14px; }
+.pg-trilha { padding-top: 22px; font-size: .82rem; color: var(--muted); }
+.pg-trilha a { color: var(--muted); } .pg-trilha span { color: var(--text); font-weight: 600; }
+.pg-cab { padding-top: 22px !important; }
+.pg-cab h1 { font-size: clamp(1.7rem, 4.4vw, 2.6rem); line-height: 1.1; letter-spacing: -.03em; margin: 10px 0 14px; font-weight: 780; }
+.pg-cab .l-lead { max-width: 44em; }
+.pg-fatos { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 16px 0 0; }
+.pg-fatos li { padding: 5px 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); font-size: .82rem; color: var(--muted); font-weight: 600; }
+
+.pg-lista { list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 12px; }
+.pg-item { display: flex; gap: 14px; padding: 16px 18px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); min-width: 0; }
+.pg-item.pg-top { border-color: color-mix(in srgb, var(--ink) 45%, transparent); }
+.pg-pos { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; background: var(--surface-2); color: var(--muted); }
+.pg-top .pg-pos { background: linear-gradient(135deg, var(--ink), var(--prio)); color: #fff; }
+.pg-info { min-width: 0; flex: 1; }
+.pg-info h3 { font-size: 1.06rem; overflow-wrap: anywhere; }
+.pg-meta { margin: 4px 0 2px; font-size: .9rem; }
+.pg-usos { margin: 0 0 10px; font-size: .86rem; color: var(--muted); }
+.pg-info .cmd code { overflow-wrap: anywhere; }
+
+.pg-tabela { width: 100%; }
+.pg-tabela td:first-child { white-space: nowrap; }
+.pg-fora { padding-left: 20px; line-height: 1.8; margin: 0; }
+.pg-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.pg-chip { border: 1px solid var(--line-strong); background: var(--surface); color: var(--text); padding: 7px 13px; border-radius: 99px; font-size: .86rem; font-weight: 600; }
+.pg-chip:hover { border-color: var(--ink); text-decoration: none; }
+.pg-faq details { margin-bottom: 8px; }
+.pg-placa .lojas { margin-top: 4px; }
+
+@media (max-width: 720px) {
+  .pg-placa .l-nav { display: none; }
+  .pg-main > section { padding-top: 34px; }
+  .pg-item { padding: 14px; gap: 10px; }
+  .pg-tabela td:first-child { white-space: normal; }
+}

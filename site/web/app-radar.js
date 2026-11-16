@@ -184,6 +184,18 @@ function cartaoRadarPublico(x, pos, perfil, dados) {
         ...LI_CALC_UI.linksDoModelo(c).slice(0, 3).map(([t, u]) => linkExterno(u, t)).filter(Boolean))));
 }
 
+/* Manda o resultado para alguém: o link reabre o Radar já com este computador. No celular usa o compartilhar do sistema. */
+async function compartilharRadar(link, perfil) {
+  if (typeof registrarEvento === 'function') registrarEvento('uso', { acao: 'compartilhar', perfil: perfil.nome });
+  const T = window.LI_T || (x => x);
+  if (navigator.share && window.matchMedia('(max-width: 880px)').matches) {
+    try { await navigator.share({ title: 'Local AI 4 You', text: T('Veja quais IAs rodam bem neste computador:'), url: link }); return; }
+    catch (e) { if (e && e.name === 'AbortError') return; }   // sem permissão ou sem suporte: cai para a cópia
+  }
+  try { await navigator.clipboard.writeText(link); toast('Link copiado. Quem abrir vê esta mesma lista, para este mesmo computador.'); }
+  catch (e) { toast(link, 12000); }
+}
+
 async function pRadarPublico(raiz) {
   const f = S.filtroRadar;
   let dados;
@@ -206,18 +218,21 @@ async function pRadarPublico(raiz) {
       h('button', { type: 'button', 'aria-pressed': String(f.uso === id), title: id ? (papeis.find(p => p.id === id)?.descricao || '') : 'Os melhores para qualquer uso', onclick: () => { f.uso = id; f.mostrar = POR_LOTE; guardarUso(id); redesenhar(); } }, ic + ' ' + t)));
   const nomeUso = f.uso ? (USO_CURTO[f.uso] || f.uso).toLowerCase() : null;
   const visiveis = rk.slice(0, f.mostrar);
+  const link = LI_CALC_UI.linkDoHardware(E);
   if (typeof registrarUmaVez === 'function') registrarUmaVez('radar|' + perfil.nome + '|' + (f.uso || ''), 'radar', { perfil: perfil.nome, uso: f.uso || 'tudo', palpite: E.palpite || null, cabem: rk.length, top: rk[0] ? rk[0].c.id : null });
   raiz.replaceChildren(
-    h('div', { class: 'pagina-topo' },
+    h('div', { class: 'pagina-topo radar-topo' },
       h('span', { class: 'guia-kicker' }, 'RADAR · ESTIMADO PARA O SEU COMPUTADOR'),
       h('h1', {}, 'O que rodar ' + (perfil.gpu ? 'na sua ' + perfil.nome : `no seu computador (sem placa de vídeo, ${fmtN(perfil.ram_gb, 0)} GB de RAM)`)),
-      h('p', { class: 'sub' }, rk.length
+      // a escolha do computador vem antes de qualquer explicação: no celular, o primeiro resultado tem de aparecer sem rolar
+      LI_CALC_UI.seletorRapido(E, dados, () => { f.mostrar = POR_LOTE; redesenhar(); }, () => irPara('calculadora'),
+        link ? h('button', { type: 'button', class: 'hw-compartilhar', title: 'Quem abrir o link vê esta mesma lista, para este mesmo computador', onclick: () => compartilharRadar(link, perfil) }, '🔗 Compartilhar') : null),
+      h('p', { class: 'sub radar-resumo' }, rk.length
         ? `${rk.length} modelos cabem no seu computador${nomeUso ? ' para ' + nomeUso : ''}, do mais indicado ao menos indicado. Os 5 primeiros, destacados, são as melhores apostas para começar: copie o comando e rode no terminal com o Ollama instalado.`
         : 'Nenhum modelo do catálogo cabe com esses critérios.'),
-      h('div', { class: 'linha', style: 'justify-content:flex-start;gap:10px;flex-wrap:wrap' },
+      h('div', { class: 'linha radar-acoes', style: 'justify-content:flex-start;gap:10px;flex-wrap:wrap' },
         h('button', { class: 'btn mini', onclick: () => irPara('calculadora') }, 'Ajustar meu hardware'),
-        h('span', { class: 'sub' }, `Catálogo Ollama + Hugging Face de ${fmtData(dados.radar)}`)),
-      LI_CALC_UI.avisoPalpite(E, () => { E.palpite = ''; LI_CALC_UI.salvarEstado(E); redesenhar(); })),
+        h('span', { class: 'sub' }, `Catálogo Ollama + Hugging Face de ${fmtData(dados.radar)}`))),
     usos,
     h('details', { class: 'dica-clean radar-regra' }, h('summary', {}, 'Como esta ordem é feita?'),
       h('ol', { class: 'regra-passos' },

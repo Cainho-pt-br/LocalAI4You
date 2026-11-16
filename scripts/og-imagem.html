@@ -1,0 +1,63 @@
+<!doctype html>
+<!-- Molde da imagem de prévia dos links (site/og.png, og-en.png, og-es.png), 1200×630.
+     Para refazer: abra este arquivo no navegador com ?l=pt, ?l=en ou ?l=es, numa janela de 1200×630, e salve a captura
+     em site/. Só precisa quando a marca ou a frase mudar; não faz parte da publicação diária. -->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { width: 1200px; height: 630px; overflow: hidden; font-family: Inter, "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif; color: #0b1120;
+    background: radial-gradient(60% 70% at 12% 20%, rgba(26,115,232,.26), transparent 70%), radial-gradient(50% 60% at 92% 12%, rgba(124,58,237,.24), transparent 70%), radial-gradient(45% 55% at 70% 100%, rgba(16,185,129,.16), transparent 70%), #f5f7fc; }
+  .tela { display: grid; grid-template-columns: 1.08fr 1fr; gap: 48px; align-items: center; height: 100%; padding: 56px 64px; }
+  .marca { display: flex; align-items: center; gap: 16px; font-size: 30px; font-weight: 750; letter-spacing: -.01em; }
+  .marca img { width: 60px; height: 60px; border-radius: 16px; box-shadow: 0 14px 30px -10px rgba(124,58,237,.6); }
+  h1 { font-size: 68px; line-height: 1.04; letter-spacing: -.035em; font-weight: 800; margin: 34px 0 22px; }
+  h1 span { background: linear-gradient(100deg, #1a73e8, #7c3aed 60%, #ec4899); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  p { font-size: 27px; line-height: 1.4; color: #4b5b73; max-width: 15.5em; }
+  .cartao { background: #fff; border-radius: 26px; border: 1px solid rgba(26,115,232,.28); box-shadow: 0 40px 90px -30px rgba(26,115,232,.45); overflow: hidden; }
+  .topo { display: flex; align-items: center; gap: 8px; padding: 16px 22px; background: #f1f4fa; border-bottom: 1px solid #e3e8f2; font-size: 17px; font-weight: 650; color: #5b6b82; }
+  .topo i { width: 12px; height: 12px; border-radius: 50%; display: block; } .topo i:nth-child(1) { background: #f87171; } .topo i:nth-child(2) { background: #fbbf24; } .topo i:nth-child(3) { background: #34d399; margin-right: 8px; }
+  .corpo { padding: 22px; display: grid; gap: 14px; }
+  .chips { display: flex; gap: 8px; margin-bottom: 4px; }
+  .chips span { padding: 8px 15px; border-radius: 99px; border: 1px solid #d4dbe8; font-size: 17px; font-weight: 650; white-space: nowrap; }
+  .chips .on { background: #1a73e8; border-color: #1a73e8; color: #fff; }
+  .linha { display: flex; align-items: center; gap: 16px; padding: 16px 18px; border-radius: 16px; border: 1px solid #e3e8f2; background: #f8fafd; }
+  .linha.um { border-color: #f5b041; background: #fff8ec; }
+  .m { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #fff; font-size: 19px; flex: none; }
+  .um .m { background: #f59e0b; } .dois .m { background: #94a3b8; } .tres .m { background: #c2703d; }
+  .linha b { display: block; font-size: 21px; } .linha small { font-size: 16px; color: #5b6b82; }
+  .nota { margin-left: auto; font-size: 30px; font-weight: 800; }
+</style>
+</head>
+<body>
+<div class="tela">
+  <div>
+    <div class="marca"><img src="../site/web/logo.svg" alt=""> Local AI 4 You</div>
+    <h1 id="t"></h1>
+    <p id="s"></p>
+  </div>
+  <div class="cartao">
+    <div class="topo"><i></i><i></i><i></i><span id="r"></span></div>
+    <div class="corpo">
+      <div class="chips"><span id="c0"></span><span class="on">RTX 4060 · 8 GB</span><span>Mac M2 · 16 GB</span></div>
+      <div class="linha um"><span class="m">1</span><div><b id="m1"></b><small>Q4_K_M · ~38 tok/s · 💬 👨‍💻 👁️</small></div><span class="nota">94</span></div>
+      <div class="linha dois"><span class="m">2</span><div><b id="m2"></b><small>Q4_K_M · ~31 tok/s · 💬 🛠️</small></div><span class="nota">83</span></div>
+      <div class="linha tres"><span class="m">3</span><div><b id="m3"></b><small>Q5_K_M · ~64 tok/s · ⚡ 📋</small></div><span class="nota">71</span></div>
+    </div>
+  </div>
+</div>
+<script>
+  const T = {
+    pt: ['Qual IA roda <span>de verdade</span> no seu computador?', 'Diga a sua placa de vídeo e veja os modelos que cabem, do melhor ao mais leve. Grátis.', 'Radar · o que roda no seu PC', 'Sem placa', 'Modelo'],
+    en: ['Which AI <span>actually runs</span> on your computer?', 'Pick your graphics card and see the models that fit, from best to lightest. Free.', 'Radar · what runs on your PC', 'No GPU', 'Model'],
+    es: ['¿Qué IA corre <span>de verdad</span> en tu computadora?', 'Indica tu tarjeta gráfica y mira los modelos que caben, del mejor al más ligero. Gratis.', 'Radar · qué corre en tu PC', 'Sin gráfica', 'Modelo'],
+  }[new URLSearchParams(location.search).get('l') || 'pt'];
+  document.getElementById('t').innerHTML = T[0];
+  document.getElementById('s').textContent = T[1];
+  document.getElementById('r').textContent = T[2];
+  document.getElementById('c0').textContent = T[3];
+  ['A 9B', 'B 9B', 'C 4B'].forEach((x, i) => { document.getElementById('m' + (i + 1)).textContent = T[4] + ' ' + x; });
+</script>
+</body>
+</html>

@@ -66,7 +66,13 @@ section.pagina { display: none; } section.pagina.on { display: block; animation:
   .shell { grid-template-columns: minmax(0, 1fr); }
   aside.lateral { position: sticky; z-index: 20; height: auto; flex-direction: row; align-items: center; gap: 10px; padding: 8px 12px; border-right: 0; border-bottom: 1px solid var(--line); overflow: visible; }
   .marca { white-space: nowrap; } .marca small { display: none; }
-  nav.abas { flex-direction: row; overflow-x: auto; flex: 1; min-width: 0; scrollbar-width: none; } nav.abas::-webkit-scrollbar { display: none; }
+  /* celular: marca, tema e idioma numa linha; as abas na linha de baixo, com a largura toda */
+  aside.lateral { flex-wrap: wrap; row-gap: 4px; }
+  .lateral-head { flex: 1 1 100%; flex-direction: row; align-items: center; gap: 8px; }
+  .lateral-head .marca { margin-right: auto; } .lateral-head .marca-logo { width: 32px; height: 32px; border-radius: 10px; }
+  .lateral-head .idioma { margin-top: 0; } .tema-toggle .tema-txt { display: none; } .tema-toggle { padding: 6px 9px; }
+  aside.lateral .alvo:empty { display: none; }
+  nav.abas { flex-direction: row; overflow-x: auto; flex: 1 1 100%; min-width: 0; scrollbar-width: none; } nav.abas::-webkit-scrollbar { display: none; }
   nav.abas button { white-space: nowrap; } nav.abas .grupo { display: none; }
   .status { display: none; }
   main { padding: 20px 14px 100px; }
@@ -712,6 +718,34 @@ dialog::backdrop { background: rgba(10, 12, 18, .55); backdrop-filter: blur(2px)
 .palpite-hw { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin:12px 0 0; padding:10px 14px; border-radius:var(--radius-sm); background:var(--info-soft); border:1px solid color-mix(in srgb, var(--info) 30%, transparent); font-size:.88rem; }
 .palpite-hw.exemplo { background:var(--warn-soft); border-color:color-mix(in srgb, var(--warn) 35%, transparent); }
 .calc-card-hw .palpite-hw { margin:0 0 12px; }
+/* escolha rápida do computador (topo do Radar do site) */
+.hw-rapido { display:flex; flex-direction:column; gap:8px; margin:14px 0 4px; padding:12px 14px; border:1px solid var(--line-strong); border-radius:var(--radius-sm); background:var(--surface); }
+.hw-rapido.com-palpite { border-color:color-mix(in srgb, var(--info) 45%, transparent); background:var(--info-soft); }
+.hw-rapido-topo { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+.hw-rapido-rot { font-size:.8rem; font-weight:700; color:var(--muted); }
+.hw-compartilhar { border:0; background:none; padding:0; color:var(--link); font-size:.82rem; font-weight:650; cursor:pointer; }
+.hw-compartilhar:hover { text-decoration:underline; }
+.hw-chips { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+.hw-chips button, .hw-chips select { border:1px solid var(--line-strong); background:var(--surface); color:var(--text); padding:7px 13px; border-radius:99px; font-size:.86rem; font-weight:600; white-space:nowrap; flex:0 0 auto; }
+.hw-chips select { max-width:230px; }
+.hw-chips button:hover, .hw-chips select:hover { border-color:var(--ink); }
+.hw-chips button[aria-pressed="true"] { background:var(--ink); border-color:var(--ink); color:var(--on-ink); }
+.hw-mem { display:flex; align-items:center; gap:8px; font-size:.84rem; font-weight:600; color:var(--muted); }
+.hw-mem select { padding:5px 10px; border-radius:99px; }
+.hw-palpite { margin:0; font-size:.84rem; color:var(--muted); }
+@media (max-width: 880px) {
+  /* celular: uma linha que desliza para o lado, no lugar de quatro linhas de botões; o resultado sobe para a primeira tela */
+  .hw-chips, .radar-topo + .usos { flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; margin-left:-14px; margin-right:-14px; padding:2px 14px; -webkit-overflow-scrolling:touch; }
+  .hw-chips::-webkit-scrollbar, .radar-topo + .usos::-webkit-scrollbar { display:none; }
+  .radar-topo + .usos button { white-space:nowrap; flex:0 0 auto; }
+  .hw-rapido { margin:10px 0 2px; padding:10px 14px; }
+  .radar-topo { margin-bottom:10px; }
+  .radar-topo .guia-kicker { display:none; }
+  .radar-topo h1 { font-size:1.22rem; }
+  .radar-topo .radar-resumo { display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
+  .radar-topo .radar-acoes { display:none; }   /* "Ajustar" está na lista "Outra placa ou chip…" */
+  .radar-regra { margin-bottom:10px; }
+}
 .usos { display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 12px; }
 .usos button { border:1px solid var(--line-strong); background:var(--surface); color:var(--text); padding:7px 13px; border-radius:99px; font-size:.86rem; font-weight:600; }
 .usos button:hover { border-color:var(--ink); }

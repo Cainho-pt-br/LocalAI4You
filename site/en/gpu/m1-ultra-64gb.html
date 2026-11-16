@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Best local LLMs for the Apple M1 Ultra with 64 GB: what actually runs | Local AI 4 You</title>
+<meta name="description" content="More than 60 local AI models fit on the Apple M1 Ultra with 64 GB. The top pick is ripple-preview 65B (~16 tokens/s). See the best ones by use, with the Ollama command ready to copy.">
+<link rel="canonical" href="https://localai4you.vercel.app/en/gpu/m1-ultra-64gb.html">
+<link rel="alternate" hreflang="pt-BR" href="https://localai4you.vercel.app/placa/m1-ultra-64gb.html">
+<link rel="alternate" hreflang="en" href="https://localai4you.vercel.app/en/gpu/m1-ultra-64gb.html">
+<link rel="alternate" hreflang="es" href="https://localai4you.vercel.app/es/gpu/m1-ultra-64gb.html">
+<link rel="alternate" hreflang="x-default" href="https://localai4you.vercel.app/en/gpu/m1-ultra-64gb.html">
+<meta property="og:title" content="Best local LLMs for the Apple M1 Ultra with 64 GB: what actually runs">
+<meta property="og:description" content="More than 60 local AI models fit on the Apple M1 Ultra with 64 GB. The top pick is ripple-preview 65B (~16 tokens/s). See the best ones by use, with the Ollama command ready to copy.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://localai4you.vercel.app/en/gpu/m1-ultra-64gb.html">
+<meta property="og:image" content="https://localai4you.vercel.app/og-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Local AI 4 You">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/web/logo.svg" type="image/svg+xml">
+<script>
+  window.LI_PUBLIC_MODE = true;
+  try { const t = localStorage.getItem('li-tema'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
+<link rel="stylesheet" href="/web/style.css">
+<link rel="stylesheet" href="/landing.css">
+<link rel="stylesheet" href="/placa.css">
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://localai4you.vercel.app/"},{"@type":"ListItem","position":2,"name":"All graphics cards","item":"https://localai4you.vercel.app/en/gpu/"},{"@type":"ListItem","position":3,"name":"Apple M1 Ultra with 64 GB","item":"https://localai4you.vercel.app/en/gpu/m1-ultra-64gb.html"}]},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the best AI model for the Apple M1 Ultra with 64 GB?","acceptedAnswer":{"@type":"Answer","text":"Today it is ripple-preview 65B (Q4_K_M), which should generate about 16 tokens per second."}},{"@type":"Question","name":"Do I need internet or a subscription?","acceptedAnswer":{"@type":"Answer","text":"Only internet to download. After that the model runs on your computer with Ollama, a free program: no subscription, and your conversations are not sent anywhere."}},{"@type":"Question","name":"How do I install it?","acceptedAnswer":{"@type":"Answer","text":"Install Ollama, open the terminal and paste the command shown next to the model. The download starts and, when it finishes, you can start chatting."}}]}]</script>
+</head>
+<body class="landing pg-placa" data-hw="m1-ultra-64gb" data-idioma="en" data-copiado="Copied ✓">
+<header class="l-topo">
+  <a class="l-marca" href="/"><img class="pg-logo" src="/web/logo.svg" alt="" width="30" height="30"> Local AI 4 You</a>
+  <nav class="l-nav" aria-label="Home">
+    <a href="/app.html#radar">Radar</a>
+    <a href="/app.html#calculadora">Calculator</a>
+    <a href="/en/gpu/">All graphics cards</a>
+  </nav>
+  <div class="l-topo-acoes pg-idiomas"><a href="/placa/m1-ultra-64gb.html" hreflang="pt-BR">Português</a> · <b aria-current="true">English</b> · <a href="/es/gpu/m1-ultra-64gb.html" hreflang="es">Español</a></div>
+</header>
+<main class="l-main pg-main">
+  <nav class="pg-trilha" aria-label="breadcrumb"><a href="/">Home</a> › <a href="/en/gpu/">All graphics cards</a> › <span>Apple M1 Ultra with 64 GB</span></nav>
+  <section class="pg-cab">
+    <span class="l-kicker-s">LOCAL AI · ESTIMATED FOR THIS HARDWARE</span>
+    <h1>Which AI models run on the Apple M1 Ultra with 64 GB?</h1>
+    <p class="l-lead"><b>More than 60 AI models</b> (LLMs) fit on the Apple M1 Ultra with 64 GB and run on your own computer, free and offline. The top pick today is <b>ripple-preview 65B</b> (Q4_K_M, 39.0 GB), which should generate about <b>16 tokens per second</b>.</p>
+    <ul class="pg-fatos"><li>64 GB of unified memory</li><li>49.4 GB free for the model</li><li>800 GB/s memory bandwidth</li></ul>
+    <div class="l-ctas">
+      <a class="btn primario l-btn-grande" href="/app.html?chip=m1-ultra&ram=64#radar" data-ev="radar">See the full list for my computer →</a>
+      
+    </div>
+  </section>
+  <section>
+    <h2>The 10 best models for the Apple M1 Ultra with 64 GB</h2>
+    <p class="sub">From most to least recommended. Copy the command and run it in the terminal, with Ollama installed.</p>
+    <ol class="pg-lista">
+    <li class="pg-item pg-top">
+      <span class="pg-pos">1</span>
+      <div class="pg-info">
+        <h3>ripple-preview 65B</h3>
+        <p class="pg-meta"><b>Q4_K_M</b> · 39.0 GB · ~12–19 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning.</p>
+        <div class="cmd"><code>ollama pull ripple-preview:65b-q4_K_M</code><button class="btn mini" type="button" data-copiar="ollama pull ripple-preview:65b-q4_K_M">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item pg-top">
+      <span class="pg-pos">2</span>
+      <div class="pg-info">
+        <h3>ornith-1.5 35B</h3>
+        <p class="pg-meta"><b>Q4_K_M</b> · 23.0 GB · ~20–33 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, images and documents.</p>
+        <div class="cmd"><code>ollama pull ornith-1.5:35b</code><button class="btn mini" type="button" data-copiar="ollama pull ornith-1.5:35b">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item pg-top">
+      <span class="pg-pos">3</span>
+      <div class="pg-info">
+        <h3>nemotron3 33B</h3>
+        <p class="pg-meta"><b>Q4_K_M</b> · 28.0 GB · ~17–27 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, images and documents.</p>
+        <div class="cmd"><code>ollama pull nemotron3:33b</code><button class="btn mini" type="button" data-copiar="ollama pull nemotron3:33b">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">4</span>
+      <div class="pg-info">
+        <h3>gemma4 31B</h3>
+        <p class="pg-meta"><b>Q6_K</b> · 25.2 GB · ~19–30 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, images and documents, long documents.</p>
+        <div class="cmd"><code>ollama pull hf.co/unsloth/gemma-4-31B-it-GGUF:Q6_K</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/unsloth/gemma-4-31B-it-GGUF:Q6_K">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">5</span>
+      <div class="pg-info">
+        <h3>qwen3.8 27B</h3>
+        <p class="pg-meta"><b>UD-Q6_K</b> · 22.0 GB · ~21–34 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, images and documents, long documents.</p>
+        <div class="cmd"><code>ollama pull hf.co/unsloth/Qwen3.8-27B-GGUF:UD-Q6_K</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/unsloth/Qwen3.8-27B-GGUF:UD-Q6_K">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">6</span>
+      <div class="pg-info">
+        <h3>muse-glimmer 30B</h3>
+        <p class="pg-meta"><b>Q4_K_M</b> · 20.0 GB · ~23–37 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, images and documents, long documents.</p>
+        <div class="cmd"><code>ollama pull muse-glimmer:30b-q4_K_M-dflash</code><button class="btn mini" type="button" data-copiar="ollama pull muse-glimmer:30b-q4_K_M-dflash">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">7</span>
+      <div class="pg-info">
+        <h3>qwen3.6 27B</h3>
+        <p class="pg-meta"><b>Q6_K</b> · 22.5 GB · ~21–33 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, images and documents, long documents.</p>
+        <div class="cmd"><code>ollama pull hf.co/unsloth/Qwen3.6-27B-GGUF:Q6_K</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/unsloth/Qwen3.6-27B-GGUF:Q6_K">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">8</span>
+      <div class="pg-info">
+        <h3>qwen3.5 27B</h3>
+        <p class="pg-meta"><b>Q6_K</b> · 22.5 GB · ~21–33 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, images and documents, long documents.</p>
+        <div class="cmd"><code>ollama pull hf.co/unsloth/Qwen3.5-27B-GGUF:Q6_K</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/unsloth/Qwen3.5-27B-GGUF:Q6_K">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">9</span>
+      <div class="pg-info">
+        <h3>North-Mini-Code-1.0</h3>
+        <p class="pg-meta"><b>UD-Q6_K</b> · 25.5 GB · ~55–88 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: coding.</p>
+        <div class="cmd"><code>ollama pull hf.co/unsloth/North-Mini-Code-1.0-GGUF:UD-Q6_K</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/unsloth/North-Mini-Code-1.0-GGUF:UD-Q6_K">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">10</span>
+      <div class="pg-info">
+        <h3>MiniCPM-V-4.7-35B-A3B</h3>
+        <p class="pg-meta"><b>Q6_K</b> · 28.5 GB · ~84–135 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: images and documents.</p>
+        <div class="cmd"><code>ollama pull hf.co/openbmb/MiniCPM-V-4.7-35B-A3B-gguf:Q6_K</code><button class="btn mini" type="button" data-copiar="ollama pull hf.co/openbmb/MiniCPM-V-4.7-35B-A3B-gguf:Q6_K">Copy</button></div>
+      </div>
+    </li>
+    </ol>
+    <a class="btn primario" href="/app.html?chip=m1-ultra&ram=64#radar" data-ev="radar-lista">See the full list for my computer →</a>
+  </section>
+  <section>
+    <h2>The best pick for each use</h2>
+    <div class="tabela-wrap"><table class="pg-tabela">
+      <thead><tr><th>Use</th><th>Model</th><th>Version</th><th>Speed</th></tr></thead>
+      <tbody>
+        <tr><td>💬 Chat</td><td><b>ripple-preview 65B</b></td><td>Q4_K_M · 39.0 GB</td><td>~12–19 tok/s</td></tr>
+        <tr><td>👨‍💻 Coding</td><td><b>ripple-preview 65B</b></td><td>Q4_K_M · 46.0 GB</td><td>~10–16 tok/s</td></tr>
+        <tr><td>🛠️ Agents</td><td><b>ripple-preview 65B</b></td><td>Q4_K_M · 39.0 GB</td><td>~12–19 tok/s</td></tr>
+        <tr><td>📋 Data extraction and JSON</td><td><b>ripple-preview 65B</b></td><td>Q4_K_M · 39.0 GB</td><td>~12–19 tok/s</td></tr>
+        <tr><td>🧠 Reasoning</td><td><b>ripple-preview 65B</b></td><td>Q4_K_M · 39.0 GB</td><td>~12–19 tok/s</td></tr>
+        <tr><td>⚡ Fast and light</td><td><b>nemotron-3-nano 4B</b></td><td>Q4_K_M · 2.9 GB</td><td>~161–258 tok/s</td></tr>
+        <tr><td>👁️ Images and documents</td><td><b>ornith-1.5 35B</b></td><td>Q4_K_M · 23.0 GB</td><td>~20–33 tok/s</td></tr>
+        <tr><td>📚 Long documents</td><td><b>gemma4 31B</b></td><td>Q6_K · 25.2 GB</td><td>~19–30 tok/s</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <section>
+    <h2>What does not fit yet</h2>
+    <p class="sub">These come closest: even in their smallest good-quality version, they need more than the 49.4 GB available.</p>
+    <ul class="pg-fora">
+      <li><b>NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-BF16</b> — needs ~74.0 GB (Q4_0)</li>
+      <li><b>qwen3.5 122B-A10B</b> — needs ~81.5 GB (Q4_K_M)</li>
+      <li><b>ornith-1.5 122B</b> — needs ~82.5 GB (Q4_K_M)</li>
+      <li><b>nemotron-3-super 120B-A12B</b> — needs ~92.4 GB (Q4_K_M)</li>
+      <li><b>nemotron-3.5-super 120B-A12B</b> — needs ~95.4 GB (Q4_K_M)</li>
+    </ul>
+  </section>
+  <section>
+    <h2>What changes with more memory?</h2>
+    <p class="sub">Bigger models tend to be smarter. Compare with these cards:</p>
+    <div class="pg-chips"><a class="pg-chip" href="/en/gpu/m1-ultra-128gb.html">Apple M1 Ultra with 128 GB</a></div>
+  </section>
+
+  <section>
+    <h2>How this list is built</h2>
+    <p>Only models that fit in memory at good compression quality make the list. The order favors the estimated intelligence of the model; speed counts until it is comfortable to read (about 10 tokens per second). Everything here is <b>estimated</b> from real file sizes. To measure for real on your own computer, the free app runs duels between your installed models.</p>
+  </section>
+  <section class="l-faq pg-faq">
+    <h2>Common questions</h2>
+    <details open><summary>What is the best AI model for the Apple M1 Ultra with 64 GB?</summary><p>Today it is ripple-preview 65B (Q4_K_M), which should generate about 16 tokens per second.</p></details>
+    <details open><summary>Do I need internet or a subscription?</summary><p>Only internet to download. After that the model runs on your computer with Ollama, a free program: no subscription, and your conversations are not sent anywhere.</p></details>
+    <details open><summary>How do I install it?</summary><p>Install Ollama, open the terminal and paste the command shown next to the model. The download starts and, when it finishes, you can start chatting.</p></details>
+  </section>
+  <section>
+    <h2>Other computers</h2>
+    <div class="pg-chips"><a class="pg-chip" href="/en/gpu/m1-pro-32gb.html">Apple M1 Pro with 32 GB</a><a class="pg-chip" href="/en/gpu/m1-max-32gb.html">Apple M1 Max with 32 GB</a><a class="pg-chip" href="/en/gpu/m1-max-64gb.html">Apple M1 Max with 64 GB</a><a class="pg-chip" href="/en/gpu/m2-8gb.html">Apple M2 with 8 GB</a><a class="pg-chip" href="/en/gpu/m2-16gb.html">Apple M2 with 16 GB</a></div>
+  </section>
+</main>
+<footer class="l-rodape">
+  <div><b>Local AI 4 You</b> · free and open source (Apache-2.0)</div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/app.html#radar">Radar</a>
+    <a href="/en/gpu/">All graphics cards</a>
+    <a href="https://github.com/Cainho-pt-br/LocalAI4You" target="_blank" rel="noopener">GitHub ↗</a>
+    <a href="/privacidade.html">Privacy</a>
+  </nav>
+</footer>
+<script src="/web/base.js"></script>
+<script src="/web/coleta.js"></script>
+<script src="/placa.js"></script>
+</body>
+</html>

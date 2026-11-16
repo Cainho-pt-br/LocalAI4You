@@ -29,6 +29,14 @@ const LI = { alvo: '' };
 // Endereços do projeto (um lugar só para trocar). O ZIP vem do GitHub Releases: só o app, sem o site.
 const LINK_REPO = 'https://github.com/Cainho-pt-br/LocalAI4You';
 // Windows baixa o pacote com o Python oficial embutido e o "Instalar"; macOS e Linux, o ZIP com o atalho de abrir.
+/* Canais do projeto (vídeos e comunidade). Preencha com o endereço completo (https://…) os que existirem; os vazios
+   não aparecem em lugar nenhum. Aparecem no rodapé do site, nas páginas por placa e na janela "Apoiar o projeto". */
+const CANAIS = { youtube: '', tiktok: '', instagram: '', discord: '', x: '' };
+const CANAIS_NOME = { youtube: 'YouTube', tiktok: 'TikTok', instagram: 'Instagram', discord: 'Discord', x: 'X' };
+function linksCanais(origem) {
+  return Object.keys(CANAIS).filter(k => /^https:\/\//.test(CANAIS[k])).map(k => h('a', { href: CANAIS[k], target: '_blank', rel: 'noopener', 'data-sem-traducao': '',
+    onclick: () => { if (typeof registrarEvento === 'function') registrarEvento('uso', { acao: 'canal', canal: k, origem: origem || null }); } }, CANAIS_NOME[k] + ' ↗'));
+}
 const NO_WINDOWS = /Windows/i.test(navigator.userAgent || '');
 const LINK_STORE = 'https://apps.microsoft.com/detail/9MWFSJPFFMJW';
 const LINK_ZIP = LINK_REPO + '/releases/latest/download/' + (NO_WINDOWS ? 'LocalAI4You-Windows.zip' : 'LocalAI4You.zip');
