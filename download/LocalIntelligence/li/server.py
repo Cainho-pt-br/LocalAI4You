@@ -738,8 +738,31 @@ class Servidor(ThreadingHTTPServer):
     daemon_threads = True
 
 
+def _fechar_se_ocioso() -> None:
+    """A janela do app foi fechada: encerra o painel, a menos que haja uma tarefa pesada rodando (ela continua)."""
+    if GERENTE.bloqueio():
+        return
+    srv = _SERVIDOR.get("srv")
+    if srv:
+        threading.Timer(0.4, srv.shutdown).start()
+
+
+def _abrir_tela(url: str, encerra: bool = True) -> None:
+    """Janela própria do app (Edge/Chrome em modo aplicativo); sem eles, o navegador padrão."""
+    from . import janela
+    if not janela.abrir(url, _fechar_se_ocioso if encerra else None):
+        webbrowser.open(url)
+
+
 def servir(porta: Optional[int] = None, abrir: bool = True, iniciar_ollama: bool = True) -> None:
     config.garantir_pastas()
+    try:        # traz as notas e os vereditos de uma instalação anterior (ZIP ↔ Microsoft Store), uma única vez
+        from . import migracao
+        r = migracao.importar_dados_antigos()
+        if r:
+            print(f"Dados da instalação anterior importados de {r['origem']}: {', '.join(r['arquivos'])}")
+    except Exception as e:      # nunca impede o app de abrir
+        print("  aviso: não consegui importar os dados antigos:", e)
     porta = porta or int(config.carregar()["painel_porta"])
     Handler.porta = porta
     if iniciar_ollama:
@@ -756,12 +779,12 @@ def servir(porta: Optional[int] = None, abrir: bool = True, iniciar_ollama: bool
     except OSError:
         print(f"A porta {porta} já está em uso — provavelmente o painel já está aberto. Abrindo {url}")
         if abrir:
-            webbrowser.open(url)
+            _abrir_tela(url, encerra=False)
         return
     _SERVIDOR["srv"] = srv
     print(f"Painel em {url}  (Ctrl+C para encerrar)")
     if abrir:
-        threading.Timer(0.8, lambda: webbrowser.open(url)).start()
+        threading.Timer(0.8, lambda: _abrir_tela(url)).start()
     try:
         srv.serve_forever()
     except KeyboardInterrupt:
