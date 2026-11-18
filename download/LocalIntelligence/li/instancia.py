@@ -66,9 +66,10 @@ def _chave(build: Optional[dict]) -> tuple:
 
 def mesma_versao(a: Optional[dict], b: Optional[dict]) -> bool:
     a, b = a or {}, b or {}
-    if a.get("impressao") and b.get("impressao"):
-        return a["impressao"] == b["impressao"]
-    return False
+    if a.get("impressao") and b.get("impressao") and a["impressao"] == b["impressao"]:
+        return True
+    # o ZIP e a Microsoft Store do mesmo commit têm impressões diferentes (finais de linha do Windows): o commit decide
+    return bool(a.get("commit")) and a.get("commit") not in ("dev",) and a.get("commit") == b.get("commit")
 
 
 def mais_nova(outra: Optional[dict], minha: Optional[dict]) -> bool:

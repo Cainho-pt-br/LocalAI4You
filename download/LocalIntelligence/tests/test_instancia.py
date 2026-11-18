@@ -73,6 +73,10 @@ class Instancia(unittest.TestCase):
         porta, _ = self.subir({"data": "2026-11-18", "impressao": "igual"})
         self.assertEqual(instancia.preparar(porta, {"data": "2026-11-18", "impressao": "igual"})["acao"], "mesma")
 
+    def test_zip_e_store_do_mesmo_commit_sao_a_mesma_versao(self):
+        porta, _ = self.subir({"data": "2026-11-18", "commit": "e684d7a", "impressao": "store"})
+        self.assertEqual(instancia.preparar(porta, {"data": "2026-11-18", "commit": "e684d7a", "impressao": "zip"})["acao"], "mesma")
+
     def test_atalho_antigo_nao_derruba_versao_nova(self):
         porta, _ = self.subir({"data": "2026-11-20", "impressao": "nova"})
         self.assertEqual(instancia.preparar(porta, {"data": "2026-11-01", "impressao": "velha"})["acao"], "mais_nova")
