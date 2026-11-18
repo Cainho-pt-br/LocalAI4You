@@ -43,10 +43,19 @@ async function abrirQuants(candId, papelId, maquinaId) {
 }
 
 // ---------------------------------------------------------------- RADAR
+function radarAvancado() { try { return localStorage.getItem('li-radar-avancado') === '1'; } catch (e) { return false; } }
+function trocarRadar(avancado) { try { localStorage.setItem('li-radar-avancado', avancado ? '1' : '0'); } catch (e) { /* ok */ } pRadar(); window.scrollTo({ top: 0 }); }
+/* App baixado: a mesma tela simples do site, para o hardware DESTE computador, com o botão de instalar. */
+async function pRadarSimples(raiz) {
+  await pRadarPublico(raiz);
+  const topo = raiz.querySelector('.pagina-topo');
+  if (topo) topo.append(h('div', { class: 'radar-modo' }, h('button', { class: 'btn mini', onclick: () => trocarRadar(true) }, '⚙ Modo avançado: todos os candidatos, filtros e varredura')));
+}
 async function pRadar() {
   const raiz = $('#p-radar'), f = S.filtroRadar;
   if (window.LI_PUBLIC_MODE) return pRadarPublico(raiz);
   if (!S.mesa) return;
+  if (!radarAvancado()) return pRadarSimples(raiz);
   if (!S.calc) { try { await garantirCalc(); } catch (e) { /* radar ainda não rodou */ } }
   const local = S.mesa.boss?.id || 'local';
   const maquinas = (S.calc?.maquinas || []).map(x => ({ id: x.id, nome: x.nome || x.id }));
@@ -61,6 +70,7 @@ async function pRadar() {
   [maqSel, papSel, cCom, cAnt, capSel, ordSel].forEach(e => e.addEventListener('change', recarregar));
   const rd = S.mesa.radar;
   const topo = [
+    h('div', { class: 'radar-modo' }, h('button', { class: 'btn mini', onclick: () => trocarRadar(false) }, '← Voltar para o modo simples: o melhor para o seu computador')),
     h('div', { class: 'pagina-topo' }, h('div', { class: 'linha topo' }, h('div', {}, h('h1', {}, 'Radar de modelos'), h('p', { class: 'sub' }, 'Varre a biblioteca do Ollama e os laboratórios no Hugging Face e calcula o que CABE em cada máquina.')),
       h('div', { class: 'linha' }, rd.existe ? h('span', { class: 'sub' }, rd.embutido ? `Catálogo de ${fmtData(rd.criado)} · ${rd.total} candidatos` : `Última varredura ${fmtIdade(rd.idade_dias)} · ${rd.total} candidatos`) : null,
         h('button', { class: 'btn primario', onclick: () => varrer(true) }, rd.existe ? 'Varrer de novo' : 'Primeira varredura')))),
@@ -176,12 +186,59 @@ function cartaoRadarPublico(x, pos, perfil, dados) {
       h('div', { class: 'radar-fit' }, h('b', {}, v.quant), h('span', {}, fmtGB(v.bytes)))),
     medidoresRadar(x),
     h('p', { class: 'radar-porque' }, porqueDoModelo(x, perfil)),
-    cmd('ollama pull ' + v.pull),
+    !window.LI_PUBLIC_MODE && dados._aoInstalar ? h('div', { class: 'linha', style: 'gap:8px;flex-wrap:wrap' }, h('button', { class: 'btn mini primario', onclick: () => dados._aoInstalar(c, x.papel, v.pull) }, '⬇ Instalar'), cmd('ollama run ' + v.pull)) : cmd('ollama run ' + v.pull),
     h('details', { class: 'radar-mais' }, h('summary', {}, 'Mais sobre este modelo'),
       LI_CALC_UI.blocoDescricao(c),
       h('div', { class: 'linha', style: 'justify-content:flex-start;gap:8px;flex-wrap:wrap;margin-top:8px' },
         h('button', { class: 'btn mini', onclick: abrirTudo }, `Todas as ${(c.variantes || []).length} versões e quanto contexto cabe`),
         ...LI_CALC_UI.linksDoModelo(c).slice(0, 3).map(([t, u]) => linkExterno(u, t)).filter(Boolean))));
+}
+
+/* "Seu modelo de IA": a resposta para quem está começando, antes de qualquer lista. O mais indicado que cabe, dito em
+   palavras simples (velocidade em palavras por segundo, memória que ocupa, para que serve) e o passo a passo para usar. */
+const USO_VERBO = { chat_pt: 'conversar e escrever', codigo: 'programar', agente: 'automatizar tarefas', regras: 'organizar e extrair dados', raciocinio: 'matemática e raciocínio', rapido: 'tarefas rápidas', visao: 'ler imagens e documentos', contexto: 'textos longos' };
+function ritmoLeitura(tps) {
+  const p = Math.max(1, Math.round(tps * 0.7));      // ~0,7 palavra por token em português e inglês
+  const como = p >= 8 ? 'mais rápido do que você lê' : p >= 4 ? 'no ritmo da sua leitura' : p >= 2 ? 'um pouco mais devagar que a leitura' : 'devagar: bom para tarefas sem pressa';
+  return [p, como];
+}
+function cartaoSeuModelo(x, perfil, dados, nomeUso) {
+  const { c, enc } = x, v = enc.variante;
+  const tps = enc.tps_est ? (enc.tps_est[0] + enc.tps_est[1]) / 2 : 0;
+  const [palavras, como] = ritmoLeitura(tps);
+  const usos = (x.papeis || []).map(p => USO_VERBO[p]).filter(Boolean);
+  const onde = perfil.gpu && !perfil.unificada ? 'da sua placa de vídeo' : 'da memória do seu computador';
+  const local = !window.LI_PUBLIC_MODE && typeof dados._aoInstalar === 'function';
+  const instalado = local && dados._instalados && dados._instalados().some(id => id === v.pull || id === v.pull + ':latest');
+  const comando = 'ollama run ' + v.pull;
+  const passos = local
+    ? [h('li', {}, instalado ? h('span', {}, h('b', {}, 'Já está instalado. '), 'Abra o Ollama ou o seu programa de conversa e escolha este modelo.')
+        : h('span', {}, h('b', {}, 'Clique em “Instalar este modelo”. '), `O download tem ${fmtGB(v.bytes)} e roda em segundo plano.`)),
+       h('li', {}, h('b', {}, 'Para conversar no Terminal: '), 'cole o comando abaixo e escreva sua pergunta. Para sair, digite /bye.'),
+       h('li', {}, h('b', {}, 'Quer conferir se é o melhor para você? '), 'Instale um segundo modelo da lista e faça um duelo na aba Medir.')]
+    : [h('li', {}, h('b', {}, 'Instale o Ollama '), '(grátis): é o programa que roda o modelo. ', h('a', { href: 'https://ollama.com/download', target: '_blank', rel: 'noopener' }, 'ollama.com/download ↗')),
+       h('li', {}, h('b', {}, 'Abra o Terminal '), '(no Windows: tecla Windows, digite “Terminal” e Enter; no Mac: Cmd+Espaço, “Terminal”) e cole o comando abaixo. Na primeira vez ele baixa o modelo.'),
+       h('li', {}, h('b', {}, 'Escreva sua pergunta e aperte Enter. '), 'Para sair, digite /bye. Funciona sem internet depois do download.')];
+  return h('section', { class: 'seu-modelo' },
+    h('div', { class: 'seu-modelo-topo' },
+      nomeUso ? h('span', { class: 'seu-modelo-kicker' }, h('span', {}, 'Seu modelo para'), ' ', h('span', {}, nomeUso)) : h('span', { class: 'seu-modelo-kicker' }, 'Seu modelo de IA'),
+      h('h2', {}, nomeAmigavelModelo(c.nome)),
+      h('p', { class: 'seu-modelo-porque' }, x.lento ? 'É o que melhor roda no seu computador, mas vai responder devagar.' : 'O mais inteligente que roda bem no seu computador.')),
+    h('ul', { class: 'seu-modelo-fatos' },
+      h('li', {}, h('b', {}, `~${palavras} palavras por segundo`), h('span', {}, como)),
+      h('li', {}, h('b', {}, `${fmtGB(v.bytes)}`), h('span', {}, `ocupa isso ${onde}`)),
+      usos.length ? h('li', {}, h('b', {}, 'Bom para'), h('span', {}, usos.slice(0, 4).join(', '))) : null),
+    h('div', { class: 'seu-modelo-acao' },
+      local && !instalado ? h('button', { class: 'btn primario', onclick: () => dados._aoInstalar(c, x.papel, v.pull) }, '⬇ Instalar este modelo') : null,
+      cmd(comando)),
+    h('ol', { class: 'seu-modelo-passos' }, passos),
+    h('details', { class: 'seu-modelo-glossario' }, h('summary', {}, 'O que esses termos querem dizer?'),
+      h('dl', {},
+        h('dt', {}, 'Modelo de IA'), h('dd', {}, 'O “cérebro” que responde. Roda no seu computador, sem enviar nada para a internet.'),
+        h('dt', {}, 'Ollama'), h('dd', {}, 'O programa gratuito que baixa e roda os modelos. O comando “ollama run” baixa e já abre a conversa.'),
+        h('dt', {}, `${v.quant} (a versão)`), h('dd', {}, 'Os modelos vêm compactados em versões de tamanhos diferentes. Escolhemos a que cabe na sua memória sem perder muita qualidade.'),
+        h('dt', {}, 'Palavras por segundo'), h('dd', {}, 'A velocidade da resposta. Acima de 4 dá para acompanhar lendo; abaixo de 2 fica cansativo.'),
+        h('dt', {}, 'Estimado'), h('dd', {}, 'Calculado pelo tamanho do modelo e pelo seu hardware. O app baixado mede de verdade, no seu computador.'))));
 }
 
 /* Manda o resultado para alguém: o link reabre o Radar já com este computador. No celular usa o compartilhar do sistema. */
@@ -196,6 +253,10 @@ async function compartilharRadar(link, perfil) {
   catch (e) { toast(link, 12000); }
 }
 
+function resumoMaquina(perfil) {
+  return perfil.gpu ? (perfil.unificada ? `${perfil.gpu.nome}, ${fmtN(perfil.ram_gb, 0)} GB de memória` : `${perfil.gpu.nome} com ${fmtN(perfil.gpu.vram_gb, 0)} GB, ${fmtN(perfil.ram_gb, 0)} GB de RAM`)
+    : `sem placa de vídeo, ${fmtN(perfil.ram_gb, 0)} GB de RAM`;
+}
 async function pRadarPublico(raiz) {
   const f = S.filtroRadar;
   let dados;
@@ -225,15 +286,22 @@ async function pRadarPublico(raiz) {
       h('span', { class: 'guia-kicker' }, 'RADAR · ESTIMADO PARA O SEU COMPUTADOR'),
       h('h1', {}, 'O que rodar ' + (perfil.gpu ? 'na sua ' + perfil.nome : `no seu computador (sem placa de vídeo, ${fmtN(perfil.ram_gb, 0)} GB de RAM)`)),
       // a escolha do computador vem antes de qualquer explicação: no celular, o primeiro resultado tem de aparecer sem rolar
-      LI_CALC_UI.seletorRapido(E, dados, () => { f.mostrar = POR_LOTE; redesenhar(); }, () => irPara('calculadora'),
-        link ? h('button', { type: 'button', class: 'hw-compartilhar', title: 'Quem abrir o link vê esta mesma lista, para este mesmo computador', onclick: () => compartilharRadar(link, perfil) }, '🔗 Compartilhar') : null),
+      // no app baixado o computador já é conhecido: em vez de botões de placa, uma linha; outro computador é opcional
+      !window.LI_PUBLIC_MODE && E.preset && !f.outroHw
+        ? h('div', { class: 'hw-este' }, h('span', {}, '💻 ', h('b', {}, 'Este computador: '), resumoMaquina(perfil)),
+            h('button', { type: 'button', class: 'hw-compartilhar', onclick: () => { f.outroHw = true; redesenhar(); } }, 'Ver para outro computador'))
+        : LI_CALC_UI.seletorRapido(E, dados, () => { f.mostrar = POR_LOTE; redesenhar(); }, () => irPara('calculadora'),
+            link ? h('button', { type: 'button', class: 'hw-compartilhar', title: 'Quem abrir o link vê esta mesma lista, para este mesmo computador', onclick: () => compartilharRadar(link, perfil) }, '🔗 Compartilhar') : null),
       h('p', { class: 'sub radar-resumo' }, rk.length
-        ? `${rk.length} modelos cabem no seu computador${nomeUso ? ' para ' + nomeUso : ''}, do mais indicado ao menos indicado. Os 5 primeiros, destacados, são as melhores apostas para começar: copie o comando e rode no terminal com o Ollama instalado.`
+        ? `${rk.length} modelos de IA rodam no seu computador${nomeUso ? ' para ' + nomeUso : ''}. Abaixo, o mais indicado e como usar em 3 passos.`
         : 'Nenhum modelo do catálogo cabe com esses critérios.'),
       h('div', { class: 'linha radar-acoes', style: 'justify-content:flex-start;gap:10px;flex-wrap:wrap' },
         h('button', { class: 'btn mini', onclick: () => irPara('calculadora') }, 'Ajustar meu hardware'),
         h('span', { class: 'sub' }, `Catálogo Ollama + Hugging Face de ${fmtData(dados.radar)}`))),
+    rk[0] ? cartaoSeuModelo(rk[0], perfil, dados, f.uso ? (USO_CURTO[f.uso] || f.uso) : null) : null,
+    h('div', { class: 'usos-titulo' }, h('b', {}, 'Vai usar para algo específico?'), h('span', { class: 'sub' }, ' Escolha um uso e o modelo acima muda para o melhor nele.')),
     usos,
+    rk.length > 1 ? h('h2', { class: 'radar-outras' }, `Outras opções que rodam no seu computador (${rk.length - 1})`) : null,
     h('details', { class: 'dica-clean radar-regra' }, h('summary', {}, 'Como esta ordem é feita?'),
       h('ol', { class: 'regra-passos' },
         h('li', {}, h('b', {}, 'Só entra o que cabe'), ' na memória, com compressão de boa qualidade (a partir de ~3 bits por peso).'),
@@ -241,7 +309,7 @@ async function pRadarPublico(raiz) {
         h('li', {}, h('b', {}, 'A velocidade só conta até ficar confortável de ler'), ' (~10 tokens/s). Acima disso não ganha ponto, então um modelo 10× mais rápido e menos capaz não passa na frente. Abaixo disso, desconta.'),
         h('li', {}, 'Cabe no limite, precisa da RAM do PC ou é pouco adotado: desce um pouco.')),
       h('p', { class: 'sub' }, 'Tudo aqui é ', h('b', {}, 'estimado'), '. Se ficar em dúvida entre dois, o duelo do app local roda os dois nas mesmas perguntas no seu PC e mostra qual se sai melhor.')),
-    rk.length ? h('div', { class: 'radar-lista' }, visiveis.map((x, i) => cartaoRadarPublico(x, i, perfil, dados))) : h('div', { class: 'public-empty' }, h('h2', {}, 'Nada coube'), h('p', {}, 'Tente outro uso, menos contexto ou ligue "usar a RAM do PC" nos ajustes avançados da Calculadora.')),
+    rk.length > 1 ? h('div', { class: 'radar-lista' }, visiveis.slice(1).map((x, i) => cartaoRadarPublico(x, i + 1, perfil, dados))) : rk.length ? null : h('div', { class: 'public-empty' }, h('h2', {}, 'Nada coube'), h('p', {}, 'Tente outro uso, menos contexto ou ligue "usar a RAM do PC" nos ajustes avançados da Calculadora.')),
     rk.length > f.mostrar ? h('div', { class: 'linha', style: 'justify-content:center;margin:18px 0' },
       h('button', { class: 'btn', onclick: () => { f.mostrar += POR_LOTE; redesenhar(); } }, `Mostrar mais ${Math.min(POR_LOTE, rk.length - f.mostrar)} (de ${rk.length - f.mostrar} restantes)`)) : null,
     fora.length ? h('details', { class: 'cartao radar-fora' }, h('summary', {}, `Não cabem no seu computador (${fora.length}) — e por quê`),

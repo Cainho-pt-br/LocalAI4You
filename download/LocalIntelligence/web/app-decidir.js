@@ -516,6 +516,30 @@ function abrirVeredito(v) {
         bytesB ? h('span', {}, h('b', {}, fmtGB(bytesB))) : null))) : null;
 
   const venceu = Object.values(v.por_papel).some(r => r.veredito === 'superior' || (r.veredito === 'empate' && r.eficiencia));
+
+  /* Resumo em linguagem simples (para quem não quer ler intervalo de confiança): uma frase de decisão e, por uso,
+     duas barras e quem levou. A tabela técnica continua logo abaixo, recolhida. */
+  const medidos = Object.entries(v.por_papel).filter(([, r]) => r.nota_novo != null);
+  const vitA = medidos.filter(([, r]) => r.veredito === 'superior').length, vitB = medidos.filter(([, r]) => r.veredito === 'inferior').length;
+  const maisRapido = tpsA && tpsB ? (tpsA >= tpsB ? nomeA : nomeB) : null;
+  const decisao = !ehDuelo ? null
+    : vitA > vitB ? `Fique com ${nomeA}: venceu em ${vitA} uso(s)${vitB ? `, contra ${vitB} de ${nomeB}` : ' e não perdeu em nenhum'}.`
+    : vitB > vitA ? `Fique com ${nomeB}: venceu em ${vitB} uso(s)${vitA ? `, contra ${vitA} de ${nomeA}` : ' e não perdeu em nenhum'}.`
+    : maisRapido ? `Empate na qualidade. Fique com ${maisRapido}, que responde mais rápido.` : 'Empate na qualidade: os dois servem.';
+  const resumoVisual = ehDuelo && medidos.length ? h('div', { class: 'duelo-resumo' },
+    h('div', { class: 'duelo-decisao' }, h('span', { class: 'duelo-trofeu' }, '🏆'), h('b', {}, decisao)),
+    h('div', { class: 'duelo-legenda' }, h('span', { class: 'da' }, nomeA), h('span', { class: 'db' }, nomeB)),
+    medidos.map(([pid, r]) => {
+      const p = papelPorId(pid);
+      const quem = r.veredito === 'superior' ? h('span', { class: 'chip ok' }, '🏆 ' + nomeA) : r.veredito === 'inferior' ? h('span', { class: 'chip ok' }, '🏆 ' + nomeB) : h('span', { class: 'chip neutro' }, 'Empate');
+      return h('div', { class: 'duelo-linha-simples' },
+        h('span', { class: 'duelo-uso' }, (p?.icone || '') + ' ' + (p?.rotulo || pid)),
+        h('span', { class: 'duelo-barras2' },
+          h('i', { class: 'da', style: `width:${Math.max(3, Math.min(100, r.nota_novo))}%` }, h('em', {}, fmtN(r.nota_novo, 0))),
+          h('i', { class: 'db', style: `width:${Math.max(3, Math.min(100, r.nota_titular))}%` }, h('em', {}, fmtN(r.nota_titular, 0)))),
+        quem);
+    }),
+    h('p', { class: 'sub', style: 'margin:8px 0 0' }, 'Nota de 0 a 100 nas mesmas perguntas, medida no seu computador. “Empate” quer dizer que a diferença é pequena demais para ter certeza.')) : null;
   const colsCab = ehDuelo ? ['Função', nomeA, nomeB, 'Diferença (A − B)', 'Resultado Pareado'] : ['Função', nomeA + ' (Novo)', 'Modelo atual', 'Diferença', 'Veredito'];
 
   abrirDialogo(h('div', { class: 'dlg-in', style: 'max-width:860px' },
@@ -525,8 +549,11 @@ function abrirVeredito(v) {
         h('h2', {}, ehDuelo ? `${nomeA} × ${nomeB}` : `${nomeA} contra os modelos atuais`)),
       h('button', { class: 'btn mini fantasma', onclick: fecharDialogo }, '✕ Fechar')),
     painelFisicoDuelo,
-    h('p', {}, (v.resumo || '').replaceAll(idA, nomeA).replaceAll(idB || '__none__', nomeB)),
-    h('div', { class: 'tabela-wrap' }, h('table', {}, h('thead', {}, h('tr', {}, colsCab.map((t, i) => h('th', { class: i >= 1 && i <= 3 ? 'num' : '' }, t)))), h('tbody', {}, linhas))),
+    resumoVisual,
+    resumoVisual ? null : h('p', {}, (v.resumo || '').replaceAll(idA, nomeA).replaceAll(idB || '__none__', nomeB)),
+    h(resumoVisual ? 'details' : 'div', { class: resumoVisual ? 'duelo-numeros' : '' },
+      resumoVisual ? h('summary', {}, 'Ver os números detalhados (margem de erro e acertos)') : null,
+      h('div', { class: 'tabela-wrap' }, h('table', {}, h('thead', {}, h('tr', {}, colsCab.map((t, i) => h('th', { class: i >= 1 && i <= 3 ? 'num' : '' }, t)))), h('tbody', {}, linhas)))),
     h('div', { class: 'info-caixa' }, 'Critério estatístico: uma vitória só é declarada quando o Intervalo de Confiança (IC 90%) da diferença não cruza zero e supera 3 pontos. Quando há empate técnico em conhecimento, a velocidade (tok/s), o tamanho em GB e o teto de contexto na GPU definem o vencedor prático.'),
     v.pendente ? h('div', { class: 'dlg-acoes' },
       h('button', { class: 'btn', onclick: () => resolver(v, 'manter') }, ehDuelo ? 'Concluir e arquivar batalha' : 'Manter os modelos atuais (guardar resultado)'),

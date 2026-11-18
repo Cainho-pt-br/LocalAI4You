@@ -36,7 +36,7 @@ See which local AI models run well on your PC, from the smartest to the lightest
 
 ## What's new in this version
 
-Opens in its own window, without browser tabs. One version at a time: if an old version was left open, the new one closes it and shows a notice. Your scores and measured models are kept when you update. More graphics cards (RTX 3060 8 GB and others) and translation fixes.
+New simple mode: the app shows the best AI model for your computer right away, explains it in plain words and gives step-by-step instructions; the duel now says in one sentence which model to keep. Opens in its own window, without browser tabs. One version at a time: if an old version was left open, the new one closes it and shows a notice. Your scores and measured models are kept when you update. More graphics cards (RTX 3060 8 GB and others) and translation fixes.
 
 ## Product features
 
@@ -55,12 +55,13 @@ Opens in its own window, without browser tabs. One version at a time: if an old 
 
 local AI, Ollama, LLM, AI models, benchmark, graphics card, GPU
 
-## Screenshots (1920×1080, in this order) and captions
+## Screenshots (1920×1080, in this order; upload all 5) and captions
 
-1. `en/1-inicio.png` — Find out in seconds which AI runs well on your computer
-2. `en/2-radar.png` — Radar: every model that fits, from best to lightest
-3. `en/3-calculadora.png` — Calculator: memory, context and speed before you download
-4. `en/4-duelo.png` — Duel: two models, the same questions, one winner (or a tie)
+1. `en/1-seu-modelo.png` — The best AI for your computer, with step-by-step instructions to start
+2. `en/2-duelo.png` — Duel: two models, the same questions, one winner (or a tie)
+3. `en/3-placar.png` — Your models on a scoreboard: score per use, speed and memory
+4. `en/4-trocar-placa.png` — Worth a new GPU? See what changes before you buy
+5. `en/5-decidir.png` — What to keep, test or delete, based on your own measurements
 
 ## Other fields
 
