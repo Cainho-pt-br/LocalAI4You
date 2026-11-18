@@ -35,6 +35,10 @@ cd download/LocalIntelligence && python -m unittest discover -s tests
 
 As notas medidas, vereditos e modelos aposentados ficam em `estado/`, fora do pacote, então atualizar não apaga nada. O ZIP guarda ao lado do app (`…\Programs\Local AI 4 You\app\estado`) e a Microsoft Store numa pasta própria (`%LOCALAPPDATA%\LocalAISearch\estado`). Ao abrir, o app traz sozinho os dados de uma instalação anterior (uma vez, sem apagar nem sobrescrever); `python cli.py importar-dados [pasta-estado]` faz o mesmo à mão.
 
+## Uma versão por vez
+
+O painel usa a porta 8765. Ao abrir, ele olha quem já está nela (`li/instancia.py`): a mesma versão ou uma mais nova só ganham a janela; uma versão antiga é fechada (pelo `/api/encerrar` ou, no Windows, encerrando o processo do painel) e a tela avisa. Se a porta não liberar, o painel usa a próxima livre e avisa. O app também mostra quando há outra instalação do ZIP no computador e oferece removê-la, guardando antes uma cópia dos dados dela.
+
 ## Janela do app
 
 O painel abre numa janela própria (Edge ou Chrome em modo aplicativo, sem abas nem barra de endereço) e encerra ao fechá-la, a menos que haja uma tarefa pesada rodando. Sem Edge nem Chrome, abre no navegador padrão. `LI_JANELA=0` ou `"janela_app": false` em `estado/config.json` desliga.

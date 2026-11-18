@@ -36,7 +36,7 @@ See which local AI models run well on your PC, from the smartest to the lightest
 
 ## What's new in this version
 
-Quick computer picker in the Radar, a link to share your result, a better phone layout and fixes.
+Opens in its own window, without browser tabs. One version at a time: if an old version was left open, the new one closes it and shows a notice. Your scores and measured models are kept when you update. More graphics cards (RTX 3060 8 GB and others) and translation fixes.
 
 ## Product features
 

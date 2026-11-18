@@ -263,6 +263,7 @@ async function iniciar() {
   desenharStatus();
   desenhar();
   if (typeof verificarAtualizacao === 'function') setTimeout(verificarAtualizacao, 1500);
+  if (typeof avisarInstancias === 'function') avisarInstancias();
   setInterval(async () => { await carregarJobs(); if (S.aba === 'medir') desenharJobsMedir(); }, 2000);
   setInterval(async () => { const antes = S.saude?.ollama?.no_ar; await carregarSaude(); if (S.saude?.ollama?.no_ar !== antes && typeof desenharPrimeirosPassos === 'function') desenharPrimeirosPassos(); }, 15000);
   setInterval(carregarMaquinas, 30000);

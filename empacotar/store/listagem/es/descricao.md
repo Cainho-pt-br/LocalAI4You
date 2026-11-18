@@ -36,7 +36,7 @@ Descubre qué modelos de IA local funcionan bien en tu PC, del más inteligente 
 
 ## Novedades de esta versión
 
-Selector rápido de tu computadora en el Radar, enlace para compartir el resultado, mejor diseño en el celular y correcciones.
+Se abre en su propia ventana, sin pestañas del navegador. Una versión a la vez: si quedó abierta una versión antigua, la nueva la cierra y muestra un aviso. Tus notas y modelos medidos se mantienen al actualizar. Más tarjetas gráficas (RTX 3060 8 GB y otras) y correcciones de traducción.
 
 ## Características del producto
 

@@ -104,7 +104,7 @@ def cmd_bench(a):
         if s:
             print("   " + " · ".join(f"{k} {v['acc']}% (n={v['n']})" for k, v in s["suites"].items()))
             print("   " + " · ".join(f"{k}: {v['nota']}" for k, v in s["papeis"].items() if v.get("nota") is not None))
-    print("\nAs notas aparecem no painel (1_ABRIR_PAINEL.bat → Decidir).")
+    print("\nAs notas aparecem no app, em Decidir e em Meus modelos.")
     print("Se o Local AI 4 You te ajudou: ♥ https://github.com/Cainho-pt-br/LocalAI4You#apoiar-o-projeto")
 
 
