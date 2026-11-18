@@ -36,7 +36,7 @@ Descubre qué modelos de IA local funcionan bien en tu PC, del más inteligente 
 
 ## Novedades de esta versión
 
-Se abre en su propia ventana, sin pestañas del navegador. Una versión a la vez: si quedó abierta una versión antigua, la nueva la cierra y muestra un aviso. Tus notas y modelos medidos se mantienen al actualizar. Más tarjetas gráficas (RTX 3060 8 GB y otras) y correcciones de traducción.
+Nuevo modo simple: la app muestra de inmediato el mejor modelo de IA para tu computadora, lo explica en palabras simples y da el paso a paso; el duelo ahora dice en una frase qué modelo quedarte. Se abre en su propia ventana, sin pestañas del navegador. Una versión a la vez: si quedó abierta una versión antigua, la nueva la cierra y muestra un aviso. Tus notas y modelos medidos se mantienen al actualizar. Más tarjetas gráficas (RTX 3060 8 GB y otras) y correcciones de traducción.
 
 ## Características del producto
 
@@ -55,12 +55,13 @@ Se abre en su propia ventana, sin pestañas del navegador. Una versión a la vez
 
 IA local, Ollama, LLM, modelos de IA, benchmark, tarjeta gráfica, GPU
 
-## Capturas (1920×1080, en este orden) y leyendas
+## Capturas (1920×1080, en este orden; sube las 5) y leyendas
 
-1. `es/1-inicio.png` — Descubre en segundos qué IA funciona bien en tu computadora
-2. `es/2-radar.png` — Radar: todos los modelos que caben, del mejor al más ligero
-3. `es/3-calculadora.png` — Calculadora: memoria, contexto y velocidad antes de descargar
-4. `es/4-duelo.png` — Duelo: dos modelos, las mismas preguntas, un ganador (o empate)
+1. `es/1-seu-modelo.png` — La mejor IA para tu computadora, con el paso a paso para empezar
+2. `es/2-duelo.png` — Duelo: dos modelos, las mismas preguntas, un ganador (o empate)
+3. `es/3-placar.png` — Tus modelos en un marcador: nota por uso, velocidad y memoria
+4. `es/4-trocar-placa.png` — ¿Vale cambiar de tarjeta? Mira lo que cambia antes de gastar
+5. `es/5-decidir.png` — Qué mantener, probar o borrar, según tus propias mediciones
 
 ## Otros campos
 

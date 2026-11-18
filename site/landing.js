@@ -101,7 +101,7 @@
       return `<li class="l-pos p${i + 1}" style="--d:${i * 70}ms">
         <span class="medalha m${i + 1}">${i + 1}</span>
         <div class="l-pos-info"><b>${esc(e.c.nome)}</b><span class="sub">${esc(v.quant || '')} · ~${tps(e)} tok/s ${usos ? '· ' + usos : ''}</span>
-          ${v.pull ? `<code class="l-pull">ollama pull ${esc(v.pull)}</code>` : ''}</div>
+          ${v.pull ? `<code class="l-pull">ollama run ${esc(v.pull)}</code>` : ''}</div>
         <div class="l-pos-nota"><span>${Math.round(e.nota)}</span><i style="--w:${Math.max(8, Math.round(100 * e.nota / max))}%"></i></div>
       </li>`;
     }).join('');

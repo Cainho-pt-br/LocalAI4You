@@ -317,7 +317,7 @@ function paginaHardware(L, D, h, av, todos) {
 
   const item = (x, i) => {
     const v = x.enc.variante, nivel = x.enc.encaixe && x.enc.encaixe.nivel;
-    const cmd = 'ollama pull ' + v.pull;
+    const cmd = 'ollama run ' + v.pull;   // run: baixa na primeira vez e já abre a conversa (o passo que um iniciante quer)
     return `    <li class="pg-item${i < 3 ? ' pg-top' : ''}">
       <span class="pg-pos">${i + 1}</span>
       <div class="pg-info">

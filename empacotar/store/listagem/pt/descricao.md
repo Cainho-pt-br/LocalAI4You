@@ -36,7 +36,7 @@ Descubra quais modelos de IA local rodam bem no seu PC, do mais inteligente ao m
 
 ## Novidades desta versão
 
-Abre numa janela própria, sem abas de navegador. Uma versão por vez: se uma versão antiga ficou aberta, a nova fecha a antiga e mostra um aviso. Suas notas e modelos medidos continuam ao atualizar. Mais placas de vídeo (RTX 3060 8 GB e outras) e correções de tradução.
+Novo modo simples: o app mostra logo o melhor modelo de IA para o seu computador, explica em palavras simples e dá o passo a passo; o duelo agora diz em uma frase qual modelo manter. Abre numa janela própria, sem abas de navegador. Uma versão por vez: se uma versão antiga ficou aberta, a nova fecha a antiga e mostra um aviso. Suas notas e modelos medidos continuam ao atualizar. Mais placas de vídeo (RTX 3060 8 GB e outras) e correções de tradução.
 
 ## Recursos do produto (até 20, 200 caracteres cada)
 
@@ -55,12 +55,13 @@ Abre numa janela própria, sem abas de navegador. Uma versão por vez: se uma ve
 
 IA local, Ollama, LLM, modelos de IA, benchmark, placa de vídeo, inteligência artificial
 
-## Capturas de tela (1920×1080, nesta ordem) e legendas
+## Capturas de tela (1920×1080, nesta ordem; envie as 5) e legendas
 
-1. `pt/1-inicio.png` — Descubra em segundos qual IA roda bem no seu computador
-2. `pt/2-radar.png` — Radar: todos os modelos que cabem, do melhor ao mais leve
-3. `pt/3-calculadora.png` — Calculadora: memória, contexto e velocidade antes de baixar
-4. `pt/4-duelo.png` — Duelo: dois modelos, as mesmas perguntas, um vencedor (ou empate)
+1. `pt/1-seu-modelo.png` — A melhor IA para o seu computador, com o passo a passo para começar
+2. `pt/2-duelo.png` — Duelo: dois modelos, as mesmas perguntas, um vencedor (ou empate)
+3. `pt/3-placar.png` — Seus modelos num placar: nota por uso, velocidade e memória
+4. `pt/4-trocar-placa.png` — Vale trocar de placa? Veja o que muda antes de gastar
+5. `pt/5-decidir.png` — O que manter, testar ou apagar, a partir das suas medições
 
 ## Outros campos
 

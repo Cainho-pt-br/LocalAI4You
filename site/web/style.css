@@ -1066,3 +1066,45 @@ nav.abas button[aria-selected="true"]::before { content: ''; position: absolute;
 nav.abas .grupo { color: color-mix(in srgb, var(--muted) 85%, transparent); }
 .aviso-atualizacao { display:flex; align-items:center; gap:10px 14px; flex-wrap:wrap; margin:0 0 18px; padding:12px 16px; border-radius:var(--radius-sm); border:1px solid color-mix(in srgb, var(--ok) 45%, transparent); background:color-mix(in srgb, var(--ok) 12%, var(--surface)); }
 .aviso-atualizacao span { flex:1 1 320px; }
+
+/* "Seu modelo de IA": a resposta principal do Radar, para quem está começando */
+.seu-modelo { position:relative; margin:18px 0 22px; padding:22px 24px; border-radius:calc(var(--radius) + 4px); background:var(--surface);
+  border:1.5px solid color-mix(in srgb, var(--ink) 45%, transparent); box-shadow:0 18px 50px -24px color-mix(in srgb, var(--ink) 55%, transparent), var(--shadow); }
+.seu-modelo::before { content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  background:radial-gradient(60% 80% at 100% 0%, color-mix(in srgb, var(--prio) 14%, transparent), transparent 70%); }
+.seu-modelo-kicker { font-size:.74rem; font-weight:800; letter-spacing:.14em; color:var(--ink); text-transform:uppercase; }
+.hw-este { display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin:12px 0 4px; padding:10px 14px; border-radius:var(--radius-sm); background:var(--surface-2); font-size:.92rem; }
+.seu-modelo h2 { font-size:clamp(1.5rem, 3.4vw, 2.1rem); letter-spacing:-.02em; margin:6px 0 4px; overflow-wrap:anywhere; }
+.seu-modelo-porque { margin:0; color:var(--muted); font-size:1rem; }
+.seu-modelo-fatos { list-style:none; padding:0; margin:16px 0; display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:10px; }
+.seu-modelo-fatos li { display:flex; flex-direction:column; gap:2px; padding:10px 14px; border-radius:var(--radius-sm); background:var(--surface-2); }
+.seu-modelo-fatos b { font-size:1.02rem; } .seu-modelo-fatos span { font-size:.86rem; color:var(--muted); }
+.seu-modelo-acao { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.seu-modelo-acao .cmd { flex:1 1 320px; margin:0; }
+.seu-modelo-passos { margin:16px 0 4px; padding-left:22px; line-height:1.6; }
+.seu-modelo-passos li { margin-bottom:6px; }
+.seu-modelo-glossario { margin-top:10px; font-size:.9rem; }
+.seu-modelo-glossario summary { cursor:pointer; color:var(--link); font-weight:600; }
+.seu-modelo-glossario dl { margin:10px 0 0; display:grid; grid-template-columns:max-content 1fr; gap:6px 14px; }
+.seu-modelo-glossario dt { font-weight:700; } .seu-modelo-glossario dd { margin:0; color:var(--muted); }
+.usos-titulo { margin:6px 0 2px; }
+.radar-outras { font-size:1.15rem; margin:22px 0 8px; }
+.radar-modo { margin:0 0 12px; }
+.pagina-topo .radar-modo { margin:10px 0 0; }
+@media (max-width:600px) { .seu-modelo { padding:18px 16px; } .seu-modelo-glossario dl { grid-template-columns:1fr; } .seu-modelo-glossario dd { margin-bottom:6px; } }
+
+/* duelo em linguagem simples */
+.duelo-resumo { margin:14px 0; padding:16px 18px; border-radius:var(--radius); background:var(--surface-2); }
+.duelo-decisao { display:flex; gap:10px; align-items:center; font-size:1.05rem; margin-bottom:12px; }
+.duelo-trofeu { font-size:1.5rem; }
+.duelo-legenda { display:flex; gap:16px; font-size:.82rem; font-weight:700; margin-bottom:8px; }
+.duelo-legenda span::before { content:""; display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:6px; vertical-align:-1px; }
+.duelo-legenda .da::before, .duelo-barras2 .da { background:linear-gradient(90deg, var(--ink), color-mix(in srgb, var(--ink) 70%, #fff)); }
+.duelo-legenda .db::before, .duelo-barras2 .db { background:linear-gradient(90deg, #f59e0b, #fbbf24); }
+.duelo-linha-simples { display:grid; grid-template-columns:minmax(150px, 230px) 1fr auto; gap:12px; align-items:center; padding:7px 0; border-top:1px solid var(--line); }
+.duelo-uso { font-size:.9rem; font-weight:600; }
+.duelo-barras2 { display:flex; flex-direction:column; gap:3px; }
+.duelo-barras2 i { display:block; height:14px; border-radius:7px; position:relative; min-width:26px; }
+.duelo-barras2 em { position:absolute; right:6px; top:-1px; font-style:normal; font-size:.7rem; font-weight:800; color:#fff; }
+.duelo-numeros { margin:10px 0; } .duelo-numeros > summary { cursor:pointer; color:var(--link); font-weight:600; margin-bottom:8px; }
+@media (max-width:640px) { .duelo-linha-simples { grid-template-columns:1fr; gap:4px; } }
