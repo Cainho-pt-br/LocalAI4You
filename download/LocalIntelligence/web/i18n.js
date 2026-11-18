@@ -49,7 +49,7 @@
       let s = t;
       for (const [re, sub] of regras) s = s.replace(re, sub);
       // só aceita se não sobrar português no meio (melhor a frase inteira em pt do que uma mistura)
-      if (s !== t && !/ção|ções|[ãõ]|\b(não|você|seu|sua|uma|também|placa|apenas|está)\b/i.test(s)) r = LANG === 'en' ? s.replace(/(\d),(\d{1,2})(?!\d)/g, '$1.$2') : s;
+      if (s !== t && !/ção|ções|[ãõ]|\b(não|você|seu|sua|uma|também|placa|apenas|está|nível|ligad[oa]|raciocínio)\b/i.test(s)) r = LANG === 'en' ? s.replace(/(\d),(\d{1,2})(?!\d)/g, '$1.$2') : s;
     }
     if (r == null) return LANG === 'en' ? texto.replace(/(\d),(\d)/g, '$1.$2') : texto;
     const ini = texto.match(/^\s*/)[0], fim = texto.match(/\s*$/)[0];

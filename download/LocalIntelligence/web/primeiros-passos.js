@@ -72,3 +72,34 @@ async function verificarAtualizacao() {
     h('a', { class: 'btn primario mini', href: typeof LINK_ZIP === 'string' ? LINK_ZIP : '#', target: '_blank', rel: 'noopener' }, 'Baixar a nova versão'),
     h('button', { type: 'button', class: 'btn mini', onclick: ev => { try { sessionStorage.setItem('li-atualizacao-vista', '1'); } catch (e) { /* ok */ } ev.target.closest('.aviso-atualizacao').remove(); } }, 'Depois')), el);
 }
+
+/* Uma versão por vez: avisa quando a versão antiga que estava aberta foi fechada, quando ela não fechou, e quando há
+   outra instalação do app neste computador (atalhos diferentes abririam versões diferentes). */
+function avisarInstancias() {
+  const sd = S.saude;
+  if (window.LI_PUBLIC_MODE || !sd) return;
+  const inst = sd.instancia || {};
+  if (inst.acao === 'substituida') toast('Uma versão antiga do Local AI 4 You estava aberta e foi fechada. Você está na versão nova.', 8000);
+  const avisos = [];
+  if (inst.acao === 'outra_porta') avisos.push(h('div', { class: 'aviso-atualizacao' },
+    h('span', {}, '⚠ ', h('b', {}, 'Uma versão antiga continua aberta em segundo plano. '), 'Reinicie o computador para fechá-la; esta janela já é a versão nova.')));
+  let oculto = false; try { oculto = sessionStorage.getItem('li-antigas-vistas') === '1'; } catch (e) { /* ok */ }
+  for (const a of (oculto ? [] : (sd.antigas || []))) {
+    const caixa = h('div', { class: 'aviso-atualizacao' },
+      h('span', {}, '🧹 ', h('b', {}, 'Há outra instalação do Local AI 4 You neste computador. '),
+        'Atalhos diferentes podem abrir versões diferentes. ', h('span', { class: 'sub' }, a.pasta)),
+      h('button', { type: 'button', class: 'btn primario mini', onclick: async ev => {
+        if (!confirm('Remover a outra instalação? As notas e os modelos medidos dela ficam guardados nesta versão.')) return;
+        ev.target.disabled = true;
+        try {
+          const r = await api('/api/instalacao-antiga/remover', { pasta: a.pasta });
+          toast(r.removida ? 'Instalação antiga removida. Seus dados foram guardados nesta versão.' : 'Não consegui apagar tudo: feche a outra versão e tente de novo.', 8000);
+          if (r.removida) caixa.remove(); else ev.target.disabled = false;
+        } catch (e) { toast(e.message, 9000); ev.target.disabled = false; }
+      } }, 'Remover a instalação antiga'),
+      h('button', { type: 'button', class: 'btn mini', onclick: () => { try { sessionStorage.setItem('li-antigas-vistas', '1'); } catch (e) { /* ok */ } caixa.remove(); } }, 'Agora não'));
+    avisos.push(caixa);
+  }
+  const el = document.getElementById('primeiros-passos');
+  if (el) for (const a of avisos) el.parentNode.insertBefore(a, el);
+}

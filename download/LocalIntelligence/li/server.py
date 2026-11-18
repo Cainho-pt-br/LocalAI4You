@@ -72,7 +72,25 @@ def r_saude(q):
     return {"versao_painel": __version__, "build": _build(), "protocolo": PROTOCOLO, "ollama": {"no_ar": up, "instalado": up or ollama_instalado(), "versao": o.versao() if up else None, "url": o.url},
             "gpu": g, "disco_modelos_livre_gb": parque.espaco_livre_gb(pasta_modelos()), "pasta_modelos": str(pasta_modelos()),
             "tarefa_pesada": GERENTE.bloqueio(),
-            "avisos_internos": ERROS_PARALELO[-3:]}
+            "avisos_internos": ERROS_PARALELO[-3:],
+            "pasta_app": str(config.RAIZ), "instancia": _SERVIDOR.get("instancia"), "antigas": _antigas()}
+
+
+def _antigas() -> list:
+    try:
+        from . import migracao
+        return migracao.instalacoes_antigas()
+    except Exception:
+        return []
+
+
+def p_remover_antiga(corpo):
+    """Botão "Remover a instalação antiga": guarda uma cópia dos dados dela, importa o que faltar e apaga a pasta e os atalhos."""
+    from . import migracao
+    try:
+        return migracao.remover_instalacao(str(corpo.get("pasta") or ""))
+    except ValueError as e:
+        raise Erro(str(e))
 
 
 def r_mesa(q):
@@ -591,7 +609,7 @@ def p_maq_sincronizar(b):
 
 
 GET_ROTAS.update({"/api/visao/comparar": lambda q: lab.visao_comparar(), "/api/bench/niveis": r_bench_niveis, "/api/maquinas": r_maquinas, "/api/radar/snapshot": r_radar_snapshot})
-CONTROLE = {"/api/encerrar", "/api/maquinas", "/api/maquinas/registrar", "/api/maquinas/remover", "/api/maquinas/sincronizar-radar"}   # só pelo loopback: o remoto não encadeia
+CONTROLE = {"/api/encerrar", "/api/instalacao-antiga/remover", "/api/maquinas", "/api/maquinas/registrar", "/api/maquinas/remover", "/api/maquinas/sincronizar-radar"}   # só pelo loopback: o remoto não encadeia
 
 
 _SERVIDOR: Dict[str, Any] = {}
@@ -611,7 +629,7 @@ def p_ollama_iniciar(corpo):
     return {"ok": True, "versao": o.versao()}
 
 
-POST_ROTAS = {"/api/encerrar": p_encerrar, "/api/ollama/iniciar": p_ollama_iniciar, "/api/aposentar": p_remover, "/api/radar/varrer": p_varrer, "/api/bench": p_bench, "/api/sonda": p_sonda,
+POST_ROTAS = {"/api/encerrar": p_encerrar, "/api/instalacao-antiga/remover": p_remover_antiga, "/api/ollama/iniciar": p_ollama_iniciar, "/api/aposentar": p_remover, "/api/radar/varrer": p_varrer, "/api/bench": p_bench, "/api/sonda": p_sonda,
               "/api/desafio": p_desafio, "/api/duelo": p_duelo, "/api/fixar-ctx": p_fixar_ctx,
               "/api/baixar": p_baixar, "/api/atualizar": p_atualizar, "/api/promover": p_promover, "/api/veredito": p_veredito, "/api/remover": p_remover,
               "/api/offline/exportar": p_exportar, "/api/offline/verificar": p_verificar, "/api/cancelar": p_cancelar,
@@ -756,14 +774,32 @@ def _abrir_tela(url: str, encerra: bool = True) -> None:
 
 def servir(porta: Optional[int] = None, abrir: bool = True, iniciar_ollama: bool = True) -> None:
     config.garantir_pastas()
+    from . import instancia, migracao
     try:        # traz as notas e os vereditos de uma instalação anterior (ZIP ↔ Microsoft Store), uma única vez
-        from . import migracao
         r = migracao.importar_dados_antigos()
         if r:
             print(f"Dados da instalação anterior importados de {r['origem']}: {', '.join(r['arquivos'])}")
+        migracao.limpar_config_importada()
     except Exception as e:      # nunca impede o app de abrir
         print("  aviso: não consegui importar os dados antigos:", e)
-    porta = porta or int(config.carregar()["painel_porta"])
+    pedida = porta or int(config.carregar()["painel_porta"])
+    # uma versão por vez: a antiga que ficou aberta na porta é fechada; a mesma versão (ou uma mais nova) só ganha a janela
+    try:
+        inst = instancia.preparar(pedida, _build())
+    except Exception as e:
+        inst = {"acao": "livre", "porta": pedida, "erro": str(e)}
+    _SERVIDOR["instancia"] = inst
+    porta = inst["porta"]
+    url = f"http://127.0.0.1:{porta}/"
+    if inst["acao"] in ("mesma", "mais_nova"):
+        print(f"O painel já está aberto ({'esta versão' if inst['acao'] == 'mesma' else 'uma versão mais nova'}). Abrindo {url}")
+        if abrir:
+            _abrir_tela(url, encerra=False)
+        return
+    if inst["acao"] == "substituida":
+        print(f"Uma versão antiga do painel estava aberta na porta {porta} e foi fechada.")
+    elif inst["acao"] == "outra_porta":
+        print(f"A porta {inst['porta_ocupada']} está ocupada por outro programa ou por uma versão antiga que não fechou; usando a {porta}.")
     Handler.porta = porta
     if iniciar_ollama:
         o = _oll()
@@ -773,11 +809,10 @@ def servir(porta: Optional[int] = None, abrir: bool = True, iniciar_ollama: bool
                 o.iniciar_servidor()
             except ErroOllama as e:
                 print("  aviso:", e)
-    url = f"http://127.0.0.1:{porta}/"
     try:
         srv = Servidor(("127.0.0.1", porta), Handler)
     except OSError:
-        print(f"A porta {porta} já está em uso — provavelmente o painel já está aberto. Abrindo {url}")
+        print(f"Não consegui abrir a porta {porta}. Abrindo {url}")
         if abrir:
             _abrir_tela(url, encerra=False)
         return
@@ -789,3 +824,5 @@ def servir(porta: Optional[int] = None, abrir: bool = True, iniciar_ollama: bool
         srv.serve_forever()
     except KeyboardInterrupt:
         print("\nPainel encerrado.")
+    finally:
+        srv.server_close()      # libera a porta na hora (uma versão nova pode estar esperando por ela)
