@@ -17,7 +17,22 @@ function _rpc(fn, corpo) {
 }
 
 // ---------------------------------------------------------------- métricas (site)
-const _naoRastrear = () => navigator.doNotTrack === '1' || window.doNotTrack === '1' || navigator.globalPrivacyControl === true;
+const _CHAVE_IGNORAR = 'li-ignorar-visitas';
+(function _sincronizarFlagIgnorar() {
+  try {
+    const q = new URLSearchParams(location.search);
+    const v = q.get('ignorar') ?? q.get('eu');
+    if (v === '1' || v === '0') {
+      if (v === '1') localStorage.setItem(_CHAVE_IGNORAR, '1');
+      else localStorage.removeItem(_CHAVE_IGNORAR);
+      q.delete('ignorar'); q.delete('eu');
+      const qs = q.toString();
+      history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+    }
+  } catch (e) {}
+})();
+const _ignorarProprio = () => { try { return localStorage.getItem(_CHAVE_IGNORAR) === '1'; } catch (e) { return false; } };
+const _naoRastrear = () => navigator.doNotTrack === '1' || window.doNotTrack === '1' || navigator.globalPrivacyControl === true || _ignorarProprio();
 function _sessao() {
   try {
     let s = sessionStorage.getItem('li-sessao');
@@ -42,9 +57,9 @@ function _primeiraVisita() {
 function _origem() {
   try { const r = document.referrer ? new URL(document.referrer).hostname : ''; return r && r !== location.hostname ? r : null; } catch (e) { return null; }
 }
-/* Registra um evento de uso do site. No app local (e com Do Not Track) não faz nada. Nunca atrapalha a página. */
+/* Registra um evento de uso do site. No app local (e com Do Not Track ou navegador do mantenedor) não faz nada. Nunca atrapalha a página. */
 function registrarEvento(tipo, dados = {}) {
-  if (!window.LI_PUBLIC_MODE || _naoRastrear() || /^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname)) return;   // testes locais não contam
+  if (!window.LI_PUBLIC_MODE || _naoRastrear() || /^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname)) return;   // testes locais e acessos próprios não contam
   const corpo = { p_tipo: tipo, p_aba: (typeof S !== 'undefined' && S.aba) || null, p_sessao: _sessao(), p_novo: _primeiraVisita(), p_origem: _origem(), p_utm: _utm(),
     p_dispositivo: window.matchMedia && window.matchMedia('(max-width: 880px)').matches ? 'celular' : 'computador',
     p_idioma: (navigator.language || '').slice(0, 10), p_host: location.hostname, p_dados: dados };

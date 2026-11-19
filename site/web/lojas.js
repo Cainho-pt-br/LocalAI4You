@@ -8,7 +8,14 @@
    questão de honestidade). Cliques são contados nas métricas anônimas do site, quando ativas. */
 const LOJAS_CONFIG = {
   amazonTag: 'localai4you20-20',
+  // Tags por loja Amazon (quando o site está em inglês ou espanhol, usa a loja correspondente se preenchida).
+  amazonTags: { br: 'localai4you20-20', us: '', es: '' },
   awin: { awinId: '', lojas: { kabum: '', pichau: '' } },
+  // Aluguel de GPU na nuvem (útil para quem tem PC sem placa ou pouca VRAM): preencha com seu link de afiliado.
+  nuvem: [
+    { nome: 'RunPod', url: '', desc: 'GPU sob demanda por hora' },
+    { nome: 'Vast.ai', url: '', desc: 'Aluguel econômico de GPUs' },
+  ],
   // Mercado Livre: links curtos de afiliado (meli.la) são POR PRODUTO. Cada item liga um texto de busca (expressão
   // regular, sem diferenciar maiúsculas) ao link do produto; sem correspondência, o botão continua sendo uma busca comum.
   // A memória (VRAM) é o que importa aqui: só liga o link quando a versão do produto bate com a da placa sugerida.
@@ -23,21 +30,35 @@ const LOJAS_CONFIG = {
 };
 
 const _slug = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const _idiomaLojas = () => (typeof window !== 'undefined' && window.LI_IDIOMA) || (typeof document !== 'undefined' && (document.documentElement.lang || '').slice(0, 2)) || 'pt';
 function _awin(loja, url) {
   const a = LOJAS_CONFIG.awin, mid = a.lojas[loja];
   return a.awinId && mid ? `https://www.awin1.com/cread.php?awinmid=${encodeURIComponent(mid)}&awinaffid=${encodeURIComponent(a.awinId)}&ued=${encodeURIComponent(url)}` : url;
 }
 function lojasComAfiliado() {
   const a = LOJAS_CONFIG.awin;
-  return !!(LOJAS_CONFIG.amazonTag || LOJAS_CONFIG.mercadolivre.length || (a.awinId && Object.values(a.lojas).some(Boolean)));
+  const tags = LOJAS_CONFIG.amazonTags || {};
+  return !!(LOJAS_CONFIG.amazonTag || tags.br || tags.us || tags.es || LOJAS_CONFIG.mercadolivre.length ||
+    (LOJAS_CONFIG.nuvem || []).some(n => /^https:\/\//.test(n.url)) || (a.awinId && Object.values(a.lojas).some(Boolean)));
 }
 /* Lojas para um produto (texto de busca, ex.: "RTX 5060 Ti 16GB"). */
 function lojasPara(busca) {
   const q = encodeURIComponent(busca);
+  const lang = _idiomaLojas();
+  const tags = LOJAS_CONFIG.amazonTags || {};
+  if (lang === 'en') {
+    const tag = tags.us || '';
+    return [['Amazon', `https://www.amazon.com/s?k=${q}` + (tag ? `&tag=${encodeURIComponent(tag)}` : ''), !!tag]];
+  }
+  if (lang === 'es') {
+    const tag = tags.es || '';
+    return [['Amazon', `https://www.amazon.es/s?k=${q}` + (tag ? `&tag=${encodeURIComponent(tag)}` : ''), !!tag]];
+  }
+  const tagBr = tags.br || LOJAS_CONFIG.amazonTag || '';
   const mls = LOJAS_CONFIG.mercadolivre.filter(x => x.busca.test(busca));   // mais de um produto da mesma placa: um botão por marca
   // KaBuM e Pichau só aparecem quando há código de afiliado delas (sem comissão, o botão só ocuparia espaço).
   return [
-    ['Amazon', `https://www.amazon.com.br/s?k=${q}` + (LOJAS_CONFIG.amazonTag ? `&tag=${encodeURIComponent(LOJAS_CONFIG.amazonTag)}` : ''), !!LOJAS_CONFIG.amazonTag],
+    ['Amazon', `https://www.amazon.com.br/s?k=${q}` + (tagBr ? `&tag=${encodeURIComponent(tagBr)}` : ''), !!tagBr],
     ['KaBuM', _awin('kabum', `https://www.kabum.com.br/busca/${_slug(busca)}`), !!(LOJAS_CONFIG.awin.awinId && LOJAS_CONFIG.awin.lojas.kabum), true],
     ['Pichau', _awin('pichau', `https://www.pichau.com.br/search?q=${q}`), !!(LOJAS_CONFIG.awin.awinId && LOJAS_CONFIG.awin.lojas.pichau), true],
     ...(mls.length ? mls.map(m => [mls.length > 1 ? 'Mercado Livre · ' + m.marca : 'Mercado Livre', m.url, true])
@@ -49,6 +70,14 @@ function botoesLoja(busca, contexto = {}) {
   return h('div', { class: 'lojas' }, lojasPara(busca).map(([nome, url, afiliado]) =>
     h('a', { class: 'loja', href: url, target: '_blank', rel: afiliado ? 'sponsored noopener' : 'noopener',
       onclick: () => { if (typeof registrarEvento === 'function') registrarEvento('loja', { loja: nome, busca, ...contexto }); } }, nome, ' ↗')));
+}
+/* Botões de GPU na nuvem (só aparecem quando há URL preenchida em LOJAS_CONFIG.nuvem). */
+function botoesNuvem(contexto = {}) {
+  const ativos = (LOJAS_CONFIG.nuvem || []).filter(n => /^https:\/\//.test(n.url));
+  if (!ativos.length) return null;
+  return h('div', { class: 'lojas' }, ativos.map(n =>
+    h('a', { class: 'loja', href: n.url, target: '_blank', rel: 'sponsored noopener', title: n.desc || '',
+      onclick: () => { if (typeof registrarEvento === 'function') registrarEvento('loja', { loja: n.nome, busca: 'GPU na nuvem', ...contexto }); } }, n.nome, ' (nuvem) ↗')));
 }
 function avisoLojas() {
   return h('p', { class: 'sub aviso-lojas' }, lojasComAfiliado()
