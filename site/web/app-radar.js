@@ -148,6 +148,56 @@ const FAIXA_TOP = ['★ Melhor aposta', '2º lugar', '3º lugar', 'Top 4', 'Top 
 function lembrarUso() { try { return localStorage.getItem('li-radar-uso') || ''; } catch (e) { return ''; } }
 function guardarUso(u) { try { localStorage.setItem('li-radar-uso', u); } catch (e) { /* navegação privada */ } }
 
+/* "Novo": lançado há até NOVO_DIAS dias. Conta a partir da data de lançamento (o catálogo do site pode ter alguns dias). */
+const NOVO_DIAS = 30;
+function diasDeLancado(c, dados) {
+  const t = c.lancamento ? Date.parse(c.lancamento) : NaN;
+  if (!isNaN(t)) return Math.max(0, Math.floor((Date.now() - t) / 864e5));
+  if (c.dias == null) return null;
+  const idade = dados && dados.radar ? Math.max(0, (Date.now() - Date.parse(dados.radar)) / 864e5) || 0 : 0;
+  return Math.floor(c.dias + idade);
+}
+function ehNovo(c, dados) { const d = diasDeLancado(c, dados); return d != null && d <= NOVO_DIAS; }
+function textoLancado(d) { return d === 0 ? 'Lançado hoje' : d === 1 ? 'Lançado ontem' : `Lançado há ${d} dias`; }
+function chipNovo(c, dados) {
+  const d = diasDeLancado(c, dados);
+  if (d == null || d > NOVO_DIAS) return null;
+  return chip('🆕 Novo', 'novo', textoLancado(d) + (c.data_aproximada ? ' (data aproximada)' : ''));
+}
+
+/* "O que mudou para o seu computador": guardamos o 1º lugar de cada computador+uso. Se o catálogo foi atualizado desde a
+   última visita e o 1º lugar mudou, avisamos uma vez por sessão (mudar de placa ou de uso não conta como novidade). */
+function lerUltimos() { try { return JSON.parse(localStorage.getItem('li-radar-ultimos') || '{}') || {}; } catch (e) { return {}; } }
+function gravarUltimos(m) {
+  try {
+    const ks = Object.keys(m).sort((a, b) => (m[b].quando || 0) - (m[a].quando || 0)).slice(0, 30);
+    localStorage.setItem('li-radar-ultimos', JSON.stringify(Object.fromEntries(ks.map(k => [k, m[k]]))));
+  } catch (e) { /* navegação privada */ }
+}
+function mudancaDoTopo(chave, topo, dados) {
+  S.radarMudou = S.radarMudou || {};
+  if (chave in S.radarMudou) return S.radarMudou[chave];
+  const m = lerUltimos(), antes = m[chave];
+  let mudou = null;
+  if (antes && antes.id !== topo.c.id && antes.nome !== nomeAmigavelModelo(topo.c.nome) && antes.radar && dados.radar && antes.radar !== dados.radar)
+    mudou = { antes: antes.nome, depois: nomeAmigavelModelo(topo.c.nome), novo: ehNovo(topo.c, dados), dias: Math.max(0, Math.round((Date.now() - (antes.quando || Date.now())) / 864e5)) };
+  m[chave] = { id: topo.c.id, nome: nomeAmigavelModelo(topo.c.nome), radar: dados.radar || null, quando: Date.now() };
+  gravarUltimos(m);
+  S.radarMudou[chave] = mudou;
+  return mudou;
+}
+function avisoMudanca(mudou, aoFechar) {
+  if (!mudou) return null;
+  const quando = mudou.dias === 0 ? 'Desde sua última visita' : mudou.dias === 1 ? 'Desde ontem' : `Desde sua última visita, há ${mudou.dias} dias`;
+  return h('div', { class: 'radar-mudou', role: 'status' },
+    h('span', { class: 'radar-mudou-ic', 'aria-hidden': 'true' }, '🆕'),
+    h('div', { class: 'grow' },
+      h('b', {}, 'Novidade para o seu computador'),
+      h('p', {}, h('span', {}, quando + ', a melhor opção mudou:'), ' ', h('s', {}, mudou.antes), ' → ', h('b', {}, mudou.depois), '. ',
+        h('span', {}, mudou.novo ? 'É um modelo lançado há pouco que roda melhor aqui.' : 'O catálogo foi atualizado com versões e lançamentos novos.'))),
+    h('button', { type: 'button', class: 'btn mini', 'aria-label': 'Fechar aviso', onclick: aoFechar }, 'Entendi'));
+}
+
 /* Uma frase do porquê: encaixe, velocidade e para que serve. Tudo ESTIMADO a partir do tamanho do arquivo e do hardware. */
 function porqueDoModelo(x, perfil) {
   const enc = x.enc, nivel = enc.encaixe?.nivel;
@@ -181,7 +231,7 @@ function cartaoRadarPublico(x, pos, perfil, dados) {
       h('span', { class: 'radar-pos', title: top ? 'Entre as 5 melhores apostas para o seu computador' : 'Posição na lista' }, top ? String(pos + 1) : '#' + (pos + 1)),
       h('div', { class: 'grow quebra' },
         h('h2', {}, nomeAmigavelModelo(c.nome)),
-        h('div', { class: 'chips' }, selo ? chip(selo[0], 'ok', selo[1]) : null, x.lento ? chip('⚠ lento demais aqui', 'warn', 'Deve gerar menos de 2 palavras por segundo neste hardware') : x.devagar ? chip('🐢 devagar', 'neutro', 'Funciona, mas a resposta sai devagar neste hardware') : null,
+        h('div', { class: 'chips' }, chipNovo(c, dados), selo ? chip(selo[0], 'ok', selo[1]) : null, x.lento ? chip('⚠ lento demais aqui', 'warn', 'Deve gerar menos de 2 palavras por segundo neste hardware') : x.devagar ? chip('🐢 devagar', 'neutro', 'Funciona, mas a resposta sai devagar neste hardware') : null,
           ...LI_CALC_UI.chipsCaps(c), c.confianca === 'comunidade' ? chip('comunidade', 'neutro', 'Ajuste de terceiros') : null)),
       h('div', { class: 'radar-fit' }, h('b', {}, v.quant), h('span', {}, fmtGB(v.bytes)))),
     medidoresRadar(x),
@@ -222,7 +272,7 @@ function cartaoSeuModelo(x, perfil, dados, nomeUso) {
   return h('section', { class: 'seu-modelo' },
     h('div', { class: 'seu-modelo-topo' },
       nomeUso ? h('span', { class: 'seu-modelo-kicker' }, h('span', {}, 'Seu modelo para'), ' ', h('span', {}, nomeUso)) : h('span', { class: 'seu-modelo-kicker' }, 'Seu modelo de IA'),
-      h('h2', {}, nomeAmigavelModelo(c.nome)),
+      h('h2', {}, nomeAmigavelModelo(c.nome), ehNovo(c, dados) ? [' ', chipNovo(c, dados)] : null),
       h('p', { class: 'seu-modelo-porque' }, x.lento ? 'É o que melhor roda no seu computador, mas vai responder devagar.' : 'O mais inteligente que roda bem no seu computador.')),
     h('ul', { class: 'seu-modelo-fatos' },
       h('li', {}, h('b', {}, `~${palavras} palavras por segundo`), h('span', {}, como)),
@@ -280,6 +330,9 @@ async function pRadarPublico(raiz) {
   const nomeUso = f.uso ? (USO_CURTO[f.uso] || f.uso).toLowerCase() : null;
   const visiveis = rk.slice(0, f.mostrar);
   const link = LI_CALC_UI.linkDoHardware(E);
+  const chaveTopo = perfil.nome + '|' + (perfil.gpu ? perfil.gpu.vram_gb : '') + '|' + perfil.ram_gb + '|' + (f.uso || '');
+  const mudou = rk[0] && !f.mudouFechado ? mudancaDoTopo(chaveTopo, rk[0], dados) : null;
+  const nNovos = rk.filter(x => ehNovo(x.c, dados)).length;
   if (typeof registrarUmaVez === 'function') registrarUmaVez('radar|' + perfil.nome + '|' + (f.uso || ''), 'radar', { perfil: perfil.nome, uso: f.uso || 'tudo', palpite: E.palpite || null, cabem: rk.length, top: rk[0] ? rk[0].c.id : null });
   raiz.replaceChildren(
     h('div', { class: 'pagina-topo radar-topo' },
@@ -294,10 +347,11 @@ async function pRadarPublico(raiz) {
             link ? h('button', { type: 'button', class: 'hw-compartilhar', title: 'Quem abrir o link vê esta mesma lista, para este mesmo computador', onclick: () => compartilharRadar(link, perfil) }, '🔗 Compartilhar') : null),
       h('p', { class: 'sub radar-resumo' }, rk.length
         ? `${rk.length} modelos de IA rodam no seu computador${nomeUso ? ' para ' + nomeUso : ''}. Abaixo, o mais indicado e como usar em 3 passos.`
-        : 'Nenhum modelo do catálogo cabe com esses critérios.'),
+        : 'Nenhum modelo do catálogo cabe com esses critérios.', nNovos ? [' ', h('span', { class: 'radar-novos' }, `Lançados no último mês: ${nNovos} (marcados com 🆕 Novo).`)] : null),
       h('div', { class: 'linha radar-acoes', style: 'justify-content:flex-start;gap:10px;flex-wrap:wrap' },
         h('button', { class: 'btn mini', onclick: () => irPara('calculadora') }, 'Ajustar meu hardware'),
         h('span', { class: 'sub' }, `Catálogo Ollama + Hugging Face de ${fmtData(dados.radar)}`))),
+    avisoMudanca(mudou, () => { f.mudouFechado = true; redesenhar(); }),
     rk[0] ? cartaoSeuModelo(rk[0], perfil, dados, f.uso ? (USO_CURTO[f.uso] || f.uso) : null) : null,
     h('div', { class: 'usos-titulo' }, h('b', {}, 'Vai usar para algo específico?'), h('span', { class: 'sub' }, ' Escolha um uso e o modelo acima muda para o melhor nele.')),
     usos,

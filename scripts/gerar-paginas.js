@@ -73,7 +73,7 @@ const IDIOMAS = {
     cta: 'Ver a lista completa para o meu computador →', cta_calc: 'Simular um upgrade',
     h2_top: (h, n) => `Os ${n} melhores modelos para ${IDIOMAS.pt.para(h)}`,
     sub_top: 'Do mais indicado ao menos indicado. Copie o comando e rode no terminal, com o Ollama instalado.',
-    folga: 'cabe com folga', limite: 'cabe no limite: use contexto menor', lento: 'lento neste hardware',
+    folga: 'cabe com folga', limite: 'cabe no limite: use contexto menor', lento: 'lento neste hardware', novo: 'Novo', novo_dica: 'Lançado no último mês',
     bom_para: 'Bom para', copiar: 'Copiar', copiado: 'Copiado ✓',
     h2_usos: 'O melhor para cada uso', th: ['Uso', 'Modelo', 'Versão', 'Velocidade'],
     h2_fora: 'O que ainda não cabe',
@@ -116,7 +116,7 @@ const IDIOMAS = {
     cta: 'See the full list for my computer →', cta_calc: 'Simulate an upgrade',
     h2_top: (h, n) => `The ${n} best models for ${IDIOMAS.en.para(h)}`,
     sub_top: 'From most to least recommended. Copy the command and run it in the terminal, with Ollama installed.',
-    folga: 'fits comfortably', limite: 'barely fits: use a smaller context', lento: 'slow on this hardware',
+    folga: 'fits comfortably', limite: 'barely fits: use a smaller context', lento: 'slow on this hardware', novo: 'New', novo_dica: 'Released in the last month',
     bom_para: 'Good for', copiar: 'Copy', copiado: 'Copied ✓',
     h2_usos: 'The best pick for each use', th: ['Use', 'Model', 'Version', 'Speed'],
     h2_fora: 'What does not fit yet',
@@ -157,7 +157,7 @@ const IDIOMAS = {
     cta: 'Ver la lista completa para mi computadora →', cta_calc: 'Simular una mejora',
     h2_top: (h, n) => `Los ${n} mejores modelos para ${IDIOMAS.es.para(h)}`,
     sub_top: 'Del más recomendado al menos recomendado. Copia el comando y ejecútalo en la terminal, con Ollama instalado.',
-    folga: 'cabe con holgura', limite: 'cabe justo: usa un contexto menor', lento: 'lento en este hardware',
+    folga: 'cabe con holgura', limite: 'cabe justo: usa un contexto menor', lento: 'lento en este hardware', novo: 'Nuevo', novo_dica: 'Lanzado en el último mes',
     bom_para: 'Bueno para', copiar: 'Copiar', copiado: 'Copiado ✓',
     h2_usos: 'El mejor para cada uso', th: ['Uso', 'Modelo', 'Versión', 'Velocidad'],
     h2_fora: 'Lo que todavía no cabe',
@@ -237,6 +237,9 @@ function formatos(L) {
     faixa: t => !t ? '?' : `${n(t[0], t[0] < 10 ? 1 : 0)}–${n(t[1], t[1] < 10 ? 1 : 0)}`,
   };
 }
+// "Novo": lançado há até 30 dias (o mesmo critério do selo do Radar). Muda a página só no dia em que entra ou sai.
+const NOVO_DIAS = 30;
+const ehNovo = c => { const t = Date.parse(c.lancamento || ''); return !isNaN(t) && (Date.now() - t) / 864e5 <= NOVO_DIAS; };
 const caminho = (L, slug) => `/${L.dir}/${slug ? slug + '.html' : ''}`;
 const alternativas = slug => LISTA_IDIOMAS.map(k => `<link rel="alternate" hreflang="${IDIOMAS[k].html}" href="${URL_SITE}${caminho(IDIOMAS[k], slug)}">`).join('\n')
   + `\n<link rel="alternate" hreflang="x-default" href="${URL_SITE}${caminho(IDIOMAS.en, slug)}">`;
@@ -321,7 +324,7 @@ function paginaHardware(L, D, h, av, todos) {
     return `    <li class="pg-item${i < 3 ? ' pg-top' : ''}">
       <span class="pg-pos">${i + 1}</span>
       <div class="pg-info">
-        <h3>${esc(nomeModelo(x.c))}</h3>
+        <h3>${esc(nomeModelo(x.c))}${ehNovo(x.c) ? ` <span class="pg-novo" title="${esc(L.novo_dica)}">${esc(L.novo)}</span>` : ''}</h3>
         <p class="pg-meta"><b>${esc(v.quant)}</b> · ${F.gb(v.bytes)} GB · ~${F.faixa(x.enc.tps_est)} tok/s · ${x.lento ? L.lento : nivel === 'confortavel' ? L.folga : L.limite}</p>
         <p class="pg-usos">${L.bom_para}: ${x.papeis.map(uso).map(esc).join(', ').toLowerCase()}.</p>
         <div class="cmd"><code>${esc(cmd)}</code><button class="btn mini" type="button" data-copiar="${esc(cmd)}">${L.copiar}</button></div>
