@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Quais IAs rodam no NVIDIA Jetson Orin NX 16 GB com 16 GB? Os melhores modelos locais | Local AI 4 You</title>
-<meta name="description" content="Mais de 40 modelos de IA local cabem no NVIDIA Jetson Orin NX 16 GB com 16 GB. O mais indicado é o qwen3.8 27B (~7,1 tokens/s). Veja os melhores por uso, com o comando do Ollama pronto.">
+<meta name="description" content="Mais de 30 modelos de IA local cabem no NVIDIA Jetson Orin NX 16 GB com 16 GB. O mais indicado é o qwen3.8 27B (~7,1 tokens/s). Veja os melhores por uso, com o comando do Ollama pronto.">
 <link rel="canonical" href="https://localai4you.vercel.app/placa/jetson-orin-nx-16gb.html">
 <link rel="alternate" hreflang="pt-BR" href="https://localai4you.vercel.app/placa/jetson-orin-nx-16gb.html">
 <link rel="alternate" hreflang="en" href="https://localai4you.vercel.app/en/gpu/jetson-orin-nx-16gb.html">
 <link rel="alternate" hreflang="es" href="https://localai4you.vercel.app/es/gpu/jetson-orin-nx-16gb.html">
 <link rel="alternate" hreflang="x-default" href="https://localai4you.vercel.app/en/gpu/jetson-orin-nx-16gb.html">
 <meta property="og:title" content="Quais IAs rodam no NVIDIA Jetson Orin NX 16 GB com 16 GB? Os melhores modelos locais">
-<meta property="og:description" content="Mais de 40 modelos de IA local cabem no NVIDIA Jetson Orin NX 16 GB com 16 GB. O mais indicado é o qwen3.8 27B (~7,1 tokens/s). Veja os melhores por uso, com o comando do Ollama pronto.">
+<meta property="og:description" content="Mais de 30 modelos de IA local cabem no NVIDIA Jetson Orin NX 16 GB com 16 GB. O mais indicado é o qwen3.8 27B (~7,1 tokens/s). Veja os melhores por uso, com o comando do Ollama pronto.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://localai4you.vercel.app/placa/jetson-orin-nx-16gb.html">
 <meta property="og:image" content="https://localai4you.vercel.app/og.png">
@@ -44,7 +44,7 @@
   <section class="pg-cab">
     <span class="l-kicker-s">IA LOCAL · ESTIMADO PARA ESTE HARDWARE</span>
     <h1>Quais IAs rodam no NVIDIA Jetson Orin NX 16 GB com 16 GB?</h1>
-    <p class="l-lead"><b>Mais de 40 modelos</b> de IA (LLMs) cabem no NVIDIA Jetson Orin NX 16 GB com 16 GB e rodam no seu computador, de graça e sem internet. O mais indicado hoje é o <b>qwen3.8 27B</b> (UD-IQ3_XXS, 10,9 GB), que deve gerar cerca de <b>7,1 tokens por segundo</b>.</p>
+    <p class="l-lead"><b>Mais de 30 modelos</b> de IA (LLMs) cabem no NVIDIA Jetson Orin NX 16 GB com 16 GB e rodam no seu computador, de graça e sem internet. O mais indicado hoje é o <b>qwen3.8 27B</b> (UD-IQ3_XXS, 10,9 GB), que deve gerar cerca de <b>7,1 tokens por segundo</b>.</p>
     <ul class="pg-fatos"><li>16 GB de memória unificada</li><li>12,5 GB livres para o modelo</li><li>102 GB/s de banda de memória</li></ul>
     <div class="l-ctas">
       <a class="btn primario l-btn-grande" href="/app.html?chip=jetson-orin-nx&ram=16#radar" data-ev="radar">Ver a lista completa para o meu computador →</a>
@@ -121,15 +121,6 @@
     <li class="pg-item">
       <span class="pg-pos">8</span>
       <div class="pg-info">
-        <h3>qwen3.5 9B</h3>
-        <p class="pg-meta"><b>Q4_K_M</b> · 6,6 GB · ~9,0–15 tok/s · cabe com folga</p>
-        <p class="pg-usos">Bom para: conversa, código, agentes, extrair dados e json, raciocínio, imagens e documentos, documentos longos.</p>
-        <div class="cmd"><code>ollama run qwen3.5:9b-q4_K_M</code><button class="btn mini" type="button" data-copiar="ollama run qwen3.5:9b-q4_K_M">Copiar</button></div>
-      </div>
-    </li>
-    <li class="pg-item">
-      <span class="pg-pos">9</span>
-      <div class="pg-info">
         <h3>gemma4 E4B</h3>
         <p class="pg-meta"><b>padrão</b> · 6,1 GB · ~9,8–16 tok/s · cabe com folga</p>
         <p class="pg-usos">Bom para: conversa, código, agentes, extrair dados e json, raciocínio, imagens e documentos.</p>
@@ -137,12 +128,21 @@
       </div>
     </li>
     <li class="pg-item">
-      <span class="pg-pos">10</span>
+      <span class="pg-pos">9</span>
       <div class="pg-info">
         <h3>nemotron-3.5-bolt E4B</h3>
         <p class="pg-meta"><b>Q4_K_M</b> · 7,9 GB · ~7,6–12 tok/s · cabe com folga</p>
         <p class="pg-usos">Bom para: conversa, código, agentes, extrair dados e json, raciocínio, imagens e documentos.</p>
         <div class="cmd"><code>ollama run nemotron-3.5-bolt:e4b</code><button class="btn mini" type="button" data-copiar="ollama run nemotron-3.5-bolt:e4b">Copiar</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">10</span>
+      <div class="pg-info">
+        <h3>NVIDIA-Nemotron-3.5-Bolt-E4B-BF16</h3>
+        <p class="pg-meta"><b>UD-Q5_K_XL</b> · 5,8 GB · ~10–16 tok/s · cabe com folga</p>
+        <p class="pg-usos">Bom para: conversa, extrair dados e json, imagens e documentos.</p>
+        <div class="cmd"><code>ollama run hf.co/unsloth/NVIDIA-Nemotron-3.5-Bolt-E4B-GGUF:UD-Q5_K_XL</code><button class="btn mini" type="button" data-copiar="ollama run hf.co/unsloth/NVIDIA-Nemotron-3.5-Bolt-E4B-GGUF:UD-Q5_K_XL">Copiar</button></div>
       </div>
     </li>
     </ol>

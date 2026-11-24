@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Best local LLMs for the RTX 4000 Ada 20 GB: what actually runs | Local AI 4 You</title>
-<meta name="description" content="More than 50 local AI models fit on the RTX 4000 Ada 20 GB. The top pick is muse-glimmer 30B (~15 tokens/s). See the best ones by use, with the Ollama command ready to copy.">
+<meta name="description" content="More than 40 local AI models fit on the RTX 4000 Ada 20 GB. The top pick is muse-glimmer 30B (~15 tokens/s). See the best ones by use, with the Ollama command ready to copy.">
 <link rel="canonical" href="https://localai4you.vercel.app/en/gpu/rtx-4000-ada.html">
 <link rel="alternate" hreflang="pt-BR" href="https://localai4you.vercel.app/placa/rtx-4000-ada.html">
 <link rel="alternate" hreflang="en" href="https://localai4you.vercel.app/en/gpu/rtx-4000-ada.html">
 <link rel="alternate" hreflang="es" href="https://localai4you.vercel.app/es/gpu/rtx-4000-ada.html">
 <link rel="alternate" hreflang="x-default" href="https://localai4you.vercel.app/en/gpu/rtx-4000-ada.html">
 <meta property="og:title" content="Best local LLMs for the RTX 4000 Ada 20 GB: what actually runs">
-<meta property="og:description" content="More than 50 local AI models fit on the RTX 4000 Ada 20 GB. The top pick is muse-glimmer 30B (~15 tokens/s). See the best ones by use, with the Ollama command ready to copy.">
+<meta property="og:description" content="More than 40 local AI models fit on the RTX 4000 Ada 20 GB. The top pick is muse-glimmer 30B (~15 tokens/s). See the best ones by use, with the Ollama command ready to copy.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://localai4you.vercel.app/en/gpu/rtx-4000-ada.html">
 <meta property="og:image" content="https://localai4you.vercel.app/og-en.png">
@@ -44,7 +44,7 @@
   <section class="pg-cab">
     <span class="l-kicker-s">LOCAL AI · ESTIMATED FOR THIS HARDWARE</span>
     <h1>Which AI models run on the RTX 4000 Ada 20 GB?</h1>
-    <p class="l-lead"><b>More than 50 AI models</b> (LLMs) fit on the RTX 4000 Ada 20 GB and run on your own computer, free and offline. The top pick today is <b>muse-glimmer 30B</b> (Q4_K_M, 18.0 GB), which should generate about <b>15 tokens per second</b>.</p>
+    <p class="l-lead"><b>More than 40 AI models</b> (LLMs) fit on the RTX 4000 Ada 20 GB and run on your own computer, free and offline. The top pick today is <b>muse-glimmer 30B</b> (Q4_K_M, 18.0 GB), which should generate about <b>15 tokens per second</b>.</p>
     <ul class="pg-fatos"><li>20 GB of video memory (VRAM)</li><li>20.1 GB free for the model on Windows</li><li>360 GB/s memory bandwidth</li></ul>
     <div class="l-ctas">
       <a class="btn primario l-btn-grande" href="/app.html?gpu=rtx-4000-ada#radar" data-ev="radar">See the full list for my computer →</a>
@@ -103,6 +103,15 @@
     <li class="pg-item">
       <span class="pg-pos">6</span>
       <div class="pg-info">
+        <h3>inkling-2-mini 26B-A5B</h3>
+        <p class="pg-meta"><b>IQ4_NL</b> · 18.0 GB · ~32–52 tok/s · barely fits: use a smaller context</p>
+        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, images and documents.</p>
+        <div class="cmd"><code>ollama run inkling-2-mini:26b-a5b-iq4_NL</code><button class="btn mini" type="button" data-copiar="ollama run inkling-2-mini:26b-a5b-iq4_NL">Copy</button></div>
+      </div>
+    </li>
+    <li class="pg-item">
+      <span class="pg-pos">7</span>
+      <div class="pg-info">
         <h3>MiniCPM-V-4.7-35B-A3B</h3>
         <p class="pg-meta"><b>IQ3_M</b> · 15.4 GB · ~70–112 tok/s · fits comfortably</p>
         <p class="pg-usos">Good for: images and documents.</p>
@@ -110,7 +119,7 @@
       </div>
     </li>
     <li class="pg-item">
-      <span class="pg-pos">7</span>
+      <span class="pg-pos">8</span>
       <div class="pg-info">
         <h3>diffusiongemma-26B-A4B-it</h3>
         <p class="pg-meta"><b>Q4_K_M</b> · 16.8 GB · ~41–66 tok/s · fits comfortably</p>
@@ -119,7 +128,7 @@
       </div>
     </li>
     <li class="pg-item">
-      <span class="pg-pos">8</span>
+      <span class="pg-pos">9</span>
       <div class="pg-info">
         <h3>gemma4 26B-A4B</h3>
         <p class="pg-meta"><b>MXFP4_MOE</b> · 16.6 GB · ~41–66 tok/s · fits comfortably</p>
@@ -128,21 +137,12 @@
       </div>
     </li>
     <li class="pg-item">
-      <span class="pg-pos">9</span>
+      <span class="pg-pos">10</span>
       <div class="pg-info">
         <h3>Qwen-AgentWorld-35B-A3B</h3>
         <p class="pg-meta"><b>UD-IQ4_XS</b> · 17.8 GB · ~60–96 tok/s · fits comfortably</p>
         <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, long documents.</p>
         <div class="cmd"><code>ollama run hf.co/unsloth/Qwen-AgentWorld-35B-A3B-GGUF:UD-IQ4_XS</code><button class="btn mini" type="button" data-copiar="ollama run hf.co/unsloth/Qwen-AgentWorld-35B-A3B-GGUF:UD-IQ4_XS">Copy</button></div>
-      </div>
-    </li>
-    <li class="pg-item">
-      <span class="pg-pos">10</span>
-      <div class="pg-info">
-        <h3>Hy-Memory-30B-A3B</h3>
-        <p class="pg-meta"><b>Q3_K_M</b> · 14.4 GB · ~67–107 tok/s · fits comfortably</p>
-        <p class="pg-usos">Good for: chat, data extraction and json.</p>
-        <div class="cmd"><code>ollama run hf.co/tencent/Hy-Memory-30B-A3B-GGUF:Q3_K_M</code><button class="btn mini" type="button" data-copiar="ollama run hf.co/tencent/Hy-Memory-30B-A3B-GGUF:Q3_K_M">Copy</button></div>
       </div>
     </li>
     </ol>
@@ -168,11 +168,11 @@
     <h2>What does not fit yet</h2>
     <p class="sub">These come closest: even in their smallest good-quality version, they need more than the 20.1 GB available.</p>
     <ul class="pg-fora">
-      <li><b>inkling-2-mini 26B-A5B</b> — needs ~22.1 GB (padrão)</li>
       <li><b>ornith-1.5 35B</b> — needs ~25.5 GB (Q4_K_M)</li>
       <li><b>flint 40B-A2B</b> — needs ~25.6 GB (NVFP4)</li>
       <li><b>nemotron-3-nano 30B-A3B</b> — needs ~26.3 GB (Q4_K_M)</li>
       <li><b>nemotron-3.5-lightning 30B-A3B</b> — needs ~27.4 GB (Q4_K_M)</li>
+      <li><b>nemotron3 33B</b> — needs ~30.4 GB (Q4_K_M)</li>
     </ul>
   </section>
   <section>
