@@ -23,6 +23,7 @@
 .pg-top .pg-pos { background: linear-gradient(135deg, var(--ink), var(--prio)); color: #fff; }
 .pg-info { min-width: 0; flex: 1; }
 .pg-info h3 { font-size: 1.06rem; overflow-wrap: anywhere; }
+.pg-novo { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 6px; font-size: .72rem; font-weight: 700; vertical-align: middle; background: var(--info-soft, rgba(37, 99, 235, .12)); color: var(--info, #2563eb); }
 .pg-meta { margin: 4px 0 2px; font-size: .9rem; }
 .pg-usos { margin: 0 0 10px; font-size: .86rem; color: var(--muted); }
 .pg-info .cmd code { overflow-wrap: anywhere; }

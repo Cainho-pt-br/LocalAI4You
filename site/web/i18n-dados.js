@@ -1069,7 +1069,21 @@ window.LI_I18N_DADOS = [
 ["Critério estatístico: uma vitória só é declarada quando o Intervalo de Confiança (IC 90%) da diferença não cruza zero e supera 3 pontos. Quando há empate técnico em conhecimento, a velocidade (tok/s), o tamanho em GB e o teto de contexto na GPU definem o vencedor prático.", "Statistical rule: a win is only declared when the confidence interval (90% CI) of the difference does not cross zero and exceeds 3 points. When knowledge is tied, speed (tok/s), size in GB and the GPU context ceiling decide the practical winner.", "Criterio estadístico: solo se declara una victoria cuando el intervalo de confianza (IC 90%) de la diferencia no cruza cero y supera 3 puntos. Cuando hay empate técnico en conocimiento, la velocidad (tok/s), el tamaño en GB y el techo de contexto en la GPU definen el ganador práctico."],
 ["↻ Atualizar atuais", "↻ Update current", "↻ Actualizar actuales"],
 ["🔭 Varrer Radar", "🔭 Scan Radar", "🔭 Escanear Radar"],
-["Ver veredito", "See verdict", "Ver veredicto"]
+["Ver veredito", "See verdict", "Ver veredicto"],
+["🆕 Novo", "🆕 New", "🆕 Nuevo"],
+["Lançado hoje", "Released today", "Lanzado hoy"],
+["Lançado ontem", "Released yesterday", "Lanzado ayer"],
+["Lançado hoje (data aproximada)", "Released today (approximate date)", "Lanzado hoy (fecha aproximada)"],
+["Lançado ontem (data aproximada)", "Released yesterday (approximate date)", "Lanzado ayer (fecha aproximada)"],
+["Lançados no último mês: {n} (marcados com 🆕 Novo).", "Released in the last month: {n} (marked 🆕 New).", "Lanzados en el último mes: {n} (marcados con 🆕 Nuevo)."],
+["Novidade para o seu computador", "News for your computer", "Novedad para tu computadora"],
+["Desde sua última visita, a melhor opção mudou:", "Since your last visit, the best pick changed:", "Desde tu última visita, la mejor opción cambió:"],
+["Desde ontem, a melhor opção mudou:", "Since yesterday, the best pick changed:", "Desde ayer, la mejor opción cambió:"],
+["Desde sua última visita, há {n} dias, a melhor opção mudou:", "Since your last visit {n} days ago, the best pick changed:", "Desde tu última visita, hace {n} días, la mejor opción cambió:"],
+["É um modelo lançado há pouco que roda melhor aqui.", "It's a recently released model that runs better here.", "Es un modelo lanzado hace poco que funciona mejor aquí."],
+["O catálogo foi atualizado com versões e lançamentos novos.", "The catalog was updated with new versions and releases.", "El catálogo se actualizó con versiones y lanzamientos nuevos."],
+["Entendi", "Got it", "Entendido"],
+["Fechar aviso", "Close notice", "Cerrar aviso"]
 ];
 /* Regras por trecho (expressão regular em português → substituição), para textos montados em partes. */
 window.LI_I18N_REGRAS = [
