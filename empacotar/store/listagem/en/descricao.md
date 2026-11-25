@@ -36,7 +36,7 @@ See which local AI models run well on your PC, from the smartest to the lightest
 
 ## What's new in this version
 
-New simple mode: the app shows the best AI model for your computer right away, explains it in plain words and gives step-by-step instructions; the duel now says in one sentence which model to keep. Opens in its own window, without browser tabs. One version at a time: if an old version was left open, the new one closes it and shows a notice. Your scores and measured models are kept when you update. More graphics cards (RTX 3060 8 GB and others) and translation fixes.
+New simple mode: the app shows the best AI model for your computer right away, explains it in plain words and gives step-by-step instructions; the duel now says in one sentence which model to keep. Radar news: models released in the last month get a "New" badge, and when the best model for your computer changes, the app tells you. Opens in its own window, without browser tabs. One version at a time: if an old version was left open, the new one closes it and shows a notice. Your scores and measured models are kept when you update. More graphics cards (RTX 3060 8 GB and others) and translation fixes.
 
 ## Product features
 
