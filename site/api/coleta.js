@@ -3,6 +3,9 @@
 // Só repassa as duas funções de gravação e o resumo do painel interno (que exige senha no banco); o banco continua validando tudo (o papel anônimo só insere).
 const PERMITIDAS = new Set(['registrar_evento', 'enviar_benchmark', 'painel_resumo', 'painel_acao', 'comunidade_resumo']);
 const LIMITE_BYTES = 64 * 1024;
+const HOST_PRODUCAO = 'localai4you.vercel.app';
+// Pré-visualizações do Vercel (um endereço novo a cada deploy) e o endereço antigo do projeto são testes: não entram na métrica.
+const ehTeste = (host) => typeof host === 'string' && /\.vercel\.app$/i.test(host) && host.toLowerCase() !== HOST_PRODUCAO;
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');          // o app local roda em http://127.0.0.1
@@ -19,6 +22,7 @@ module.exports = async (req, res) => {
   if (typeof corpo === 'string') { try { corpo = JSON.parse(corpo); } catch (e) { corpo = null; } }
   const fn = corpo && corpo.fn, dados = corpo && corpo.dados;
   if (!PERMITIDAS.has(fn) || !dados || typeof dados !== 'object') return res.status(400).json({ message: 'pedido inválido' });
+  if (fn === 'registrar_evento' && ehTeste(dados.p_host)) return res.status(200).setHeader('Content-Type', 'application/json').end('null');   // descartado de propósito
   const texto = JSON.stringify(dados);
   if (texto.length > LIMITE_BYTES) return res.status(413).json({ message: 'grande demais' });
 
