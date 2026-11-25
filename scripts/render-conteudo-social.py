@@ -43,6 +43,11 @@ def renderizar_pacote(pasta: Path) -> None:
     tmp_dir = pasta / "_tmp"
     tmp_dir.mkdir(exist_ok=True)
 
+    # Narração antes do Playwright: o sync_playwright mantém um event loop aberto
+    # nesta thread, e asyncio.run() falha dentro dele.
+    for idx, cena in enumerate(roteiro["cenas"], start=1):
+        asyncio.run(gerar_audio(cena["fala"], roteiro["voz_edge_tts"], tmp_dir / f"cena-{idx}.mp3"))
+
     with sync_playwright() as p:
         browser = p.chromium.launch()
 
@@ -63,7 +68,6 @@ def renderizar_pacote(pasta: Path) -> None:
 
             page_v.goto(html.resolve().as_uri(), wait_until="load")
             page_v.screenshot(path=str(img))
-            asyncio.run(gerar_audio(cena["fala"], roteiro["voz_edge_tts"], aud))
             dur = duracao_audio(aud)
 
             # Leve zoom-in (Ken Burns sutil) + áudio sincronizado
