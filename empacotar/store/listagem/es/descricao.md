@@ -36,7 +36,7 @@ Descubre qué modelos de IA local funcionan bien en tu PC, del más inteligente 
 
 ## Novedades de esta versión
 
-Nuevo modo simple: la app muestra de inmediato el mejor modelo de IA para tu computadora, lo explica en palabras simples y da el paso a paso; el duelo ahora dice en una frase qué modelo quedarte. Se abre en su propia ventana, sin pestañas del navegador. Una versión a la vez: si quedó abierta una versión antigua, la nueva la cierra y muestra un aviso. Tus notas y modelos medidos se mantienen al actualizar. Más tarjetas gráficas (RTX 3060 8 GB y otras) y correcciones de traducción.
+Nuevo modo simple: la app muestra de inmediato el mejor modelo de IA para tu computadora, lo explica en palabras simples y da el paso a paso; el duelo ahora dice en una frase qué modelo quedarte. Novedades en el Radar: los modelos lanzados en el último mes llevan la etiqueta "Nuevo" y, cuando cambia el mejor modelo para tu computadora, la app te avisa. Se abre en su propia ventana, sin pestañas del navegador. Una versión a la vez: si quedó abierta una versión antigua, la nueva la cierra y muestra un aviso. Tus notas y modelos medidos se mantienen al actualizar. Más tarjetas gráficas (RTX 3060 8 GB y otras) y correcciones de traducción.
 
 ## Características del producto
 
