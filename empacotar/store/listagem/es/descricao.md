@@ -36,7 +36,7 @@ Descubre qué modelos de IA local funcionan bien en tu PC, del más inteligente 
 
 ## Novedades de esta versión
 
-Recorrido de inicio más sencillo y un botón Calcular en la calculadora que muestra el resultado de una vez. Las pruebas de rendimiento ahora tienen 3 niveles, del rápido al completo. En el Radar, el comando de Ollama está dentro de "Más sobre este modelo", y la sección "¿Vale cambiar de tarjeta?" muestra enlaces de tienda actualizados. Efecto de fondo original restaurado. Tus resultados se mantienen al actualizar.
+Recorrido de inicio más sencillo y un botón Calcular en la calculadora que muestra el resultado de una vez. Las pruebas de rendimiento ahora tienen 3 niveles, del rápido al completo. En el Radar, el comando de Ollama está dentro de "Más sobre este modelo", y la sección "¿Vale cambiar de tarjeta?" muestra enlaces de tienda actualizados. Las pantallas nuevas ahora están totalmente traducidas al inglés y al español. Efecto de fondo original restaurado. Tus resultados se mantienen al actualizar.
 
 ## Características del producto
 

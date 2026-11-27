@@ -36,7 +36,7 @@ See which local AI models run well on your PC, from the smartest to the lightest
 
 ## What's new in this version
 
-Simpler beginner journey and a Calculate button in the calculator, which shows the result at once. Performance tests now come in 3 levels, from quick to complete. In the Radar, the Ollama command moved into "More about this model", and the "Worth a new GPU?" section shows updated store links. Original background effect restored. Your scores stay after updating.
+Simpler beginner journey and a Calculate button in the calculator, which shows the result at once. Performance tests now come in 3 levels, from quick to complete. In the Radar, the Ollama command moved into "More about this model", and the "Worth a new GPU?" section shows updated store links. The new screens are now fully translated into English and Spanish. Original background effect restored. Your scores stay after updating.
 
 ## Product features
 
