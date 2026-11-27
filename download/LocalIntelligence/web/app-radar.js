@@ -361,6 +361,15 @@ async function pRadarPublico(raiz) {
         h('span', { class: 'sub' }, `Catálogo de ${fmtData(dados.radar)}`))),
     avisoMudanca(mudou, () => { f.mudouFechado = true; redesenhar(); }),
     rk[0] ? cartaoSeuModelo(rk[0], perfil, dados, f.uso ? (USO_CURTO[f.uso] || f.uso) : null) : null,
+    (!perfil.gpu || rk[0]?.lento) && typeof LI_CALC_UI.blocoUpgradeRadar === 'function'
+      ? LI_CALC_UI.blocoUpgradeRadar(perfil, op, dados, E, {
+          limite: 3,
+          origem: 'radar-lento',
+          titulo: !perfil.gpu ? 'Quer respostas 5× a 10× mais rápidas?' : 'Quer rodar modelos maiores com folga?',
+          sub: !perfil.gpu ? 'Sem placa de vídeo dedicada a IA roda na CPU. Veja o salto direto com uma placa dedicada:' : 'Veja o que muda trocando para uma placa com mais memória (VRAM):',
+          aoVerMais: () => { irPara('calculadora'); setTimeout(() => document.querySelector('#p-calculadora .calc-btn-calcular')?.click(), 250); }
+        })
+      : null,
     h('div', { class: 'usos-titulo' }, h('b', {}, 'Vai usar para algo específico?'), h('span', { class: 'sub' }, ' Escolha um uso e o modelo acima muda para o melhor nele.')),
     usos,
     rk.length > 1 ? h('h2', { class: 'radar-outras' }, `Outras opções que rodam no seu computador (${rk.length - 1})`) : null,
@@ -377,8 +386,15 @@ async function pRadarPublico(raiz) {
     fora.length ? h('details', { class: 'cartao radar-fora' }, h('summary', {}, `Não cabem no seu computador (${fora.length}) — e por quê`),
       h('p', { class: 'sub' }, `Mesmo na menor versão com boa qualidade, estes precisam de mais memória que os ${fmtN(fora[0].orcamento_gb, 1)} GB disponíveis para o modelo. Os primeiros são os que estão mais perto de caber.`),
       h('ul', { class: 'radar-fora-lista' }, fora.slice(0, 40).map(y => h('li', {}, h('b', {}, nomeAmigavelModelo(y.c.nome)), ` — precisa de ~${fmtN(y.precisa_gb, 1)} GB (${y.variante.quant})`))),
-      perfil.gpu && !perfil.unificada && !op.offload ? h('p', { class: 'sub' }, 'Dica: na Calculadora, em ajustes avançados, “usar a RAM do PC” faz alguns caberem — rodando bem mais devagar.') : null,
-      h('button', { class: 'btn mini', onclick: () => { irPara('calculadora'); setTimeout(() => document.getElementById('calc-sec-upgrade')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 350); } }, 'Ver o que muda trocando a placa →')) : null,
+      typeof LI_CALC_UI.blocoUpgradeRadar === 'function'
+        ? LI_CALC_UI.blocoUpgradeRadar(perfil, op, dados, E, {
+            limite: 2,
+            origem: 'radar-nao-cabe',
+            titulo: 'Para rodar modelos como estes com folga',
+            sub: 'Placas com mais memória (VRAM) que destravam modelos maiores no seu PC:'
+          })
+        : null,
+      perfil.gpu && !perfil.unificada && !op.offload ? h('p', { class: 'sub', style: 'margin-top:10px' }, 'Dica: na Calculadora, em ajustes técnicos, “usar a RAM do PC” faz alguns caberem — rodando bem mais devagar.') : null) : null,
     window.LI_PUBLIC_MODE ? h('div', { class: 'guia-callout radar-cta' }, h('b', {}, 'Quer saber qual é melhor de verdade no SEU computador?'),
       h('p', {}, 'O app local mede os modelos instalados com benchmarks públicos, faz duelos entre dois modelos e diz qual manter. Roda tudo no seu PC; nada é enviado.'),
       h('a', { class: 'btn primario', href: LINK_DOWNLOAD, onclick: () => { if (typeof registrarEvento === 'function') registrarEvento('download', { origem: 'radar' }); } }, 'Baixar o app local')) : null);

@@ -397,25 +397,62 @@ const LI_CALC_UI = (function () {
   }
 
   /* "Trocar a placa?": o que cada upgrade destrava, com links de loja. */
-  const GPUS_UPGRADE = ['rtx-4060', 'rtx-3060-12', 'rtx-5060-ti-16', 'rtx-4090', 'rtx-5090'];
+  const GPUS_UPGRADE = ['rtx-5060', 'rtx-5070', 'rx-7600-xt', 'rtx-5060-ti-16', 'rtx-4090', 'rtx-5090'];
   const buscaPlaca = nome => nome.replace(/^GeForce\s+/i, '').replace(/\s(\d+)\sGB\b/i, ' $1GB');
-  function painelUpgrade(maq, op, dados, E) {
-    const hw = dados.hardware, ids = papeisComNota(dados);
-    const resumo = m => { const rk = Calc.ranking(dados, m, ids, op); return { rk, top: rk[0] }; };
-    const atual = resumo(maq);
-    let opcoes = [];
+  function opcoesUpgradeDe(maq, dados, E, limite = 3) {
+    const hw = dados.hardware;
     if (maq.unificada) {
       const chip = hw.unificadas.find(c => c.id === E.chipId);
       const ram = Number(E.chipRam) || maq.ram_gb;
-      opcoes = (chip ? chip.ram_opcoes.filter(r => r > ram) : []).slice(0, 3).map(r => ({ rotulo: `${chip.nome} com ${r} GB`, sub: `${r} GB de memória unificada`, perfil: { ...Calc.perfilUnificado({ chip, ram_gb: r, cpu: null, sistema: hw.sistemas.find(s => s.id === 'macos') || hw.sistemas[0] }) }, busca: `${chip.nome} ${r}GB` }));
-    } else {
-      const sis = { reserva_vram_gb: 1.3, reserva_ram_gb: maq.reserva_so_gb ?? 4 };
-      const cpuRef = { simd: maq.simd }, memRef = { bw_min: maq.bw_gbs_min || 40, bw_max: maq.bw_gbs_max || 50 };
-      // só placas que ampliam o que cabe: mais VRAM que a placa atual (ou, sem placa, perto da RAM livre de hoje)
-      const vramAtual = maq.gpu ? maq.gpu.vram_gb : 0.8 * Calc.orcamentoBytes(maq, maq.reserva_vram_gb ?? 1.3) / Calc.GIB;
-      opcoes = GPUS_UPGRADE.map(id => hw.gpus.find(g => g.id === id)).filter(g => g && g.vram_gb > vramAtual && (!maq.gpu || maq.gpu.nome !== g.nome))
-        .slice(0, 3).map(g => ({ rotulo: g.nome, sub: `${g.vram_gb} GB de VRAM · ${g.bw_gbs} GB/s`, perfil: { ...Calc.perfilGpu({ gpu: g, n: 1, ram_gb: maq.ram_gb || 16, mem: memRef, cpu: cpuRef, sistema: sis }), reserva_vram_gb: 1.3 }, busca: buscaPlaca(g.nome) }));
+      return (chip ? chip.ram_opcoes.filter(r => r > ram) : []).slice(0, limite).map(r => ({ rotulo: `${chip.nome} com ${r} GB`, sub: `${r} GB de memória unificada`, perfil: { ...Calc.perfilUnificado({ chip, ram_gb: r, cpu: null, sistema: hw.sistemas.find(s => s.id === 'macos') || hw.sistemas[0] }) }, busca: `${chip.nome} ${r}GB` }));
     }
+    const sis = { reserva_vram_gb: 1.3, reserva_ram_gb: maq.reserva_so_gb ?? 4 };
+    const cpuRef = { simd: maq.simd }, memRef = { bw_min: maq.bw_gbs_min || 40, bw_max: maq.bw_gbs_max || 50 };
+    // só placas que ampliam o que cabe: mais VRAM que a placa atual (ou, sem placa, todas a partir de 8 GB)
+    const vramAtual = maq.gpu ? maq.gpu.vram_gb : 0;
+    const listaUp = (typeof LOJAS_CONFIG !== 'undefined' && Array.isArray(LOJAS_CONFIG.upgrades) && LOJAS_CONFIG.upgrades.length) ? LOJAS_CONFIG.upgrades : GPUS_UPGRADE;
+    return listaUp.map(id => hw.gpus.find(g => g.id === id)).filter(g => g && g.vram_gb > vramAtual && (!maq.gpu || maq.gpu.nome !== g.nome))
+      .slice(0, limite).map(g => ({ rotulo: g.nome, sub: `${g.vram_gb} GB de VRAM · ${g.bw_gbs} GB/s`, perfil: { ...Calc.perfilGpu({ gpu: g, n: 1, ram_gb: maq.ram_gb || 16, mem: memRef, cpu: cpuRef, sistema: sis }), reserva_vram_gb: 1.3 }, busca: buscaPlaca(g.nome) }));
+  }
+  function blocoUpgradeRadar(maq, op, dados, E, opts = {}) {
+    const opcoes = opcoesUpgradeDe(maq, dados, E, opts.limite || 2);
+    if (!opcoes.length) return null;
+    const ids = papeisComNota(dados);
+    const atual = Calc.ranking(dados, maq, ids, op);
+    const tpsDe = x => x && x.enc.tps_est ? (x.enc.tps_est[0] + x.enc.tps_est[1]) / 2 : 0;
+    const tpsAtual = tpsDe(atual[0]);
+    const nuvem = !maq.gpu && typeof botoesNuvem === 'function' ? botoesNuvem({ origem: opts.origem || 'radar-upgrade', de: maq.nome }) : null;
+    const cards = opcoes.map((o, i) => {
+      const rk = Calc.ranking(dados, o.perfil, ids, op), top = rk[0];
+      const ganho = top && tpsAtual && tpsDe(top) / tpsAtual >= 1.5 ? `≈ ${fmtN(tpsDe(top) / tpsAtual, 0)}× mais rápido` : null;
+      const novos = Math.max(0, rk.length - atual.length);
+      return h('div', { class: 'upgrade-card u-' + (i + 1) },
+        h('div', { class: 'linha' },
+          h('span', { class: 'upgrade-rot' }, maq.unificada ? 'Mais memória' : 'Opção de upgrade'),
+          ganho ? chip(ganho, 'ok') : (novos > 0 ? chip(`+${novos} modelos`, 'ok') : null)),
+        h('h3', {}, o.rotulo),
+        h('div', { class: 'sub' }, o.sub),
+        top ? h('div', { class: 'upgrade-top' },
+          h('span', { class: 'sub' }, 'Passa a rodar com folga'),
+          h('b', {}, nomeAmigavelModelo(top.c.nome)),
+          h('span', { class: 'sub' }, `~${fmtTps(top.enc.tps_est)} tok/s · ${rk.length} modelos cabem`)) : null,
+        typeof botoesLoja === 'function' ? botoesLoja(o.busca, { origem: opts.origem || 'radar-upgrade', de: maq.nome }) : null);
+    });
+    return h('section', { class: 'radar-upgrade-box' },
+      h('div', { class: 'linha', style: 'margin-bottom:10px' },
+        h('div', {},
+          h('h3', {}, opts.titulo || 'Quer rodar modelos maiores e mais rápidos?'),
+          h('p', { class: 'sub', style: 'margin:3px 0 0' }, opts.sub || 'Veja o salto direto de velocidade e capacidade trocando a placa de vídeo.')),
+        opts.aoVerMais ? h('button', { type: 'button', class: 'btn mini', onclick: opts.aoVerMais }, 'Comparar mais placas →') : null),
+      h('div', { class: 'upgrade-grade' }, ...cards),
+      nuvem ? h('div', { class: 'radar-nuvem' }, h('span', { class: 'sub' }, 'Ou rode sem trocar de PC alugando GPU por hora: '), nuvem) : null,
+      typeof avisoLojas === 'function' ? avisoLojas() : null);
+  }
+  function painelUpgrade(maq, op, dados, E) {
+    const ids = papeisComNota(dados);
+    const resumo = m => { const rk = Calc.ranking(dados, m, ids, op); return { rk, top: rk[0] }; };
+    const atual = resumo(maq);
+    const opcoes = opcoesUpgradeDe(maq, dados, E, 3);
     const maiorFolga = m => { const mp = Calc.mapaTamanhos(m, op.kv, m.reserva_vram_gb ?? 1.3); const v = mp.valores[mp.quants.indexOf('Q4_K_M')][0]; return v < 0.5 ? 'nenhum' : '~' + fmtN(v, v < 10 ? 1 : 0) + 'B'; };
     const tpsDe = x => x && x.enc.tps_est ? (x.enc.tps_est[0] + x.enc.tps_est[1]) / 2 : 0;
     const topo = (r, ref) => r.top ? h('div', { class: 'upgrade-top' }, h('span', { class: 'sub' }, 'Melhor aposta'), h('b', {}, nomeAmigavelModelo(r.top.c.nome)),
@@ -433,9 +470,11 @@ const LI_CALC_UI = (function () {
       h('div', { class: 'sub' }, maq.gpu ? `${fmtN(maq.gpu.vram_gb, 0)} GB${maq.unificada ? ' para a GPU' : ' de VRAM'}` : `${fmtN(maq.ram_gb, 0)} GB de RAM`),
       topo(atual, null),
       h('div', { class: 'chips' }, chip(`até ${maiorFolga(maq)} com folga`, 'neutro'), chip(`${atual.rk.length} modelos cabem`, 'neutro')));
+    const nuvem = !maq.gpu && typeof botoesNuvem === 'function' ? botoesNuvem({ origem: 'calculadora-upgrade', de: maq.nome }) : null;
     return h('div', { class: 'empilha' },
       opcoes.length ? h('div', { class: 'upgrade-grade' }, seu, opcoes.map(cartao))
         : h('div', { class: 'info-caixa' }, 'Seu hardware já está no topo das opções de referência. Com duas placas iguais (campo “Quantidade de placas”), a memória soma.'),
+      nuvem ? h('div', { class: 'radar-nuvem' }, h('span', { class: 'sub' }, 'Sem placa de vídeo? Você também pode alugar GPU na nuvem por hora: '), nuvem) : null,
       typeof avisoLojas === 'function' && opcoes.length ? avisoLojas() : null,
       maq.unificada ? null : h('details', { class: 'painel-colapsavel' }, h('summary', {}, h('h3', {}, 'Comparar com mais placas (tabela)')), h('div', { class: 'painel-conteudo' }, cartaoUpgrade(maq, op, dados, E))));
   }
@@ -876,5 +915,5 @@ const LI_CALC_UI = (function () {
   }
   /* Deixa a calculadora já apontada para uma máquina do parque (usado pelo botão "Abrir na calculadora"). */
   function definirPreset(id, semGpu) { const e = lembrar(); e.modo = semGpu ? 'cpu' : 'gpu'; e.preset = id; guardar(e); }
-  return { montar, estadoInicial, salvarEstado: guardar, avisoPalpite, seletorRapido, linkDoHardware, descricaoPt, blocoDescricao, chipsCaps, dialogoModelo, avaliarVariante, gruposDeVariantes, linksDoModelo, comandosDe, perfilDe, definirPreset };
+  return { montar, estadoInicial, salvarEstado: guardar, avisoPalpite, seletorRapido, linkDoHardware, descricaoPt, blocoDescricao, chipsCaps, dialogoModelo, avaliarVariante, gruposDeVariantes, linksDoModelo, comandosDe, perfilDe, definirPreset, blocoUpgradeRadar };
 })();

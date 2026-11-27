@@ -1,6 +1,14 @@
 /* Dicionários da interface (pt → en, es). Gerado a partir das frases da tela; edite aqui para corrigir uma tradução.
    Cada linha: [português, inglês, espanhol]. {n} = um número, na mesma ordem. */
 window.LI_I18N_DADOS = [
+["Ver preço · ", "Check price · ", "Ver precio · "],
+["Alugar GPU · ", "Rent GPU · ", "Alquilar GPU · "],
+["Opção de upgrade", "Upgrade option", "Opción de mejora"],
+["Passa a rodar com folga", "Runs comfortably", "Funciona con holgura"],
+["Quer respostas 5× a 10× mais rápidas?", "Want 5× to 10× faster answers?", "¿Quieres respuestas 5× a 10× más rápidas?"],
+["Quer rodar modelos maiores com folga?", "Want to run larger models comfortably?", "¿Quieres ejecutar modelos más grandes con holgura?"],
+["Para rodar modelos como estes com folga", "To run models like these comfortably", "Para ejecutar modelos como estos con holgura"],
+["Comparar mais placas →", "Compare more GPUs →", "Comparar más tarjetas →"],
 ["1º lugar · Seu modelo de IA", "1st place · Your AI model", "1.er lugar · Tu modelo de IA"],
 ["1º lugar · Seu modelo para", "1st place · Your model for", "1.er lugar · Tu modelo para"],
 ["Sugestão:", "Suggestion:", "Sugerencia:"],

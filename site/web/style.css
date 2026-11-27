@@ -949,10 +949,14 @@ tr.clicavel { cursor:pointer; } tr.clicavel:hover td { background:var(--surface-
 .u-atual { background:var(--surface-2); box-shadow:none; border-style:dashed; }
 .upgrade-ganho { display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:1.1rem; }
 .upgrade-top { display:flex; flex-direction:column; gap:1px; padding:8px 10px; border-radius:10px; background:var(--surface-2); }
-.lojas { display:flex; flex-wrap:wrap; gap:6px; margin-top:auto; padding-top:6px; }
-.loja { padding:5px 10px; border-radius:99px; border:1px solid var(--line-strong); font-size:.78rem; font-weight:650; color:var(--text); background:var(--surface); }
-.loja:hover { border-color:var(--ink); text-decoration:none; }
-.aviso-lojas { font-size:.78rem; margin:0; }
+.lojas { display:flex; flex-wrap:wrap; gap:6px; margin-top:auto; padding-top:8px; }
+.loja { padding:6px 12px; border-radius:99px; border:1px solid var(--line-strong); font-size:.8rem; font-weight:650; color:var(--text); background:var(--surface); transition:border-color .15s, background .15s, color .15s; }
+.loja.loja-af { border-color:color-mix(in srgb, var(--ink) 45%, var(--line-strong)); background:color-mix(in srgb, var(--ink) 8%, var(--surface)); }
+.loja:hover { border-color:var(--ink); background:color-mix(in srgb, var(--ink) 16%, var(--surface)); text-decoration:none; }
+.aviso-lojas { font-size:.78rem; margin:8px 0 0; }
+.radar-upgrade-box { margin:18px 0; padding:18px 20px; border-radius:var(--radius); border:1px solid var(--line); background:var(--surface); box-shadow:var(--shadow); display:flex; flex-direction:column; gap:10px; }
+.radar-upgrade-box h3 { font-size:1.05rem; margin:0; }
+.radar-nuvem { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:4px; }
 /* Benchmark: 3 níveis claros (Rápido / Médio / Avançado) */
 .bench-niveis { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr)); gap:10px; }
 .bench-nivel-card { text-align:left; display:flex; flex-direction:column; gap:5px; padding:14px 16px; border-radius:12px; border:1px solid var(--line); background:var(--surface-2); color:var(--text); transition:border-color .15s, background .15s, box-shadow .15s; }
