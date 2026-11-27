@@ -389,7 +389,7 @@ const LI_CALC_UI = (function () {
         tile('t-tam', 'Maior modelo com folga', f(q4[0]), `em Q4 com ${fmtCtx(m.ctxs[0])} de contexto · ${f(q4[1])} com ${fmtCtx(m.ctxs[1])}`),
         tile('t-vel', 'Um modelo de 8B roda a', '~' + fmtTps(t8) + ' tok/s', cl8[0] + (maq.gpu && !maq.unificada ? ' · MoE rodam bem mais rápido' : '')),
         tile('t-top', 'Melhor aposta agora', top ? nomeAmigavelModelo(top.c.nome) : '—', top ? `${top.enc.variante.quant} · ${fmtGB(top.enc.variante.bytes)} · ${rk.length} modelos cabem` : 'nenhum modelo do catálogo cabe',
-          top && aoVerRadar ? h('button', { class: 'btn mini', onclick: aoVerRadar }, 'Ver todos em ordem no Radar →') : null)),
+          top && aoVerRadar ? h('button', { class: 'btn mini', onclick: aoVerRadar }, 'Ver no Radar →') : null)),
       h('div', { class: 'cartao escada' },
         h('div', { class: 'linha' }, h('h3', {}, 'Escada de tamanhos'), h('div', { class: 'legenda-escada' }, h('span', { class: 'l-ok' }, 'cabe com folga'), h('span', { class: 'l-justo' }, 'no limite'), h('span', { class: 'l-nao' }, 'não cabe'))),
         h('div', { class: 'degraus' }, degraus),
@@ -636,10 +636,23 @@ const LI_CALC_UI = (function () {
     const cpu0 = cpuPadrao(hw);
     const E = estadoInicial(dados, opts);
     const zonaHw = h('div'), zonaRes = h('div', { class: 'empilha' }), zonaResumo = h('div'), zonaGeral = h('div'), zonaUpgrade = h('div');
+    const zonaAcao = h('div', { class: 'calc-acao-bar' });
+    const zonaResultados = h('div', { id: 'calc-resultados', class: 'calc-resultados' });
+    const zonaBannerRes = h('div');
+    let calculado = false;
+    let pendente = false;
+
     const campo = (r, el) => h('label', { class: 'campo' }, r, el);
     const sel = (lista, valor, aoMudar, rot) => h('select', { onchange: ev => { aoMudar(ev.target.value); } }, lista.map(x => h('option', { value: x.id, selected: x.id === valor }, rot ? rot(x) : x.nome)));
     const entrada = (valor, aoMudar, ph) => h('input', { type: 'text', value: valor, placeholder: ph, inputmode: 'decimal', oninput: ev => aoMudar(ev.target.value) });
-    const mudou = (estrutura) => { if (E.palpite) { E.palpite = ''; estrutura = true; } guardar(E); if (estrutura) desenharHw(); desenharResumo(); desenharRes(); };
+    const mudou = (estrutura) => {
+      if (E.palpite) { E.palpite = ''; estrutura = true; }
+      guardar(E);
+      if (estrutura) desenharHw();
+      desenharResumo();
+      if (calculado) pendente = true;
+      desenharAcao();
+    };
 
     // --- campos reutilizáveis
     function campoGpu() {
@@ -685,7 +698,10 @@ const LI_CALC_UI = (function () {
       const camposAvancados = [];
       if (E.preset) {
         const m = dados.maquinas.find(x => x.id === E.preset);
-        camposPrincipais.push(h('div', { class: 'info-caixa', style: 'grid-column:1/-1' }, `Usando o perfil da máquina “${m ? m.nome : E.preset}” (${m ? m.cpu : ''}). `, h('button', { class: 'btn mini', onclick: () => { E.preset = ''; mudou(true); } }, 'Informar o hardware manualmente')));
+        const hwDesc = m ? (m.gpu ? `${m.gpu.nome} (${fmtN(m.gpu.vram_gb, 0)} GB VRAM) · ${fmtN(m.ram_gb, 0)} GB RAM` : `${fmtN(m.ram_gb, 0)} GB RAM · sem placa dedicada`) : E.preset;
+        camposPrincipais.push(h('div', { class: 'info-caixa', style: 'grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap' },
+          h('span', {}, h('b', {}, 'Hardware detectado: '), hwDesc),
+          h('button', { class: 'btn mini', onclick: () => { E.preset = ''; mudou(true); } }, 'Simular outro hardware')));
       } else if (E.modo === 'gpu') {
         camposPrincipais.push(...campoGpu(), campoRam());
         camposAvancados.push(campoCpu(), ...camposMemoria(), campoSis());
@@ -700,44 +716,44 @@ const LI_CALC_UI = (function () {
         camposPrincipais.push(campoCpu(), campoRam());
         camposAvancados.push(...camposMemoria(), campoSis());
       }
-      const seg = h('div', { class: 'seg', role: 'group', 'aria-label': 'Tipo de hardware' }, [['gpu', 'Placa de vídeo'], ['unificada', 'Mac / memória unificada'], ['cpu', 'Só processador']].map(([id, t]) =>
-        h('button', { 'aria-pressed': String(E.modo === id), onclick: () => { E.modo = id; E.preset = ''; mudou(true); } }, t)));
-      const presets = (dados.maquinas || []).length ? campo('Ou escolha uma máquina conhecida', h('select', { onchange: ev => { E.preset = ev.target.value; const m = (dados.maquinas || []).find(x => x.id === E.preset); if (m) E.modo = m.gpu ? 'gpu' : 'cpu'; mudou(true); } }, h('option', { value: '' }, 'Personalizado (informar manualmente)'), dados.maquinas.map(m => h('option', { value: m.id, selected: m.id === E.preset }, m.nome + (m.gpu ? ` — ${m.gpu.nome}` : ' — só CPU'))))) : null;
+      const seg = h('div', { class: 'seg', role: 'group', 'aria-label': 'Tipo de hardware' }, [['gpu', 'Placa de vídeo'], ['unificada', 'Mac / unificada'], ['cpu', 'Só processador']].map(([id, t]) =>
+        h('button', { 'aria-pressed': String(!E.preset && E.modo === id), onclick: () => { E.modo = id; E.preset = ''; mudou(true); } }, t)));
+      const presets = (dados.maquinas || []).length > 1 || (!E.preset && (dados.maquinas || []).length)
+        ? campo('Ou usar este computador', h('select', { onchange: ev => { E.preset = ev.target.value; const m = (dados.maquinas || []).find(x => x.id === E.preset); if (m) E.modo = m.gpu ? 'gpu' : 'cpu'; mudou(true); } }, h('option', { value: '' }, 'Personalizado (informar manualmente)'), dados.maquinas.map(m => h('option', { value: m.id, selected: m.id === E.preset }, m.gpu ? `Este computador — ${m.gpu.nome}` : 'Este computador — só CPU'))))
+        : null;
       zonaHw.replaceChildren(h('div', { class: 'cartao calc-card-hw' },
         avisoPalpite(E, () => mudou(true)),
-        h('div', { class: 'linha', style: 'flex-wrap:wrap;gap:8px' }, h('h3', {}, h('span', { class: 'passo-n' }, '1'), 'Seu hardware'), seg),
+        h('div', { class: 'linha', style: 'flex-wrap:wrap;gap:8px' }, h('h3', {}, h('span', { class: 'passo-n' }, '1'), 'Seu computador'), seg),
         h('div', { class: 'campos' }, ...camposPrincipais, presets),
         camposAvancados.length ? h('details', { class: 'dica-clean', style: 'margin-top:10px' },
-          h('summary', {}, '⚙ Detalhes opcionais do PC (processador, DDR4/DDR5, canais de RAM…)'),
+          h('summary', {}, '⚙ Detalhes opcionais (processador, DDR4/DDR5, canais de RAM…)'),
           h('div', { class: 'campos', style: 'margin-top:10px' }, ...camposAvancados)) : null,
         zonaResumo));
     }
     function desenharResumo() { zonaResumo.className = 'resumo-hw'; zonaResumo.replaceChildren(...resumoHw(perfilDe(E, dados))); }
     const CTX_HUMANO = {
-      0: '✨ Automático por atividade (recomendado — você não precisa configurar)',
-      4096: '💬 Conversas curtas e rápidas (4k — ~3 mil palavras)',
-      8192: '📝 Conversas e textos do dia a dia (8k — ~6 mil palavras)',
-      16384: '📄 Documentos e scripts médios (16k — ~12 mil palavras)',
-      32768: '💻 Projetos de código e PDFs longos (32k — ~25 mil palavras)',
-      65536: '📚 Múltiplos arquivos ou relatórios extensos (64k — ~50 mil palavras)',
-      131072: '📖 Livros inteiros ou repositórios grandes (128k — ~100 mil palavras)',
-      262144: '🏛️ Arquivos gigantes / base completa (256k — ~200 mil palavras)',
+      0: '✨ Automático por atividade (recomendado)',
+      4096: '💬 Conversas curtas (4k — ~3 mil palavras)',
+      8192: '📝 Dia a dia (8k — ~6 mil palavras)',
+      16384: '📄 Documentos médios (16k — ~12 mil palavras)',
+      32768: '💻 Código e PDFs longos (32k — ~25 mil palavras)',
+      65536: '📚 Relatórios extensos (64k — ~50 mil palavras)',
+      131072: '📖 Livros ou repositórios (128k — ~100 mil palavras)',
+      262144: '🏛️ Bases gigantes (256k — ~200 mil palavras)',
     };
     const opcoes = () => h('div', { class: 'cartao calc-card-uso' },
-      h('h3', {}, h('span', { class: 'passo-n' }, '2'), 'Como você vai usar'),
-      h('p', { class: 'sub', style: 'font-size:.81rem;margin:4px 0 10px' },
-        'Não sabe o que é KV cache ou contexto? Deixe no ', h('b', {}, 'Automático'), ' — nós já configuramos o equilíbrio ideal para você.'),
+      h('h3', {}, h('span', { class: 'passo-n' }, '2'), 'Tamanho das conversas'),
+      h('p', { class: 'sub', style: 'font-size:.84rem;margin:4px 0 12px' },
+        'Na dúvida, deixe no ', h('b', {}, 'Automático'), ' — calculamos o melhor equilíbrio de memória para você.'),
       h('div', { class: 'empilha', style: 'gap:10px' },
-        campo('Tamanho das conversas / arquivos que vai enviar', h('select', { onchange: ev => { E.ctx = Number(ev.target.value); mudou(false); } },
+        campo('Tamanho de texto / arquivos que vai enviar', h('select', { onchange: ev => { E.ctx = Number(ev.target.value); mudou(false); } },
           h('option', { value: 0, selected: !E.ctx }, CTX_HUMANO[0]),
           CTXS.map(x => h('option', { value: x, selected: x === E.ctx }, CTX_HUMANO[x] || (fmtCtx(x) + ' de contexto'))))),
-        h('div', { class: 'calc-auto-pill' },
-          h('span', {}, '✔ ', h('b', {}, 'Modo Inteligente Ativo: '), `Memória da conversa otimizada (${E.kv === 'q8_0' ? 'q8_0 equilibrado' : E.kv}) · Catálogo online Ollama + Hugging Face`)),
-        h('details', { class: 'dica-clean', style: 'margin-top:2px' },
-          h('summary', {}, '⚙ Ajustes técnicos avançados (KV cache, usar RAM do PC…)'),
+        h('details', { class: 'dica-clean', style: 'margin-top:4px' },
+          h('summary', {}, '⚙ Ajustes técnicos (KV cache, usar RAM do PC…)'),
           h('div', { class: 'empilha', style: 'gap:8px;margin-top:8px' },
             campo('Compressão da memória da conversa (KV Cache)', h('select', { onchange: ev => { E.kv = ev.target.value; mudou(false); } }, KVS.map(x => h('option', { value: x, selected: x === E.kv }, KV_ROTULO[x] + (x === 'q8_0' ? ' — recomendado' : ''))))),
-            h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: E.offload, onchange: ev => { E.offload = ev.target.checked; mudou(false); } }), 'Permitir transbordar para a RAM do PC (cabe modelo maior, mas fica bem mais lento)'),
+            h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: E.offload, onchange: ev => { E.offload = ev.target.checked; mudou(false); } }), 'Permitir usar a RAM do PC (cabe modelo maior, mas fica bem mais lento)'),
             h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: E.comunidade, onchange: ev => { E.comunidade = ev.target.checked; mudou(false); } }), 'Incluir fine-tunes da comunidade'),
             h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: E.antigos, onchange: ev => { E.antigos = ev.target.checked; mudou(false); } }), 'Incluir modelos antigos (> 1 ano)')))));
     const zonaUsos = h('div'), zonaTodos = h('div');
@@ -749,6 +765,29 @@ const LI_CALC_UI = (function () {
     };
     const verRadar = !opts.solo && typeof irPara === 'function' ? () => irPara('radar') : null;
 
+    function executarCalculo(rolar = true) {
+      calculado = true;
+      pendente = false;
+      desenharRes();
+      desenharAcao();
+      zonaResultados.classList.add('visivel');
+      zonaResultados.classList.remove('calc-flash');
+      void zonaResultados.offsetWidth;
+      zonaResultados.classList.add('calc-flash');
+      if (rolar) setTimeout(() => zonaResultados.scrollIntoView({ behavior: 'smooth', block: 'start' }), 40);
+    }
+
+    function desenharAcao() {
+      const maq = perfilDe(E, dados);
+      const desc = maq.gpu ? `${maq.gpu.nome || maq.nome} (${fmtN(maq.gpu.vram_gb, 0)} GB)` : `Sem placa de vídeo · ${fmtN(maq.ram_gb, 0)} GB RAM`;
+      const btnTxt = !calculado ? 'Calcular o que roda →' : (pendente ? 'Recalcular resultados →' : 'Atualizar cálculo');
+      zonaAcao.replaceChildren(
+        h('div', { class: 'calc-acao-info' },
+          h('b', {}, desc),
+          pendente ? h('span', { class: 'chip warn' }, 'Alteração pendente — clique para recalcular') : h('span', { class: 'sub' }, calculado ? 'Resultado atualizado abaixo.' : 'Clique para ver quais modelos cabem, velocidade e opções de upgrade.')),
+        h('button', { type: 'button', class: 'btn primario calc-btn-calcular', onclick: () => executarCalculo(true) }, btnTxt));
+    }
+
     function desenharRes() {
       const maq = perfilDe(E, dados), op = { kv: E.kv, ctx: E.ctx || null, comunidade: E.comunidade, antigos: E.antigos, offload: E.offload };
       if (typeof registrarUmaVez === 'function') registrarUmaVez('calc|' + maq.nome, 'calculadora', { perfil: maq.nome, modo: E.modo, palpite: E.palpite || null });
@@ -758,6 +797,11 @@ const LI_CALC_UI = (function () {
         if (papel) res.set(id, { papel, r: Calc.escolher(dados, maq, papel, op) });
       }
       if (!res.has(usoSel)) usoSel = res.keys().next().value;
+      const hwNome = maq.gpu ? `${maq.gpu.nome || maq.nome} (${fmtN(maq.gpu.vram_gb, 0)} GB)` : `Sem placa de vídeo (${fmtN(maq.ram_gb, 0)} GB RAM)`;
+      zonaBannerRes.replaceChildren(
+        h('div', { class: 'ok-caixa calc-confirmacao' },
+          h('b', {}, '✓ Resultado calculado para '), hwNome,
+          E.ctx ? ` · contexto de ${fmtCtx(E.ctx)}` : ' · contexto automático'));
       zonaUsos.replaceChildren(h('div', { class: 'usos', role: 'group', 'aria-label': 'Escolha o uso' },
         [...res.values()].map(({ papel }) => h('button', { type: 'button', 'aria-pressed': String(papel.id === usoSel), title: papel.descricao, onclick: () => escolherUso(papel.id) }, papel.icone + ' ' + (USO_CURTO_C[papel.id] || papel.rotulo)))));
       const sel = res.get(usoSel);
@@ -771,42 +815,51 @@ const LI_CALC_UI = (function () {
     }
     const zonaGuia = h('div'), zonaLivre = h('div'), zonaMapa = h('div');
     const cab = opts.solo ? h('div', { class: 'solo-topo' }, h('h1', {}, 'Calculadora de hardware para IA local'),
-      h('p', { class: 'sub', style: 'max-width:70ch;margin-top:6px' }, 'Escolha sua placa de vídeo (ou Mac, ou só o processador) e veja que modelos de IA rodam nela, em qual quantização, com quanto contexto e a que velocidade — para cada tipo de uso. Funciona offline: nada sai do seu computador.'),
+      h('p', { class: 'sub', style: 'max-width:70ch;margin-top:6px' }, 'Escolha sua placa de vídeo (ou Mac, ou só o processador) e clique em Calcular para ver quais modelos de IA rodam nela.'),
       h('div', { class: 'legenda', style: 'margin-top:8px' }, `Catálogo de ${dados.candidatos.length} modelos da varredura de ${fmtData(dados.radar)} · gerado em ${fmtData(dados.gerado)}`, dados.n_medidos ? chip(`${dados.n_medidos} com nota MEDIDA`, 'medido') : null))
       : h('div', { class: 'pagina-topo' },
-          h('span', { class: 'guia-kicker' }, 'CALCULADORA · ' + dados.candidatos.length + ' MODELOS DO OLLAMA E DO HUGGING FACE'),
-          h('h1', {}, 'O que o seu computador aguenta?'),
-          h('p', { class: 'sub' }, 'Diga qual é o seu hardware e veja, por partes: quanto cabe, o melhor modelo para cada uso e o que muda se você trocar a placa.'));
+          h('div', { class: 'linha topo' },
+            h('div', {},
+              h('span', { class: 'guia-kicker' }, 'CALCULADORA DE HARDWARE'),
+              h('h1', {}, 'O que o seu computador aguenta?'),
+              h('p', { class: 'sub' }, 'Confirme seu hardware, escolha como vai usar e clique em Calcular para ver os modelos ideais.')),
+            opts.aoExportar ? h('button', { class: 'btn mini', onclick: opts.aoExportar }, 'Exportar HTML offline') : null));
     const linkAtual = () => { const e = { ...E, preset: '' }; return location.href.split('#')[0] + '#c=' + btoa(unescape(encodeURIComponent(JSON.stringify(e)))); };
-    const botaoExportar = opts.aoExportar ? h('button', { class: 'btn mini', onclick: opts.aoExportar }, 'Baixar como arquivo para compartilhar')
-      : opts.solo ? h('button', { class: 'btn mini', onclick: () => copiar(linkAtual()) }, 'Copiar link desta configuração') : null;
+    const botaoExportar = opts.solo ? h('button', { class: 'btn mini', onclick: () => copiar(linkAtual()) }, 'Copiar link desta configuração') : null;
 
     // seções numeradas + navegação fixa com indicação da seção atual
     const SECOES = [['calc-sec-pc', 'Seu computador'], ['calc-sec-cabe', 'O que cabe'], ['calc-sec-uso', 'Por uso'], ['calc-sec-upgrade', 'Trocar a placa?'], ['calc-sec-ferramentas', 'Ferramentas']];
     const secao = (i, sub, ...conteudo) => h('section', { class: 'calc-sec', id: SECOES[i][0] },
       h('div', { class: 'calc-sec-cab' }, h('span', { class: 'calc-sec-n' }, i + 1), h('div', {}, h('h2', {}, SECOES[i][1]), sub ? h('p', { class: 'sub' }, sub) : null)), ...conteudo);
     const nav = h('nav', { class: 'calc-nav', 'aria-label': 'Seções da calculadora' }, SECOES.map(([id, nome], i) =>
-      h('a', { href: '#' + id, 'data-sec': id, onclick: ev => { ev.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }, h('span', { class: 'calc-nav-n' }, i + 1), nome)));
+      h('a', { href: '#' + id, 'data-sec': id, onclick: ev => {
+        ev.preventDefault();
+        if (i > 0 && !calculado) executarCalculo(false);
+        setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 30);
+      } }, h('span', { class: 'calc-nav-n' }, i + 1), nome)));
     const painel = (titulo, sub, conteudo) => h('details', { class: 'painel-colapsavel' }, h('summary', {}, h('div', {}, h('h3', {}, titulo), sub ? h('div', { class: 'sub' }, sub) : null)), h('div', { class: 'painel-conteudo' }, conteudo));
 
-    el.replaceChildren(h('div', { class: 'calc' }, cab, botaoExportar ? h('div', { class: 'calc-exportar' }, botaoExportar) : null, opts.solo ? null : nav,
-      secao(0, null, h('div', { class: 'calc-topo-grid' }, zonaHw, opcoes())),
-      secao(1, 'Um resumo do seu hardware em números, e até onde ele vai.', zonaGeral),
-      secao(2, 'Escolha o uso: o mais capaz que cabe, o melhor equilíbrio e o leve e rápido.', zonaUsos, zonaRes,
+    zonaResultados.replaceChildren(
+      zonaBannerRes,
+      secao(1, 'Resumo da memória disponível, maior modelo e velocidade estimada.', zonaGeral),
+      secao(2, 'Escolha uma tarefa para comparar o mais capaz, o equilibrado e o leve.', zonaUsos, zonaRes,
         h('details', { class: 'painel-colapsavel' }, h('summary', {}, h('h3', {}, 'Ver todos os usos de uma vez')), h('div', { class: 'painel-conteudo' }, zonaTodos))),
-      secao(3, 'O mesmo computador com outras placas: até onde vai, qual vira a melhor aposta e quanto fica mais rápido.', zonaUpgrade),
+      secao(3, 'Veja o que muda com outras placas mantendo o restante do PC.', zonaUpgrade),
       secao(4, null,
-        painel('Cabe um modelo que não está na lista?', 'Digite os parâmetros de um modelo e veja se cabe.', zonaLivre),
-        painel('Que tamanho cabe, por compressão e contexto?', 'O maior modelo denso que cabe com folga.', zonaMapa),
-        painel('Guia: compressão do modelo e do cache de contexto (KV)', 'O que mudar para caber mais modelo ou mais contexto, e onde ligar.', zonaGuia),
-        painel('Como isto é calculado, e o que a conta não sabe', null, h('ul', { class: 'sub', style: 'padding-left:18px;max-width:80ch' },
+        painel('Testar um modelo que não está na lista', 'Informe o tamanho em bilhões de parâmetros e veja se cabe.', zonaLivre),
+        painel('Tabela de tamanhos por compressão e contexto', 'Maior modelo denso que cabe com folga.', zonaMapa),
+        painel('Guia de quantização e cache de contexto (KV)', 'Como liberar memória para caber modelos maiores ou conversas mais longas.', zonaGuia),
+        painel('Como isto é calculado', null, h('ul', { class: 'sub', style: 'padding-left:18px;max-width:80ch' },
           h('li', {}, 'Cabe = tamanho real do arquivo + cache de contexto (conta por arquitetura) + buffers. Em GPU a conta bate com o medido em ±1,5 GB (sempre para o lado seguro).'),
           h('li', {}, 'Velocidade = banda de memória ÷ bytes lidos por token × eficiência. Em GPU é confiável; em CPU vale ±2×; com RAM + GPU é só ordem de grandeza.'),
           h('li', {}, '“Mais capaz” ordena pelo porte efetivo (num MoE, entre o total e os ativos), descontando compressão agressiva e geração antiga. É regra de bolso, não nota de qualidade.'),
           h('li', {}, 'Nota MEDIDA só existe para modelos testados no protocolo v2. Para os outros, o duelo do app local mede no seu PC.'),
-          h('li', {}, 'Especificações de placas vêm das fichas dos fabricantes; se algo estiver errado ou faltar, informe os valores manualmente.'))))));
+          h('li', {}, 'Especificações de placas vêm das fichas dos fabricantes; se algo estiver errado ou faltar, informe os valores manualmente.')))));
 
-    // indicação da seção visível na navegação
+    el.replaceChildren(h('div', { class: 'calc' }, cab, botaoExportar ? h('div', { class: 'calc-exportar' }, botaoExportar) : null, opts.solo ? null : nav,
+      secao(0, null, h('div', { class: 'calc-topo-grid' }, zonaHw, opcoes()), zonaAcao),
+      zonaResultados));
+
     if (!opts.solo && typeof IntersectionObserver === 'function') {
       if (window._calcObservador) window._calcObservador.disconnect();
       const links = new Map([...nav.querySelectorAll('a')].map(a => [a.dataset.sec, a]));
@@ -818,7 +871,8 @@ const LI_CALC_UI = (function () {
       const ajustarTopo = () => { const a = document.querySelector('aside.lateral'); const mob = window.matchMedia('(max-width: 880px)').matches; nav.style.top = mob && a ? a.offsetHeight + 'px' : '0px'; };
       ajustarTopo(); window.removeEventListener('resize', window._calcAjusteTopo || (() => {})); window._calcAjusteTopo = ajustarTopo; window.addEventListener('resize', ajustarTopo);
     }
-    desenharHw(); desenharResumo(); desenharRes();
+    desenharHw(); desenharResumo(); desenharAcao();
+    if (opts.solo && /[#&]c=/.test(location.hash)) executarCalculo(false);
   }
   /* Deixa a calculadora já apontada para uma máquina do parque (usado pelo botão "Abrir na calculadora"). */
   function definirPreset(id, semGpu) { const e = lembrar(); e.modo = semGpu ? 'cpu' : 'gpu'; e.preset = id; guardar(e); }

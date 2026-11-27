@@ -325,7 +325,8 @@ def p_bench(b):
 
     def tarefa(ctx):
         res = runner.executar(o, [{"id": m["id"], "digest": m["digest"], "caps": m["caps"]} for m in ms], nivel, b.get("suites"), modo, ctx.prog, ctx.cancelar,
-                              tps_minimo=0 if b.get("nivel_forcado") else float(config.carregar().get("tps_minimo") or 0))
+                              tps_minimo=0 if b.get("nivel_forcado") else float(config.carregar().get("tps_minimo") or 0),
+                              refazer=bool(b.get("refazer")))
         _invalidar()
         return res
     return _iniciar("bench", f"Benchmark ({nivel}, {len(ms)} modelo(s)){aviso_nivel}", tarefa)

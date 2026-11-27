@@ -74,8 +74,9 @@ def gate_gpu(oll: Ollama, modelo: str, ctx_lista: List[int]) -> dict:
 
 def executar(oll: Ollama, modelos: List[dict], nivel: str = "padrao", suites_pedidas: Optional[List[str]] = None,
              modo: str = "base", ao_progredir: Optional[Callable[[dict], None]] = None,
-             cancelar: Optional[threading.Event] = None, exigir_gpu: bool = True, tps_minimo: float = 0) -> dict:
-    """`modelos` = [{'id','digest','caps'}]. Devolve {modelo: {'ok':bool,'feitos':n,'pulados':[...]}}."""
+             cancelar: Optional[threading.Event] = None, exigir_gpu: bool = True, tps_minimo: float = 0,
+             refazer: bool = False) -> dict:
+    """`modelos` = [{'id','digest','caps'}]. Devolve {modelo: {'ok':bool,'feitos':n,'ja_feitos':n,'pulados':[...]}}."""
     cfg = config.carregar()
     ctx_lista = [int(cfg["ctx_bench"])] + [int(c) for c in cfg.get("ctx_fallback", [])]
     pedidas = [s for s in (suites_pedidas or suites.ORDEM + suites.SUITES_EXTRAS) if s in suites.EXECUTORES]   # visão leve/fotos entram sempre; quem não declara visão é pulado em "pulados"
@@ -87,11 +88,13 @@ def executar(oll: Ollama, modelos: List[dict], nivel: str = "padrao", suites_ped
 
     plano = []  # (modelo, suite, item) pendentes — define o total honesto da barra de progresso
     resumo_final: Dict[str, dict] = {}
+    ja_feitos_total = 0
     for m in modelos:
-        feitos = resultados.chaves_feitas(m["id"], m["digest"], modo)
+        feitos = set() if refazer else resultados.chaves_feitas(m["id"], m["digest"], modo)
         pulados = []
+        ja_feitos_m = 0
         if modo == "think" and "thinking" not in (m.get("caps") or []):
-            resumo_final[m["id"]] = {"ok": True, "feitos": 0, "pulados": [{"suite": s, "motivo": "modelo não declara 'thinking'"} for s in pedidas]}
+            resumo_final[m["id"]] = {"ok": True, "feitos": 0, "ja_feitos": 0, "pulados": [{"suite": s, "motivo": "modelo não declara 'thinking'"} for s in pedidas]}
             continue  # pedir think a modelo sem esse modo dá erro 400 e poluiria o resultado
         for s in pedidas:
             exige = suites.EXIGE.get(s, [])
@@ -106,7 +109,10 @@ def executar(oll: Ollama, modelos: List[dict], nivel: str = "padrao", suites_ped
             for it in amostras.itens_do_nivel(s, nivel):
                 if (s, it["id"]) not in feitos:
                     plano.append((m, s, it))
-        resumo_final[m["id"]] = {"ok": True, "feitos": 0, "pulados": pulados}
+                else:
+                    ja_feitos_m += 1
+        ja_feitos_total += ja_feitos_m
+        resumo_final[m["id"]] = {"ok": True, "feitos": 0, "ja_feitos": ja_feitos_m, "pulados": pulados}
 
     total, feitos_n, t_ini, lat_acum = len(plano), 0, time.time(), 0.0
     prog({"fase": "bench", "total": total, "feitos": 0, "msg": f"{total} itens pendentes em {len(modelos)} modelo(s) · nível {nivel}"})
@@ -158,5 +164,16 @@ def executar(oll: Ollama, modelos: List[dict], nivel: str = "padrao", suites_ped
               "msg": f"{mid} · {s} · {feitos_n}/{total}"})
     if modelo_atual:
         oll.descarregar(modelo_atual)
-    prog({"fase": "concluido", "total": total, "feitos": feitos_n, "msg": "benchmark concluído", "duracao_s": round(time.time() - t_ini)})
+    executados_reais = sum(v.get("feitos", 0) for v in resumo_final.values())
+    pulados_gpu = [f"{mid}: {v.get('motivo')}" for mid, v in resumo_final.items() if not v.get("ok") and v.get("motivo")]
+    if total == 0:
+        if ja_feitos_total > 0:
+            msg_final = f"Nada novo para rodar: já medido neste nível ({ja_feitos_total} itens reaproveitados). Use 'Refazer do zero' se quiser remedir."
+        else:
+            msg_final = "Nenhum item aplicável para os modelos e modo escolhidos."
+    elif executados_reais == 0 and pulados_gpu:
+        msg_final = "Nenhum item rodou — " + "; ".join(pulados_gpu[:2])
+    else:
+        msg_final = f"benchmark concluído ({executados_reais} itens medidos)"
+    prog({"fase": "concluido", "total": total, "feitos": feitos_n, "msg": msg_final, "duracao_s": round(time.time() - t_ini)})
     return resumo_final

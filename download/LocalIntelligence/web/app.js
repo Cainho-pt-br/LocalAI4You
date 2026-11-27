@@ -2,13 +2,14 @@
 /* Local Intelligence — painel. Sem dependências e sem rede externa: funciona offline.
    Estrutura: base.js (helpers) · calc.js (motor da calculadora) · calc-ui.js · app-*.js (uma página cada) · este arquivo (estado, tarefas, rotas). */
 
-const ABAS = [['decidir', 'Decidir', 'Decisão'], ['modelos', 'Meus modelos'], ['radar', 'Radar', 'Descobrir e testar'], ['calculadora', 'Calculadora'], ['medir', 'Medir'],
-              ['parque', 'Parque', 'Sistema'], ['offline', 'Offline'], ['ajuda', 'Como ler'], ['guias', 'Guias de uso']];
+const ABAS = [['radar', 'Radar', 'Descobrir'], ['calculadora', 'Calculadora'],
+              ['modelos', 'Meus modelos', 'Seus modelos'], ['medir', 'Medir'], ['decidir', 'Decidir'],
+              ['guias', 'Guias e ajuda', 'Começar e sistema'], ['parque', 'Parque'], ['offline', 'Offline']];
 // No site, o menu começa pelo que funciona online; o que precisa do app baixado fica num grupo próprio.
-const ABAS_PUBLICO = [['radar', 'Radar', 'Descobrir'], ['calculadora', 'Calculadora'], ['guias', 'Guias de uso'], ['ajuda', 'Como ler'],
-                      ['decidir', 'Decidir', 'No app baixado'], ['modelos', 'Meus modelos'], ['medir', 'Medir e duelos'], ['offline', 'Offline']];
+const ABAS_PUBLICO = [['radar', 'Radar', 'Descobrir'], ['calculadora', 'Calculadora'], ['guias', 'Guias e ajuda'],
+                      ['modelos', 'Meus modelos', 'No app baixado'], ['medir', 'Medir e duelos'], ['decidir', 'Decidir'], ['offline', 'Offline']];
 const ANTIGAS = { esquadra: 'modelos', lab: 'medir' };   // links salvos de versões anteriores
-const S = { aba: 'decidir', mesa: null, saude: null, jobs: [], jobsVistos: {}, radarInfo: null, calc: null, calcT: 0, filtroRadar: { maquina: '', papel: '', comunidade: false, antigos: false, cap: '', ordem: 'prioridade', pagina: 0 } };
+const S = { aba: 'decidir', guiasSub: 'usar', mesa: null, saude: null, jobs: [], jobsVistos: {}, radarInfo: null, calc: null, calcT: 0, filtroRadar: { maquina: '', papel: '', comunidade: false, antigos: false, cap: '', ordem: 'prioridade', pagina: 0 } };
 const papelPorId = id => (S.mesa?.papeis || []).find(p => p.id === id);
 
 // ---------------------------------------------------------------- máquina controlada (esta ou outra do parque, pelo tailnet)
@@ -89,10 +90,26 @@ async function carregarJobs() {
   }
 }
 async function aoTerminarJob(j) {
-  if (j.estado === 'concluido') toast(`✅ ${j.titulo}: concluído`);
-  if (j.estado === 'concluido' && ['bench', 'desafio', 'duelo'].includes(j.tipo) && typeof momentoDeValor === 'function') momentoDeValor('medicao');
+  if (j.estado === 'concluido') {
+    if (j.tipo === 'baixar') {
+      toast('✅ Modelo instalado! Pronto para conversar ou testar no seu PC.', 12000, [
+        { texto: '💬 Como conversar', onclick: () => { S.guiasSub = 'usar'; irPara('guias'); } },
+        { texto: 'Testar agora', onclick: () => irPara('medir') }
+      ]);
+    } else {
+      const detalhe = j.msg && /Nada novo|Nenhum item|itens medidos/i.test(j.msg) ? j.msg : 'concluído';
+      const semNovos = /Nada novo|Nenhum item/i.test(detalhe);
+      const ic = semNovos ? 'ℹ' : '✅';
+      const acoes = j.tipo === 'bench' && !semNovos ? [
+        { texto: 'Ver em Decidir →', onclick: () => irPara('decidir') },
+        { texto: 'Comparar em Meus modelos', onclick: () => irPara('modelos') }
+      ] : null;
+      toast(`${ic} ${j.titulo}: ${detalhe}`, semNovos || acoes ? 11000 : 6000, acoes);
+    }
+  }
+  if (j.estado === 'concluido' && ['bench', 'desafio', 'duelo'].includes(j.tipo) && typeof momentoDeValor === 'function' && !/Nada novo|Nenhum item/i.test(j.msg || '')) momentoDeValor('medicao');
   else if (j.estado === 'erro') toast(`❌ ${j.titulo}: ${j.erro}`, 9000);
-  else toast(`${j.titulo}: ${j.estado}`);
+  else if (j.estado !== 'concluido') toast(`${j.titulo}: ${j.estado}`);
   await carregarMesa(); await carregarSaude();
   S.calcT = 0;  // catálogo da calculadora muda com varredura e medição
   if (j.tipo === 'varredura') S.radarInfo = null;
@@ -180,7 +197,7 @@ async function pCalculadora() {
   try {
     const d = await garantirCalc();
     if (S.aba !== 'calculadora') return;
-    LI_CALC_UI.montar(raiz, d, { aoExportar: () => { location.href = '/api/calc/html'; } });
+    LI_CALC_UI.montar(raiz, d);
   } catch (e) { raiz.replaceChildren(h('div', { class: 'pagina-topo' }, h('h1', {}, 'Calculadora de hardware')), h('div', { class: 'aviso-caixa' }, e.message), h('div', { style: 'margin-top:12px' }, h('button', { class: 'btn primario', onclick: () => irPara('radar') }, 'Ir para o radar'))); }
 }
 
@@ -243,13 +260,15 @@ function pAjuda() {
 const PAGINAS = { decidir: pDecidir, modelos: pModelos, radar: pRadar, calculadora: pCalculadora, parque: pParque, offline: pOffline, medir: pMedir, ajuda: pAjuda, guias: pGuias };
 function desenhar() {
   desenharAbas();
-  for (const [id] of ABAS) $('#p-' + id).classList.toggle('on', id === S.aba);
+  for (const id of Object.keys(PAGINAS)) $('#p-' + id)?.classList.toggle('on', id === S.aba);
   PAGINAS[S.aba]();
   if (typeof desenharPrimeirosPassos === 'function') desenharPrimeirosPassos();
   if (typeof registrarEvento === 'function' && S._abaContada !== S.aba) { registrarEvento(S._abaContada ? 'aba' : 'pagina', { aba: S.aba }); S._abaContada = S.aba; }
 }
 function abaDoHash() {
-  const x = ANTIGAS[location.hash.slice(1)] || location.hash.slice(1);
+  const raw = location.hash.slice(1);
+  if (raw === 'ajuda') { S.guiasSub = 'ler'; return 'guias'; }
+  const x = ANTIGAS[raw] || raw;
   return ABAS.some(a => a[0] === x) ? x : null;
 }
 async function iniciar() {
