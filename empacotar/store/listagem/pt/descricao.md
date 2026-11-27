@@ -36,7 +36,7 @@ Descubra quais modelos de IA local rodam bem no seu PC, do mais inteligente ao m
 
 ## Novidades desta versão
 
-Calculadora mais simples: o botão Calcular mostra o resultado de uma vez, e a jornada do iniciante ficou mais guiada. Os testes de desempenho agora têm 3 níveis, do rápido ao completo. No Radar, o comando do Ollama fica dentro de "Mais sobre este modelo", e a seção "Trocar a placa?" mostra links de loja atualizados. Efeito de fundo original restaurado. Suas notas continuam ao atualizar.
+Calculadora mais simples: o botão Calcular mostra o resultado de uma vez, e a jornada do iniciante ficou mais guiada. Os testes de desempenho agora têm 3 níveis, do rápido ao completo. No Radar, o comando do Ollama fica dentro de "Mais sobre este modelo", e a seção "Trocar a placa?" mostra links de loja atualizados. Telas novas totalmente traduzidas para inglês e espanhol. Efeito de fundo original restaurado. Suas notas continuam ao atualizar.
 
 ## Recursos do produto (até 20, 200 caracteres cada)
 
