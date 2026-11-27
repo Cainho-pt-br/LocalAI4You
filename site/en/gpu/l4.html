@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Best local LLMs for the NVIDIA L4 24 GB: what actually runs | Local AI 4 You</title>
-<meta name="description" content="More than 50 local AI models fit on the NVIDIA L4 24 GB. The top pick is ornith-1.5 35B (~9.9 tokens/s). See the best ones by use, with the Ollama command ready to copy.">
+<meta name="description" content="More than 40 local AI models fit on the NVIDIA L4 24 GB. The top pick is ornith-1.5 35B (~9.9 tokens/s). See the best ones by use, with the Ollama command ready to copy.">
 <link rel="canonical" href="https://localai4you.com.br/en/gpu/l4.html">
 <link rel="alternate" hreflang="pt-BR" href="https://localai4you.com.br/placa/l4.html">
 <link rel="alternate" hreflang="en" href="https://localai4you.com.br/en/gpu/l4.html">
 <link rel="alternate" hreflang="es" href="https://localai4you.com.br/es/gpu/l4.html">
 <link rel="alternate" hreflang="x-default" href="https://localai4you.com.br/en/gpu/l4.html">
 <meta property="og:title" content="Best local LLMs for the NVIDIA L4 24 GB: what actually runs">
-<meta property="og:description" content="More than 50 local AI models fit on the NVIDIA L4 24 GB. The top pick is ornith-1.5 35B (~9.9 tokens/s). See the best ones by use, with the Ollama command ready to copy.">
+<meta property="og:description" content="More than 40 local AI models fit on the NVIDIA L4 24 GB. The top pick is ornith-1.5 35B (~9.9 tokens/s). See the best ones by use, with the Ollama command ready to copy.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://localai4you.com.br/en/gpu/l4.html">
 <meta property="og:image" content="https://localai4you.com.br/og-en.png">
@@ -44,7 +44,7 @@
   <section class="pg-cab">
     <span class="l-kicker-s">LOCAL AI · ESTIMATED FOR THIS HARDWARE</span>
     <h1>Which AI models run on the NVIDIA L4 24 GB?</h1>
-    <p class="l-lead"><b>More than 50 AI models</b> (LLMs) fit on the NVIDIA L4 24 GB and run on your own computer, free and offline. The top pick today is <b>ornith-1.5 35B</b> (Q4_K_M, 23.0 GB), which should generate about <b>9.9 tokens per second</b>.</p>
+    <p class="l-lead"><b>More than 40 AI models</b> (LLMs) fit on the NVIDIA L4 24 GB and run on your own computer, free and offline. The top pick today is <b>ornith-1.5 35B</b> (Q4_K_M, 23.0 GB), which should generate about <b>9.9 tokens per second</b>.</p>
     <ul class="pg-fatos"><li>24 GB of video memory (VRAM)</li><li>24.4 GB free for the model on Windows</li><li>300 GB/s memory bandwidth</li></ul>
     <div class="l-ctas">
       <a class="btn primario l-btn-grande" href="/app.html?gpu=l4#radar" data-ev="radar">See the full list for my computer →</a>
@@ -67,19 +67,19 @@
     <li class="pg-item pg-top">
       <span class="pg-pos">2</span>
       <div class="pg-info">
-        <h3>gemma4 31B</h3>
-        <p class="pg-meta"><b>Q4_K_M</b> · 20.0 GB · ~8.8–14 tok/s · fits comfortably</p>
-        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, images and documents, long documents.</p>
-        <div class="cmd"><code>ollama run gemma4:31b</code><button class="btn mini" type="button" data-copiar="ollama run gemma4:31b">Copy</button></div>
+        <h3>muse-glimmer 30B</h3>
+        <p class="pg-meta"><b>Q4_K_M</b> · 18.0 GB · ~9.8–16 tok/s · fits comfortably</p>
+        <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, images and documents.</p>
+        <div class="cmd"><code>ollama run muse-glimmer:30b</code><button class="btn mini" type="button" data-copiar="ollama run muse-glimmer:30b">Copy</button></div>
       </div>
     </li>
     <li class="pg-item pg-top">
       <span class="pg-pos">3</span>
       <div class="pg-info">
-        <h3>muse-glimmer 30B</h3>
+        <h3>gemma4 31B</h3>
         <p class="pg-meta"><b>Q4_K_M</b> · 20.0 GB · ~8.8–14 tok/s · fits comfortably</p>
         <p class="pg-usos">Good for: chat, coding, agents, data extraction and json, reasoning, images and documents, long documents.</p>
-        <div class="cmd"><code>ollama run muse-glimmer:30b-q4_K_M-dflash</code><button class="btn mini" type="button" data-copiar="ollama run muse-glimmer:30b-q4_K_M-dflash">Copy</button></div>
+        <div class="cmd"><code>ollama run gemma4:31b</code><button class="btn mini" type="button" data-copiar="ollama run gemma4:31b">Copy</button></div>
       </div>
     </li>
     <li class="pg-item">
@@ -160,7 +160,7 @@
         <tr><td>🧠 Reasoning</td><td><b>ornith-1.5 35B</b></td><td>Q4_K_M · 23.0 GB</td><td>~7.6–12 tok/s</td></tr>
         <tr><td>⚡ Fast and light</td><td><b>nemotron-3-nano 4B</b></td><td>Q4_K_M · 2.9 GB</td><td>~61–97 tok/s</td></tr>
         <tr><td>👁️ Images and documents</td><td><b>ornith-1.5 35B</b></td><td>Q4_K_M · 23.0 GB</td><td>~7.6–12 tok/s</td></tr>
-        <tr><td>📚 Long documents</td><td><b>muse-glimmer 30B</b></td><td>Q4_K_M · 20.0 GB</td><td>~8.8–14 tok/s</td></tr>
+        <tr><td>📚 Long documents</td><td><b>qwen3.8 27B</b></td><td>Q4_0 · 16.1 GB</td><td>~11–18 tok/s</td></tr>
       </tbody>
     </table></div>
   </section>
