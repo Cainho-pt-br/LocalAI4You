@@ -18,7 +18,7 @@ const vm = require('vm');
 
 const RAIZ = path.resolve(__dirname, '..');
 const SITE = path.join(RAIZ, 'site');
-const URL_SITE = (process.env.SITE_URL || 'https://localai4you.vercel.app').replace(/\/+$/, '');
+const URL_SITE = (process.env.SITE_URL || 'https://localai4you.com.br').replace(/\/+$/, '');
 const Calc = require(path.join(RAIZ, 'download', 'LocalIntelligence', 'web', 'calc.js'));
 
 function carregarDados() {

@@ -36,7 +36,7 @@ See which local AI models run well on your PC, from the smartest to the lightest
 
 ## What's new in this version
 
-New simple mode: the app shows the best AI model for your computer right away, explains it in plain words and gives step-by-step instructions; the duel now says in one sentence which model to keep. Radar news: models released in the last month get a "New" badge, and when the best model for your computer changes, the app tells you. Opens in its own window, without browser tabs. One version at a time: if an old version was left open, the new one closes it and shows a notice. Your scores and measured models are kept when you update. More graphics cards (RTX 3060 8 GB and others) and translation fixes.
+Simpler beginner journey and a Calculate button in the calculator, which shows the result at once. Performance tests now come in 3 levels, from quick to complete. In the Radar, the Ollama command moved into "More about this model", and the "Worth a new GPU?" section shows updated store links. Original background effect restored. Your scores stay after updating.
 
 ## Product features
 
@@ -65,8 +65,8 @@ local AI, Ollama, LLM, AI models, benchmark, graphics card, GPU
 
 ## Other fields
 
-- Website: https://localai4you.vercel.app
+- Website: https://localai4you.com.br
 - Support: https://github.com/Cainho-pt-br/LocalAI4You/issues
-- Privacy policy: https://localai4you.vercel.app/privacidade.html
+- Privacy policy: https://localai4you.com.br/privacidade.html
 - Copyright: © 2026 Cainho Labs. Code under the Apache-2.0 license.
 - Additional requirements: Ollama (free) to download and run models. Recommended: 16 GB of RAM or a graphics card with 8 GB or more.

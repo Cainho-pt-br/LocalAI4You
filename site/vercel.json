@@ -3,9 +3,28 @@
     {
       "source": "/lojas.json",
       "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Cache-Control", "value": "public, max-age=300" }
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300"
+        }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.localai4you.com.br"
+        }
+      ],
+      "destination": "https://localai4you.com.br/:path*",
+      "permanent": true
     }
   ]
 }

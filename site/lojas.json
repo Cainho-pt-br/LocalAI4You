@@ -5,16 +5,12 @@
     "us": "",
     "es": ""
   },
-  "awin": {
-    "awinId": "",
-    "lojas": {
-      "kabum": "",
-      "pichau": ""
-    }
-  },
   "nuvem": [
-    { "nome": "RunPod", "url": "", "desc": "GPU sob demanda por hora" },
-    { "nome": "Vast.ai", "url": "", "desc": "Aluguel econômico de GPUs" }
+    {
+      "nome": "RunPod",
+      "url": "",
+      "desc": "GPU sob demanda por hora"
+    }
   ],
   "upgrades": [
     "rtx-5060",
@@ -25,11 +21,35 @@
     "rtx-5090"
   ],
   "mercadolivre": [
-    { "busca": "7600 XT", "marca": "Pcyes", "url": "https://meli.la/2fJCp94" },
-    { "busca": "9050", "marca": "Gigabyte", "url": "https://meli.la/17ySqfT" },
-    { "busca": "5060 Ti 8\\s?GB", "marca": "Gainward", "url": "https://meli.la/1Tp8jFR" },
-    { "busca": "5060(?! Ti)", "marca": "MSI", "url": "https://meli.la/2bewuNP" },
-    { "busca": "5060(?! Ti)", "marca": "Zotac", "url": "https://meli.la/1cWdy7S" },
-    { "busca": "5070(?! Ti| Laptop)", "marca": "Zotac", "url": "https://meli.la/2SwxwKK" }
+    {
+      "busca": "7600 XT",
+      "marca": "Pcyes",
+      "url": "https://meli.la/2fJCp94"
+    },
+    {
+      "busca": "9050",
+      "marca": "Gigabyte",
+      "url": "https://meli.la/17ySqfT"
+    },
+    {
+      "busca": "5060 Ti 8\\s?GB",
+      "marca": "Gainward",
+      "url": "https://meli.la/1Tp8jFR"
+    },
+    {
+      "busca": "5060(?! Ti)",
+      "marca": "MSI",
+      "url": "https://meli.la/2bewuNP"
+    },
+    {
+      "busca": "5060(?! Ti)",
+      "marca": "Zotac",
+      "url": "https://meli.la/1cWdy7S"
+    },
+    {
+      "busca": "5070(?! Ti| Laptop)",
+      "marca": "Zotac",
+      "url": "https://meli.la/2SwxwKK"
+    }
   ]
 }

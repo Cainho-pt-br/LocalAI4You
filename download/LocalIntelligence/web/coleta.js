@@ -5,14 +5,17 @@
    • Benchmarks da comunidade: só no app, só quando a pessoa clica em "enviar", depois de ver exatamente o que sai.
    Tudo passa pelo intermediário do site (/api/coleta, função do Vercel): nenhuma chave fica no código público, e ele
    só aceita as funções de gravação. No site o caminho é relativo; o app local usa o endereço público do site. */
+// No app local (fora do site), tenta o domínio novo e, só se a rede falhar (DNS, offline), o antigo .vercel.app.
 const COLETA = {
-  url: /^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname) || location.protocol === 'file:'
-    ? 'https://localai4you.vercel.app/api/coleta' : '/api/coleta',
+  urls: /^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname) || location.protocol === 'file:'
+    ? ['https://localai4you.com.br/api/coleta', 'https://localai4you.vercel.app/api/coleta'] : ['/api/coleta'],
 };
 
 function _rpc(fn, corpo) {
-  if (!COLETA.url) return Promise.reject(new Error('coleta desligada'));
-  return fetch(COLETA.url, { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fn, dados: corpo }) })
+  if (!COLETA.urls.length) return Promise.reject(new Error('coleta desligada'));
+  const enviar = (i) => fetch(COLETA.urls[i], { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fn, dados: corpo }) })
+    .catch(err => { if (i + 1 < COLETA.urls.length) return enviar(i + 1); throw err; });
+  return enviar(0)
     .then(async r => { if (!r.ok) { const d = await r.json().catch(() => ({})); throw new Error(d.message || ('HTTP ' + r.status)); } return r.status === 204 ? null : r.json(); });
 }
 
