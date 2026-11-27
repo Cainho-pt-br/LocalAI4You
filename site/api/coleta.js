@@ -3,9 +3,10 @@
 // Só repassa as duas funções de gravação e o resumo do painel interno (que exige senha no banco); o banco continua validando tudo (o papel anônimo só insere).
 const PERMITIDAS = new Set(['registrar_evento', 'enviar_benchmark', 'painel_resumo', 'painel_acao', 'comunidade_resumo']);
 const LIMITE_BYTES = 64 * 1024;
-const HOST_PRODUCAO = 'localai4you.vercel.app';
-// Pré-visualizações do Vercel (um endereço novo a cada deploy) e o endereço antigo do projeto são testes: não entram na métrica.
-const ehTeste = (host) => typeof host === 'string' && /\.vercel\.app$/i.test(host) && host.toLowerCase() !== HOST_PRODUCAO;
+// Hosts de produção: o domínio novo (canônico) e o antigo .vercel.app, que as versões já instaladas do app ainda usam.
+const HOSTS_PRODUCAO = new Set(['localai4you.com.br', 'www.localai4you.com.br', 'localai4you.vercel.app']);
+// Pré-visualizações do Vercel (um endereço novo a cada deploy) são testes: não entram na métrica.
+const ehTeste = (host) => typeof host === 'string' && /\.vercel\.app$/i.test(host) && !HOSTS_PRODUCAO.has(host.toLowerCase());
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');          // o app local roda em http://127.0.0.1

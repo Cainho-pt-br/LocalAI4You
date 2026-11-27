@@ -23,7 +23,7 @@ const vm = require('vm');
 
 const RAIZ = path.resolve(__dirname, '..');
 const SITE = path.join(RAIZ, 'site');
-const URL_SITE = (process.env.SITE_URL || 'https://localai4you.vercel.app').replace(/\/+$/, '');
+const URL_SITE = (process.env.SITE_URL || 'https://localai4you.com.br').replace(/\/+$/, '');
 const Calc = require(path.join(RAIZ, 'download', 'LocalIntelligence', 'web', 'calc.js'));
 
 function carregarDados() {
@@ -179,7 +179,7 @@ function gerarPacotePlaca(hw, lang) {
        <h1>${pt ? `Quais IAs rodam de verdade na <em>${esc(nome)}</em>?` : `Which AIs actually run on the <em>${esc(nome)}</em>?`}</h1>
        <p class="sub">${pt ? `${hw.total} modelos cabem hoje sem pagar mensalidade e 100% offline. Arrasta para ver o Top 3 →` : `${hw.total} models fit today, free and 100% offline. Swipe for the Top 3 →`}</p>
      </div>
-     <div class="foot"><span>${esc(hw.memLabel)}</span><b>localai4you.vercel.app</b></div>`,
+     <div class="foot"><span>${esc(hw.memLabel)}</span><b>localai4you.com.br</b></div>`,
 
     // Slide 2: Top 1 destaque
     `<div class="top"><div class="brand"><span class="brand-dot"></span>Local AI 4 You</div><span class="tag">#1 · ${esc(nome)}</span></div>
@@ -299,7 +299,7 @@ function gerarPacoteDuelo(a, b, slug, lang) {
        <h1><em>${esc(nA)}</em> vs <em>${esc(nB)}</em></h1>
        <p class="sub">${pt ? 'Qual das duas roda inteligência artificial melhor no seu PC? O resultado surpreende muita gente →' : 'Which one runs local AI better? The answer surprises most people →'}</p>
      </div>
-     <div class="foot"><span>${esc(a.memLabel)} × ${esc(b.memLabel)}</span><b>localai4you.vercel.app</b></div>`,
+     <div class="foot"><span>${esc(a.memLabel)} × ${esc(b.memLabel)}</span><b>localai4you.com.br</b></div>`,
 
     // Slide 2: Placar lado a lado
     `<div class="top"><div class="brand"><span class="brand-dot"></span>Local AI 4 You</div><span class="tag">${pt ? 'PLACAR REAL' : 'HEAD TO HEAD'}</span></div>
@@ -477,7 +477,7 @@ function gerarPacoteNovidade(nv, lang) {
        <h1>${pt ? `Saiu o <em>${esc(nome)}</em>. Roda na sua placa?` : `<em>${esc(nome)}</em> is out. Does it run on your GPU?`}</h1>
        <p class="sub">${pt ? `Lançado ${quando} no Ollama. Calculamos em ${nv.onde.length + nv.fora.length} computadores populares onde ele já vale a troca →` : `Released ${quando} on Ollama. We checked ${nv.onde.length + nv.fora.length} popular computers to see where it's worth switching →`}</p>
      </div>
-     <div class="foot"><span>${pt ? 'Grátis · Offline' : 'Free · Offline'}</span><b>localai4you.vercel.app</b></div>`,
+     <div class="foot"><span>${pt ? 'Grátis · Offline' : 'Free · Offline'}</span><b>localai4you.com.br</b></div>`,
 
     `<div class="top"><div class="brand"><span class="brand-dot"></span>Local AI 4 You</div><span class="tag">${pt ? 'ONDE ELE ENTRA NO TOP 3' : 'WHERE IT MAKES THE TOP 3'}</span></div>
      <div class="mid">

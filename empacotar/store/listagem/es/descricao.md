@@ -36,7 +36,7 @@ Descubre qué modelos de IA local funcionan bien en tu PC, del más inteligente 
 
 ## Novedades de esta versión
 
-Nuevo modo simple: la app muestra de inmediato el mejor modelo de IA para tu computadora, lo explica en palabras simples y da el paso a paso; el duelo ahora dice en una frase qué modelo quedarte. Novedades en el Radar: los modelos lanzados en el último mes llevan la etiqueta "Nuevo" y, cuando cambia el mejor modelo para tu computadora, la app te avisa. Se abre en su propia ventana, sin pestañas del navegador. Una versión a la vez: si quedó abierta una versión antigua, la nueva la cierra y muestra un aviso. Tus notas y modelos medidos se mantienen al actualizar. Más tarjetas gráficas (RTX 3060 8 GB y otras) y correcciones de traducción.
+Recorrido de inicio más sencillo y un botón Calcular en la calculadora que muestra el resultado de una vez. Las pruebas de rendimiento ahora tienen 3 niveles, del rápido al completo. En el Radar, el comando de Ollama está dentro de "Más sobre este modelo", y la sección "¿Vale cambiar de tarjeta?" muestra enlaces de tienda actualizados. Efecto de fondo original restaurado. Tus resultados se mantienen al actualizar.
 
 ## Características del producto
 
@@ -65,8 +65,8 @@ IA local, Ollama, LLM, modelos de IA, benchmark, tarjeta gráfica, GPU
 
 ## Otros campos
 
-- Sitio web: https://localai4you.vercel.app
+- Sitio web: https://localai4you.com.br
 - Soporte: https://github.com/Cainho-pt-br/LocalAI4You/issues
-- Política de privacidad: https://localai4you.vercel.app/privacidade.html
+- Política de privacidad: https://localai4you.com.br/privacidade.html
 - Derechos de autor: © 2026 Cainho Labs. Código bajo licencia Apache-2.0.
 - Requisitos adicionales: Ollama (gratis) para descargar y ejecutar modelos. Recomendado: 16 GB de RAM o una tarjeta gráfica con 8 GB o más.

@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://localai4you.vercel.app/sitemap.xml
+Sitemap: https://localai4you.com.br/sitemap.xml
