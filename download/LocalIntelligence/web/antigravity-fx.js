@@ -19,17 +19,23 @@
     timer: null
   };
 
-  // Paleta discreta e calma (tons suaves de azul/ardósia para não competir com o conteúdo)
+  // Paleta fiel ao Google Antigravity (Google Blue, Indigo, Violet, Cyan, Coral/Amber)
   const PALETTES = {
     dark: [
-      { r: 96,  g: 165, b: 250 }, // Soft Blue
-      { r: 148, g: 163, b: 184 }, // Slate
-      { r: 129, g: 140, b: 248 }  // Soft Indigo
+      { r: 66,  g: 133, b: 244 }, // Google Blue
+      { r: 138, g: 180, b: 248 }, // Ice Blue
+      { r: 161, g: 66,  b: 244 }, // Deepmind Violet
+      { r: 36,  g: 193, b: 224 }, // Quantum Cyan
+      { r: 234, g: 67,  b: 53  }, // Coral Red accent
+      { r: 251, g: 188, b: 4   }  // Solar Amber accent
     ],
     light: [
-      { r: 37,  g: 99,  b: 235 }, // Soft Blue
-      { r: 100, g: 116, b: 139 }, // Slate
-      { r: 79,  g: 70,  b: 229 }  // Soft Indigo
+      { r: 26,  g: 115, b: 232 }, // Google Blue
+      { r: 66,  g: 133, b: 244 }, // Sky Blue
+      { r: 147, g: 52,  b: 230 }, // Vivid Purple
+      { r: 18,  g: 181, b: 203 }, // Teal Cyan
+      { r: 234, g: 67,  b: 53  }, // Google Red
+      { r: 249, g: 171, b: 0   }  // Google Yellow
     ]
   };
 
@@ -48,7 +54,8 @@
 
   function criarCampo() {
     particles.length = 0;
-    const espaco = w < 768 ? 82 : 68;
+    // Grade espacial com jitter orgânico para distribuição equilibrada estilo antigravity.google
+    const espaco = w < 768 ? 58 : 48;
     const cols = Math.ceil(w / espaco) + 1;
     const rows = Math.ceil(h / espaco) + 1;
 
@@ -60,11 +67,14 @@
         const bx = c * espaco + jx;
         const by = r * espaco + jy;
 
-        const z = 0.35 + Math.random() * 0.65;
+        // Profundidade Z simulada (0.35 a 1.15) para parallax e foco
+        const z = 0.35 + Math.random() * 0.8;
+        // 72% cápsulas orientadas (dashes), 20% micro-esferas, 8% cruzes/diamantes sutis
         const rnd = Math.random();
-        const shape = rnd < 0.65 ? 'pill' : 'dot';
+        const shape = rnd < 0.72 ? 'pill' : (rnd < 0.92 ? 'dot' : 'ring');
 
-        const corPool = [0, 0, 1, 1, 1, 2];
+        // Distribuição de cores: predominância de azuis/violetas/cianos com toques pontuais de coral/âmbar
+        const corPool = [0, 0, 1, 1, 2, 2, 3, 3, 4, 5];
         const corIdx = corPool[idx % corPool.length];
         idx++;
 
@@ -74,8 +84,8 @@
           vx: 0, vy: 0,
           z,
           shape,
-          len: (shape === 'pill' ? (6 + Math.random() * 7) : (2.0 + Math.random() * 2.0)) * z,
-          thick: (shape === 'pill' ? (1.8 + Math.random() * 0.8) : (1.8 + Math.random() * 1.1)) * z,
+          len: (shape === 'pill' ? (7 + Math.random() * 9) : (2.4 + Math.random() * 2.4)) * z,
+          thick: (shape === 'pill' ? (2.1 + Math.random() * 1.1) : (2.2 + Math.random() * 1.5)) * z,
           angle: Math.random() * Math.PI * 2,
           phase: Math.random() * Math.PI * 2,
           corIdx,
@@ -215,9 +225,9 @@
       const dAng = Math.atan2(Math.sin(alvoAngulo - p.angle), Math.cos(alvoAngulo - p.angle));
       p.angle += dAng * 0.12;
 
-      // Opacidade sutil para manter o fundo leve e nunca competir com a leitura
-      const baseAlpha = isDark ? (0.09 * p.z) : (0.08 * p.z);
-      const alpha = Math.min(0.45, baseAlpha + p.energy * (isDark ? 0.28 : 0.24));
+      // Opacidade equilibrada para não poluir a leitura das tabelas, mas brilhar ao interagir
+      const baseAlpha = isDark ? (0.18 * p.z) : (0.15 * p.z);
+      const alpha = Math.min(0.85, baseAlpha + p.energy * (isDark ? 0.52 : 0.42));
 
       ctx.save();
       ctx.translate(p.x, p.y);
