@@ -96,10 +96,22 @@ function tagQuantModelo(id) {
 }
 
 // ---------------------------------------------------------------- componentes
-function toast(msg, ms = 5000) {
-  const t = h('div', { class: 'toast', role: 'status' }, msg);
-  document.body.append(t);
-  setTimeout(() => t.remove(), ms);
+function toast(msg, ms = 6000, acoes) {
+  let stack = document.getElementById('toast-stack');
+  if (!stack) {
+    stack = h('div', { id: 'toast-stack', class: 'toast-stack', 'aria-live': 'polite' });
+    document.body.append(stack);
+  }
+  let timer = null;
+  const fechar = () => { clearTimeout(timer); t.remove(); };
+  const btns = Array.isArray(acoes) && acoes.length
+    ? h('div', { class: 'toast-acoes' }, acoes.map(a => h('button', { type: 'button', class: 'toast-acao-btn', onclick: () => { fechar(); if (a.onclick) a.onclick(); } }, a.texto)))
+    : null;
+  const t = h('div', { class: 'toast', role: 'status' },
+    h('div', { class: 'toast-corpo' }, h('span', { class: 'toast-msg' }, msg), btns),
+    h('button', { type: 'button', class: 'toast-fechar', 'aria-label': 'Fechar aviso', title: 'Fechar', onclick: fechar }, '✕'));
+  stack.append(t);
+  timer = setTimeout(fechar, ms);
 }
 async function copiar(txt) {
   try { await navigator.clipboard.writeText(txt); toast('Copiado: ' + (txt.length > 90 ? txt.slice(0, 90) + '…' : txt)); } catch (e) { toast('Não consegui copiar — selecione o texto.'); return; }

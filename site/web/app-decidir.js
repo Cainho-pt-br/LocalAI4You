@@ -53,6 +53,21 @@ function pDecidir() {
   const oculto = mancheteOculta(m);
   const papeisNota = m.papeis.filter(p => !p.sem_nota);
   const inst = m.instalados || [];
+  if (!inst.length) {
+    raiz.replaceChildren(
+      h('div', { class: 'pagina-topo' },
+        h('span', { class: 'guia-kicker' }, 'SEUS MODELOS'),
+        h('h1', {}, 'Decidir'),
+        h('p', { class: 'sub' }, 'Qual modelo usar em cada tarefa, o que pode ser apagado e o que vale testar.')),
+      h('div', { class: 'public-empty', style: 'margin:24px auto' },
+        h('div', { class: 'public-empty-icon' }, '🧭'),
+        h('h2', {}, 'Você ainda não tem nenhum modelo instalado'),
+        h('p', {}, 'Comece pelo Radar: ele já encontrou o melhor modelo para o seu computador e baixa em 1 clique. Depois de instalar, volte aqui para comparar e escolher o melhor para cada uso.'),
+        h('div', { class: 'linha', style: 'justify-content:center;gap:10px' },
+          h('button', { class: 'btn primario', onclick: () => irPara('radar') }, 'Escolher meu primeiro modelo no Radar →'),
+          h('button', { class: 'btn', onclick: () => { S.guiasSub = 'usar'; irPara('guias'); } }, 'Ver como começar'))));
+    return;
+  }
 
   // Campeão geral por Índice Prático Multicritério
   const campeao = [...inst].sort((a, b) => (b.indice_pratico?.total ?? -1) - (a.indice_pratico?.total ?? -1))[0] || null;
@@ -73,52 +88,58 @@ function pDecidir() {
 
   const comandoBar = h('div', { class: 'decidir-cmd-grid' },
     h('div', { class: 'decidir-kpi-card kpi-campeao', onclick: () => campeao && detalheModelo(campeao.id), style: 'cursor:pointer', title: 'Clique para inspecionar métricas completas do líder atual' },
-      h('div', { class: 'kpi-top' }, h('span', { class: 'kpi-tag' }, '👑 Melhor modelo no geral'), campeao?.indice_pratico ? chip(`⚡ Índice ${fmtN(campeao.indice_pratico.total, 1)}`, 'ok') : null),
+      h('div', { class: 'kpi-top' }, h('span', { class: 'kpi-tag' }, 'Melhor modelo'), campeao?.indice_pratico ? chip(`Índice ${fmtN(campeao.indice_pratico.total, 1)}`, 'ok') : null),
       h('div', { class: 'kpi-main' }, campeao ? nomeAmigavelModelo(campeao.id) : '—'),
       h('div', { class: 'kpi-sub' }, campeao ? `${campeao.medido?.tps_mediana ? fmtN(campeao.medido.tps_mediana, 0) + ' tok/s · ' : ''}${fmtGB(campeao.bytes)} · ${fmtCtx(campeao.sonda?.ctx_max_gpu || campeao.ctx_por_kv?.q8_0?.ctx_max)} GPU` : 'Nenhum modelo medido')),
     h('div', { class: 'decidir-kpi-card kpi-liberar', onclick: () => {
       const el = document.getElementById('sec-substituir');
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, style: dispAtivos.length ? 'cursor:pointer' : '' },
-      h('div', { class: 'kpi-top' }, h('span', { class: 'kpi-tag' }, '🧹 Otimização & Espaço'), dispAtivos.length ? chip(`${dispAtivos.length} substituível(is)`, 'warn') : chip('Sem sobras', 'ok')),
-      h('div', { class: 'kpi-main' }, dispAtivos.length ? `Liberar ${fmtGB(espacoLiberavel)}` : '0 GB redundantes'),
-      h('div', { class: 'kpi-sub' }, dispAtivos.length ? `Cobertos com vantagem por ${nomeAmigavelModelo(dispAtivos[0].substituto || campeao?.id)}` : (dispMantidos.length ? `${dispMantidos.length} modelo(s) mantido(s) por você` : 'Nenhum modelo superado no disco'))),
+      h('div', { class: 'kpi-top' }, h('span', { class: 'kpi-tag' }, 'Espaço no disco'), dispAtivos.length ? chip(`${dispAtivos.length} substituível(is)`, 'warn') : chip('Em dia', 'ok')),
+      h('div', { class: 'kpi-main' }, dispAtivos.length ? `Liberar ${fmtGB(espacoLiberavel)}` : 'Sem sobras'),
+      h('div', { class: 'kpi-sub' }, dispAtivos.length ? `Superado por ${nomeAmigavelModelo(dispAtivos[0].substituto || campeao?.id)}` : (dispMantidos.length ? `${dispMantidos.length} mantido(s) por você` : `${inst.length} modelo(s) instalado(s)`))),
     h('div', { class: 'decidir-kpi-card kpi-desaf', onclick: () => topDesaf ? abrirTeste(topDesaf.id, topDesaf.papel) : irPara('radar'), style: 'cursor:pointer' },
-      h('div', { class: 'kpi-top' }, h('span', { class: 'kpi-tag' }, '🔭 Desafiante no Radar'), topDesaf ? chip(`prio ${topDesaf.prioridade.pontos}/100`, 'prioridade') : chip('Em dia', 'neutro')),
+      h('div', { class: 'kpi-top' }, h('span', { class: 'kpi-tag' }, 'Próximo teste'), topDesaf ? chip(`prio ${topDesaf.prioridade.pontos}/100`, 'neutro') : chip('Em dia', 'neutro')),
       h('div', { class: 'kpi-main' }, topDesaf ? nomeAmigavelModelo(topDesaf.nome) : 'Explorar Radar'),
-      h('div', { class: 'kpi-sub' }, topDesaf ? `${topDesaf.encaixe?.variante?.quant || ''} · ${fmtGB(topDesaf.encaixe?.variante?.bytes || 0)} · Testar contra o atual ▸` : 'Ver lançamentos dos últimos 9 meses ▸')),
-    h('div', { class: 'decidir-kpi-card kpi-update' },
-      h('div', { class: 'kpi-top' }, h('span', { class: 'kpi-tag' }, '🔄 Manutenção Contínua'), chip(`${inst.length} instalados`, 'neutro')),
-      h('div', { class: 'kpi-main' }, 'Atualizar & Varrer'),
-      h('div', { class: 'linha', style: 'justify-content:flex-start;gap:6px;margin-top:4px' },
-        h('button', { class: 'btn mini primario', title: 'Executa ollama pull em todos os modelos instalados para buscar pesos atualizados', onclick: () => atualizarModelosInstalados() }, '↻ Atualizar atuais'),
-        h('button', { class: 'btn mini', title: 'Varre Ollama e Hugging Face por novos modelos', onclick: () => varrer(true) }, '🔭 Varrer Radar'),
-        h('button', { class: 'btn mini fantasma', onclick: () => { irPara('modelos'); setTimeout(() => document.getElementById('sec-arena')?.scrollIntoView({ behavior: 'smooth' }), 80); } }, '⚔ Duelo A×B'))));
+      h('div', { class: 'kpi-sub' }, topDesaf ? `${topDesaf.encaixe?.variante?.quant || ''} · ${fmtGB(topDesaf.encaixe?.variante?.bytes || 0)} · Testar contra o atual ▸` : 'Ver lançamentos recentes ▸')));
 
   const acoesVisiveis = (m.acoes || []).filter(a => !(a.tipo === 'limpar' && !dispAtivos.length));
+  const temAcoes = !oculto && acoesVisiveis.length > 0;
+  const temAlerta = !!(m.alerta && m.alerta.destaques?.length && !alertaOculto(m.alerta));
+  const resumoAvisos = [];
+  if (temAcoes) resumoAvisos.push(`${acoesVisiveis.length} ação(ões) sugerida(s)`);
+  if (temAlerta) resumoAvisos.push(`novidades no radar (${fmtIdade(m.alerta.idade_dias)})`);
+  const barraAvisos = (temAcoes || temAlerta) ? h('details', { class: 'decidir-avisos-compacto' },
+    h('summary', {},
+      h('span', { class: 'decidir-avisos-txt' }, h('b', {}, 'Avisos: '), resumoAvisos.join(' · ')),
+      h('span', { class: 'decidir-avisos-ctrl' },
+        h('span', { class: 'colapsavel-dica' }, 'Ver detalhes'),
+        h('button', { type: 'button', class: 'btn mini fantasma', title: 'Dispensar avisos', onclick: ev => {
+          ev.preventDefault(); ev.stopPropagation();
+          if (temAcoes) definirMancheteOculta(m, true);
+          if (temAlerta) definirAlertaOculto(m.alerta, true);
+        } }, '✕'))),
+    h('div', { class: 'decidir-avisos-corpo' },
+      temAcoes ? h('div', { class: 'acoes', style: 'margin-top:0' }, acoesVisiveis.map(a => h('div', { class: 'acao' },
+        h('div', {}, h('b', {}, a.titulo), h('span', {}, a.detalhe)),
+        h('button', { class: 'btn mini' + (a.prioridade <= 2 ? ' primario' : ''), onclick: () => executarAcao(a) }, a.botao)))) : null,
+      temAlerta ? h('div', { class: 'acao' },
+        h('div', {}, h('b', {}, `Radar (${fmtIdade(m.alerta.idade_dias)})`), h('span', {}, m.alerta.texto)),
+        h('button', { class: 'btn mini', onclick: () => { definirAlertaOculto(m.alerta, true); irPara('radar'); } }, 'Ver no radar')) : null)) : null;
 
   raiz.replaceChildren(
     h('div', { class: 'pagina-topo' },
       h('div', { class: 'linha topo' },
         h('div', {},
-          h('div', { class: 'eyebrow-tech' }, 'LOCAL AI 4 YOU · SEUS MODELOS'),
+          h('span', { class: 'guia-kicker' }, 'SEUS MODELOS'),
           h('h1', {}, 'Decidir'),
-          h('p', { class: 'sub' }, 'O resumo dos seus modelos: qual é o melhor para cada uso, qual pode ser apagado sem perda e qual modelo novo vale testar.')),
-        oculto ? h('button', { class: 'btn mini', onclick: () => definirMancheteOculta(m, false) }, `Mostrar avisos (${acoesVisiveis.length})`) : null)),
-    comandoBar,
-    !oculto && acoesVisiveis.length ? h('div', { class: 'hero n-' + m.manchete.nivel, style: 'position:relative;margin-top:16px' },
-      h('div', { class: 'linha topo' },
-        h('div', { class: 'grow' }, h('div', { class: 'sub' }, 'Diagnóstico imediato'), h('h2', {}, m.manchete.texto)),
-        h('button', { class: 'btn mini fantasma', title: 'Dispensar este cartão de aviso', onclick: () => definirMancheteOculta(m, true) }, '✕ Dispensar')),
-      acoesVisiveis.length ? h('div', { class: 'acoes' }, acoesVisiveis.map(a => h('div', { class: 'acao' },
-        h('div', {}, h('b', {}, a.titulo), h('span', {}, a.detalhe)),
-        h('button', { class: 'btn' + (a.prioridade <= 2 ? ' primario' : ''), onclick: () => executarAcao(a) }, a.botao)))) : null) : null,
-    m.alerta && m.alerta.destaques?.length && !alertaOculto(m.alerta) ? h('div', { class: 'aviso-caixa', style: 'margin-top:14px' },
-      h('div', { class: 'linha' },
-        h('div', {}, h('b', {}, `Vigia (${fmtIdade(m.alerta.idade_dias)}): `), m.alerta.texto),
+          h('p', { class: 'sub' }, 'Qual modelo usar em cada tarefa, o que pode ser apagado e o que vale testar.')),
         h('div', { class: 'linha', style: 'gap:6px' },
-          h('button', { class: 'btn mini primario', onclick: () => { definirAlertaOculto(m.alerta, true); irPara('radar'); } }, 'Ver no radar'),
-          h('button', { class: 'btn mini fantasma', onclick: () => definirAlertaOculto(m.alerta, true) }, '✕ Dispensar')))) : null,
+          oculto && acoesVisiveis.length ? h('button', { class: 'btn mini fantasma', onclick: () => definirMancheteOculta(m, false) }, `Avisos (${acoesVisiveis.length})`) : null,
+          h('button', { class: 'btn mini', title: 'Busca atualizações para os modelos instalados', onclick: () => atualizarModelosInstalados() }, '↻ Atualizar'),
+          h('button', { class: 'btn mini', title: 'Varre Ollama e Hugging Face por novos modelos', onclick: () => varrer(true) }, 'Varrer Radar')))),
+    comandoBar,
+    barraAvisos,
     pend.length ? [titulo('Vereditos concluídos aguardando decisão', 'Compare os números medidos antes de promover ou descartar.'), h('div', { class: 'grade g2' }, pend.map(cartaoVeredito))] : null,
     titulo('1. O melhor modelo para cada uso', 'Clique em um uso para ver as notas do modelo atual ou testar um modelo novo contra ele.',
       h('button', { class: 'btn mini', onclick: () => { irPara('modelos'); setTimeout(() => document.getElementById('sec-arena')?.scrollIntoView({ behavior: 'smooth' }), 80); } }, '⚔ Fazer um duelo (A × B)')),
@@ -265,8 +286,7 @@ function cartaoPapel(p, m) {
            : h('div', { class: 'papel-clean-vazio' }, subMetricas),
     desafEl,
     h('div', { class: 'papel-clean-foot' },
-      h('span', {}, 'Ver evidências e ranking ▸'),
-      h('span', { style: 'font-size:.75rem;opacity:.7' }, 'Clique p/ abrir')));
+      h('span', {}, 'Ver ranking e detalhes ▸')));
 }
 
 function abrirPainelPapel(p, m) {
@@ -441,7 +461,7 @@ function fixarContextoDialogo(baseId, ctxSugerido = 16384) {
     h('p', { class: 'sub' }, 'Cria instantaneamente uma tag derivada (sem duplicar os GB do modelo no disco) com o teto de contexto travado para nunca vazar para a RAM do PC.'),
     h('div', { class: 'campos' },
       h('label', { class: 'campo' }, 'Modelo base', h('input', { type: 'text', value: baseId, disabled: true })),
-      h('label', { class: 'campo' }, 'Teto de contexto (num_ctx)', selCtx),
+      h('label', { class: 'campo' }, 'Tamanho da conversa (num_ctx)', selCtx),
       h('label', { class: 'campo' }, 'Nome da nova variante no Ollama', inpAlias)),
     aviso,
     h('div', { class: 'dlg-acoes' }, h('button', { class: 'btn', onclick: fecharDialogo }, 'Cancelar'), bt)));
@@ -580,7 +600,7 @@ async function executarAcao(a) {
   } catch (e) { toast(e.message, 8000); }
 }
 /* <select> de profundidade com o tempo estimado NA MÁQUINA CONTROLADA; vem marcado o nível que ela aguenta. `pesos` = bytes dos modelos que serão medidos. */
-const NOME_NIVEL = { minimo: 'Mínimo', rapido: 'Rápido', padrao: 'Padrão', profundo: 'Profundo' };
+const NOME_NIVEL = { minimo: 'Ultra rápido', rapido: 'Rápido', padrao: 'Médio', profundo: 'Avançado' };
 const fmtDur = min => min >= 120 ? `~${fmtN(min / 60, 1)} h` : `~${min} min`;
 function seletorNivel(pesos) {
   const sel = h('select', {});
@@ -588,10 +608,11 @@ function seletorNivel(pesos) {
   let r = null, lista = [], mudou = false;
   const montar = () => {
     const atual = sel.value;
-    lista = r?.niveis || ['minimo', 'rapido', 'padrao', 'profundo'].map(id => ({ id }));
+    const todos = r?.niveis || ['rapido', 'padrao', 'profundo'].map(id => ({ id }));
     const rec = r?.recomendado || 'padrao';
+    lista = todos.filter(n => n.id !== 'minimo' || rec === 'minimo');
     sel.replaceChildren(...lista.map(n => h('option', { value: n.id, selected: n.id === (mudou ? atual : rec) },
-      `${NOME_NIVEL[n.id]}${n.itens ? ` (${n.itens} itens${n.imagens ? ` + ${n.imagens} imagens` : ''})` : ''}${n.minutos ? ` — ${fmtDur(n.minutos)} estimado` : ''}${n.id === rec && r ? ' · recomendado aqui' : ''}`)));
+      `${NOME_NIVEL[n.id]}${n.itens ? ` (${n.itens} itens${n.imagens ? ` + ${n.imagens} imagens` : ''})` : ''}${n.minutos ? ` — ${fmtDur(n.minutos)} estimado` : ''}${n.id === rec && r ? ' · recomendado' : ''}`)));
     atualizar();
   };
   const atualizar = () => {
@@ -605,8 +626,8 @@ function seletorNivel(pesos) {
   api('/api/bench/niveis?bytes=' + (pesos || []).filter(Boolean).join(',')).then(x => { r = x; montar(); }).catch(() => { /* sem estimativa */ });
   return { sel, aviso };
 }
-async function iniciarBench(modelos, nivel, modo = 'base', suites, forcado) {
-  try { await api('/api/bench', { modelos, nivel, modo, suites, nivel_forcado: forcado || undefined }); toast('Benchmark iniciado: acompanhe na barra de baixo.'); await carregarJobs(); } catch (e) { toast(e.message, 8000); }
+async function iniciarBench(modelos, nivel, modo = 'base', suites, forcado, refazer) {
+  try { await api('/api/bench', { modelos, nivel, modo, suites, nivel_forcado: forcado || undefined, refazer: refazer || undefined }); toast('Benchmark iniciado: acompanhe na barra de baixo.'); await carregarJobs(); } catch (e) { toast(e.message, 8000); }
 }
 async function varrer(forcar) {
   try { await api('/api/radar/varrer', { forcar }); toast('Varredura iniciada.'); await carregarJobs(); } catch (e) { toast(e.message, 8000); }
