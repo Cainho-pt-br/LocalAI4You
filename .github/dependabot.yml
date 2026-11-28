@@ -1,0 +1,10 @@
+# Mantém as GitHub Actions atualizadas (correções de segurança das próprias actions). Um PR por semana, agrupado.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]

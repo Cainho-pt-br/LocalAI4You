@@ -20,7 +20,7 @@ on:
     types: [completed]
 
 permissions:
-  contents: write
+  contents: read          # só o job publicar escreve (no release)
 
 concurrency:
   group: publicar-app
@@ -67,6 +67,8 @@ jobs:
   publicar:
     needs: montar
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     timeout-minutes: 10
     steps:
       - uses: actions/download-artifact@v7
@@ -98,3 +100,6 @@ jobs:
           # nomes antigos: apps já instalados ainda apontam para eles
           cp dist/LocalAI4You-Windows.zip dist/LocalAISearch-Windows.zip && cp dist/LocalAI4You.zip dist/LocalAISearch.zip
           gh release upload app-latest dist/LocalAISearch-Windows.zip dist/LocalAISearch.zip --clobber
+          # somas SHA-256 para quem quiser conferir o download (sha256sum -c SHA256SUMS.txt)
+          (cd dist && sha256sum LocalAI4You-Windows.zip LocalAI4You.zip > SHA256SUMS.txt && cat SHA256SUMS.txt)
+          gh release upload app-latest dist/SHA256SUMS.txt --clobber

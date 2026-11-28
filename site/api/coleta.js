@@ -7,6 +7,14 @@ const LIMITE_BYTES = 64 * 1024;
 const HOSTS_PRODUCAO = new Set(['localai4you.com.br', 'www.localai4you.com.br', 'localai4you.vercel.app']);
 // Pré-visualizações do Vercel (um endereço novo a cada deploy) são testes: não entram na métrica.
 const ehTeste = (host) => typeof host === 'string' && /\.vercel\.app$/i.test(host) && !HOSTS_PRODUCAO.has(host.toLowerCase());
+const crypto = require('crypto');
+// O banco limita as tentativas de senha do painel por origem. Mandamos um HMAC do IP (com a chave do servidor),
+// nunca o IP: não dá para voltar ao endereço, e o mesmo IP dá sempre o mesmo valor. O Vercel preenche x-real-ip.
+function origemDoCliente(req, segredo) {
+  const ip = String(req.headers['x-real-ip'] || (req.headers['x-forwarded-for'] || '').split(',')[0] || '').trim();
+  return ip ? crypto.createHmac('sha256', segredo).update(ip).digest('hex').slice(0, 32) : '?';
+}
+const FUNCOES_PAINEL = new Set(['painel_resumo', 'painel_acao']);
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');          // o app local roda em http://127.0.0.1
@@ -29,8 +37,15 @@ module.exports = async (req, res) => {
 
   try {
     const r = await fetch(`${url.replace(/\/$/, '')}/rest/v1/rpc/${fn}`, {
-      method: 'POST', headers: { apikey: chave, 'Content-Type': 'application/json' }, body: texto });
+      method: 'POST',
+      headers: { apikey: chave, 'Content-Type': 'application/json', 'x-cliente-ip': origemDoCliente(req, chave) },
+      body: texto });
     const saida = await r.text();
+    // O painel recusa senha devolvendo {"erro": "..."} (exceção desfaria o registro da tentativa): vira 401/429 aqui.
+    if (r.ok && FUNCOES_PAINEL.has(fn)) {
+      let j = null; try { j = JSON.parse(saida); } catch (e) { /* segue */ }
+      if (j && typeof j.erro === 'string') return res.status(/tentativas/i.test(j.erro) ? 429 : 401).json({ message: j.erro });
+    }
     res.status(r.status).setHeader('Content-Type', 'application/json');
     return res.end(saida || 'null');
   } catch (e) {
