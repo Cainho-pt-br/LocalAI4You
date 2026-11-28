@@ -80,3 +80,11 @@ Para ativar ou mudar doações no site e no app, preencha `APOIO` em `download/L
 ## Dados e licença
 
 O código é distribuído sob Apache-2.0 (`LICENSE`). O catálogo de hardware e os metadados dos modelos vêm das fontes originais indicadas no app. Modelos e conjuntos de dados de terceiros (MMLU-Pro, IFEval, BFCL, HumanEval, GSM8K e outros em `download/LocalIntelligence/data/`) mantêm suas próprias licenças; a licença do código não altera esses termos.
+
+## Segurança
+
+Falhas de segurança: veja [SECURITY.md](SECURITY.md) (aviso privado, não por issue). Cada release traz `SHA256SUMS.txt` para conferir o download.
+
+## Licença e marca
+
+O código é Apache-2.0 (veja `LICENSE`): pode usar, estudar, modificar e redistribuir. A licença **não** dá direito ao nome nem à identidade visual (seção 6). "Local AI 4 You", o logotipo e o domínio `localai4you.com.br` identificam este projeto. Forks e redistribuições devem usar outro nome e outro ícone e não podem se apresentar como o app oficial, inclusive em lojas de aplicativos.
