@@ -35,10 +35,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           ref: main
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - name: Testes do app
@@ -59,7 +59,7 @@ jobs:
           file "dist/windows/LocalAI4You/Instalar Local AI 4 You.bat"   # precisa ser CRLF
           (cd dist/windows && zip -qr -X ../LocalAI4You-Windows.zip LocalAI4You)
           ls -l dist/*.zip
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: zips
           path: dist/*.zip
@@ -71,7 +71,7 @@ jobs:
       contents: write
     timeout-minutes: 10
     steps:
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         with:
           path: dist
           merge-multiple: true
